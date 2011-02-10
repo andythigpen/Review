@@ -1,0 +1,38 @@
+<div style="text-align:center;">
+  <div class="ui-widget ui-corner-top box" style="display:inline-block; text-align:left;">
+    <h1><strong>Sign up</strong></h1>
+
+    <div style="padding:0.3em 3em;">
+      <%= form_for(resource_name, resource, :url => registration_path(resource_name)) do |f| %>
+        <%= f.error_messages %>
+        <div class="field">
+          <%= f.label :username, :style => "display:block;" %>
+          <%= f.text_field :username, :class => "text ui-corner-all ui-widget-content" %>
+        </div>
+
+        <div class="field">
+          <%= f.label :email, :style => "display:block;" %>
+          <%= f.text_field :email, :class => "text ui-corner-all ui-widget-content" %>
+        </div>
+
+        <div class="field">
+          <%= f.label :password, :style => "display:block;" %>
+          <%= f.password_field :password, :class => "text ui-corner-all ui-widget-content" %>
+        </div>
+
+        <div class="field">
+          <%= f.label :password_confirmation, :style => "display:block;" %>
+          <%= f.password_field :password_confirmation, :class => "text ui-corner-all ui-widget-content" %>
+        </div>
+
+        <div class="field">
+          <%= f.submit "Sign up", :class => "ui-corner-all ui-state-default button" %>
+        </div>
+      <% end %>
+    </div>
+
+    <div style="padding:0 3em 1em;">
+      <%= render :partial => "devise/shared/links" %>
+    </div>
+  </div>
+</div>

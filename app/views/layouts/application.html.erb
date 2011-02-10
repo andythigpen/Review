@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Review</title>
+  <%= csrf_meta_tag %>
+  <%= javascript_include_tag "jquery-1.4.4.min.js" %>
+  <%= javascript_include_tag "jquery-ui-1.8.9.custom.min.js" %>
+  <%= javascript_include_tag "rails.js" %>
+  <%= javascript_include_tag "application.js" %>
+  <%= stylesheet_link_tag "reset.css" %>
+  <%= stylesheet_link_tag "custom-theme/jquery-ui-1.8.9.custom.css" %>
+  <%= stylesheet_link_tag "main.css" %>
+</head>
+<body>
+<header>
+  <div style="width:870px; margin:0 auto;">
+    <img src="/images/logo.png" alt="review" />
+    <div style="float:right; margin: 0.5em 1.5em;">
+      <% if user_signed_in? %>
+         Logged in as <em><%= current_user.username %></em> |
+         <%= link_to "Logout", destroy_user_session_path %>
+      <% else %>
+         <%= link_to "Register", new_user_registration_path %> |
+         <%= link_to "Login", new_user_session_path %>
+      <% end %>
+    </div>
+  </div>
+</header>
+
+<section>
+  <% flash.each do |name, msg| %>
+    <%= content_tag :div, msg, :id => "flash_#{name}" %>
+  <% end %>
+<%= yield %>
+</section>
+
+</body>
+</html>

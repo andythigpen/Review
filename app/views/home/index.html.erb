@@ -1,4 +1,27 @@
-<p class="notice ui-corner-all">Welcome <%= current_user.username %>.</p>
+<!--<p class="notice ui-corner-all">
+  Welcome <%= current_user.username %>.
+  <span class="right">
+    <a href="#"><span class="ui-icon ui-icon-mail-closed left"></span>No new messages</a>
+  </span>
+</p>-->
+
+<div class="info ui-corner-all">
+  <form>
+    <input type="submit" class="button ui-corner-all ui-state-default" value="Hide" style="float:right; margin-left:1em;" />
+  </form>
+  <span style="font-size:1.5em;">Thank you for registering</span>.<br />
+  To get started, you can download the Review 
+  utility by clicking the download button for your OS below.  The Review 
+  utility will help in submitting change sets for others to review.  
+  Changes can also be submitted manually via this website.<br />
+  For more information on how to use the utility, visit the 
+  <a href="#">utility</a> page.
+  <div style="text-align:center; padding:1em;">
+    <a href="#" style="margin:0.8em;"><img src="/images/windows-logo.png" /></a>
+    <a href="#" style="margin:0.8em;"><img src="/images/linux-logo.png" /></a>
+    <a href="#" style="margin:0.8em;"><img src="/images/apple-logo.png" /></a>
+  </div>
+</div>
 
 <div class="ui-widget ui-corner-top box">
   <h1>My Pending Reviews</h1>
@@ -13,7 +36,7 @@
 
 <div class="ui-widget ui-corner-top box">
   <h1>My Review Requests
-    <a href="#" class="ui-corner-all ui-state-default button"><span class="ui-icon ui-icon-circle-plus" style="float:left;"></span>Add</a>
+    <a href="#" class="ui-corner-all ui-state-default button"><span class="ui-icon ui-icon-circle-plus left"></span>Add</a>
   </h1>
   <ul class="box-body">
     <li><em>You haven't submitted any code for review yet!</em></li>
@@ -24,13 +47,21 @@
 </div>
 
 <div class="ui-widget ui-corner-top box">
+  <h1>Recent Activity</h1>
+  <ul class="box-body">
+    <li><em>No recent activity.</em></li>
+    <!--<li class="ui-corner-all neardue"><span class="ui-icon ui-icon-carat-1-e" style="float:left; margin-right:0.3em"></span>
+    <a href="#">Super awesome stuff</a> <span class="author">by Andrew Thigpen</span></li>
+    <li></li>-->
+  </ul>
+</div>
+
+<a href="#">Recent Reviews</a> | 
+<a href="#">Recent Requests</a>
+<!--<div class="ui-widget ui-corner-top box">
   <h1>Recent Reviews</h1>
   <ul class="box-body">
     <li><em>No recent reviews.</em></li>
-      <!--<li class="ui-corner-all"><span class="ui-icon ui-icon-carat-1-e" style="float:left; margin-right:0.3em"></span><a href="#">Recent Review</a> <span class="author">by Author</span></li>
-      <li class="ui-corner-all"><span class="ui-icon ui-icon-carat-1-e" style="float:left; margin-right:0.3em"></span><a href="#">Recent Review</a> <span class="author">by Author</span></li>
-      <li class="ui-corner-all"><span class="ui-icon ui-icon-carat-1-e" style="float:left; margin-right:0.3em"></span><a href="#">Recent Review</a> <span class="author">by Author</span></li>
-      <li class="ui-corner-all"><span class="ui-icon ui-icon-carat-1-e" style="float:left; margin-right:0.3em"></span><a href="#">Recent Review</a> <span class="author">by Author</span></li>-->
   </ul>
 </div>
 
@@ -38,10 +69,6 @@
   <h1>Recent Requests</h1>
   <ul class="box-body">
     <li><em>No recent requests.</em></li>
-    <!--<li class="ui-corner-all"><span class="ui-icon ui-icon-carat-1-e" style="float:left; margin-right:0.3em"></span><a href="#">Recent Request</a> <span class="author">by Author</span></li>
-    <li class="ui-corner-all"><span class="ui-icon ui-icon-carat-1-e" style="float:left; margin-right:0.3em"></span><a href="#">Recent Request</a> <span class="author">by Author</span></li>
-    <li class="ui-corner-all"><span class="ui-icon ui-icon-carat-1-e" style="float:left; margin-right:0.3em"></span><a href="#">Recent Request</a> <span class="author">by Author</span></li>
-    <li class="ui-corner-all"><span class="ui-icon ui-icon-carat-1-e" style="float:left; margin-right:0.3em"></span><a href="#">Recent Request</a> <span class="author">by Author</span></li>-->
   </ul>
-</div>
+</div>-->
 

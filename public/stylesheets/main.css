@@ -182,6 +182,14 @@ ul li em {
   padding: 0.5em 1em;
 }
 
+.info {
+  background: #E3F2FC;
+  border: 1px solid #BDDCF0;
+  padding: 1em;
+  font-size: 0.9em;
+  margin: 1em 0;
+}
+
 .box .field {
   margin: 1em;
 }
@@ -192,13 +200,27 @@ input.text {
 }
 
 #flash_alert {
-border: 1px solid #ff9e9e;
-background: #ffbfbf;
-padding: 0.5em 1em;
+  border: 1px solid #ff9e9e;
+  background: #ffbfbf;
+  padding: 0.5em 1em;
+}
+
+#flash_notice {
+  background: #FCFBE3;
+  border: 1px solid #F7F3BC;
+  padding: 0.5em 1em;
 }
 
 .errorExplanation {
-padding: 0.8em 1em;
-border: 1px solid #ff9e9e;
-background: #ffbfbf;
+  padding: 0.8em 1em;
+  border: 1px solid #ff9e9e;
+  background: #ffbfbf;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
 }

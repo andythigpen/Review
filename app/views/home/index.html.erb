@@ -5,12 +5,23 @@
   </span>
 </p>-->
 
+<% if current_user.sign_in_count == 1 %>
 <div class="info ui-corner-all">
-  <form>
-    <input type="submit" class="button ui-corner-all ui-state-default" value="Hide" style="float:right; margin-left:1em;" />
-  </form>
-  <span style="font-size:1.5em;">Thank you for registering</span>.<br />
-  To get started, you can download the Review 
+  <a href="#" class="button ui-corner-all ui-state-default" style="float:right; margin-left:1em;">Hide</a>
+  <span style="font-size:1.5em;">Getting Started is Easy</span>.<br />
+  <ul style="margin-left:2em;">
+    <li style="list-style:circle;">Try out this <a href="#">tutorial</a> that will guide you 
+      through submitting your first changeset for others to review.
+    </li>
+    <li style="list-style:circle;">To get the most out of using <strong>Review</strong>, 
+      <a href="#">download</a> the accompanying command line utility that 
+      will help you submit changesets for others to review.  You can also
+      submit changesets directly through this website by clicking the
+      Add button next to <em>My Pending Reviews</em> below to create a new
+      review request.
+    </li> 
+  </ul>
+  <!--To get started, you can download the Review 
   utility by clicking the download button for your OS below.  The Review 
   utility will help in submitting change sets for others to review.  
   Changes can also be submitted manually via this website.<br />
@@ -20,35 +31,81 @@
     <a href="#" style="margin:0.8em;"><img src="/images/windows-logo.png" /></a>
     <a href="#" style="margin:0.8em;"><img src="/images/linux-logo.png" /></a>
     <a href="#" style="margin:0.8em;"><img src="/images/apple-logo.png" /></a>
-  </div>
+  </div>-->
+</div>
+<% end %>
+
+<div class="ui-widget ui-corner-top box">
+  <h1>My Review Requests</h1>
+
+  <% if current_user.sign_in_count == 1 %>
+    <div style="font-size:0.9em;">
+      <span class="ui-icon ui-icon-info" style="float:left; margin-right:0.3em;"></span>
+      <strong>You don't have any review requests yet</strong>... 
+      <br />
+      This is where you will see review requests from other users when 
+      they ask you to take a look at their code. 
+    </div>
+  <% else %>
+    <ul>
+      <% current_user.review_requests.each do |r| %>
+        <li class="ui-corner-all">
+          <%= link_to "#{r.name}", review_event_path(r.id) %>
+          <span class="author">by <%= r.owner.username %></span>
+        </li>
+      <% end %>
+      <% if current_user.review_requests.size == 0 %>
+        <li><em>No one has requested you review their code yet.</em></li>
+      <% end %>
+
+  <!--    <li class="ui-corner-all"><span class="ui-icon ui-icon-carat-1-e" style="float:left; margin-right:0.3em"></span>
+      <a href="#">Minor change</a> <span class="author">by Joe Bob</span></li>
+      <li class="ui-corner-all overdue"><span class="ui-icon ui-icon-carat-1-e" style="float:left; margin-right:0.3em"></span>
+      <a href="#">Major change to everything</a> <span class="author">by Sally Mae</span></li> -->
+    </ul>
+  <% end %>
 </div>
 
 <div class="ui-widget ui-corner-top box">
-  <h1>My Pending Reviews</h1>
-  <ul class="box-body">
-    <li><em>No one has asked you to review their code yet. :(</em></li>
-<!--    <li class="ui-corner-all"><span class="ui-icon ui-icon-carat-1-e" style="float:left; margin-right:0.3em"></span>
-    <a href="#">Minor change</a> <span class="author">by Joe Bob</span></li>
-    <li class="ui-corner-all overdue"><span class="ui-icon ui-icon-carat-1-e" style="float:left; margin-right:0.3em"></span>
-    <a href="#">Major change to everything</a> <span class="author">by Sally Mae</span></li> -->
-  </ul>
-</div>
-
-<div class="ui-widget ui-corner-top box">
-  <h1>My Review Requests
-    <a href="#" class="ui-corner-all ui-state-default button"><span class="ui-icon ui-icon-circle-plus left"></span>Add</a>
+  <h1>My Pending Reviews
+    <!--<a href="#" class="ui-corner-all ui-state-default button"><span class="ui-icon ui-icon-circle-plus left"></span>Add</a>-->
+    <%= link_to new_review_event_path, :class => "ui-corner-all ui-state-default button" do %>
+      <span class="ui-icon ui-icon-circle-plus left"></span>Add
+    <% end %>
   </h1>
-  <ul class="box-body">
-    <li><em>You haven't submitted any code for review yet!</em></li>
-    <!--<li class="ui-corner-all neardue"><span class="ui-icon ui-icon-carat-1-e" style="float:left; margin-right:0.3em"></span>
-    <a href="#">Super awesome stuff</a> <span class="author">by Andrew Thigpen</span></li>
-    <li></li>-->
-  </ul>
+
+  <% if current_user.sign_in_count == 1 %>
+    <div style="font-size:0.9em;">
+      <span class="ui-icon ui-icon-info" style="float:left; margin-right:0.3em;"></span>
+      <strong>You haven't made any review requests yet</strong>... 
+      <br />
+      This is where you will see review requests to other users while 
+      you are waiting for them to take a look at your code. 
+    </div>
+  <% else %>
+    <ul>
+      <% current_user.reviews_owned.each do |r| %>
+        <li class="ui-corner-all">
+          <%= link_to "#{r.name}", review_event_path(r.id) %>
+          <span class="author">by <%= current_user.username %></span>
+        </li>
+      <% end %>
+      <% if current_user.reviews_owned.size == 0 %>
+        <li><em>You haven't submitted any code for review yet!
+            <a href="#">Download</a> the utility to submit new changesets or
+            click the Add button above.</a>
+           </em></li>
+      <% end %>
+      <!--<li class="ui-corner-all neardue"><span class="ui-icon ui-icon-carat-1-e" style="float:left; margin-right:0.3em"></span>
+      <a href="#">Super awesome stuff</a> <span class="author">by Andrew Thigpen</span></li>
+      <li></li>-->
+    </ul>
+  <% end %>
 </div>
 
 <div class="ui-widget ui-corner-top box">
   <h1>Recent Activity</h1>
-  <ul class="box-body">
+  <ul>
     <li><em>No recent activity.</em></li>
     <!--<li class="ui-corner-all neardue"><span class="ui-icon ui-icon-carat-1-e" style="float:left; margin-right:0.3em"></span>
     <a href="#">Super awesome stuff</a> <span class="author">by Andrew Thigpen</span></li>
@@ -56,18 +113,16 @@
   </ul>
 </div>
 
-<a href="#">Recent Reviews</a> | 
-<a href="#">Recent Requests</a>
 <!--<div class="ui-widget ui-corner-top box">
   <h1>Recent Reviews</h1>
-  <ul class="box-body">
+  <ul>
     <li><em>No recent reviews.</em></li>
   </ul>
 </div>
 
 <div class="ui-widget ui-corner-top box">
   <h1>Recent Requests</h1>
-  <ul class="box-body">
+  <ul>
     <li><em>No recent requests.</em></li>
   </ul>
 </div>-->

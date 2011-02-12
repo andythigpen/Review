@@ -1,28 +1,59 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<div class="text-right">
+  <%= link_to "Back", :back %>
+</div>
+<div style="text-align:center;">
+  <div class="ui-widget ui-corner-top box" style="display:inline-block; text-align:left;">
+    <h1><strong>Edit <%= resource_name.to_s.humanize %></strong></h1>
 
-<%= form_for(resource_name, resource, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
-  <%= f.error_messages %>
+    <div>
+      <%= form_for(resource_name, resource, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
+        <%= f.error_messages %>
 
-  <p><%= f.label :username %></p>
-  <p><%= f.text_field :username %></p>
+        <div class="field">
+          <%= f.label :username %>
+          <%= f.text_field :username, :class => "text ui-corner-all ui-widget-content" %>
+        </div>
 
-  <p><%= f.label :email %></p>
-  <p><%= f.text_field :email %></p>
+        <div class="field">
+          <%= f.label :email %>
+          <%= f.text_field :email, :class => "text ui-corner-all ui-widget-content" %>
+        </div>
 
-  <p><%= f.label :password %> <i>(leave blank if you don't want to change it)</i></p>
-  <p><%= f.password_field :password %></p>
+        <div class="field">
+          <%= f.label :password %> 
+          <em>(leave blank if you don't want to change it)</em><br />
+          <%= f.password_field :password, :class => "text ui-corner-all ui-widget-content" %>
+        </div>
 
-  <p><%= f.label :password_confirmation %></p>
-  <p><%= f.password_field :password_confirmation %></p>
+        <div class="field">
+          <%= f.label :password_confirmation %>
+          <%= f.password_field :password_confirmation, :class => "text ui-corner-all ui-widget-content" %>
+        </div>
 
-  <p><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i></p>
-  <p><%= f.password_field :current_password %></p>
+        <div class="field">
+          <%= f.label :current_password %>
+          <em>(we need your current password to confirm your changes)</em><br />
+          <%= f.password_field :current_password, :class => "text ui-corner-all ui-widget-content" %>
+        </div>
 
-  <p><%= f.submit "Update" %></p>
-<% end %>
+        <div class="field">
+          <%= f.submit "Update", :class => "ui-corner-all ui-state-default button" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
 
-<h3>Cancel my account</h3>
+  <br />
+  <div class="ui-widget ui-corner-top box" style="display:inline-block; text-align:left;">
+    <h1><strong>Delete my account</strong></h1>
+    <div style="text-align:center;">
+      <div class="notice">Note: This operation 
+        cannot be undone.  <br />
+        All data associated with your user account will also be deleted.
+        <br />
+        <%= link_to "Delete", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete, :class => "ui-corner-all ui-state-default button" %>
+      </div>
+    </div>
+  </div>
 
-<p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete %>.</p>
-
-<%= link_to "Back", :back %>
+</div>

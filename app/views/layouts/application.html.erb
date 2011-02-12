@@ -13,27 +13,64 @@
   <%= stylesheet_link_tag "main.css" %>
 </head>
 <body>
-<header>
-  <div style="width:870px; margin:0 auto;">
-    <img src="/images/logo.png" alt="review" />
-    <div style="float:right; margin: 0.5em 1.5em;">
-      <% if user_signed_in? %>
-         Logged in as <em><%= current_user.username %></em> |
-         <%= link_to "Logout", destroy_user_session_path %>
-      <% else %>
-         <%= link_to "Register", new_user_registration_path %> |
-         <%= link_to "Login", new_user_session_path %>
+<div id="wrap">
+  <header>
+    <div>
+      <%= link_to root_path do %>
+        <img src="/images/logo.png" alt="review" />
+      <% end %>
+      <div style="float:right; margin:0.5em 1.5em; font-size:0.9em;">
+        <% if user_signed_in? %>
+           Logged in as <em><%= link_to "#{current_user.username}", edit_user_registration_path %></em> |
+           <%= link_to "Logout", destroy_user_session_path %>
+        <% else %>
+           <%= link_to "Register", new_user_registration_path %> |
+           <%= link_to "Login", new_user_session_path %>
+        <% end %>
+      </div>
+    </div>
+  </header>
+
+  <nav>
+    <div>
+      <%= link_to "Home", root_path %>
+      <% if content_for? :page_name %>
+        | <%= yield :page_name %>
       <% end %>
     </div>
-  </div>
-</header>
+  </nav>
 
-<section>
-  <% flash.each do |name, msg| %>
-    <%= content_tag :div, msg, :id => "flash_#{name}" %>
+  <section>
+    <% flash.each do |name, msg| %>
+      <%= content_tag :div, msg, :id => "flash_#{name}" %>
+    <% end %>
+    <%= yield %>
+    <div class="push"></div>
+  </section>
+</div>
+
+<footer>
+  <% if user_signed_in? %>
+    <div class="text-center">
+      <ul>
+        <li><%= link_to "Home", root_path %></li>
+        <li><a href="#">Download</a></li>
+        <li><a href="#">Tutorial</a></li>
+      </ul>
+      <ul>
+        <li><a href="#">Recent Reviews</a></li>
+        <li><a href="#">Recent Requests</a></li>
+      </ul>
+      <ul>
+        <li><%= link_to "My Account", edit_user_registration_path %></li>
+        <li><%= link_to "Logout", destroy_user_session_path %></li>
+      </ul>
+    </div>
   <% end %>
-<%= yield %>
-</section>
+  <div class="text-center" style="font-size:0.7em;">
+    Copyright &copy; 2011 Andrew Thigpen
+  </div>
+</footer>
 
 </body>
 </html>

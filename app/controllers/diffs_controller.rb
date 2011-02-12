@@ -1,4 +1,6 @@
 class DiffsController < ApplicationController
+  before_filter :authenticate_user!
+  
   # GET /diffs
   # GET /diffs.xml
   def index

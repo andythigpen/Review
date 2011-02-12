@@ -2,21 +2,21 @@
   <div class="ui-widget ui-corner-top box" style="display:inline-block; text-align:left;">
     <h1><strong>Login</strong></h1>
 
-    <div style="padding:0.3em 3em;">
+    <div>
       <%= form_for(resource_name, resource, :url => session_path(resource_name)) do |f| %>
         <div class="field">
-          <%= f.label :username, :style => "display:block;" %>
+          <%= f.label :username %>
           <%= f.text_field :username, :class => "text ui-corner-all ui-widget-content" %>
         </div>
 
         <div class="field">
-          <%= f.label :password, :style => "display:block;" %>
+          <%= f.label :password %>
           <%= f.password_field :password, :class => "text ui-corner-all ui-widget-content" %>
         </div>
 
         <% if devise_mapping.rememberable? -%>
           <div class="field">
-            <%= f.check_box :remember_me %> <%= f.label :remember_me %>
+            <%= f.check_box :remember_me %> <%= f.label :remember_me, :style => "display:inline;" %>
           </div>
         <% end %>
 

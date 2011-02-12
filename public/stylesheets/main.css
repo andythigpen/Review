@@ -1,7 +1,18 @@
+html, body {
+  height: 100%;
+}
+
 body { 
   font: 90% sans-serif, Arial;
   color: #444; 
-  background: #fff url('/images/body_back.png') repeat-x 0 75px;
+  background: #fff url('/images/body_back.png') repeat-x 0 106px;
+}
+
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -8em;
 }
 
 header {	
@@ -9,14 +20,57 @@ header {
   height: 75px;
 }
 
-section {
-  font-size: 1em;
-  padding: 1em 0;
-  width: 850px;
+header>div, nav>div, section {
+  max-width: 820px; 
   margin: 0 auto;
 }
 
+nav {
+  border-top: 2px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  font-size: 0.9em;
+}
+
+nav, nav>div {
+  height: 30px;
+  line-height: 30px;
+  background: #e0e0e0; /*#444 url('/images/footer_back.png') repeat-x;*/
+}
+
+nav a {
+  color: #444;
+  padding: 0 0.2em;
+}
+
+section {
+  font-size: 1em;
+  padding: 1em 0;
+}
+
+.push {
+  height: 8em; /* footer height + padding */
+}
+
+footer {
+  background: #5c5c5c url('/images/footer_back.png') repeat-x;
+  color: #efefef;
+  padding: 2em;
+  height: 4.1em;
+}
+
+footer a {
+  color: #cfcfcf;
+}
+
+footer ul {
+  display: inline-block;
+  margin: 0 1.5em 1em;
+  text-align: left;
+  vertical-align: top;
+}
+
 strong { font-weight: bold; }
+em { font-style: italic; }
 a { color: #0070A3; text-decoration: none; }
 a:hover { text-decoration: underline; }
 
@@ -24,7 +78,8 @@ h1 {
   font-size: 1.0em;
   margin: 0;
   padding: 0.5em;
-  background: #ddd url('/images/title_back.png') repeat-x 0 100%;
+  background: url('/images/title_back.png') repeat-x 0 100%;
+  border-bottom: 1px solid #ddd;
 }
 
 h1 .button {
@@ -37,11 +92,6 @@ ul {
   list-style: none;
   font-size: 0.9em;
   padding: 0;
-}
-
-ul.box-body li {
-  margin: 0.2em;
-  padding: 0.5em;
 }
 
 .author {
@@ -78,11 +128,15 @@ ul.box-body li {
 .box {
   margin: 1em 0;
   border: 1px solid #cdcdcd;
+  background: #fdfdfd;
 }
 
-.box-body {
+.box>div {
+  padding: 1em 3em;
+}
+
+.box>ul {
   padding: 1em;
-  background: #fafafb;
 }
 
 .lineno-left, .lineno-right {
@@ -180,6 +234,7 @@ ul li em {
   background: #FCFBE3;
   border: 1px solid #F7F3BC;
   padding: 0.5em 1em;
+  font-size: 0.9em;
 }
 
 .info {
@@ -191,7 +246,11 @@ ul li em {
 }
 
 .box .field {
-  margin: 1em;
+  margin: 1em 0;
+}
+
+.box .field label {
+  display: block;
 }
 
 input.text {
@@ -224,3 +283,16 @@ input.text {
 .right {
   float: right;
 }
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+

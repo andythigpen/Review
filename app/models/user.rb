@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   has_many :reviews_owned, :class_name => "ReviewEvent"
   has_many :review_event_users
-  has_many :reviews_requested, :through => :review_event_users, :source => :review_event
+  has_many :review_requests, :through => :review_event_users, :source => :review_event
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :lockable, :timeoutable and :activatable

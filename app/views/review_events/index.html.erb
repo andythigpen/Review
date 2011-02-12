@@ -1,0 +1,25 @@
+<div class="ui-widget ui-corner-top box">
+  <h1>Listing review_events</h1>
+
+  <div>
+    <table>
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+
+    <% @review_events.each do |review_event| %>
+      <tr>
+        <td><%= link_to 'Show', review_event %></td>
+        <td><%= link_to 'Edit', edit_review_event_path(review_event) %></td>
+        <td><%= link_to 'Destroy', review_event, :confirm => 'Are you sure?', :method => :delete %></td>
+      </tr>
+    <% end %>
+    </table>
+
+    <br />
+
+    <%= link_to 'New Review event', new_review_event_path %>
+  </div>
+</div>

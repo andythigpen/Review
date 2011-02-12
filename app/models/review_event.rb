@@ -3,4 +3,5 @@ class ReviewEvent < ActiveRecord::Base
              :validate => true
   has_many :review_event_users
   has_many :reviewers, :through => :review_event_users, :source => :user
+  has_many :changesets
 end

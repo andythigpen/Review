@@ -1,0 +1,42 @@
+<% content_for :page_name, "Review Event" %>
+
+<div class="changeset">
+  <div style="float:right; padding:0.2em;">
+
+  <% if current_user == @review_event.owner %>
+    <%= link_to edit_review_event_path(@review_event), 
+        :class => "ui-state-default ui-corner-all button" do %>
+      <span class="ui-icon ui-icon-pencil left"></span>Edit
+    <% end %>
+  <% else %>
+    <a href="#" class="ui-state-default ui-corner-all button">
+      <span class="ui-icon ui-icon-check left"></span>
+      Accept
+    </a>
+    <a href="#" class="ui-state-default ui-corner-all button">
+      <span class="ui-icon ui-icon-closethick left"></span>
+      Reject
+    </a>
+  <% end %>
+  </div>
+
+  <h2>
+    <strong><%= @review_event.name %></strong> 
+    <span class="author">by <%= @review_event.owner.username %></span>
+  </h2>
+  <p>
+    <strong>Notes:</strong>&nbsp;&nbsp;<%= @review_event.notes %>
+  </p>
+  <p><strong>Reviewers:</strong>&nbsp;&nbsp;
+    <% @review_event.reviewers.each do |u| %>
+      <%= u.username %>
+    <% end %>
+  </p>
+  <!--<p><strong>Files:</strong>
+    <ul>
+      <li><a href="#"><span class="ui-icon ui-icon-document" style="float:left;"></span> framework/kernel/README</a></li>
+      <li><a href="#"><span class="ui-icon ui-icon-document" style="float:left;"></span> another_file</a></li>
+    </ul>
+  </p>-->
+</div>
+

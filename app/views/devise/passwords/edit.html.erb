@@ -1,16 +1,30 @@
-<h2>Change your password</h2>
+<div style="text-align:center;">
+  <div class="ui-widget ui-corner-top box" style="display:inline-block; text-align:left;">
+    <h1><strong>Change your password</strong></h1>
 
-<%= form_for(resource_name, resource, :url => password_path(resource_name), :html => { :method => :put }) do |f| %>
-  <%= f.error_messages %>
-  <%= f.hidden_field :reset_password_token %>
+    <div>
+      <%= form_for(resource_name, resource, :url => password_path(resource_name), :html => { :method => :put }) do |f| %>
+        <%= f.error_messages %>
+        <%= f.hidden_field :reset_password_token %>
 
-  <p><%= f.label :password %></p>
-  <p><%= f.password_field :password %></p>
+        <div class="field">
+          <%= f.label :password %>
+          <%= f.password_field :password, :class => "text ui-corner-all ui-widget-content" %>
+        </div>
 
-  <p><%= f.label :password_confirmation %></p>
-  <p><%= f.password_field :password_confirmation %></p>
+        <div class="field">
+          <%= f.label :password_confirmation %>
+          <%= f.password_field :password_confirmation, :class => "text ui-corner-all ui-widget-content" %>
+        </div>
 
-  <p><%= f.submit "Change my password" %></p>
-<% end %>
+        <div class="field">
+          <%= f.submit "Change my password", :class => "ui-corner-all ui-state-default button" %>
+        </div>
+      <% end %>
+    </div>
 
-<%= render :partial => "devise/shared/links" %>
+    <div>
+      <%= render :partial => "devise/shared/links" %>
+    </div>
+  </div>
+</div>

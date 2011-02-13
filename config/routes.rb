@@ -8,6 +8,11 @@ Review::Application.routes.draw do
   resources :diffs
   resources :review_events
 
+  match "reviewer/:review_event_id/:user_id" => "review_event_user#destroy",
+        :as => :reviewer_destroy, :via => :delete
+  match "reviewer/:review_event_id/:user_id" => "review_event_user#show", 
+        :as => :reviewer, :via => :get
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

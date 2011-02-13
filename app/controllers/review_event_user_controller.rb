@@ -1,4 +1,6 @@
 class ReviewEventUserController < ApplicationController
+  before_filter :authenticate_user!
+
   def show
     @review_event_user = ReviewEventUser.find(:first, 
         :conditions => [ "user_id = ? and review_event_id = ?", 

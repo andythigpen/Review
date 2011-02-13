@@ -23,21 +23,11 @@
 
   <div class="field">
     <%= f.label "Reviewers" %>
-    <table>
-      <% @review_event.reviewers.each do |r| %>
-        <tr id="reviewer_<%= @review_event.id %>_<%= r.id %>">
-          <td><%= r.username %></td>
-          <td>
-            <%= f.fields_for r do |f2| %>
-              <%= f2.hidden_field :id %> 
-            <% end %>
-            <%= link_to "Remove", reviewer_destroy_url(@review_event.id, r.id), 
-                :remote => true, :method => 'delete' %>
-            <!--<a href="#" style="margin-left:3em;">Remove</a>-->
-          </td>
-        </tr>
-      <% end %>
-    </table>
+    <%= render :partial => "reviewers", :locals => { :f => f } %>
+    <%= link_to_add_reviewer "Add Reviewer", f %>
+    <!--<a href="#" onclick="add_reviewer(this);">
+      <span class="ui-icon ui-icon-plus left"></span>Add Reviewer
+    </a>-->
   </div>
 
   <div class="actions field">

@@ -1,8 +1,7 @@
-<% content_for :page_name, "Edit Review Event" %>
+<% content_for :page_name do %>
+  <%= link_to "Show Review", review_event_path %> | Edit Review
+<% end %>
 
-<div class="text-right">
-  <%= link_to 'Back', :back %>
-</div>
 <div class="ui-widget ui-corner-top box">
   <h1><strong>Editing Review</strong></h1>
 

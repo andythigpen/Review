@@ -1,4 +1,6 @@
 class ReviewEventsController < ApplicationController
+  before_filter :authenticate_user!
+
   # GET /review_events
   # GET /review_events.xml
   def index

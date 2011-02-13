@@ -3,5 +3,6 @@ class ReviewEvent < ActiveRecord::Base
              :validate => true
   has_many :review_event_users
   has_many :reviewers, :through => :review_event_users, :source => :user
+  accepts_nested_attributes_for :review_event_users, :allow_destroy => true
   has_many :changesets
 end

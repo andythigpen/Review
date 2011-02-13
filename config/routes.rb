@@ -1,4 +1,5 @@
 Review::Application.routes.draw do
+
   devise_for :users, :path_names => { :sign_in => "login", 
                                       :sign_up => "register", 
                                       :sign_out => "logout" }
@@ -9,9 +10,11 @@ Review::Application.routes.draw do
   resources :review_events
 
   match "reviewer/:review_event_id/:user_id" => "review_event_user#destroy",
-        :as => :reviewer_destroy, :via => :delete
+        :as => :destroy_reviewer, :via => :delete
   match "reviewer/:review_event_id/:user_id" => "review_event_user#show", 
         :as => :reviewer, :via => :get
+
+  get "reviewers/show"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

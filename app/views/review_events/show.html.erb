@@ -28,9 +28,7 @@
     <strong>Notes:</strong>&nbsp;&nbsp;<%= @review_event.notes %>
   </p>
   <p><strong>Reviewers:</strong>&nbsp;&nbsp;
-    <% @review_event.reviewers.each do |u| %>
-      <%= u.username %>
-    <% end %>
+    <%= @review_event.reviewers.map { |u| u.username }.join(", ") %>
   </p>
   <!--<p><strong>Files:</strong>
     <ul>

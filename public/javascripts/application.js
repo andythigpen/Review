@@ -8,13 +8,22 @@ $(document).ready(function() {
 });
 
 function change_reviewer_autocomplete(event, ui) {
-  $(this).prev("input[type=hidden]").val(ui.item.id);
+  if (ui.item) {
+    $(this).prev("input[type=hidden]").val(ui.item.id).
+      siblings(".ui-icon-check").show();
+  }
+  else {
+    $(this).prev("input[type=hidden]").val("").
+      siblings(".ui-icon-check").hide();
+  }
 }
 
 function setup_reviewer_autocomplete() {
-  $(".reviewer_autocomplete").autocomplete({
+  $(".reviewer_autocomplete").autocomplete('destroy').autocomplete({
     source: "/reviewers/show",
     change: change_reviewer_autocomplete,
+    select: change_reviewer_autocomplete,
+    delay: 100,
     selectFirst: true,
   }).keydown(function (e) {
     if (e.keyCode == 13) {
@@ -26,12 +35,13 @@ function setup_reviewer_autocomplete() {
 
 function remove_reviewer(reviewer) {
   $(reviewer).next('input[type=hidden]').val('1');
-  $(reviewer).closest('li').fadeOut();
+  $(reviewer).closest('tr').fadeOut();
 }
 
 function add_reviewer(link, content) {
   var now = new Date().getTime();
-  var re = new RegExp("new_review_event_id", "g");
-  $(link).prev("ul").append("<li>"+content.replace(re, now)+"</li>");
+  var re = new RegExp("new_review_event_user", "g");
+  $(link).prev("table").append("<tr><td colspan=\"2\">"+content.replace(re, now)+"</td></tr>");
   setup_reviewer_autocomplete();
+  $(link).prev("table").find("input[type=text]:last").focus();
 }

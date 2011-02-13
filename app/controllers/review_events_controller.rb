@@ -61,7 +61,13 @@ class ReviewEventsController < ApplicationController
     @review_event = ReviewEvent.find(params[:id])
 
     respond_to do |format|
-      if @review_event.update_attributes(params[:review_event])
+      begin
+        up = @review_event.update_attributes(params[:review_event])
+      rescue ActiveRecord::RecordNotUnique
+        @review_event.errors.add(:unique, "Duplicate reviewer.")
+      end
+
+      if up
         format.html { redirect_to(@review_event, :notice => 'Review event was successfully updated.') }
         format.xml  { head :ok }
       else

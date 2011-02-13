@@ -270,7 +270,7 @@ input.text {
   padding: 0.5em 1em;
 }
 
-.errorExplanation {
+.errorExplanation, #error_explanation {
   padding: 0.8em 1em;
   border: 1px solid #ff9e9e;
   background: #ffbfbf;
@@ -296,3 +296,16 @@ input.text {
   text-align: right;
 }
 
+.remove-link {
+  display: inline-block;
+  margin-left: 3em;
+}
+
+.reviewer-table {
+  font-size: 0.9em; 
+  margin: 0.5em 0 1em;
+}
+
+.hidden {
+  display: none;
+}

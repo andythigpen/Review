@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110213173916) do
+ActiveRecord::Schema.define(:version => 20110213230337) do
 
   create_table "changesets", :force => true do |t|
     t.string   "name"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(:version => 20110213173916) do
   end
 
   add_index "review_event_users", ["id"], :name => "index_review_event_users_on_id"
+  add_index "review_event_users", ["review_event_id", "user_id"], :name => "index_review_event_users_on_review_event_id_and_user_id", :unique => true
 
   create_table "review_events", :force => true do |t|
     t.string   "name"

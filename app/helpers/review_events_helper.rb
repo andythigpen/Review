@@ -5,8 +5,8 @@ module ReviewEventsHelper
                       :child_index => "new_review_event_user") do |builder|
       render("new_reviewer", :f => builder)
     end
-    fields += "<input type=\"text\" value=\"\" class=\"reviewer_autocomplete\" />".html_safe
-#link_to_function(name, "add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")")
+    fields += "<input type=\"text\" value=\"\" class=\"reviewer_autocomplete text ui-corner-all ui-widget-content\" style=\"width:20em;\" />".html_safe
+    fields += "<span class=\"ui-icon ui-icon-check right hidden\"></span>".html_safe
     link_to_function(name, "add_reviewer(this, \"#{escape_javascript(fields)}\");")
   end
 end

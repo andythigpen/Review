@@ -1,6 +1,8 @@
-<% content_for :page_name, "Show Review" %>
+<% title = "Show Review"
+   title += " | " + @changeset.name if not @changeset.nil? %>
+<% content_for :page_name, title %>
 
-<div class="changeset">
+<div class="review">
   <div style="float:right; padding:0.2em;">
 
   <% if current_user == @review_event.owner %>
@@ -36,5 +38,66 @@
       <li><a href="#"><span class="ui-icon ui-icon-document" style="float:left;"></span> another_file</a></li>
     </ul>
   </p>-->
+
+  <p><strong>Revisions:</strong>
+    <ol>
+      <% @review_event.changesets.each do |c| %>
+        <li class="changeset">
+          <span class="ui-icon ui-icon-radio-off left"></span>
+          <% if @changeset == c %>
+            <%= c.name %>
+          <% else %>
+            <%= link_to "#{c.name}", review_event_path(:changeset => c.id) %>
+          <% end %>
+        </li>
+      <% end %>
+    </ol>
+  </p>
 </div>
+
+<% if @changeset.nil? %>
+  No changesets
+<% else %>
+  <% @changeset.diffs.each do |d| %>
+    <div class="ui-widget ui-corner-top box">
+      <h1>
+        <a href="#"><span class="ui-icon ui-icon-document left" 
+                          style="margin-right:0.3em"></span>
+                          <%= d.updated_file %></a>
+        <a href="#" class="ui-state-default ui-corner-all button">
+          <span class="ui-icon ui-icon-circle-plus left"></span>
+          Add a Note</a>
+      </h1>
+      <table cellpadding="0" cellspacing="0" class="diff">
+        <% lineno_left = 1 %>
+        <% lineno_right = 1 %>
+        <% d.contents.lines.to_a.each do |line| %>
+          <tr>
+            <% if line =~ /^@/ %>
+              <td class="lineno-left">...</td>
+              <td class="lineno-right">...</td>
+              <td class="lineno"><%= line %></td>
+            <% elsif line =~ /^\+/ %>
+              <td class="lineno-left"></td>
+              <td class="lineno-right"><%= lineno_right %></td>
+              <td class="new"><%= line %></td>
+              <% lineno_right += 1 %>
+            <% elsif line =~ /^-/ %>
+              <td class="lineno-left"><%= lineno_left %></td>
+              <td class="lineno-right"></td>
+              <td class="old"><%= line %></td>
+              <% lineno_left += 1 %>
+            <% else %>
+              <td class="lineno-left"><%= lineno_left %></td>
+              <td class="lineno-right"><%= lineno_right %></td>
+              <td><%= line %></td>
+              <% lineno_left += 1 %>
+              <% lineno_right += 1 %>
+            <% end %>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  <% end %>
+<% end %>
 

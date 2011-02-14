@@ -16,6 +16,11 @@ class ReviewEventsController < ApplicationController
   # GET /review_events/1.xml
   def show
     @review_event = ReviewEvent.find(params[:id])
+    if not params[:changeset].nil?
+      @changeset = Changeset.find(params[:changeset])
+    else
+      @changeset = @review_event.changesets.last
+    end
 
     respond_to do |format|
       format.html # show.html.erb
@@ -64,7 +69,7 @@ class ReviewEventsController < ApplicationController
       begin
         up = @review_event.update_attributes(params[:review_event])
       rescue ActiveRecord::RecordNotUnique
-        @review_event.errors.add(:unique, "Duplicate reviewer.")
+        @review_event.errors.add(:duplicate, "A user can only be added once to a review.")
       end
 
       if up

@@ -32,11 +32,11 @@ ActiveRecord::Schema.define(:version => 20110213230337) do
 
   create_table "diffs", :force => true do |t|
     t.string   "origin_file"
-    t.string   "updated_file"
     t.text     "contents"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "changeset_id"
+    t.string   "updated_file"
   end
 
   create_table "review_event_users", :force => true do |t|

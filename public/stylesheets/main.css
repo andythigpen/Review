@@ -170,7 +170,7 @@ ul {
 }
 
 .old {
-  background: #FFC2C2;
+  background: #ffd9d9;
 }
 
 .old-highlight {
@@ -196,28 +196,28 @@ ul li em {
   color: #999;
 }
 
-.changeset {
+.review {
   background: #E3F2FC;
   border: 1px solid #BDDCF0;
   margin: 1em 0;
 }
 
-.changeset p {
-  font-size: 0.8em; 
-  margin: 1em;
+.review p {
+  font-size: 0.9em; 
+  margin: 0.5em 1em;
 }
 
-.changeset ul {
+.review ul {
   margin: 1em 0;
 }
 
-.changeset li {
+.review li {
   margin: 0.2em 1em;
 }
 
-.changeset h2 {
+.review h2 {
   padding: 0.4em 0.8em;
-  font-size: 0.9em;
+  font-size: 1em;
 }
 
 .button {
@@ -309,3 +309,9 @@ input.text {
 .hidden {
   display: none;
 }
+
+.changeset {
+  padding: 0.2em 0;
+  font-size: 0.8em;
+}
+

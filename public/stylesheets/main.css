@@ -253,8 +253,8 @@ ul li em {
   display: block;
 }
 
-input.text {
-  width: 95%;
+.text {
+  /*width: 95%;*/
   padding: 0.4em;
 }
 
@@ -329,5 +329,13 @@ input.text {
 
 .files li:last-child {
   border-bottom: 1px solid #ccc;
+}
+
+.comment {
+  background: #fbfbfb;
+}
+
+.comment .field {
+  margin: 0em;
 }
 

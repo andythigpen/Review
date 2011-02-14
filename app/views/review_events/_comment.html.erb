@@ -1,0 +1,14 @@
+<div class="comment">
+  <%= form_for(:comment) do |f| %>
+    <div class="field">
+      <%= f.label :content, "Comment" %>
+      <%= f.text_area :content, :rows => 2, :style => "width:99%;",
+          :class => "text ui-corner-all ui-widget-content"  %>
+    </div>
+    <div class="field text-right">
+      <%= f.submit :class => "ui-corner-all ui-state-default button" %>
+      <%= link_to_function "Close", "close_comment(this);", 
+          :class => "ui-corner-all ui-state-default button" %>
+    </div>
+  <% end %>
+</div>

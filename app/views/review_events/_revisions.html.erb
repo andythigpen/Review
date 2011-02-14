@@ -3,10 +3,11 @@
   <ol>
     <% @review_event.changesets.each do |c| %>
       <li class="changeset">
-        <span class="ui-icon ui-icon-radio-off left"></span>
         <% if @changeset == c %>
+          <span class="ui-icon ui-icon-bullet left"></span>
           <%= c.name %>
         <% else %>
+          <span class="ui-icon ui-icon-radio-on left"></span>
           <%= link_to "#{c.name}", review_event_path(:changeset => c.id) %>
         <% end %>
       </li>

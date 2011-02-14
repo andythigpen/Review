@@ -3,56 +3,71 @@
 <% content_for :page_name, title %>
 
 <div class="review">
-  <div style="float:right; padding:0.2em;">
-
-  <% if current_user == @review_event.owner %>
-    <%= link_to edit_review_event_path(@review_event), 
-        :class => "ui-state-default ui-corner-all button" do %>
-      <span class="ui-icon ui-icon-pencil left"></span>Edit
+  <div style="float:right; padding:0.2em 0.2em 0;">
+    <% if current_user == @review_event.owner %>
+      <%= link_to edit_review_event_path(@review_event), 
+          :class => "ui-state-default ui-corner-all button" do %>
+        <span class="ui-icon ui-icon-pencil left"></span>Edit
+      <% end %>
+    <% else %>
+      <a href="#" class="ui-state-default ui-corner-all button">
+        <span class="ui-icon ui-icon-check left"></span>
+        Accept
+      </a>
+      <a href="#" class="ui-state-default ui-corner-all button">
+        <span class="ui-icon ui-icon-closethick left"></span>
+        Reject
+      </a>
     <% end %>
-  <% else %>
-    <a href="#" class="ui-state-default ui-corner-all button">
-      <span class="ui-icon ui-icon-check left"></span>
-      Accept
-    </a>
-    <a href="#" class="ui-state-default ui-corner-all button">
-      <span class="ui-icon ui-icon-closethick left"></span>
-      Reject
-    </a>
-  <% end %>
   </div>
 
   <h2>
     <strong><%= @review_event.name %></strong> 
     <span class="author">by <%= @review_event.owner.username %></span>
+    <div style="clear:both;"></div>
   </h2>
-  <p>
-    <strong>Notes:</strong>&nbsp;&nbsp;<%= @review_event.notes %>
-  </p>
-  <p><strong>Reviewers:</strong>&nbsp;&nbsp;
-    <%= @review_event.reviewers.map { |u| u.username }.join(", ") %>
-  </p>
-  <!--<p><strong>Files:</strong>
-    <ul>
-      <li><a href="#"><span class="ui-icon ui-icon-document" style="float:left;"></span> framework/kernel/README</a></li>
-      <li><a href="#"><span class="ui-icon ui-icon-document" style="float:left;"></span> another_file</a></li>
-    </ul>
-  </p>-->
 
-  <p><strong>Revisions:</strong>
-    <ol>
-      <% @review_event.changesets.each do |c| %>
-        <li class="changeset">
-          <span class="ui-icon ui-icon-radio-off left"></span>
-          <% if @changeset == c %>
-            <%= c.name %>
-          <% else %>
-            <%= link_to "#{c.name}", review_event_path(:changeset => c.id) %>
-          <% end %>
-        </li>
-      <% end %>
-    </ol>
-  </p>
+  <div style="width:50%; display:inline-block; vertical-align:top;">
+    <p><strong>Reviewers:</strong>&nbsp;&nbsp;
+      <%= @review_event.reviewers.map { |u| u.username }.join(", ") %>
+    </p>
+
+    <p>
+      <strong>Notes:</strong>&nbsp;&nbsp;<%= @review_event.notes %>
+    </p>
+  </div>
+
+  <div style="width:40%; display:inline-block; vertical-align:top;">
+    <p>
+      <strong>Revisions:</strong>
+      <ol>
+        <% @review_event.changesets.each do |c| %>
+          <li class="changeset">
+            <span class="ui-icon ui-icon-radio-off left"></span>
+            <% if @changeset == c %>
+              <%= c.name %>
+            <% else %>
+              <%= link_to "#{c.name}", review_event_path(:changeset => c.id) %>
+            <% end %>
+          </li>
+        <% end %>
+      </ol>
+    </p>
+  </div>
+</div>
+
+<div class="files">
+  <% if not @changeset.nil? %>
+      <strong>Files:</strong>
+      <ul>
+        <% @changeset.diffs.each do |d| %>
+          <li><a href="#file_<%= d.id %>">
+            <span class="ui-icon ui-icon-document left"></span> 
+            <%= d.updated_file %></a>
+          </li>
+        <% end %>
+      </ul>
+  <% end %>
 </div>
 
 <% if @changeset.nil? %>
@@ -61,6 +76,7 @@
   <% @changeset.diffs.each do |d| %>
     <div class="ui-widget ui-corner-top box">
       <h1>
+        <a name="#file_<%= d.id %>"></a>
         <a href="#"><span class="ui-icon ui-icon-document left" 
                           style="margin-right:0.3em"></span>
                           <%= d.updated_file %></a>

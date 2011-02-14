@@ -1,0 +1,16 @@
+<p>
+  <strong>Revisions:</strong>
+  <ol>
+    <% @review_event.changesets.each do |c| %>
+      <li class="changeset">
+        <span class="ui-icon ui-icon-radio-off left"></span>
+        <% if @changeset == c %>
+          <%= c.name %>
+        <% else %>
+          <%= link_to "#{c.name}", review_event_path(:changeset => c.id) %>
+        <% end %>
+      </li>
+    <% end %>
+  </ol>
+</p>
+

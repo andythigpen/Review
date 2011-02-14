@@ -1,0 +1,15 @@
+<div class="files">
+  <% if not @changeset.nil? %>
+    <strong>Files:</strong>
+    <ul>
+      <% @changeset.diffs.each do |d| %>
+        <li><a href="#file_<%= d.id %>">
+          <span class="ui-icon ui-icon-document left"></span> 
+          <%= d.updated_file %></a>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+</div>
+
+

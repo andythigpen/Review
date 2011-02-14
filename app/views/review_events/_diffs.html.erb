@@ -1,0 +1,46 @@
+<% @changeset.diffs.each do |d| %>
+  <div class="ui-widget ui-corner-top box">
+    <h1>
+      <a name="#file_<%= d.id %>"></a>
+      <a href="#"><span class="ui-icon ui-icon-document left" 
+                        style="margin-right:0.3em"></span>
+                        <%= d.updated_file %></a>
+      <a href="#" class="ui-state-default ui-corner-all button">
+        <span class="ui-icon ui-icon-circle-plus left"></span>
+        Add a Note</a>
+    </h1>
+    <div class="comment">
+      
+    </div>
+    <table cellpadding="0" cellspacing="0" class="diff">
+      <% lineno_left = 1 %>
+      <% lineno_right = 1 %>
+      <% d.contents.lines.to_a.each do |line| %>
+        <tr>
+          <% if line =~ /^@/ %>
+            <td class="lineno-left">...</td>
+            <td class="lineno-right">...</td>
+            <td class="lineno"><%= line %></td>
+          <% elsif line =~ /^\+/ %>
+            <td class="lineno-left"></td>
+            <td class="lineno-right"><%= lineno_right %></td>
+            <td class="new"><%= line %></td>
+            <% lineno_right += 1 %>
+          <% elsif line =~ /^-/ %>
+            <td class="lineno-left"><%= lineno_left %></td>
+            <td class="lineno-right"></td>
+            <td class="old"><%= line %></td>
+            <% lineno_left += 1 %>
+          <% else %>
+            <td class="lineno-left"><%= lineno_left %></td>
+            <td class="lineno-right"><%= lineno_right %></td>
+            <td><%= line %></td>
+            <% lineno_left += 1 %>
+            <% lineno_right += 1 %>
+          <% end %>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+<% end %>
+

@@ -157,16 +157,30 @@ ul {
   font-family: Courier New, monospace;
   color: #111;
   font-size: 0.8em;
+  position: relative;
+}
+
+.diff tr {
+  line-height: 1.8em;
+}
+
+.diff tr td:nth-child(3):hover,
+.diff tr:hover {
+  background: #FCFBE3;
 }
 
 .diff tr td:nth-child(3) {
   width: 100%;
-  white-space: pre-wrap;
-  line-height: 1.8em;
+  /*white-space: pre-wrap;*/
+  /*line-height: 1.8em;*/
 }
 
 .diff tr td:nth-child(1), .diff tr td:nth-child(2) {
   padding: 0 0.8em;
+}
+
+.diff pre {
+  font-size: 1.2em;
 }
 
 .old {
@@ -331,11 +345,31 @@ ul li em {
   border-bottom: 1px solid #ccc;
 }
 
-.comment {
+.comment-box {
   background: #fbfbfb;
+  border-bottom: 1px solid #ccc;
 }
 
-.comment .field {
+.comment-box .field {
   margin: 0em;
+}
+
+.comment {
+  border-bottom: 1px solid #ccc;
+  background: #fffff5;
+  font-size: 0.9em;
+}
+
+.add-comment-button {
+  position: absolute;
+  left: 0;
+  margin-left: -32px;
+  width: 32px;
+  opacity: 0.0;
+  cursor: pointer;
+}
+
+.add-comment-button .ui-icon-comment {
+  margin-left: -5px;
 }
 

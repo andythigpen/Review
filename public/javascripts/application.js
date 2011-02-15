@@ -4,6 +4,14 @@ $(document).ready(function() {
   	function() { $(this).addClass('ui-state-hover'); }, 
   	function() { $(this).removeClass('ui-state-hover'); }
   );
+  $(".diff tr").hover(
+    function() { 
+      $(this).find(".add-comment-button").animate({'opacity':1.0}, 100); 
+    },
+    function() { 
+      $(this).find(".add-comment-button").animate({'opacity':0.0}, 100); 
+    }
+  );
   setup_reviewer_autocomplete();
 });
 
@@ -45,3 +53,26 @@ function add_reviewer(link, content) {
   setup_reviewer_autocomplete();
   $(link).prev("table").find("input[type=text]:last").focus();
 }
+
+function add_diff_comment(diff) {
+  $(diff).parent().siblings(".comment-box").fadeIn();
+}
+
+function close_diff_comment(diff) {
+  var p = $(diff).parents(".comment-box").fadeOut();
+}
+
+function submit_diff_comment(diff, diff_id) {
+  var comment = $(diff).parents(".comment-box").find("textarea").val();
+  $.post("/comments/create/"+diff_id, { 
+    'comment' : {
+        'content': comment, 
+        'diff_id': diff_id,
+      }
+    },
+    function(data, textStatus, jqXHR) {
+      //TODO if success add new comment to list
+      //if error, display error
+    });
+}
+

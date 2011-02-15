@@ -16,6 +16,12 @@ Review::Application.routes.draw do
 
   get "reviewers/show"
 
+  match "comments/create/:diff_id" => "comments#create", 
+        :as => :create_comment, :via => :post
+#get "comments/update"
+#get "comments/show"
+#get "comments/destroy"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

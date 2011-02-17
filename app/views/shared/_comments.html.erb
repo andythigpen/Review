@@ -1,0 +1,15 @@
+<% level = 0 if level.nil? %>
+<% lineno = nil if local_assigns[:lineno].nil? %>
+<% commentable.comments.each do |c| %>
+  <% next if c.lineno != lineno %>
+  <%= render :partial => "shared/comment", :locals => { :comment => c,
+                                                        :level => level } %>
+
+  <div id="reply_<%= c.id %>"></div>
+
+  <% if c.comments.size > 0 %>
+    <%= render :partial => "shared/comments", 
+        :locals => { :commentable => c, :level => level + 1 } %>
+  <% end %>
+<% end %>
+

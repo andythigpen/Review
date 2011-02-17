@@ -1,0 +1,21 @@
+<div class="comment-box hidden">
+  <%= form_for(:comment) do |f| %>
+    <div class="field">
+      <% label = commentable.class == Comment ? "Reply" : "Comment" %>
+      <%= f.label :content, label %>
+      <%= f.hidden_field :commentable_id, :value => commentable.id %>
+      <%= f.hidden_field :commentable_type, 
+          :value => commentable.class.name %>
+      <%= f.hidden_field :user_id, :value => current_user.id %>
+      <%= f.text_area :content, :rows => 2, :style => "width:99%;",
+          :class => "text ui-corner-all ui-widget-content"  %>
+    </div>
+    <div class="field text-right">
+      <%= link_to_function "Save Comment", "submit_comment(this);",
+          :class => "ui-corner-all ui-state-default button" %>
+      <%= link_to_function "Close", "close_comment_form(this);", 
+          :class => "ui-corner-all ui-state-default button" %>
+    </div>
+  <% end %>
+</div>
+

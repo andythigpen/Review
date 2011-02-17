@@ -5,18 +5,23 @@
       <a href="#"><span class="ui-icon ui-icon-document left" 
                         style="margin-right:0.3em"></span>
                         <%= d.updated_file %></a>
-      <% add_comment_text = "<span class=\"ui-icon ui-icon-circle-plus left\"></span> Add Comment".html_safe %>
-      <%= link_to_function add_comment_text, "add_diff_comment(this);",
-          :class => "ui-state-default ui-corner-all button" %>
-      <!--<a href="#" class="ui-state-default ui-corner-all button">
-        <span class="ui-icon ui-icon-circle-plus left"></span>
-        Add Comment</a>-->
+      <%= add_comment_button d, "#diff_comment_#{d.id}", 
+          :class => "ui-state-default ui-corner-all button" do %>
+        <span class="ui-icon ui-icon-circle-plus left"></span>Add Comment
+      <% end %>
     </h1>
-    <%= render :partial => "comment", :locals => { :diff => d } %>
+
+    <div class="comment-box-container" style="padding:0;">
+      <%= render :partial => "shared/comments", 
+          :locals => { :commentable => d } %>
+      <div id="diff_comment_<%= d.id %>"></div>
+    </div>
+
     <table cellpadding="0" cellspacing="0" class="diff">
       <% lineno_left = 1 %>
       <% lineno_right = 1 %>
       <% type = "" %>
+      <% total_line = 0 %>
       <% d.contents.lines.to_a.each do |line| %>
         <% if line =~ /^@@\s+-(\d+),(\d+)\s+\+(\d+),(\d+)\s+@@/ %>
           <% lineno_left = $1.to_i 
@@ -45,13 +50,23 @@
           <td class="lineno-left"><%= line_text_left %></td>
           <td class="lineno-right"><%= line_text_right %></td>
           <td>
-            <b class="add-comment-button">
+            <%= add_comment_button d, "#line_comment_#{d.id}_#{total_line}",
+                :class => "add-comment-button" do %>
               <span class="ui-icon ui-icon-plus left"></span>
               <span class="ui-icon ui-icon-comment left"></span>
-            </b>
+            <% end %>
             <pre><%= line %></pre>
           </td>
         </tr>
+        <tr class="comment-box-container">
+          <td colspan="3">
+            <%= render :partial => "shared/comments", 
+                       :locals => { :commentable => d, 
+                                    :lineno => total_line } %>
+            <div id="line_comment_<%= d.id %>_<%= total_line %>"></div>
+          </td>
+        </tr>
+        <% total_line += 1 %>
       <% end %>
     </table>
   </div>

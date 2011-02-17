@@ -1,0 +1,4 @@
+{
+  "status": "ok", 
+  "content": <% with_format 'html' do %> <%= (render :partial => "shared/comment", :locals => { :comment => comment, :level => level }).to_json().html_safe %> <% end %>
+}

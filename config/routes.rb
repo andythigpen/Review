@@ -16,8 +16,10 @@ Review::Application.routes.draw do
 
   get "reviewers/show"
 
-  match "comments/create/:diff_id" => "comments#create", 
+  match "comments/create" => "comments#create", 
         :as => :create_comment, :via => :post
+  match "comments/destroy" => "comments#destroy", 
+        :as => :destroy_comment, :via => :post
 #get "comments/update"
 #get "comments/show"
 #get "comments/destroy"

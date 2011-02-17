@@ -1,0 +1,22 @@
+<div class="comment" id="comment_<%= comment.id %>">
+  <div style="display:inline-block;">
+    <span class="author"><%= comment.user.username %></span> 
+    <%= level == 0 ? "said" : "replied" %>
+    <% if level > 0 %>
+      to <span class="author"><%= comment.commentable.user.username %></span>
+    <% end %>
+    <div class="comment-actions hidden">
+      <% if comment.user != current_user %>
+        <%= add_comment_button comment, "#reply_#{comment.id}", 
+            :class => "left" do %>
+          <span class="ui-icon ui-icon-arrowreturnthick-1-w left"></span>
+          Reply
+        <% end %>
+      <% elsif comment.comments.size == 0 %>
+        <%= link_to_function "Delete", "delete_comment('#{comment.id}');" %>
+      <% end %>
+    </div>
+    <p>"<%= comment.content %>"</p>
+  </div> 
+</div>
+

@@ -2,6 +2,19 @@
    title += " &gt; " + @changeset.name if not @changeset.nil? %>
 <% content_for :page_name, title.html_safe %>
 
+<div id="create-changeset-dialog" class="hidden">
+  <% if @review_event.changesets.size > 0 %>
+    <div class="info"><strong>Note:</strong> Creating a new changeset will 
+    reset the status of your review, and all assigned reviewers will be 
+    notified.</div>
+  <% end %>
+  <%= form_for :changeset do |f| %>
+    <%= f.label :name, :style => "display:block;" %>
+    <%= f.text_field :name, :style => "width:20em;", 
+        :class => "text ui-corner-all ui-widget-content" %>
+  <% end %>
+</div>
+
 <div class="review">
   <div style="float:right; padding:0.2em 0.2em 0;">
     <% if current_user == @review_event.owner %>

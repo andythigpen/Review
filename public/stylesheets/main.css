@@ -3,7 +3,8 @@ html, body {
 }
 
 body { 
-  font: 90% sans-serif, Arial;
+  font-family: 'PT Sans', Lucida Sans, Arial, sans-serif;
+  font-size: 0.9em;
   color: #444; 
   background: #fff url('/images/body_back.png') repeat-x 0 106px;
 }
@@ -28,13 +29,12 @@ header>div, nav>div, section {
 nav {
   border-top: 2px solid #ddd;
   border-bottom: 1px solid #ddd;
-  font-size: 0.9em;
 }
 
 nav, nav>div {
   height: 30px;
   line-height: 30px;
-  background: #e0e0e0; /*#444 url('/images/footer_back.png') repeat-x;*/
+  background: #e0e0e0;
 }
 
 nav a {
@@ -43,12 +43,11 @@ nav a {
 }
 
 section {
-  font-size: 1em;
   padding: 1em 0;
 }
 
 .push {
-  height: 8em; /* footer height + padding */
+  height: 8em;
 }
 
 footer {
@@ -75,7 +74,6 @@ a { color: #0070A3; text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 h1 {
-  font-size: 1.0em;
   margin: 0;
   padding: 0.5em;
   background: url('/images/title_back.png') repeat-x 0 100%;
@@ -83,19 +81,16 @@ h1 {
 }
 
 h1 .button {
-  font-size: 0.8em;
   float: right;
   margin-top: -0.4em;
 }
 
 ul {
   list-style: none;
-  font-size: 0.9em;
   padding: 0;
 }
 
 .author {
-  font-size: 0.9em;
   color: #aaa;
   margin-left: 0.3em;
 }
@@ -145,6 +140,7 @@ ul {
   border-right: 1px solid #cdcdcd;
   color: #999;
   padding: 0.4em;
+  font-size: 0.9em;
 }
 
 .lineno-right {
@@ -154,11 +150,8 @@ ul {
 .diff {
   margin: 0;
   padding: 0;
-  font-family: Courier New, monospace;
   color: #111;
-  font-size: 0.8em;
   position: relative;
-  /*border-top: 1px solid #ccc;*/
 }
 
 .diff tr {
@@ -172,8 +165,6 @@ ul {
 
 .diff tr td:nth-child(3) {
   width: 100%;
-  /*white-space: pre-wrap;*/
-  /*line-height: 1.8em;*/
 }
 
 .diff tr td:nth-child(1), .diff tr td:nth-child(2) {
@@ -182,12 +173,10 @@ ul {
 
 .diff tr .comment {
   padding: 1em;
-  font-size: 0.9em;
 }
 
 .diff tr.comment-box-container {
   line-height: 1.2em;
-  font-size: 1.2em;
 }
 
 .diff tr.comment-box-container td {
@@ -195,7 +184,8 @@ ul {
 }
 
 .diff pre {
-  font-size: 1.2em;
+  font-family: 'Inconsolata', Courier New, monospace;
+  font-size: 0.9em;
 }
 
 .old {
@@ -232,7 +222,6 @@ ul li em {
 }
 
 .review p {
-  font-size: 0.9em; 
   margin: 0em 1em 0.6em;
 }
 
@@ -246,7 +235,6 @@ ul li em {
 
 .review h2 {
   padding: 0.6em 0.8em;
-  font-size: 1.1em;
 }
 
 .button {
@@ -263,14 +251,12 @@ ul li em {
   background: #FCFBE3;
   border: 1px solid #F7F3BC;
   padding: 0.5em 1em;
-  font-size: 0.9em;
 }
 
 .info {
   background: #E3F2FC;
   border: 1px solid #BDDCF0;
   padding: 1em;
-  font-size: 0.9em;
   margin: 1em 0;
 }
 
@@ -283,7 +269,6 @@ ul li em {
 }
 
 .text {
-  /*width: 95%;*/
   padding: 0.4em;
 }
 
@@ -331,7 +316,6 @@ ul li em {
 }
 
 .reviewer-table {
-  font-size: 0.9em; 
   margin: 0.5em 0 1em;
 }
 
@@ -341,7 +325,6 @@ ul li em {
 
 .changeset {
   padding: 0.2em 0;
-  font-size: 0.8em;
 }
 
 .files {
@@ -361,8 +344,6 @@ ul li em {
 }
 
 .comment-box {
-  /*background: #fbfbfb;*/
-  /*padding: 0.4em 0;*/
   padding: 0.5em 2em 1em;
 }
 
@@ -371,26 +352,20 @@ ul li em {
 }
 
 .comment-box-container {
-  /*font-size: 0.9em;
-  border-bottom: 1px solid #ccc;*/
+  font-size: 0.9em;
 }
 
 .comment, .comment-box-container {
   background: #fffff5;
-  font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
 }
 
 .comment {
-  /*font-size: 0.9em;
-  border-bottom: 1px solid #ccc;*/
-  font-size: 0.9em;
   padding: 1em 2em;
 }
 
 .comment-actions {
   margin-left: 0.8em; 
   display: inline-block; 
-  vertical-align: middle;
   opacity: 0;
 }
 
@@ -411,3 +386,7 @@ ul li em {
   margin-left: 1.5em;
 }
 
+.inline-icon {
+  display: inline-block;
+  margin-bottom: -2px;
+}

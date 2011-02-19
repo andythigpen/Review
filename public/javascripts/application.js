@@ -129,3 +129,21 @@ function close_comment_form(loc) {
   $(loc).parents(".comment-box").fadeOut(function() { $(this).remove(); });
 }
 
+function create_changeset() {
+  $("#create-changeset-dialog").dialog({
+    modal: true,
+    minWidth: 350,
+    buttons: {
+      "Create Changeset": function() {
+        $(this).dialog('close');
+      },
+      "Cancel": function() {
+        $(this).dialog('close');
+      }
+    },
+    close: function() {
+      $(this).find("input[type=text]").val("");
+    }
+  });
+}
+

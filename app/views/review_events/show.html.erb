@@ -43,7 +43,7 @@
   </div>
 
   <h2>
-    <strong><%= @review_event.name %></strong> 
+    (<%= @review_event.id %>) <strong><%= @review_event.name %></strong> 
     <span class="author">by <%= @review_event.owner.username %></span>
     <div style="clear:both;"></div>
   </h2>
@@ -64,7 +64,10 @@
 </div>
 
 <% if @changeset.nil? %>
-  No changesets
+  <div class="notice">
+    No changesets yet.  Click &quot;Add new changeset&quot; above to create
+    one.
+  </div>
 <% else %>
   <%= render :partial => "status" %>
   <%= render :partial => "files" %>

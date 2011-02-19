@@ -67,12 +67,17 @@ class ReviewEventsController < ApplicationController
 
     respond_to do |format|
       begin
-        up = @review_event.update_attributes(params[:review_event])
+        if current_user != @review_event.owner
+          @review_event.errors.add(:authorization, "Not authorized to modify this review.")
+          success = false
+        else
+          success = @review_event.update_attributes(params[:review_event])
+        end
       rescue ActiveRecord::RecordNotUnique
         @review_event.errors.add(:duplicate, "A user can only be added once to a review.")
       end
 
-      if up
+      if success
         format.html { redirect_to(@review_event, :notice => 'Review event was successfully updated.') }
         format.xml  { head :ok }
       else

@@ -1,4 +1,6 @@
 class ChangesetController < ApplicationController
+  before_filter :authenticate_user!
+
   def create
     @changeset = Changeset.new params[:changeset]
 

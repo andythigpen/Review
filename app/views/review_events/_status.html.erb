@@ -1,15 +1,19 @@
-<div id="changeset_status" class="notice" style="margin-bottom: 1em;">
-  <% if @changeset.submitted %>
-    This revision has been submitted and is awaiting review.
-  <% else %>
-    <%= link_to_function "Submit for Review", 
-        "submit_changeset('#{@changeset.id}');", 
-        :class => "ui-state-default ui-corner-all button right",
-        :style => "margin:0 -0.8em 0 0.8em;" %>
-    This revision has <strong>not</strong> been submitted for review yet.
-    <br /><!-- TODO: helper -->
-    Note: You will not be able to modify this revision once it has been 
-    submitted.
-    <div style="clear:both;"></div>
-  <% end %>
-</div>
+<% if current_user == @changeset.review_event.owner %>
+  <div id="changeset_status" class="notice" style="margin-bottom: 1em;">
+    <% if @changeset.submitted %>
+        This revision has been submitted and is awaiting review.
+    <% else %>
+      <%= link_to_function "Submit for Review", 
+          "submit_changeset('#{@changeset.id}');", 
+          :class => "ui-state-default ui-corner-all button right",
+          :style => "margin:0 -0.8em 0 0.8em;" %>
+      This revision has <strong>not</strong> been submitted for review yet.
+      <br /><!-- TODO: helper -->
+      Note: You will not be able to modify this revision once it has been 
+      submitted.
+      <div style="clear:both;"></div>
+    <% end %>
+  </div>
+<% else %>
+  <!-- TODO: display review acceptance/rejection here -->
+<% end %>

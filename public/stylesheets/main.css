@@ -260,6 +260,13 @@ ul li em {
   margin: 1em 0;
 }
 
+.warning {
+  background: #FFDFBF;
+  border: 1px solid #F2CBA5;
+  padding: 1em;
+  margin: 1em 0;
+}
+
 .box .field {
   margin: 1em 0;
 }

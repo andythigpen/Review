@@ -32,6 +32,14 @@ function setup_comment_hover() {
   ); 
 }
 
+function display_error(error) {
+  $("#error-dialog").html(error).dialog({
+    resizable: false,
+    modal: true,
+    buttons: { "OK": function() { $(this).dialog("close"); } },
+  });
+}
+
 function change_reviewer_autocomplete(event, ui) {
   if (ui.item) {
     $(this).prev("input[type=hidden]").val(ui.item.id).
@@ -99,11 +107,7 @@ function delete_comment(comment_id) {
               $("#comment_"+comment_id).fadeOut();
             }
             else {
-              $("#error-dialog").html(data.error).dialog({
-                resizable: false,
-                modal: true,
-                buttons: { "OK": function() { $(this).dialog("close"); } },
-              });
+              
             }
         }, "json");
       },
@@ -133,17 +137,54 @@ function create_changeset() {
   $("#create-changeset-dialog").dialog({
     modal: true,
     minWidth: 350,
+    title: "Create Changeset",
     buttons: {
       "Create Changeset": function() {
+        $.post("/changeset/create", $(this).children("form").serialize(),
+               function(data, textStatus, jqXHR) {
+                 if (data.status == "ok") {
+                   location.href = "/review_events/"+data.id;
+                 }
+                 else {
+                   display_error(data.errors);
+                 }
+        }, "json");
         $(this).dialog('close');
       },
       "Cancel": function() {
         $(this).dialog('close');
       }
     },
-    close: function() {
+    open: function() {
       $(this).find("input[type=text]").val("");
     }
   });
 }
 
+function submit_changeset(changeset_id) {
+  $("#submit-changeset-dialog").dialog({
+    modal: true,
+    title: "Submit for Review?",
+    buttons: {
+      "Submit": function() {
+        $.post("/changeset/update/"+changeset_id, 
+               $(this).children("form").serialize(),
+               function(data, textStatus, jqXHR) {
+                 if (data.status == "ok") {
+                   $("#changeset_status").fadeOut(function() {
+                     $(this).after(data.content).remove();
+                     $("#changeset_status").hide().fadeIn();
+                   });
+                 }
+                 else {
+                   display_error(data.errors);
+                 }
+          }, "json");
+        $(this).dialog('close');
+      },
+      "Cancel": function() {
+        $(this).dialog('close');
+      }
+    }
+  });
+}

@@ -20,9 +20,10 @@ Review::Application.routes.draw do
         :as => :create_comment, :via => :post
   match "comments/destroy" => "comments#destroy", 
         :as => :destroy_comment, :via => :post
-#get "comments/update"
-#get "comments/show"
-#get "comments/destroy"
+
+  post "changeset/create"
+  post "changeset/update/:id" => "changeset#update"
+  get "changeset/destroy"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

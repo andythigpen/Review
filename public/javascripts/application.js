@@ -222,10 +222,36 @@ function remove_diff(diff_id) {
     title: "Delete Diff",
     buttons: {
       "Delete Diff": function() {
-        $.post("/diffs/"+diff_id, $(this).children("form").serialize(),
+        $.post("/diffs/destroy/"+diff_id, 
+          $(this).children("form").serialize(),
           function(data, textStatus, jqXHR) {
             if (data.status == "ok") {
               location.reload();
+            }
+            else {
+              display_error(data.errors);
+            }
+          }, "json");
+        $(this).dialog('close');
+      },
+      "Cancel": function() {
+        $(this).dialog('close');
+      }
+    }
+  });
+}
+
+function remove_changeset(changeset_id, review_id) {
+  $("#remove-changeset-dialog").dialog({
+    modal: true,
+    title: "Delete Changeset",
+    buttons: {
+      "Delete Changeset": function() {
+        $.post("/changeset/destroy/"+changeset_id, 
+          $(this).children("form").serialize(),
+          function(data, textStatus, jqXHR) {
+            if (data.status == "ok") {
+              location.href = "/review_events/"+review_id;
             }
             else {
               display_error(data.errors);

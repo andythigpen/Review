@@ -23,6 +23,10 @@
   <% end %>
 </div>
 
+<div id="remove-changeset-dialog" class="hidden">
+  Are you sure you wish to remove this changeset?
+</div>
+
 <% if not @changeset.nil? %>
   <div id="add-diff-dialog" class="hidden">
     <div class="info">Create a unified diff with the command

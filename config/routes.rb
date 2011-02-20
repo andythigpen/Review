@@ -23,10 +23,10 @@ Review::Application.routes.draw do
 
   post "changeset/create"
   post "changeset/update/:id" => "changeset#update"
-  get "changeset/destroy"
+  post "changeset/destroy/:id" => "changeset#destroy"
 
   post "diffs/create"
-  post "diffs/:id" => "diffs#destroy"
+  post "diffs/destroy/:id" => "diffs#destroy"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

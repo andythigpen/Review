@@ -13,8 +13,14 @@
       </li>
     <% end %>
     <% if current_user == @review_event.owner %>
-      <li class="changeset"><%= link_to_function "Add new changeset", 
-                                "create_changeset(this);" %></li>
+      <li class="changeset">
+        <%= link_to_function "Add new changeset", 
+            "create_changeset(this);" %>
+        <% if not @changeset.submitted %>
+          | <%= link_to_function "Remove this changeset",
+                "remove_changeset('#{@changeset.id}', '#{@review_event.id});" %>
+        <% end %>
+        </li>
     <% end %>
   </ol>
 </p>

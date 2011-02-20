@@ -1,18 +1,28 @@
 <a name="files"></a>
 <div class="files">
-  <strong>Files:</strong>
+  <div style="margin-bottom:1em;">
+    <strong>Files:</strong>
+    <% if not @changeset.submitted %>
+      <%= link_to_js "add_new_diff();", :class => "right" do %>
+        <span class="ui-icon ui-icon-plus inline-icon"></span>Add New Diff
+      <% end %>
+    <% end %>
+    <div style="clear:both; margin-bottom:0.5em;"></div>
+  </div>
+
   <ul>
     <% @changeset.diffs.each do |d| %>
       <li><a href="#file_<%= d.id %>">
         <span class="ui-icon ui-icon-document left"></span> 
         <%= d.updated_file %></a>
+        <% if not @changeset.submitted %>
+          <%= link_to_js "remove_diff('#{d.id}');", :class => "right" do %>
+            <span class="ui-icon ui-icon-close inline-icon"></span>Delete
+          <% end %>
+        <% end %>
       </li>
     <% end %>
   </ul>
-  <% if not @changeset.submitted %>
-    <%= link_to "Add New Diff", :new_diff, 
-        :class => "ui-state-default ui-corner-all button" %>
-  <% end %>
 </div>
 
 

@@ -23,6 +23,29 @@
   <% end %>
 </div>
 
+<% if not @changeset.nil? %>
+  <div id="add-diff-dialog" class="hidden">
+    <div class="info">Create a unified diff with the command
+    <pre>diff -ru &lt;old&gt; &lt;new&gt;</pre>
+    and paste its contents here:</div>
+    <%= form_for :diff do |f| %>
+      <%= f.hidden_field :changeset_id, :value => @changeset.id %>
+      <%= f.label :contents, :value => "Diff" %>
+      <%= f.text_area :contents, :rows => 5, 
+          :class => "text ui-corner-all ui-widget-content",
+          :style => "width:97%" %>
+    <% end %>
+  </div>
+
+  <div id="remove-diff-dialog" class="hidden">
+    Are you sure you wish to remove this diff?
+  </div>
+<% end %>
+
+<% if not @changeset.nil? %>
+  <%= render :partial => "status" %>
+<% end %>
+
 <div class="review">
   <div style="float:right; padding:0.2em 0.2em 0;">
     <% if current_user == @review_event.owner %>
@@ -69,7 +92,6 @@
     one.
   </div>
 <% else %>
-  <%= render :partial => "status" %>
   <%= render :partial => "files" %>
   <%= render :partial => "diffs" %>
 <% end %>

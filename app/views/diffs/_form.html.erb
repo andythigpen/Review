@@ -1,7 +1,8 @@
 <%= form_for(@diff) do |f| %>
   <% if @diff.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@diff.errors.count, "error") %> prohibited this diff from being saved:</h2>
+      <h2><%= pluralize(@diff.errors.count, "error") %> 
+      prohibited this diff from being saved:</h2>
 
       <ul>
       <% @diff.errors.full_messages.each do |msg| %>
@@ -11,7 +12,14 @@
     </div>
   <% end %>
 
-  <div class="actions">
-    <%= f.submit %>
+  <div class="field">
+    <%= f.label "Diff" %>
+    <%= f.text_area :contents, :rows => 5, 
+        :class => "text ui-corner-all ui-widget-content" %>
+  </div>
+
+  <div class="actions field">
+    <%= f.submit :value => submit_value, 
+        :class => "ui-corner-all ui-state-default button" %>
   </div>
 <% end %>

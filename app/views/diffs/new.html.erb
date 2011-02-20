@@ -1,5 +1,9 @@
-<h1>New diff</h1>
+<% content_for :page_name, "New Diff" %>
 
-<%= render 'form' %>
+<div class="ui-widget ui-corner-top box">
+  <h1><strong>New Diff</strong></h1>
 
-<%= link_to 'Back', diffs_path %>
+  <div>
+    <%= render :partial => 'form', :locals => { :submit_value => "Create" } %>
+  </div>
+</div>

@@ -1,7 +1,8 @@
 <%= form_for(@review_event) do |f| %>
   <% if @review_event.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@review_event.errors.count, "error") %> prohibited this review_event from being saved:</h2>
+      <h2><%= pluralize(@review_event.errors.count, "error") %> 
+      prohibited this review_event from being saved:</h2>
 
       <ul>
       <% @review_event.errors.full_messages.each do |msg| %>
@@ -13,12 +14,14 @@
 
   <div class="field">
     <%= f.label "Name" %>
-    <%= f.text_field :name, :style => "width:20em;", :class => "text ui-corner-all ui-widget-content" %>
+    <%= f.text_field :name, :style => "width:20em;", 
+        :class => "text ui-corner-all ui-widget-content" %>
   </div>
 
   <div class="field">
     <%= f.label "Notes" %>
-    <%= f.text_area :notes, :rows => 5, :class => "text ui-corner-all ui-widget-content" %>
+    <%= f.text_area :notes, :rows => 5, 
+        :class => "text ui-corner-all ui-widget-content" %>
   </div>
 
   <div class="field">
@@ -31,6 +34,7 @@
   </div>
 
   <div class="actions field">
-    <%= f.submit :value => submit_value, :class => "ui-corner-all ui-state-default button" %>
+    <%= f.submit :value => submit_value, 
+        :class => "ui-corner-all ui-state-default button" %>
   </div>
 <% end %>

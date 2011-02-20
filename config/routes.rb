@@ -6,7 +6,7 @@ Review::Application.routes.draw do
 
   root :to => "home#index"
 
-  resources :diffs
+#resources :diffs
   resources :review_events
 
   match "reviewer/:review_event_id/:user_id" => "review_event_user#destroy",
@@ -24,6 +24,9 @@ Review::Application.routes.draw do
   post "changeset/create"
   post "changeset/update/:id" => "changeset#update"
   get "changeset/destroy"
+
+  post "diffs/create"
+  post "diffs/:id" => "diffs#destroy"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

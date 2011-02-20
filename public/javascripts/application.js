@@ -170,16 +170,66 @@ function submit_changeset(changeset_id) {
       "Submit": function() {
         $.post("/changeset/update/"+changeset_id, 
                $(this).children("form").serialize(),
-               function(data, textStatus, jqXHR) {
-                 if (data.status == "ok") {
-                   $("#changeset_status").fadeOut(function() {
-                     $(this).after(data.content).remove();
-                     $("#changeset_status").hide().fadeIn();
-                   });
-                 }
-                 else {
-                   display_error(data.errors);
-                 }
+          function(data, textStatus, jqXHR) {
+            if (data.status == "ok") {
+              /*$("#changeset_status").fadeOut(function() {
+                $(this).after(data.content).remove();
+                $("#changeset_status").hide().fadeIn();
+              });*/
+              location.reload();
+            }
+            else {
+              display_error(data.errors);
+            }
+          }, "json");
+        $(this).dialog('close');
+      },
+      "Cancel": function() {
+        $(this).dialog('close');
+      }
+    }
+  });
+}
+
+function add_new_diff() {
+  $("#add-diff-dialog").dialog({
+    modal: true,
+    minWidth: 450,
+    title: "Add Diff",
+    buttons: {
+      "Add Diff": function() {
+        $.post("/diffs/create", $(this).children("form").serialize(),
+          function(data, textStatus, jqXHR) {
+            if (data.status == "ok") {
+              location.reload();
+            }
+            else {
+              display_error(data.errors);
+            }
+          }, "json");
+        $(this).dialog('close');
+      },
+      "Cancel": function() {
+        $(this).dialog('close');
+      }
+    }
+  });
+}
+
+function remove_diff(diff_id) {
+  $("#remove-diff-dialog").dialog({
+    modal: true,
+    title: "Delete Diff",
+    buttons: {
+      "Delete Diff": function() {
+        $.post("/diffs/"+diff_id, $(this).children("form").serialize(),
+          function(data, textStatus, jqXHR) {
+            if (data.status == "ok") {
+              location.reload();
+            }
+            else {
+              display_error(data.errors);
+            }
           }, "json");
         $(this).dialog('close');
       },

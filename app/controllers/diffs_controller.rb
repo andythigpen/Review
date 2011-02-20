@@ -1,85 +1,49 @@
 class DiffsController < ApplicationController
   before_filter :authenticate_user!
   
-  # GET /diffs
-  # GET /diffs.xml
-  def index
-    @diffs = Diff.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @diffs }
-    end
-  end
-
-  # GET /diffs/1
-  # GET /diffs/1.xml
-  def show
-    @diff = Diff.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @diff }
-    end
-  end
-
-  # GET /diffs/new
-  # GET /diffs/new.xml
-  def new
-    @diff = Diff.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @diff }
-    end
-  end
-
-  # GET /diffs/1/edit
-  def edit
-    @diff = Diff.find(params[:id])
-  end
-
-  # POST /diffs
-  # POST /diffs.xml
   def create
-    @diff = Diff.new(params[:diff])
+    contents = params[:diff][:contents]
+    diff_params = params[:diff].clone #{ :content => "" }
+    diff_params[:contents] = ""
+    diff_started = false
+    contents.each do |line|
+      if line =~ /^---\s+([\w+\/\\]+)/
+        if diff_started
+          @diff = Diff.new diff_params
+          break if not @diff.save
+          diff_params[:contents] = ""
+        end
+        diff_params[:origin_file] = $1
+        diff_started = true
+      elsif line =~ /^\+\+\+\s+([\w+\/\\]+)/
+        diff_params[:updated_file] = $1
+      elsif line =~ /^(\+|-| |@)/
+        diff_params[:contents] += line
+      end
+    end
+    if diff_params[:contents].size > 0
+      @diff = Diff.new diff_params
+      @diff.save
+    end
+#    @diff = Diff.new params[:diff]
 
     respond_to do |format|
-      if @diff.save
-        format.html { redirect_to(@diff, :notice => 'Diff was successfully created.') }
-        format.xml  { render :xml => @diff, :status => :created, :location => @diff }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @diff.errors, :status => :unprocessable_entity }
+      if @diff.errors.size > 0
+        format.json { render :json => { :status => "error", 
+                                        :errors => @diff.errors } }
+      else 
+        format.json { render :json => { :status => "ok", 
+                                        :id => @diff.id } }
       end
     end
   end
 
-  # PUT /diffs/1
-  # PUT /diffs/1.xml
-  def update
-    @diff = Diff.find(params[:id])
-
-    respond_to do |format|
-      if @diff.update_attributes(params[:diff])
-        format.html { redirect_to(@diff, :notice => 'Diff was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @diff.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /diffs/1
-  # DELETE /diffs/1.xml
   def destroy
     @diff = Diff.find(params[:id])
     @diff.destroy
-
+    
     respond_to do |format|
-      format.html { redirect_to(diffs_url) }
-      format.xml  { head :ok }
+      format.json { render :json => { :status => "ok" } }
     end
   end
 end

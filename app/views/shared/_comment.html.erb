@@ -13,7 +13,7 @@
           <span class="ui-icon ui-icon-arrowreturnthick-1-w inline-icon"></span>Reply
         <% end %>
       <% elsif comment.comments.size == 0 %>
-        <a href="#" onclick="delete_comment('#{comment.id}'); return false;">
+        <a href="#" onclick="delete_comment('<%= comment.id %>'); return false;">
           <span class="ui-icon ui-icon-close inline-icon"></span>Delete</a> 
       <% end %>
     </div>

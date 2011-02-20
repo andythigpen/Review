@@ -1,44 +1,42 @@
-<!--<p class="notice ui-corner-all">
-  Welcome <%= current_user.username %>.
-  <span class="right">
-    <a href="#"><span class="ui-icon ui-icon-mail-closed left"></span>No new messages</a>
-  </span>
-</p>-->
 
 <% if current_user.sign_in_count == 1 %>
-<div class="info ui-corner-all">
-  <a href="#" class="button ui-corner-all ui-state-default" style="float:right; margin-left:1em;">Hide</a>
-  <span style="font-size:1.5em;">Getting Started is Easy</span>.<br />
-  <ul style="margin-left:2em;">
-    <li style="list-style:circle;">Try out this <a href="#">tutorial</a> that will guide you 
-      through submitting your first changeset for others to review.
-    </li>
-    <li style="list-style:circle;">To get the most out of using <strong>Review</strong>, 
-      <a href="#">download</a> the accompanying command line utility that 
-      will help you submit changesets for others to review.  You can also
-      submit changesets directly through this website by clicking the
-      Add button next to <em>My Pending Reviews</em> below to create a new
-      review request.
-    </li> 
-  </ul>
-  <!--To get started, you can download the Review 
-  utility by clicking the download button for your OS below.  The Review 
-  utility will help in submitting change sets for others to review.  
-  Changes can also be submitted manually via this website.<br />
-  For more information on how to use the utility, visit the 
-  <a href="#">utility</a> page.
-  <div style="text-align:center; padding:1em;">
-    <a href="#" style="margin:0.8em;"><img src="/images/windows-logo.png" /></a>
-    <a href="#" style="margin:0.8em;"><img src="/images/linux-logo.png" /></a>
-    <a href="#" style="margin:0.8em;"><img src="/images/apple-logo.png" /></a>
-  </div>-->
-</div>
+  <div class="info ui-corner-all">
+    <a href="#" class="button ui-corner-all ui-state-default" 
+       style="float:right; margin-left:1em;">Hide</a>
+    <span style="font-size:1.5em;">Getting Started is Easy</span>.<br />
+    <ul style="margin-left:2em;">
+      <li style="list-style:circle;">Try out this <a href="#">tutorial</a> 
+        that will guide you through submitting your first changeset for 
+        others to review.
+      </li>
+      <li style="list-style:circle;">To get the most out of using 
+        <strong>Review</strong>, 
+        <a href="#">download</a> the accompanying command line utility that 
+        will help you submit changesets for others to review.  You can also
+        submit changesets directly through this website by clicking the
+        Add button next to <em>My Pending Reviews</em> below to create a new
+        review request.
+      </li> 
+    </ul>
+    <!--To get started, you can download the Review 
+    utility by clicking the download button for your OS below.  The Review 
+    utility will help in submitting change sets for others to review.  
+    Changes can also be submitted manually via this website.<br />
+    For more information on how to use the utility, visit the 
+    <a href="#">utility</a> page.
+    <div style="text-align:center; padding:1em;">
+      <a href="#" style="margin:0.8em;"><img src="/images/windows-logo.png" /></a>
+      <a href="#" style="margin:0.8em;"><img src="/images/linux-logo.png" /></a>
+      <a href="#" style="margin:0.8em;"><img src="/images/apple-logo.png" /></a>
+    </div>-->
+  </div>
 <% end %>
 
 <div class="ui-widget ui-corner-top box">
   <h1>My Review Requests</h1>
 
-  <% if current_user.sign_in_count == 1 %>
+  <% if current_user.sign_in_count == 1 and 
+        current_user.current_requests.size == 0 %>
     <div style="font-size:0.9em;">
       <span class="ui-icon ui-icon-info" style="float:left; margin-right:0.3em;"></span>
       <strong>You don't have any review requests yet</strong>... 
@@ -48,7 +46,8 @@
     </div>
   <% else %>
     <ul>
-      <% current_user.review_requests.each do |r| %>
+      <% requests = 0 %>
+      <% current_user.current_requests.each do |r| %>
         <li class="ui-corner-all">
           <%= link_to "#{r.name}", review_event_path(r.id) %>
           <span class="author">by <%= r.owner.username %></span>
@@ -56,6 +55,8 @@
       <% end %>
       <% if current_user.review_requests.size == 0 %>
         <li><em>No one has requested you review their code yet.</em></li>
+      <% elsif current_user.current_requests.size == 0 %>
+        <li><em>No review requests at this time.</em></li>
       <% end %>
 
   <!--    <li class="ui-corner-all"><span class="ui-icon ui-icon-carat-1-e" style="float:left; margin-right:0.3em"></span>
@@ -74,7 +75,8 @@
     <% end %>
   </h1>
 
-  <% if current_user.sign_in_count == 1 %>
+  <% if current_user.sign_in_count == 1 and 
+        current_user.reviews_owned.size == 0 %>
     <div style="font-size:0.9em;">
       <span class="ui-icon ui-icon-info" style="float:left; margin-right:0.3em;"></span>
       <strong>You haven't made any review requests yet</strong>... 

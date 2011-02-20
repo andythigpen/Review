@@ -23,9 +23,9 @@
       <% type = "" %>
       <% total_line = 0 %>
       <% d.contents.lines.to_a.each do |line| %>
-        <% if line =~ /^@@\s+-(\d+),(\d+)\s+\+(\d+),(\d+)\s+@@/ %>
+        <% if line =~ /^@@\s+-(\d+)(,(\d+))*\s+\+(\d+)(,(\d+))*\s+@@/ %>
           <% lineno_left = $1.to_i 
-             lineno_right = $3.to_i 
+             lineno_right = $4.to_i 
              line_text_left = line_text_right = "..." 
              type = "lineno" %>
         <% elsif line =~ /^\+/ %>

@@ -23,4 +23,12 @@ module ApplicationHelper
     self.formats = old_formats
     nil
   end
+
+  def link_to_js(func, *args, &block)
+    if block_given?
+      inner = capture(&block).html_safe
+    end
+    html_options = args.extract_options!.symbolize_keys
+    link_to_function(inner, func, html_options)
+  end
 end

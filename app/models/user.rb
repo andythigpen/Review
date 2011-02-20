@@ -13,4 +13,15 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :username
+
+  def current_requests
+    res = []
+    self.review_requests.each do |r|
+      latest = r.changesets.last
+      next if latest.nil? or not latest.submitted
+      yield r if block_given?
+      res.push(r)
+    end
+    res
+  end
 end

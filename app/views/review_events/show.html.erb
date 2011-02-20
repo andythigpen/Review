@@ -42,10 +42,6 @@
   </div>
 <% end %>
 
-<% if not @changeset.nil? %>
-  <%= render :partial => "status" %>
-<% end %>
-
 <div class="review">
   <div style="float:right; padding:0.2em 0.2em 0;">
     <% if current_user == @review_event.owner %>
@@ -92,6 +88,7 @@
     one.
   </div>
 <% else %>
+  <%= render :partial => "status" %>
   <%= render :partial => "files" %>
   <%= render :partial => "diffs" %>
 <% end %>

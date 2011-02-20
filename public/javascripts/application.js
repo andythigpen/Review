@@ -171,10 +171,11 @@ function submit_changeset(changeset_id) {
                $(this).children("form").serialize(),
           function(data, textStatus, jqXHR) {
             if (data.status == "ok") {
-              $("#changeset_status").fadeOut(function() {
+              /*$("#changeset_status").fadeOut(function() {
                 $(this).after(data.content).remove();
                 $("#changeset_status").hide().fadeIn();
-              });
+              });*/
+              location.reload();
             }
             else {
               display_error(data.errors);

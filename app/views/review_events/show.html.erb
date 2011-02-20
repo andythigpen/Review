@@ -49,6 +49,10 @@
   </h2>
 
   <div style="width:50%; display:inline-block; vertical-align:top;">
+    <p><strong>Due Date:</strong>&nbsp;&nbsp;
+      <%= @review_event.duedate.to_date %>
+    </p>
+
     <p><strong>Reviewers:</strong>&nbsp;&nbsp;
       <%= @review_event.reviewers.map { |u| u.username }.join(", ") %>
     </p>

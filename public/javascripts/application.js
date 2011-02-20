@@ -8,6 +8,7 @@ $(document).ready(function() {
       $(this).find(".add-comment-button").animate({'opacity':0.0}, 100); 
     }
   );
+  $(".datepicker").datepicker();
   
   setup_button_hover();
   setup_comment_hover();

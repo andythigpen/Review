@@ -12,10 +12,18 @@
     </div>
   <% end %>
 
+  <%= f.hidden_field :user_id, :value => current_user.id %>
+
   <div class="field">
     <%= f.label "Name" %>
     <%= f.text_field :name, :style => "width:20em;", 
         :class => "text ui-corner-all ui-widget-content" %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Due Date" %>
+    <%= f.text_field :duedate, :style => "width:20em;",
+        :class => "text ui-corner-all ui-widget-content datepicker" %>
   </div>
 
   <div class="field">

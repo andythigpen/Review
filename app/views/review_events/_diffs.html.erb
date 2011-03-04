@@ -51,7 +51,7 @@
           <td class="lineno-right"><%= line_text_right %></td>
           <td>
             <%= add_comment_button d, "#line_comment_#{d.id}_#{total_line}",
-                :class => "add-comment-button" do %>
+                total_line, :class => "add-comment-button" do %>
               <span class="ui-icon ui-icon-plus left"></span>
               <span class="ui-icon ui-icon-comment left"></span>
             <% end %>

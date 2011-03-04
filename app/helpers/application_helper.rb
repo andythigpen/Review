@@ -2,12 +2,17 @@ module ApplicationHelper
   def add_comment_button(commentable, location, *args, &block)
     if block_given?
       inner = capture(&block)
-    elsif args[0].class == String
-      inner = args[0]
     end
     inner = "Add Comment" if inner.nil?
+
+    if not args[0].nil? and args[0].class != Hash
+      lineno = args[0]
+    end
+    lineno = nil if not defined? lineno 
+
     html_options = args.extract_options!.symbolize_keys
-    content = render("shared/comment_form", :commentable => commentable)
+    content = render("shared/comment_form", :commentable => commentable, 
+                     :lineno => lineno)
     href = "#"
     onclick = "add_comment_form('#{location}', '#{escape_javascript(content)}');return false;"
 #"<a href=\"#\" onclick=\"".html_safe() + "#{onclick}" + "\">#{inner}</a>".html_safe

@@ -17,7 +17,7 @@
         <a href="#">download</a> the accompanying command line utility that 
         will help you submit changesets for others to review.  You can also
         submit changesets directly through this website by clicking the
-        Add button next to <em>My Pending Reviews</em> below to create a new
+        Add button next to <em>My Reviews</em> below to create a new
         review request.
       </li> 
     </ul>
@@ -84,7 +84,7 @@
 </div>
 
 <div class="ui-widget ui-corner-top box">
-  <h1>My Pending Reviews
+  <h1>My Reviews
     <!--<a href="#" class="ui-corner-all ui-state-default button"><span class="ui-icon ui-icon-circle-plus left"></span>Add</a>-->
     <%= link_to new_review_event_path, :class => "ui-corner-all ui-state-default button" do %>
       <span class="ui-icon ui-icon-circle-plus left"></span>Add
@@ -116,6 +116,16 @@
               <% elsif r.changesets.last.accepted? %>
                 <span class="ui-corner-all accepted" 
                       style="padding:0.2em 0.5em;margin:0;">Accepted</span>
+              <% elsif not r.duedate.nil? %>
+                <% extra = "neardue" if (r.duedate.to_date - 2).past? %>
+                <% extra = "overdue" if r.duedate.to_date.past? %>
+                <% countdown = r.duedate.to_date - DateTime.now.to_date %>
+                <span class="ui-corner-all <%= extra %>"
+                      style="padding:0.2em 0.5em; display:inline-block;">
+                  due <%= "in" if countdown > 0 %> 
+                  <%= countdown == 0 ? "today" : countdown.abs.days.inspect %>
+                  <%= "ago" if countdown < 0 %>
+                </span>
               <% end %>
             <% end %>
           </div>

@@ -16,7 +16,7 @@
       <li class="changeset">
         <%= link_to_function "Add new changeset", 
             "create_changeset(this);" %>
-        <% if not @changeset.submitted %>
+        <% if not @changeset.nil? and not @changeset.submitted %>
           | <%= link_to_function "Remove this changeset",
                 "remove_changeset('#{@changeset.id}', '#{@review_event.id});" %>
         <% end %>

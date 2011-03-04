@@ -21,6 +21,9 @@ class ReviewEventsController < ApplicationController
     else
       @changeset = @review_event.changesets.last
     end
+    if not @changeset.nil?
+      @status = @changeset.statuses.find_by_user_id(current_user.id)
+    end
 
     respond_to do |format|
       format.html # show.html.erb
@@ -94,6 +97,7 @@ class ReviewEventsController < ApplicationController
     @review_event.destroy
 
     respond_to do |format|
+      format.json { render :json => { :status => "ok" } }
       format.html { redirect_to(review_events_url) }
       format.xml  { head :ok }
     end

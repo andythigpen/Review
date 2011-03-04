@@ -27,6 +27,8 @@
   Are you sure you wish to remove this changeset?
 </div>
 
+<div id="status-changeset-dialog" class="hidden"></div>
+
 <% if not @changeset.nil? %>
   <div id="add-diff-dialog" class="hidden">
     <div class="info">Create a unified diff with the command
@@ -53,15 +55,17 @@
           :class => "ui-state-default ui-corner-all button" do %>
         <span class="ui-icon ui-icon-pencil left"></span>Edit
       <% end %>
-    <% else %>
-      <a href="#" class="ui-state-default ui-corner-all button">
+    <% elsif @status.nil? %>
+      <%= link_to_js "submit_changeset_status('#{@changeset.id}', '#{current_user.id}', true);",
+          :class => "ui-state-default ui-corner-all button" do %>
         <span class="ui-icon ui-icon-check left"></span>
         Accept
-      </a>
-      <a href="#" class="ui-state-default ui-corner-all button">
+      <% end %>
+      <%= link_to_js "submit_changeset_status('#{@changeset.id}', '#{current_user.id}', false);",
+          :class => "ui-state-default ui-corner-all button" do %>
         <span class="ui-icon ui-icon-closethick left"></span>
         Reject
-      </a>
+      <% end %>
     <% end %>
   </div>
 

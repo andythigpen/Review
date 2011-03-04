@@ -28,6 +28,8 @@ Review::Application.routes.draw do
   post "diffs/create"
   post "diffs/destroy/:id" => "diffs#destroy"
 
+  post "changeset/status" => "changeset_user_status#update"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

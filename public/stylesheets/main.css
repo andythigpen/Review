@@ -96,7 +96,7 @@ ul {
 }
 
 .overdue {
-  background: #ED4545;
+  background: #F27979;
   color: #fff;
 }
 
@@ -109,7 +109,7 @@ ul {
 }
 
 .neardue {
-  background: #F3EB7F;
+  background: #F5F4B0;
 }
 
 .neardue a {
@@ -118,6 +118,16 @@ ul {
 
 .neardue .author {
   color: #777;
+}
+
+.review-event {
+  padding: 0.3em;
+}
+
+.review-event-actions {
+  display: inline-block; 
+  vertical-align: middle;
+  opacity: 0.0;
 }
 
 .box {
@@ -256,13 +266,20 @@ ul li em {
 .info {
   background: #E3F2FC;
   border: 1px solid #BDDCF0;
-  padding: 1em;
-  margin: 1em 0;
 }
 
-.warning {
-  background: #FFDFBF;
-  border: 1px solid #F2CBA5;
+.rejected {
+  background: #F57373;
+  border: 1px solid #CC1F1F;
+  color: #fff;
+}
+
+.accepted {
+  background: #ACFAB7;
+  border: 1px solid #7ef28c;
+}
+
+.accepted, .rejected, .info {
   padding: 1em;
   margin: 1em 0;
 }

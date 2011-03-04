@@ -18,7 +18,10 @@ class User < ActiveRecord::Base
     res = []
     self.review_requests.each do |r|
       latest = r.changesets.last
+      # filter out those without changesets or submitted changesets
       next if latest.nil? or not latest.submitted
+      # filter out those with submitted statuses by this user
+      next if latest.statuses.nil? or not latest.statuses.find_by_user_id(self.id).nil?
       yield r if block_given?
       res.push(r)
     end

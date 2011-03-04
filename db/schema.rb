@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110219030802) do
+ActiveRecord::Schema.define(:version => 20110221234005) do
 
   create_table "changeset_user_statuses", :force => true do |t|
     t.boolean  "accepted"
@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(:version => 20110219030802) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "changeset_user_statuses", ["user_id", "changeset_id"], :name => "index_changeset_user_statuses_on_user_id_and_changeset_id", :unique => true
 
   create_table "changesets", :force => true do |t|
     t.string   "name"

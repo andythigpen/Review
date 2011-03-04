@@ -1,7 +1,27 @@
 <% if current_user == @changeset.review_event.owner %>
-  <div id="changeset_status" class="notice" style="margin-bottom: 1em;">
+  <% if @changeset.accepted? 
+       status = "accepted"
+     elsif @changeset.rejected?
+       status = "rejected"
+     else
+       status = "notice"
+     end %>
+  <div id="changeset_status" class="<%= status %>" 
+      style="margin-bottom: 1em; margin-top: -1em; border-top:none;">
     <% if @changeset.submitted %>
+      <% if status == "accepted" %>
+        <%= image_tag "accept.png", 
+            :style => "vertical-align:middle; margin-right:0.3em" %>
+        <strong>Accepted</strong>: Congratulations! This changeset has 
+        been accepted by your peers.
+      <% elsif status == "rejected" %>
+        <%= image_tag "reject.png", 
+            :style => "vertical-align:middle; margin-right:0.3em" %>
+        <strong>Rejected</strong>: Sorry, but this changeset needs some 
+        work before it can be accepted.
+      <% else %>
         This revision has been submitted and is awaiting review.
+      <% end %>
     <% else %>
       <%= link_to_function "Submit for Review", 
           "submit_changeset('#{@changeset.id}');", 
@@ -15,5 +35,19 @@
     <% end %>
   </div>
 <% else %>
-  <!-- TODO: display review acceptance/rejection here -->
+  <% if not @status.nil? %>
+    <% status = @status.accepted ? "accepted" : "rejected" %>
+    <div id="changeset_status" class="<%= status %>"
+      style="margin-bottom: 1em; margin-top: -1em; border-top:none;">
+      <% if @status.accepted %>
+        <%= image_tag "accept.png", 
+            :style => "vertical-align:middle; margin-right:0.3em" %>
+        <strong>Accepted</strong>: You accepted this changeset.
+      <% else %>
+        <%= image_tag "reject.png", 
+            :style => "vertical-align:middle; margin-right:0.3em" %>
+        <strong>Rejected</strong>: You rejected this changeset.
+      <% end %>
+    </div>
+  <% end %>
 <% end %>

@@ -9,6 +9,15 @@ $(document).ready(function() {
     }
   );
   $(".datepicker").datepicker();
+  $(".review-event").hover(
+    function() { 
+      $(this).find(".review-event-actions").animate({'opacity':1.0}, 100); 
+    },
+    function() { 
+      $(this).find(".review-event-actions").animate({'opacity':0.0}, 100); 
+    }
+  );
+
   
   setup_button_hover();
   setup_comment_hover();
@@ -265,3 +274,62 @@ function remove_changeset(changeset_id, review_id) {
     }
   });
 }
+
+function submit_changeset_status(changeset_id, user_id, accepted) {
+  var statusText = accepted ? "Accept" : "Reject";
+  var buttons = {};
+  buttons[statusText] = function() {
+    $.post("/changeset/status", { 
+        changeset_user_status: {
+          changeset_id: changeset_id,
+          user_id: user_id,
+          accepted: accepted
+        }
+      },
+      function(data, textStatus, jqXHR) {
+        if (data.status == "ok") {
+          location.reload();
+        }
+        else {
+          display_error(data.errors);
+        }
+    }, "json");
+    $(this).dialog('close');
+  };
+  buttons["Cancel"] = function() {
+    $(this).dialog('close');
+  };
+  $("#status-changeset-dialog").html("Are you sure you wish to "+
+      statusText.toLowerCase()+" this changeset?").
+    dialog({
+      modal: true,
+      title: "Update Status",
+      buttons: buttons,
+  });
+}
+
+function remove_review_event(loc, event_id) {
+  $("#remove-review-dialog").dialog({
+    modal: true,
+    title: "Remove Review Event",
+    buttons: {
+      "Remove": function() {
+        $.ajax({
+          url: "/review_events/"+event_id,
+          type: "DELETE",
+          dataType: "json",
+          success: function(msg) {
+            if (msg.status == "ok") {
+              $(loc).parents(".review-event").fadeOut();
+            }
+          }
+        });
+        $(this).dialog('close');
+      },
+      "Cancel": function() {
+        $(this).dialog('close');
+      }
+    }
+  });
+}
+

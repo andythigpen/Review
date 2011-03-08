@@ -4,11 +4,11 @@
 </div>
 <% if current_user.sign_in_count == 1 %>
   <div class="info ui-corner-all">
-    <a href="#" class="button ui-corner-all ui-state-default" 
-       style="float:right; margin-left:1em;">Hide</a>
+    <!--<a href="#" class="button ui-corner-all ui-state-default" 
+      style="float:right; margin-left:1em;">Hide</a>-->
     <span style="font-size:1.5em;">Getting Started is Easy</span>.<br />
     <ul style="margin-left:2em;">
-      <li style="list-style:circle;">Try out this <a href="#">tutorial</a> 
+      <!--<li style="list-style:circle;">Try out this <a href="#">tutorial</a> 
         that will guide you through submitting your first changeset for 
         others to review.
       </li>
@@ -19,19 +19,17 @@
         submit changesets directly through this website by clicking the
         Add button next to <em>My Reviews</em> below to create a new
         review request.
-      </li> 
+        </li> -->
+      <li style="list-style:circle;">Create a new review event by clicking the
+        Add button next to &quot;My Reviews&quot; below.</li>
+      <li style="list-style:circle;">Add reviewers and set a due date for your
+        review.</li>
+      <li style="list-style:circle;">Add a changeset to your review.  A
+        changeset is a collection of unified diffs.</li>
+      <li style="list-style:circle;">Submit your changeset for review.</li>
+      <li style="list-style:circle;">...</li>
+      <li style="list-style:circle;">Profit???</li>
     </ul>
-    <!--To get started, you can download the Review 
-    utility by clicking the download button for your OS below.  The Review 
-    utility will help in submitting change sets for others to review.  
-    Changes can also be submitted manually via this website.<br />
-    For more information on how to use the utility, visit the 
-    <a href="#">utility</a> page.
-    <div style="text-align:center; padding:1em;">
-      <a href="#" style="margin:0.8em;"><img src="/images/windows-logo.png" /></a>
-      <a href="#" style="margin:0.8em;"><img src="/images/linux-logo.png" /></a>
-      <a href="#" style="margin:0.8em;"><img src="/images/apple-logo.png" /></a>
-    </div>-->
   </div>
 <% end %>
 
@@ -139,8 +137,9 @@
       <% end %>
       <% if current_user.reviews_owned.size == 0 %>
         <li><em>You haven't submitted any code for review yet!
-            <a href="#">Download</a> the utility to submit new changesets or
-            click the Add button above.</a>
+         Click the &quot;Add&quot; button above to create a new review event.
+            <!--<a href="#">Download</a> the utility to submit new changesets or
+            click the Add button above.</a>-->
            </em></li>
       <% end %>
       <!--<li class="ui-corner-all neardue"><span class="ui-icon ui-icon-carat-1-e" style="float:left; margin-right:0.3em"></span>
@@ -150,15 +149,15 @@
   <% end %>
 </div>
 
-<div class="ui-widget ui-corner-top box">
+<!--<div class="ui-widget ui-corner-top box">
   <h1>Recent Activity</h1>
   <ul>
     <li><em>No recent activity.</em></li>
-    <!--<li class="ui-corner-all neardue"><span class="ui-icon ui-icon-carat-1-e" style="float:left; margin-right:0.3em"></span>
+    <li class="ui-corner-all neardue"><span class="ui-icon ui-icon-carat-1-e" style="float:left; margin-right:0.3em"></span>
     <a href="#">Super awesome stuff</a> <span class="author">by Andrew Thigpen</span></li>
-    <li></li>-->
+    <li></li>
   </ul>
-</div>
+</div>-->
 
 <!--<div class="ui-widget ui-corner-top box">
   <h1>Recent Reviews</h1>

@@ -84,9 +84,10 @@ function remove_reviewer(reviewer) {
 function add_reviewer(link, content) {
   var now = new Date().getTime();
   var re = new RegExp("new_review_event_user", "g");
-  $(link).prev("table").append("<tr><td colspan=\"2\">"+content.replace(re, now)+"</td></tr>");
+  $(link).prevUntil("table").append("<tr><td colspan=\"2\">"+content.replace(re, now)+"</td></tr>");
   setup_reviewer_autocomplete();
-  $(link).prev("table").find("input[type=text]:last").focus();
+  $(link).prevUntil("table").find("input[type=text]:last").focus();
+  $(link).prev(".info").show();
 }
 
 function submit_comment(loc) {
@@ -153,7 +154,7 @@ function create_changeset() {
         $.post("/changeset/create", $(this).children("form").serialize(),
                function(data, textStatus, jqXHR) {
                  if (data.status == "ok") {
-                   location.href = "/review_events/"+data.id;
+                   location.href += "?changeset="+data.id;
                  }
                  else {
                    display_error(data.errors);
@@ -166,7 +167,14 @@ function create_changeset() {
       }
     },
     open: function() {
-      $(this).find("input[type=text]").val("");
+      $(this).find("input[type=text]").val("").focus();
+      $(this).keydown(function(e) {
+        if (e.keyCode == 13) {
+          $(".ui-dialog").find("button:first").trigger("click");
+          e.stopPropagation();
+          return false;
+        }
+      });
     }
   });
 }

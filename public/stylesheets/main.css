@@ -196,6 +196,7 @@ ul {
 .diff pre {
   font-family: 'Inconsolata', Courier New, monospace;
   font-size: 0.9em;
+  white-space: normal;  /* wrap really long lines */
 }
 
 .old {

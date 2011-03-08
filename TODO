@@ -1,0 +1,7 @@
+- Add ability to remove changeset
+- Add mailer to notify of:
+  - edits to a submitted review to all reviewers
+  - submission of revisions to all reviewers
+  - status changes of reviews (accept/reject) to reviewee
+- Keydown handler for all dialogs
+- Add dependencies for datatypes so that garbage isn't left in the database

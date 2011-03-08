@@ -48,7 +48,6 @@
     Are you sure you want to delete this comment?
   </div>
   <div id="error-dialog" class="hidden"></div>
-  
 
   <section>
     <% flash.each do |name, msg| %>
@@ -64,13 +63,13 @@
     <div class="text-center">
       <ul>
         <li><%= link_to "Home", root_path %></li>
-        <li><a href="#">Download</a></li>
-        <li><a href="#">Tutorial</a></li>
+        <!--<li><a href="#">Download</a></li>
+        <li><a href="#">Tutorial</a></li>-->
       </ul>
-      <ul>
+      <!--<ul>
         <li><a href="#">Recent Reviews</a></li>
         <li><a href="#">Recent Requests</a></li>
-      </ul>
+      </ul>-->
       <ul>
         <li><%= link_to "My Account", edit_user_registration_path %></li>
         <li><%= link_to "Logout", destroy_user_session_path %></li>

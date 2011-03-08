@@ -35,6 +35,8 @@
   <div class="field">
     <%= f.label "Reviewers" %>
     <%= render :partial => "reviewers", :locals => { :f => f } %>
+    <p class="info hidden" style="font-style:italic; font-size:0.8em;">
+      Start typing a username or email of a reviewer to view choices.</p>
     <%= link_to_add_reviewer "Add Reviewer", f %>
     <!--<a href="#" onclick="add_reviewer(this);">
       <span class="ui-icon ui-icon-plus left"></span>Add Reviewer

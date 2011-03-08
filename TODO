@@ -5,3 +5,4 @@
   - status changes of reviews (accept/reject) to reviewee
 - Keydown handler for all dialogs
 - Add dependencies for datatypes so that garbage isn't left in the database
+- On dialog submit, display ajax loader and don't close dialog until ajax request is complete

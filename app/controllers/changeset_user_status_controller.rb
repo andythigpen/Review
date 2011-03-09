@@ -11,6 +11,8 @@ class ChangesetUserStatusController < ApplicationController
 
     respond_to do |format|
       if success
+        UserMailer.status_email(@status.changeset, 
+                                @status.changeset.review_event.owner).deliver
         format.json { render :json => { :status => "ok" } }
       else
         format.json { render :json => { :status => "error",

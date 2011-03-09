@@ -16,4 +16,10 @@ class UserMailer < ActionMailer::Base
     mail(:to => reviewer.email, :subject => "Review Request")
   end
 
+  def status_email(changeset, reviewee)
+    @changeset = changeset
+    @reviewee = reviewee
+    @url = APP_CONFIG['url']
+    mail(:to => reviewee.email, :subject => "Review Status Change")
+  end
 end

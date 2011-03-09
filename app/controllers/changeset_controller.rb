@@ -23,6 +23,13 @@ class ChangesetController < ApplicationController
 
     respond_to do |format|
       if @changeset.update_attributes(params[:changeset])
+        if @changeset.submitted
+          @changeset.review_event.reviewers.each do |r|
+            UserMailer.review_request_email(r, current_user, 
+                                            @changeset.review_event).deliver
+          end
+        end
+
         format.json { render :partial => "review_events/status",
                              :locals => { :changeset => @changeset } }
       else

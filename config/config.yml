@@ -1,0 +1,5 @@
+# config/config.yml
+
+development:
+  url: "http://localhost:3000"
+  email_from: "test@localhost"

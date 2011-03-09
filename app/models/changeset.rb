@@ -1,7 +1,8 @@
 class Changeset < ActiveRecord::Base
-  has_many :diffs
+  has_many :diffs, :dependent => :destroy
   belongs_to :review_event
-  has_many :statuses, :class_name => "ChangesetUserStatus"
+  has_many :statuses, :class_name => "ChangesetUserStatus", 
+           :dependent => :destroy
   has_many :reviewers, :through => :statuses, :source => :user
 
   def accepted?

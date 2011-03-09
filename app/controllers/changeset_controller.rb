@@ -3,6 +3,9 @@ class ChangesetController < ApplicationController
 
   def create
     @changeset = Changeset.new params[:changeset]
+    if @changeset.name.size == 0
+      @changeset.name = "Revision #{@changeset.review_event.changesets.size + 1}"
+    end
 
     respond_to do |format|
       if @changeset.save

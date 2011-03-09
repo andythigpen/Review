@@ -107,24 +107,25 @@
                   style="margin-right:0.3em"></span>
             <%= link_to "#{r.name}", review_event_path(r.id) %>
             <span class="author">by <%= current_user.username %></span>
-            <% if not r.changesets.last.nil? %>
-              <% if r.changesets.last.rejected? %>
-                <span class="ui-corner-all rejected" 
-                      style="padding:0.2em 0.5em;margin:0;">Rejected</span>
-              <% elsif r.changesets.last.accepted? %>
-                <span class="ui-corner-all accepted" 
-                      style="padding:0.2em 0.5em;margin:0;">Accepted</span>
-              <% elsif not r.duedate.nil? %>
-                <% extra = "neardue" if (r.duedate.to_date - 2).past? %>
-                <% extra = "overdue" if r.duedate.to_date.past? %>
-                <% countdown = r.duedate.to_date - DateTime.now.to_date %>
-                <span class="ui-corner-all <%= extra %>"
-                      style="padding:0.2em 0.5em; display:inline-block;">
-                  due <%= "in" if countdown > 0 %> 
-                  <%= countdown == 0 ? "today" : countdown.abs.days.inspect %>
-                  <%= "ago" if countdown < 0 %>
-                </span>
-              <% end %>
+            <% if r.changesets.last.nil? or not r.changesets.last.submitted %>
+              <span class="ui-corner-all info"
+                    style="padding:0.2em 0.5em;margin:0;">Not Submitted</span>
+            <% elsif r.changesets.last.rejected? %>
+              <span class="ui-corner-all rejected" 
+                    style="padding:0.2em 0.5em;margin:0;">Rejected</span>
+            <% elsif r.changesets.last.accepted? %>
+              <span class="ui-corner-all accepted" 
+                    style="padding:0.2em 0.5em;margin:0;">Accepted</span>
+            <% elsif not r.duedate.nil? %>
+              <% extra = "neardue" if (r.duedate.to_date - 2).past? %>
+              <% extra = "overdue" if r.duedate.to_date.past? %>
+              <% countdown = r.duedate.to_date - DateTime.now.to_date %>
+              <span class="ui-corner-all <%= extra %>"
+                    style="padding:0.2em 0.5em; display:inline-block;">
+                due <%= "in" if countdown > 0 %> 
+                <%= countdown == 0 ? "today" : countdown.abs.days.inspect %>
+                <%= "ago" if countdown < 0 %>
+              </span>
             <% end %>
           </div>
           <div class="review-event-actions">

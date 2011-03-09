@@ -1,10 +1,10 @@
 class User < ActiveRecord::Base
-  has_many :reviews_owned, :class_name => "ReviewEvent"
+  has_many :reviews_owned, :class_name => "ReviewEvent", :dependent => :destroy
   has_many :review_event_users
   has_many :review_requests, :through => :review_event_users, 
            :source => :review_event
-  has_many :comments
-  has_many :changeset_user_statuses
+  has_many :comments, :dependent => :destroy
+  has_many :changeset_user_statuses, :dependent => :destroy
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :lockable, :timeoutable and :activatable

@@ -333,10 +333,10 @@ function remove_review_event(loc, event_id) {
           type: "DELETE",
           dataType: "json",
           success: function(msg) {
+            $('#remove-review-dialog').dialog('close');
             if (msg.status == "ok") {
               $(loc).parents(".review-event").fadeOut();
             }
-            $(this).dialog('close');
           }
         });
         $(this).dialog('disable');

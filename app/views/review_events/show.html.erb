@@ -9,7 +9,7 @@
     notified.</div>
   <% end %>
   <%= form_for :changeset do |f| %>
-    <%= f.label :name, :style => "display:block;" %>
+    <%= f.label :name, "Name (optional)", :style => "display:block;" %>
     <%= f.text_field :name, :style => "width:20em;", 
         :class => "text ui-corner-all ui-widget-content" %>
     <%= f.hidden_field :review_event_id, :value => @review_event.id %>

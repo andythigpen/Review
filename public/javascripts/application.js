@@ -159,8 +159,9 @@ function create_changeset() {
                  else {
                    display_error(data.errors);
                  }
+                 $(this).dialog('close');
         }, "json");
-        $(this).dialog('close');
+        $(this).dialog('disable');
       },
       "Cancel": function() {
         $(this).dialog('close');
@@ -198,8 +199,9 @@ function submit_changeset(changeset_id) {
             else {
               display_error(data.errors);
             }
+            $(this).dialog('close');
           }, "json");
-        $(this).dialog('close');
+        $(this).dialog('disable');
       },
       "Cancel": function() {
         $(this).dialog('close');
@@ -223,8 +225,9 @@ function add_new_diff() {
             else {
               display_error(data.errors);
             }
+            $(this).dialog('close');
           }, "json");
-        $(this).dialog('close');
+        $(this).dialog('disable');
       },
       "Cancel": function() {
         $(this).dialog('close');
@@ -248,8 +251,9 @@ function remove_diff(diff_id) {
             else {
               display_error(data.errors);
             }
+            $(this).dialog('close');
           }, "json");
-        $(this).dialog('close');
+        $(this).dialog('disable');
       },
       "Cancel": function() {
         $(this).dialog('close');
@@ -273,8 +277,9 @@ function remove_changeset(changeset_id, review_id) {
             else {
               display_error(data.errors);
             }
+            $(this).dialog('close');
           }, "json");
-        $(this).dialog('close');
+        $(this).dialog('disable');
       },
       "Cancel": function() {
         $(this).dialog('close');
@@ -301,8 +306,9 @@ function submit_changeset_status(changeset_id, user_id, accepted) {
         else {
           display_error(data.errors);
         }
+        $(this).dialog('close');
     }, "json");
-    $(this).dialog('close');
+    $(this).dialog('disable');
   };
   buttons["Cancel"] = function() {
     $(this).dialog('close');
@@ -330,9 +336,10 @@ function remove_review_event(loc, event_id) {
             if (msg.status == "ok") {
               $(loc).parents(".review-event").fadeOut();
             }
+            $(this).dialog('close');
           }
         });
-        $(this).dialog('close');
+        $(this).dialog('disable');
       },
       "Cancel": function() {
         $(this).dialog('close');

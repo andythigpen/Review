@@ -9,6 +9,10 @@ body {
   background: #fff url('/images/body_back.png') repeat-x 0 106px;
 }
 
+section, article, aside, footer, header, nav, hgroup {
+  display:block;
+}
+
 #wrap {
   min-height: 100%;
   height: auto !important;

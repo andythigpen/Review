@@ -3,3 +3,7 @@
 development:
   url: "http://localhost:3000"
   email_from: "test@localhost"
+
+production:
+  url: "http://192.168.10.66:3000"
+  email_from: "review@circadence.com"

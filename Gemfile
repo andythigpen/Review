@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.4'
+gem 'rails' #, '3.0.4'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -30,3 +30,7 @@ gem 'devise' #, '1.1rc0'
 # group :development, :test do
 #   gem 'webrat'
 # end
+
+group :production do
+  gem 'mysql'
+end

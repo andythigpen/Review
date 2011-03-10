@@ -46,11 +46,11 @@ function display_error(error) {
   $("#error-dialog").html(error).dialog({
     resizable: false,
     modal: true,
-    buttons: { "OK": function() { $(this).dialog("close"); } },
+    buttons: { "OK": function() { $(this).dialog("close"); } }
   });
 }
 
-function change_reviewer_autocomplete(event, ui) {
+function change_reviewer_autocomplete(ev, ui) {
   if (ui.item) {
     $(this).prev("input[type=hidden]").val(ui.item.id).
       siblings(".ui-icon-check").show();
@@ -67,7 +67,7 @@ function setup_reviewer_autocomplete() {
     change: change_reviewer_autocomplete,
     select: change_reviewer_autocomplete,
     delay: 100,
-    selectFirst: true,
+    selectFirst: true
   }).keydown(function (e) {
     if (e.keyCode == 13) {
       e.preventDefault();
@@ -318,7 +318,7 @@ function submit_changeset_status(changeset_id, user_id, accepted) {
     dialog({
       modal: true,
       title: "Update Status",
-      buttons: buttons,
+      buttons: buttons
   });
 }
 

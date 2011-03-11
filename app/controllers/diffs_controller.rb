@@ -7,7 +7,7 @@ class DiffsController < ApplicationController
     diff_params[:contents] = ""
     diff_started = false
     contents.each do |line|
-      if line =~ /^---\s+([\w+\/\\]+)/
+      if line =~ /^---\s+([\w+\/\\:]+)/
         if diff_started
           @diff = Diff.new diff_params
           break if not @diff.save
@@ -15,7 +15,7 @@ class DiffsController < ApplicationController
         end
         diff_params[:origin_file] = $1
         diff_started = true
-      elsif line =~ /^\+\+\+\s+([\w+\/\\]+)/
+      elsif line =~ /^\+\+\+\s+([\w+\/\\:]+)/
         diff_params[:updated_file] = $1
       elsif line =~ /^(\+|-| |@)/
         diff_params[:contents] += line

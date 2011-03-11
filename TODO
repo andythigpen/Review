@@ -3,3 +3,17 @@
   - submission of revisions to all reviewers
   - status changes of reviews (accept/reject) to reviewee
 - Keydown handler for all dialogs
+- Ability to submit patch files
+- Side-by-side review panes with inline comments
+- Don't remove rejected items from the user's home screen
+- Allow users to retroactively change review changeset statuses
+- Add reviewer's name to status emails...
+- Add accepted/rejected list of users to owner's diff screen
+- Add rejected list of users to everyone's screen
+- Force users to add a comment for rejected items
+- Administrator role that can view all reviews and statuses
+- Send status email to users who have been removed from a review
+
+Issues:
+- Double submission of comments
+- Reviewee gets email w/ status Unknown when user accepts a changeset (if not all reviewers have accepted)

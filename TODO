@@ -1,6 +1,7 @@
 - Add mailer to notify of:
   - edits to a submitted review to all reviewers
   - submission of revisions to all reviewers
+  - replies to comments
 - Keydown handler for all dialogs
 - Ability to submit patch files
 - Allow users to retroactively change review changeset statuses

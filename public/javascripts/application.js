@@ -288,14 +288,13 @@ function remove_changeset(changeset_id, review_id) {
   });
 }
 
-function submit_changeset_status(changeset_id, user_id, accepted) {
+function submit_changeset_status(changeset_id, accepted) {
   var statusText = accepted ? "Accept" : "Reject";
   var buttons = {};
   buttons[statusText] = function() {
     $.post("/changeset/status", { 
         changeset_user_status: {
           changeset_id: changeset_id,
-          user_id: user_id,
           accepted: accepted
         }
       },

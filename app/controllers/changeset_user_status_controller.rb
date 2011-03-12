@@ -1,6 +1,8 @@
 class ChangesetUserStatusController < ApplicationController
   def update
-    @status = ChangesetUserStatus.find_by_user_id_and_changeset_id(params[:changeset_user_status][:changeset_id], params[:changeset_user_status][:changeset_id])
+    @status = ChangesetUserStatus.find_by_user_id_and_changeset_id(
+            current_user.id, params[:changeset_user_status][:changeset_id])
+    params[:changeset_user_status][:user_id] = current_user.id
     success = false
     if @status.nil?
       @status = ChangesetUserStatus.new params[:changeset_user_status]
@@ -11,8 +13,9 @@ class ChangesetUserStatusController < ApplicationController
 
     respond_to do |format|
       if success
-        UserMailer.status_email(@status.changeset, 
-                                @status.changeset.review_event.owner).deliver
+        UserMailer.status_email(@status, 
+                                @status.changeset.review_event.owner,
+                                current_user).deliver
         format.json { render :json => { :status => "ok" } }
       else
         format.json { render :json => { :status => "error",

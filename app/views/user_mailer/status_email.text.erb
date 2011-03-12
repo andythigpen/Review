@@ -1,7 +1,6 @@
 Review Status Change
 
-The status of your review for 
-"<%= @changeset.review_event.name %>" has changed to <% if @changeset.accepted? %>Accepted<% elsif @changeset.rejected? %>Rejected<% else %>Unknown<% end %> for changeset "<%= @changeset.name %>".  
+<%= @reviewee.username %> has <% if @status.accepted %>accepted<% else %>rejected<% end %> the "<%= @changeset.name %>" changeset for the "<%= @changeset.review_event.name %>" review event.
 
 URL: <%= @url %>
 

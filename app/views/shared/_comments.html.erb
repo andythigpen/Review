@@ -1,7 +1,11 @@
 <% level = 0 if level.nil? %>
-<% lineno = nil if local_assigns[:lineno].nil? %>
+<% leftline = nil if local_assigns[:leftline].nil? %>
+<% rightline = nil if local_assigns[:rightline].nil? %>
 <% commentable.comments.each do |c| %>
-  <% next if c.lineno != lineno %>
+  <% if leftline.nil? and rightline.nil? %>
+    <% next if not c.leftline.nil? or not c.rightline.nil? %>
+  <% end %>
+  <% next if c.leftline != leftline or c.rightline != rightline %>
   <%= render :partial => "shared/comment", :locals => { :comment => c,
                                                         :level => level } %>
 

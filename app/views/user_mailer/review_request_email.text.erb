@@ -1,11 +1,12 @@
 Review Request
 
 You've been asked to review <%= @reviewee.username %>'s code.
-<% if not @review_event.duedate.nil? %>
-Due Date: <%= @review_event.duedate %>
-<% end %>
-Click <%= link_to "here", @url %> <br />
-URL: <%= @url %><br />
+
+<% if not @review_event.duedate.nil? %>Due Date: <%= @review_event.duedate %><% end %>
+Review Name: <%= @review_event.name %>
+URL: <%= @url %><%= review_event_path(@review_event) %>
+Notes: 
+<%= @review_event.notes %>
 
 Signed, 
 The Review Swami

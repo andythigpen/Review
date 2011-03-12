@@ -102,6 +102,16 @@
 <% else %>
   <%= render :partial => "status" %>
   <%= render :partial => "files" %>
+  <div class="text-right view-settings" style="margin-top:1em;">
+    View:
+    <% if @display_type == "split" %>
+      Split |
+      <a href="<%= review_event_path(@review_event) %>?display=unified">Unified</a>
+    <% elsif @display_type = "unified" %>
+      <a href="<%= review_event_path(@review_event) %>?display=split">Split</a> | 
+      Unified
+    <% end %>
+  </div>
   <%= render :partial => "diffs" %>
 <% end %>
 

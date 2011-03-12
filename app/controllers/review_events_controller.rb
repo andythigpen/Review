@@ -24,6 +24,8 @@ class ReviewEventsController < ApplicationController
     if not @changeset.nil?
       @status = @changeset.statuses.find_by_user_id(current_user.id)
     end
+    @display_type = params[:display]
+    @display_type = "unified" if @display_type.nil?
 
     respond_to do |format|
       format.html # show.html.erb

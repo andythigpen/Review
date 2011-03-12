@@ -3,9 +3,11 @@ $(document).ready(function() {
   $(".diff tr").hover(
     function() { 
       $(this).find(".add-comment-button").animate({'opacity':1.0}, 100); 
+      $(this).find(".right-add-comment-button").animate({'opacity':1.0}, 100); 
     },
     function() { 
       $(this).find(".add-comment-button").animate({'opacity':0.0}, 100); 
+      $(this).find(".right-add-comment-button").animate({'opacity':0.0}, 100); 
     }
   );
   $(".datepicker").datepicker();
@@ -141,7 +143,9 @@ function add_comment_form(loc, content) {
 }
 
 function close_comment_form(loc) {
-  $(loc).parents(".comment-box").fadeOut(function() { $(this).remove(); });
+  $(loc).parents(".comment-box").fadeOut(function() { 
+    $(this).remove(); 
+  });
 }
 
 function create_changeset() {

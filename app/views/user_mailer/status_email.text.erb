@@ -1,8 +1,9 @@
 Review Status Change
 
-<%= @reviewee.username %> has <% if @status.accepted %>accepted<% else %>rejected<% end %> the "<%= @changeset.name %>" changeset for the "<%= @changeset.review_event.name %>" review event.
+The user "<%= @reviewee.username %>" (<%= @reviewee.email %>) has <% if @status.accepted %>accepted<% else %>rejected<% end %> your "<%= @changeset.name %>" changeset for the review "<%= @changeset.review_event.name %>".
 
-URL: <%= @url %>
+Review URL: <%= @url %><%= review_event_path(@changeset.review_event) %>
+
 
 Signed,
 The Review Swami

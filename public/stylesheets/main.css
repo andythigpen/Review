@@ -23,6 +23,8 @@ section, article, aside, footer, header, nav, hgroup {
 header {	
   background: #DDE3ED url('/images/header_back.png') repeat-x; 
   height: 75px;
+  /* margin-top: -0.2em !important; */
+  margin: 0;
 }
 
 header>div, nav>div, section {
@@ -33,6 +35,7 @@ header>div, nav>div, section {
 nav {
   border-top: 2px solid #ddd;
   border-bottom: 1px solid #ddd;
+  margin: 0;
 }
 
 nav, nav>div {

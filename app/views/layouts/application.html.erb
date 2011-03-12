@@ -5,8 +5,6 @@
   <title>Review</title>
   <%= stylesheet_link_tag "reset.css" %>
   <%= stylesheet_link_tag "custom-theme/jquery-ui-1.8.10.custom.css" %>
-  <%= stylesheet_link_tag "http://fonts.googleapis.com/css?family=PT+Sans" %>
-  <%= stylesheet_link_tag "http://fonts.googleapis.com/css?family=Inconsolata" %>
   <%= stylesheet_link_tag "main.css" %>
   <%= csrf_meta_tag %>
   <%= javascript_include_tag "jquery-1.4.4.min.js" %>
@@ -14,9 +12,11 @@
   <%= javascript_include_tag "jquery.ui.autocomplete.selectFirst.js" %>
   <%= javascript_include_tag "rails.js" %>
   <%= javascript_include_tag "application.js" %>
-<!--[if lt IE 9]>
-<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]-->
+  <%= javascript_include_tag "html5.js" %>
+<script type="text/javascript">
+  var IE7_PNG_SUFFIX = ".png";
+</script>
+  <%= javascript_include_tag "IE9.js" %>
 </head>
 <body>
 <div id="wrap">

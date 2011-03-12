@@ -21,7 +21,9 @@ class User < ActiveRecord::Base
       # filter out those without changesets or submitted changesets
       next if latest.nil? or not latest.submitted
       # filter out those with submitted statuses by this user
-      next if latest.statuses.nil? or not latest.statuses.find_by_user_id(self.id).nil?
+      next if latest.statuses.nil? 
+      status = latest.statuses.find_by_user_id(self.id)
+      next if not status.nil? and status.accepted
       yield r if block_given?
       res.push(r)
     end

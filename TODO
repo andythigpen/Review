@@ -5,7 +5,6 @@
 - Keydown handler for all dialogs
 - Ability to submit patch files
 - Side-by-side review panes with inline comments
-- Don't remove rejected items from the user's home screen
 - Allow users to retroactively change review changeset statuses
 - Add reviewer's name to status emails...
 - Add accepted/rejected list of users to owner's diff screen

@@ -40,29 +40,40 @@
       <% else %>
         <% line_text_left = lineno_left
            line_text_right = lineno_right
-           type = ""
+           type = "line"
            lineno_left += 1
            lineno_right += 1 %>
       <% end %>
 
-      <tr class="<%= type %>">
+      <tr>
         <td class="lineno-left"><%= line_text_left %></td>
         <td class="lineno-right"><%= line_text_right %></td>
-        <td class="line-unified">
-          <%= add_comment_button diff, "#line_comment_#{diff.id}_#{total_line}",
-              total_line, :class => "add-comment-button" do %>
-            <span class="ui-icon ui-icon-plus left"></span>
-            <span class="ui-icon ui-icon-comment left"></span>
+        <td class="line-unified <%= type %>">
+          <% if not type == "range" %>
+            <%= add_comment_button diff, "#line_comment_#{diff.id}_#{total_line}",
+                line_text_left, line_text_right, 
+                :class => "add-comment-button" do %>
+              <span class="ui-icon ui-icon-plus left"></span>
+              <span class="ui-icon ui-icon-comment left"></span>
+            <% end %>
           <% end %>
           <pre><%= line %></pre>
         </td>
       </tr>
       <tr class="comment-box-container">
-        <td colspan="3">
-          <%= render :partial => "shared/comments", 
-                     :locals => { :commentable => diff, 
-                                  :lineno => total_line } %>
-          <div id="line_comment_<%= diff.id %>_<%= total_line %>"></div>
+        <td class="lineno"></td>
+        <td class="lineno"></td>
+        <td>
+          <% left = right = nil %>
+          <% left = lineno_left - 1 if type == "line" or type == "old" %>
+          <% right = lineno_right - 1 if type == "line" or type == "new" %>
+          <% if not (left.nil? and right.nil?) %>
+            <%= render :partial => "shared/comments", 
+                       :locals => { :commentable => diff, 
+                                    :leftline => left,
+                                    :rightline => right } %>
+            <div id="line_comment_<%= diff.id %>_<%= total_line %>"></div>
+          <% end %>
         </td>
       </tr>
       <% total_line += 1 %>

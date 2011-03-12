@@ -5,14 +5,16 @@ module ApplicationHelper
     end
     inner = "Add Comment" if inner.nil?
 
-    if not args[0].nil? and args[0].class != Hash
-      lineno = args[0]
+    if args[0].class != Hash
+      leftline = args[0]
+      rightline = args[1] if args[1].class != Hash
     end
-    lineno = nil if not defined? lineno 
+    leftline = nil if not defined? leftline 
+    rightline = nil if not defined? rightline 
 
     html_options = args.extract_options!.symbolize_keys
     content = render("shared/comment_form", :commentable => commentable, 
-                     :lineno => lineno)
+                     :leftline => leftline, :rightline => rightline)
     href = "#"
     onclick = "add_comment_form('#{location}', '#{escape_javascript(content)}');return false;"
 #"<a href=\"#\" onclick=\"".html_safe() + "#{onclick}" + "\">#{inner}</a>".html_safe

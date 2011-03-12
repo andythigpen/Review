@@ -17,4 +17,3 @@
 Issues:
 - Double submission of comments
 - Reviewee gets email w/ status Unknown when user accepts a changeset (if not all reviewers have accepted)
-- Display issues in IE

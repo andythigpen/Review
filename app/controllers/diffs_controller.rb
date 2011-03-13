@@ -3,8 +3,16 @@ class DiffsController < ApplicationController
   
   def create
     contents = params[:diff][:contents]
-    diff_params = params[:diff].clone #{ :content => "" }
+    diff_params = params[:diff].clone
     diff_params[:contents] = ""
+
+    if not params[:diff][:patch].nil?
+      file = params[:diff][:patch]
+      file.open
+      contents = file.read
+      diff_params.delete :patch
+    end
+
     diff_started = false
     contents.each do |line|
       if line =~ /^---\s+([\w+\/\\:]+)/
@@ -21,19 +29,18 @@ class DiffsController < ApplicationController
         diff_params[:contents] += line
       end
     end
-    if diff_params[:contents].size > 0
-      @diff = Diff.new diff_params
-      @diff.save
-    end
-#    @diff = Diff.new params[:diff]
+    @diff = Diff.new diff_params
+    @diff.save
 
     respond_to do |format|
       if @diff.errors.size > 0
         format.json { render :json => { :status => "error", 
                                         :errors => @diff.errors } }
+        format.html { redirect_to :back, :alert => "Error saving diff" }
       else 
         format.json { render :json => { :status => "ok", 
                                         :id => @diff.id } }
+        format.html { redirect_to :back, :notice => "Successfully uploaded patch file" }
       end
     end
   end

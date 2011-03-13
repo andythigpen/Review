@@ -20,7 +20,6 @@ $(document).ready(function() {
     }
   );
 
-  
   setup_buttons();
   setup_comment_hover();
   setup_reviewer_autocomplete();
@@ -230,17 +229,7 @@ function add_new_diff() {
     title: "Add Diff",
     buttons: {
       "Add Diff": function() {
-        $.post("/diffs/create", $(this).children("form").serialize(),
-          function(data, textStatus, jqXHR) {
-            if (data.status == "ok") {
-              location.reload();
-            }
-            else {
-              display_error(data.errors);
-            }
-            $(this).dialog('close');
-          }, "json");
-        $(this).dialog('disable');
+        $(this).children("form").submit();
       },
       "Cancel": function() {
         $(this).dialog('close');

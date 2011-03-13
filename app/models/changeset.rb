@@ -22,4 +22,29 @@ class Changeset < ActiveRecord::Base
     end
     return false
   end
+
+  def users_rejected
+    ret = []
+    self.reviewers.each do |r|
+      c = r.changeset_user_statuses.find_by_changeset_id(self.id)
+      if not c.accepted
+        yield r if block_given?
+        ret.push(r)
+      end
+    end
+    ret
+  end
+
+  def users_accepted
+    ret = []
+    self.reviewers.each do |r|
+      c = r.changeset_user_statuses.find_by_changeset_id(self.id)
+      if c.accepted
+        yield r if block_given?
+        ret.push(r)
+      end
+    end
+    ret
+  end
+
 end

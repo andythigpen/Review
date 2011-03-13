@@ -84,14 +84,16 @@ a:hover { text-decoration: underline; }
 
 h1 {
   margin: 0;
-  padding: 0.5em;
+  padding: 0.6em;
   background: url('/images/title_back.png') repeat-x 0 100%;
   border-bottom: 1px solid #ddd;
+  font-size: 0.9em;
 }
 
 h1 .button {
   float: right;
   margin-top: -0.4em;
+  padding: 0.3em 0.8em;
 }
 
 ul {
@@ -184,7 +186,7 @@ ul {
 }
 
 .diff tr {
-  line-height: 1.8em;
+  line-height: 1.4em;
 }
 
 .diff tr td.lineno-left, .diff tr td.lineno-right {
@@ -204,8 +206,8 @@ ul {
 }
 
 .diff pre {
-  font-family: 'Inconsolata', Courier New, monospace;
-  font-size: 0.9em;
+  font-family: 'Inconsolata','Bitstream Vera Sans Mono','Courier New',monospace;
+  font-size: 0.8em;
   white-space: pre-wrap;  /* wrap really long lines */
 }
 
@@ -229,6 +231,7 @@ ul {
 
 .range {
   background: #e4f3f7;
+  color: #777;
 }
 
 .line-unified {
@@ -374,6 +377,7 @@ ul li em {
   background: #f0f0f0;
   border: 1px solid #ccc;
   padding: 1em;
+  margin-top: 1em;
 }
 
 .files li, .view-settings {

@@ -1,178 +1,157 @@
-<a name="file_<%= diff.id %>"></a>
-<div class="ui-widget ui-corner-top box">
-  <h1>
-    <a href="#"><span class="ui-icon ui-icon-document left" 
-                      style="margin-right:0.3em"></span>
-                      <%= diff.updated_file %></a>
-    <%= add_comment_button diff, "#diff_comment_#{diff.id}", 
-        :class => "ui-state-default ui-corner-all button" do %>
-      <span class="ui-icon ui-icon-circle-plus left"></span>Add Comment
-    <% end %>
-  </h1>
-
-  <div class="comment-box-container" style="padding:0;">
-    <%= render :partial => "shared/comments", 
-        :locals => { :commentable => diff } %>
-    <div id="diff_comment_<%= diff.id %>"></div>
-  </div>
-
-  <table cellpadding="0" cellspacing="0" class="diff">
-    <% lineno_left = 1 %>
-    <% lineno_right = 1 %>
-    <% type = "line" %>
-    <% total_line = 0 %>
-    <% old_lines = 0 %>
-    <% new_lines = 0 %>
-    <% left_buffer = [] %>
-    <% right_buffer = [] %>
-    <% lines = diff.contents.lines.to_a %>
-    <% lines.each_index do |i| %>
-      <% line = lines[i] %>
-      <% if line =~ /^@@\s+-(\d+)(,(\d+))*\s+\+(\d+)(,(\d+))*\s+@@/ %>
-        <% lineno_left = $1.to_i 
-           lineno_right = $4.to_i 
-           line_text_left = line_text_right = "..." 
-           type = "range" 
-           left = { :lineno => lineno_left, 
-                    :line_text => line_text_left, 
-                    :type => type, :text => line }
-           right = { :lineno => lineno_right, 
-                     :line_text => line_text_right, 
-                     :type => type, :text => line }
-           left_buffer.push(left)
-           right_buffer.push(right)
-           %>
-      <% elsif line =~ /^\+/ %>
-        <% line_text_left = "" 
-           line_text_right = lineno_right
-           type = "new"
-           right = { :lineno => lineno_right, 
-                     :line_text => line_text_right, 
-                     :type => type, :text => line }
-           right_buffer.push(right)
-           new_lines += 1
-           lineno_right += 1 
-           next if i < lines.size - 1
-        %>
-      <% elsif line =~ /^-/ %>
-        <% line_text_left = lineno_left
-           line_text_right = ""
-           type = "old"
-           left = { :lineno => lineno_left, 
-                    :line_text => line_text_left, 
-                    :type => type, :text => line }
-           left_buffer.push(left)
-           old_lines += 1
-           lineno_left += 1 
-           next if i < lines.size - 1
-        %>
-      <% else %>
-        <% line_text_left = lineno_left
-           line_text_right = lineno_right
-           # we encountered a "line" type after a section of "old" or "new"
-           # lines so we must shift the "lines" down to match up the rest 
-           # of the diff
-           (old_lines - new_lines).times do 
-             right_buffer.push({})
-           end
-           (new_lines - old_lines).times do 
-             left_buffer.push({})
-           end
-           old_lines = 0
-           new_lines = 0
-           type = "line"
-           left = { :lineno => lineno_left, 
-                    :line_text => line_text_left, 
-                    :type => type, :text => line }
-           right = { :lineno => lineno_right, 
-                     :line_text => line_text_right, 
-                     :type => type, :text => line }
-           left_buffer.push(left)
-           right_buffer.push(right)
-           lineno_left += 1
-           lineno_right += 1 
+<table cellpadding="0" cellspacing="0" class="diff">
+  <% lineno_left = 1 %>
+  <% lineno_right = 1 %>
+  <% type = "line" %>
+  <% total_line = 0 %>
+  <% old_lines = 0 %>
+  <% new_lines = 0 %>
+  <% left_buffer = [] %>
+  <% right_buffer = [] %>
+  <% lines = diff.contents.lines.to_a %>
+  <% lines.each_index do |i| %>
+    <% line = lines[i] %>
+    <% if line =~ /^@@\s+-(\d+)(,(\d+))*\s+\+(\d+)(,(\d+))*\s+@@/ %>
+      <% lineno_left = $1.to_i 
+         lineno_right = $4.to_i 
+         line_text_left = line_text_right = "..." 
+         type = "range" 
+         left = { :lineno => lineno_left, 
+                  :line_text => line_text_left, 
+                  :type => type, :text => line }
+         right = { :lineno => lineno_right, 
+                   :line_text => line_text_right, 
+                   :type => type, :text => line }
+         left_buffer.push(left)
+         right_buffer.push(right)
          %>
-      <% end %>
+    <% elsif line =~ /^\+/ %>
+      <% line_text_left = "" 
+         line_text_right = lineno_right
+         type = "new"
+         right = { :lineno => lineno_right, 
+                   :line_text => line_text_right, 
+                   :type => type, :text => line }
+         right_buffer.push(right)
+         new_lines += 1
+         lineno_right += 1 
+         next if i < lines.size - 1
+      %>
+    <% elsif line =~ /^-/ %>
+      <% line_text_left = lineno_left
+         line_text_right = ""
+         type = "old"
+         left = { :lineno => lineno_left, 
+                  :line_text => line_text_left, 
+                  :type => type, :text => line }
+         left_buffer.push(left)
+         old_lines += 1
+         lineno_left += 1 
+         next if i < lines.size - 1
+      %>
+    <% else %>
+      <% line_text_left = lineno_left
+         line_text_right = lineno_right
+         # we encountered a "line" type after a section of "old" or "new"
+         # lines so we must shift the "lines" down to match up the rest 
+         # of the diff
+         (old_lines - new_lines).times do 
+           right_buffer.push({})
+         end
+         (new_lines - old_lines).times do 
+           left_buffer.push({})
+         end
+         old_lines = 0
+         new_lines = 0
+         type = "line"
+         left = { :lineno => lineno_left, 
+                  :line_text => line_text_left, 
+                  :type => type, :text => line }
+         right = { :lineno => lineno_right, 
+                   :line_text => line_text_right, 
+                   :type => type, :text => line }
+         left_buffer.push(left)
+         right_buffer.push(right)
+         lineno_left += 1
+         lineno_right += 1 
+       %>
+    <% end %>
 
-      <% until left_buffer.empty? and right_buffer.empty? %>
-        <% left = left_buffer.shift() %>
-        <% right = right_buffer.shift() %>
-        <% left = {} if left.nil? %>
-        <% right = {} if right.nil? %>
-        <tr>
-          <td class="lineno-left"><%= left[:line_text] %></td>
-          <td class="line-split <%= left[:type] %>">
-            <% if not left[:type] == "range" %>
-              <% right_lineno = nil %>
-              <% left_lineno = left[:lineno] %>
-              <% right_lineno = right[:lineno] if left[:type] == "line" and right[:type] == "line" %>
-              <%# only allow comments on lines that can be displayed in unified diff too %>
-              <% if not (left[:type].nil? or left[:type] == "line" and (left_lineno.nil? or right_lineno.nil?)) %>
-                <%= add_comment_button diff, "#line_comment_#{diff.id}_left_#{left[:line_text]}",
-                    left_lineno, right_lineno, 
-                    :class => "add-comment-button" do %>
-                  <span class="ui-icon ui-icon-plus left"></span>
-                  <span class="ui-icon ui-icon-comment left"></span>
-                <% end %>
+    <% until left_buffer.empty? and right_buffer.empty? %>
+      <% left = left_buffer.shift() %>
+      <% right = right_buffer.shift() %>
+      <% left = {} if left.nil? %>
+      <% right = {} if right.nil? %>
+      <tr>
+        <td class="lineno-left"><%= left[:line_text] %></td>
+        <td class="line-split <%= left[:type] %>">
+          <% if not left[:type] == "range" %>
+            <% right_lineno = nil %>
+            <% left_lineno = left[:lineno] %>
+            <% right_lineno = right[:lineno] if left[:type] == "line" and right[:type] == "line" %>
+            <%# only allow comments on lines that can be displayed in unified diff too %>
+            <% if not (left[:type].nil? or left[:type] == "line" and (left_lineno.nil? or right_lineno.nil?)) %>
+              <%= add_comment_button diff, "#line_comment_#{diff.id}_left_#{left[:line_text]}",
+                  left_lineno, right_lineno, 
+                  :class => "add-comment-button" do %>
+                <span class="ui-icon ui-icon-plus left"></span>
+                <span class="ui-icon ui-icon-comment left"></span>
               <% end %>
             <% end %>
-            <pre><%= left[:text] %></pre>
-          </td>
-          <td class="lineno-right"><%= right[:line_text] %></td>
-          <td class="line-split <%= right[:type] %>">
-            <% if not right[:type] == "range" and not (right[:type] == "line" and left[:type] == "line") %>
-              <% left_lineno = nil %>
-              <% left_lineno = left[:lineno] if left[:type] == "line" and right[:type] == "line" %>
-              <% right_lineno = right[:lineno] %>
-              <%# only allow comments on lines that can be displayed in unified diff too %>
-              <% if not (right[:type].nil? or right[:type] == "line" and (left_lineno.nil? or right_lineno.nil?)) %>
-                <%= add_comment_button(diff, "#line_comment_#{diff.id}_right_#{right[:line_text]}",
-                    left_lineno, right_lineno, 
-                    :class => "right-add-comment-button") do %>
-                  <span class="ui-icon ui-icon-plus left"></span>
-                  <span class="ui-icon ui-icon-comment left"></span>
-                <% end %>
+          <% end %>
+          <pre><%= left[:text] %></pre>
+        </td>
+        <td class="lineno-right"><%= right[:line_text] %></td>
+        <td class="line-split <%= right[:type] %>">
+          <% if not right[:type] == "range" and not (right[:type] == "line" and left[:type] == "line") %>
+            <% left_lineno = nil %>
+            <% left_lineno = left[:lineno] if left[:type] == "line" and right[:type] == "line" %>
+            <% right_lineno = right[:lineno] %>
+            <%# only allow comments on lines that can be displayed in unified diff too %>
+            <% if not (right[:type].nil? or right[:type] == "line" and (left_lineno.nil? or right_lineno.nil?)) %>
+              <%= add_comment_button(diff, "#line_comment_#{diff.id}_right_#{right[:line_text]}",
+                  left_lineno, right_lineno, 
+                  :class => "right-add-comment-button") do %>
+                <span class="ui-icon ui-icon-plus left"></span>
+                <span class="ui-icon ui-icon-comment left"></span>
               <% end %>
             <% end %>
-            <pre><%= right[:text] %></pre>
+          <% end %>
+          <pre><%= right[:text] %></pre>
+        </td>
+      </tr>
+      <tr class="comment-box-container">
+        <% if left[:type] == "line" and right[:type] == "line" %>
+          <td class="lineno"></td>
+          <td colspan="3">
+            <%= render :partial => "shared/comments", 
+                       :locals => { :commentable => diff, 
+                                    :leftline => left[:lineno],
+                                    :rightline => right[:lineno] } %>
+            <div id="line_comment_<%= diff.id %>_left_<%= left[:line_text] %>"></div>
           </td>
-        </tr>
-        <tr class="comment-box-container">
-          <% if left[:type] == "line" and right[:type] == "line" %>
-            <td class="lineno"></td>
-            <td colspan="3">
+        <% else %>
+          <td class="lineno"></td>
+          <td>
+            <% if not left[:lineno].nil? %>
               <%= render :partial => "shared/comments", 
                          :locals => { :commentable => diff, 
-                                      :leftline => left[:lineno],
-                                      :rightline => right[:lineno] } %>
+                                      :leftline => left[:lineno] } %>
               <div id="line_comment_<%= diff.id %>_left_<%= left[:line_text] %>"></div>
-            </td>
-          <% else %>
-            <td class="lineno"></td>
-            <td>
-              <% if not left[:lineno].nil? %>
-                <%= render :partial => "shared/comments", 
-                           :locals => { :commentable => diff, 
-                                        :leftline => left[:lineno] } %>
-                <div id="line_comment_<%= diff.id %>_left_<%= left[:line_text] %>"></div>
-              <% end %>
-            </td>
-            <td class="lineno"></td>
-            <td>
-              <% if not right[:lineno].nil? %>
-                <%= render :partial => "shared/comments", 
-                           :locals => { :commentable => diff, 
-                                        :rightline => right[:lineno] } %>
-                <div id="line_comment_<%= diff.id %>_right_<%= right[:line_text] %>"></div>
-              <% end %>
-            </td>
+            <% end %>
+          </td>
+          <td class="lineno"></td>
+          <td>
+            <% if not right[:lineno].nil? %>
+              <%= render :partial => "shared/comments", 
+                         :locals => { :commentable => diff, 
+                                      :rightline => right[:lineno] } %>
+              <div id="line_comment_<%= diff.id %>_right_<%= right[:line_text] %>"></div>
+            <% end %>
+          </td>
 
-          <% end %>
-        </tr>
-        <% total_line += 1 %>
-      <% end %>
+        <% end %>
+      </tr>
+      <% total_line += 1 %>
     <% end %>
-  </table>
-
-</div>
-
+  <% end %>
+</table>

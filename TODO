@@ -5,11 +5,10 @@
 - Keydown handler for all dialogs
 - Ability to submit patch files
 - Allow users to retroactively change review changeset statuses
-- Add accepted/rejected list of users to owner's diff screen
-- Add rejected list of users to everyone's screen
 - Force users to add a comment for rejected items
 - Administrator role that can view all reviews and statuses
 - Send status email to users who have been removed from a review
+- Markup in comments that would allow users to add quotes, lists, and code
 
 Issues:
 - Double submission of comments

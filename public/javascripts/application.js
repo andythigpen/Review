@@ -21,16 +21,23 @@ $(document).ready(function() {
   );
 
   
-  setup_button_hover();
+  setup_buttons();
   setup_comment_hover();
   setup_reviewer_autocomplete();
 });
 
-function setup_button_hover() {
-  $(".button").unbind().hover(
-  	function() { $(this).addClass('ui-state-hover'); }, 
-  	function() { $(this).removeClass('ui-state-hover'); }
-  );
+function setup_buttons() {
+  $(".button").unbind().
+    hover(
+      function() { $(this).addClass('ui-state-hover'); }, 
+      function() { $(this).removeClass('ui-state-hover'); }
+    ).
+    mousedown(function(e) {
+      $(this).addClass('ui-state-active');
+    }).
+    mouseleave(function(e) {
+      $(this).removeClass('ui-state-active');
+    });
 }
 
 function setup_comment_hover() {
@@ -140,7 +147,7 @@ function add_comment_form(loc, content) {
   $(loc).append(content).children(".comment-box").fadeIn(function() {
     $(this).find("textarea").focus();
   });
-  setup_button_hover();
+  setup_buttons();
 }
 
 function close_comment_form(loc) {

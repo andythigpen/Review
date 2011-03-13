@@ -7,7 +7,7 @@
        status = "notice"
      end %>
   <div id="changeset_status" class="<%= status %>" 
-      style="margin-bottom: 1em; margin-top: -1em; border-top:none;">
+      style="margin-top: -1em; border-top:none;">
     <% if @changeset.submitted %>
       <% if status == "accepted" %>
         <%= image_tag "accept.png", 
@@ -54,3 +54,25 @@
     </div>
   <% end %>
 <% end %>
+
+<% accepted = @changeset.users_accepted %>
+<% rejected = @changeset.users_rejected %>
+<% show_accepted = (accepted.size > 0 and current_user == @changeset.review_event.owner) %>
+<% show_rejected = (rejected.size > 0) %>
+<% if show_accepted or show_rejected %>
+  <div class="notice">
+    <% if show_accepted %>
+      Reviewers who <strong>accepted</strong> this changeset: <br />
+      <% accepted.each do |u| %>
+        <strong><%= u.username %></strong><br />
+      <% end %>
+    <% end %>
+    <% if show_rejected %>
+      Reviewers who <strong>rejected</strong> this changeset: <br />
+      <% rejected.each do |u| %>
+        <strong><%= u.username %></strong><br />
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+

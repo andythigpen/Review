@@ -193,6 +193,14 @@ ul {
   border-top: 1px solid #e7e7e7;
 }
 
+/* hack for FF to get rid of 1px border in table (due to 1px lineno border) */ 
+@-moz-document url-prefix() {
+.diff tr td.lineno-left, .diff tr td.lineno-right {
+  border-top: 0;
+  border-bottom: 1px solid #e7e7e7;
+}
+}
+
 .diff tr .comment {
   padding: 1em;
 }

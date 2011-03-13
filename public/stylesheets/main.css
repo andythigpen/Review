@@ -155,7 +155,6 @@ ul {
 
 .line:hover, .new:hover, .old:hover {
   background: #fffff5;
-  /*border-bottom: 1px solid #fffff5;*/   /* because of lineno border bottom */
 }
 
 .lineno-left, .lineno-right {
@@ -189,7 +188,6 @@ ul {
 
 .diff tr td.lineno-left, .diff tr td.lineno-right {
   border-top: 1px solid #e7e7e7;
-  /*border-bottom: 1px solid #e3e3e3;*/
 }
 
 .diff tr .comment {
@@ -212,7 +210,6 @@ ul {
 
 .old {
   background: #ffd9d9;
-  border-bottom: 1px solid #ffd9d9;   /* because of lineno bottom border */
 }
 
 .old-highlight {
@@ -222,7 +219,6 @@ ul {
 
 .new {
   background: #c8ffcc;
-  border-bottom: 1px solid #c8ffcc;   /* because of lineno bottom border */
 }
 
 .new-highlight {
@@ -232,7 +228,6 @@ ul {
 
 .range {
   background: #e4f3f7;
-  border-bottom: 1px solid #e4f3f7;   /* because of lineno bottom border */
 }
 
 .line-unified {

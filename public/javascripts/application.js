@@ -132,6 +132,7 @@ function delete_comment(comment_id) {
 }
 
 function add_comment_form(loc, content) {
+  //$(loc).parents(".comment-box-container").fadeIn();
   if ($(loc).children(".comment-box").length > 0) {
     $(loc).find("textarea").focus();
     return;
@@ -143,6 +144,7 @@ function add_comment_form(loc, content) {
 }
 
 function close_comment_form(loc) {
+  //$(loc).parents(".comment-box-container").fadeOut();
   $(loc).parents(".comment-box").fadeOut(function() { 
     $(this).remove(); 
   });

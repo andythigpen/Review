@@ -143,6 +143,7 @@ ul {
   margin: 1em 0;
   border: 1px solid #cdcdcd;
   background: #fdfdfd;
+  position: relative;
 }
 
 .box>div {

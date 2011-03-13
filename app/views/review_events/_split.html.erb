@@ -124,6 +124,7 @@
     <% type = "line" %>
     <% total_line = 0 %>
     <% old_lines = 0 %>
+    <% new_lines = 0 %>
     <% left_buffer = [] %>
     <% right_buffer = [] %>
     <% diff.contents.lines.to_a.each do |line| %>
@@ -149,6 +150,7 @@
                      :line_text => line_text_right, 
                      :type => type, :text => line }
            right_buffer.push(right)
+           new_lines += 1
            lineno_right += 1 
            next
         %>
@@ -167,14 +169,17 @@
       <% else %>
         <% line_text_left = lineno_left
            line_text_right = lineno_right
-           # we encountered a "line" type after a section of "old" lines
-           # so we must shift the "lines" down to match up the rest of the diff
-           if type == "old"
-             old_lines.times do 
-               right_buffer.push({})
-             end
-             old_lines = 0
+           # we encountered a "line" type after a section of "old" or "new"
+           # lines so we must shift the "lines" down to match up the rest 
+           # of the diff
+           (old_lines - new_lines).times do 
+             right_buffer.push({})
            end
+           (new_lines - old_lines).times do 
+             left_buffer.push({})
+           end
+           old_lines = 0
+           new_lines = 0
            type = "line"
            left = { :lineno => lineno_left, 
                     :line_text => line_text_left, 

@@ -5,6 +5,7 @@ Review::Application.routes.draw do
                                       :sign_out => "logout" }
 
   root :to => "home#index"
+  match "changelog" => "home#changelog"
 
 #resources :diffs
   resources :review_events

@@ -454,3 +454,8 @@ ul li em {
   display: inline-block;
   margin-bottom: -2px;
 }
+
+.changelog li {
+  list-style: circle;
+  margin-left: 1em;
+}

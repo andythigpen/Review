@@ -60,6 +60,9 @@
           <% if not accepted.nil? and not accepted %>
             <span class="ui-corner-all rejected" 
                   style="padding:0.2em 0.5em;margin:0;margin-left:0.3em;">Rejected</span>
+          <% elsif accepted %>
+            <span class="ui-corner-all accepted" 
+                  style="padding:0.2em 0.5em;margin:0;margin-left:0.3em;">Accepted</span>
           <% elsif not r.duedate.nil? %>
             <% countdown = r.duedate.to_date - DateTime.now.to_date %>
             <span class="ui-corner-all <%= extra %>" 

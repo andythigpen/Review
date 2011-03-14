@@ -20,10 +20,14 @@ class User < ActiveRecord::Base
       latest = r.changesets.last
       # filter out those without changesets or submitted changesets
       next if latest.nil? or not latest.submitted
-      # filter out those with submitted statuses by this user
+
       next if latest.statuses.nil? 
       status = latest.statuses.find_by_user_id(self.id)
-      next if not status.nil? and status.accepted
+      # filter out accepted requests older than 1 day
+      next if status.accepted and (status.updated_at.to_date + 1).past?
+      # filter out rejected requests older than 7 days
+      next if not status.accepted and (status.updated_at.to_date + 7).past?
+
       yield r if block_given?
       res.push(r)
     end

@@ -23,10 +23,12 @@ class User < ActiveRecord::Base
 
       next if latest.statuses.nil? 
       status = latest.statuses.find_by_user_id(self.id)
-      # filter out accepted requests older than 1 day
-      next if status.accepted and (status.updated_at.to_date + 1).past?
-      # filter out rejected requests older than 7 days
-      next if not status.accepted and (status.updated_at.to_date + 7).past?
+      if not status.nil?
+        # filter out accepted requests older than 1 day
+        next if status.accepted and (status.updated_at.to_date + 1).past?
+        # filter out rejected requests older than 7 days
+        next if not status.accepted and (status.updated_at.to_date + 7).past?
+      end
 
       yield r if block_given?
       res.push(r)

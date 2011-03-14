@@ -46,10 +46,18 @@
         <%= image_tag "accept.png", 
             :style => "vertical-align:middle; margin-right:0.3em" %>
         <strong>Accepted</strong>: You accepted this changeset.
+        <%= link_to_function "Undo", 
+            "delete_changeset_status('#{@status.id}');", 
+            :class => "ui-state-default ui-corner-all button right",
+            :style => "margin:-0.2em 0;" %>
       <% else %>
         <%= image_tag "reject.png", 
             :style => "vertical-align:middle; margin-right:0.3em" %>
         <strong>Rejected</strong>: You rejected this changeset.
+        <%= link_to_function "Undo", 
+            "delete_changeset_status('#{@status.id}');", 
+            :class => "ui-state-default ui-corner-all button right",
+            :style => "margin:-0.2em 0;" %>
       <% end %>
     </div>
   <% end %>

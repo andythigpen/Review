@@ -23,4 +23,14 @@ class ChangesetUserStatusController < ApplicationController
       end
     end
   end
+
+  def destroy
+    @status = ChangesetUserStatus.find(params[:id])
+    @status.destroy
+
+    respond_to do |format|
+      format.html { redirect_to :back }    
+      format.json { render :json => { :status => "ok" } }
+    end
+  end
 end

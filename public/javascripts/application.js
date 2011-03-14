@@ -323,6 +323,17 @@ function submit_changeset_status(changeset_id, accepted) {
   });
 }
 
+function delete_changeset_status(status_id) {
+  $.ajax({
+    url: "/changeset/status/"+status_id,
+    type: "DELETE",
+    dataType: "json",
+    success: function (msg) {
+      location.reload();
+    }
+  });
+}
+
 function remove_review_event(loc, event_id) {
   $("#remove-review-dialog").dialog({
     modal: true,

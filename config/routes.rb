@@ -29,6 +29,8 @@ Review::Application.routes.draw do
   post "diffs/destroy/:id" => "diffs#destroy"
 
   post "changeset/status" => "changeset_user_status#update"
+  match "changeset/status/:id" => "changeset_user_status#destroy", 
+        :via => :delete
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

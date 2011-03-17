@@ -115,6 +115,6 @@
       Unified
     <% end %>
   </div>
-  <%= render :partial => "diffs" %>
+  <%= render :partial => "diff", :collection => @changeset.diffs, :as => :d %>
 <% end %>
 

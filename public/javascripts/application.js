@@ -11,11 +11,11 @@
       if (elem) {             
         // get caret range
         if (typeof start == "undefined") {
-          if (elem.selectionStart) {
+          if (typeof elem.selectionStart != 'undefined') {
             start = elem.selectionStart;
             end = elem.selectionEnd;
           }
-          else if (document.selection) {
+          else if (typeof document.selection != 'undefined') {
             var val = this.val();
             var range = document.selection.createRange().duplicate();
             range.moveEnd("character", val.length)
@@ -43,7 +43,7 @@
             elem.selectionStart = start;
             elem.selectionEnd = end;
           }
-          else if (document.selection) {
+          else if (typeof document.selection != 'undefined') {
             var range = elem.createTextRange();
             range.collapse(true);
             range.moveStart("character", start);

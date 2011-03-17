@@ -458,6 +458,10 @@ ul li em {
   margin-bottom: -2px;
 }
 
+.changelog {
+  margin: 1em 1em 2.5em;
+}
+
 .changelog li {
   list-style: circle;
   margin-left: 1em;

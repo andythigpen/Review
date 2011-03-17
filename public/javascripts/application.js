@@ -1,3 +1,62 @@
+/*
+ * jQuery Caret Range plugin
+ * Copyright (c) 2009 Matt Zabriskie
+ * Released under the MIT and GPL licenses.
+ */
+(function($) {
+  $.extend($.fn, {
+    caret: function (start, end) {
+      var elem = this[0];
+
+      if (elem) {             
+        // get caret range
+        if (typeof start == "undefined") {
+          if (elem.selectionStart) {
+            start = elem.selectionStart;
+            end = elem.selectionEnd;
+          }
+          else if (document.selection) {
+            var val = this.val();
+            var range = document.selection.createRange().duplicate();
+            range.moveEnd("character", val.length)
+            start = (range.text == "" ? val.length : val.lastIndexOf(range.text));
+
+            range = document.selection.createRange().duplicate();
+            range.moveStart("character", -val.length);
+            end = range.text.length;
+          }
+        }
+        // set caret range
+        else {
+          var val = this.val();
+
+          if (typeof start != "number") start = -1;
+          if (typeof end != "number") end = -1;
+          if (start < 0) start = 0;
+          if (end > val.length) end = val.length;
+          if (end < start) end = start;
+          if (start > end) start = end;
+
+          elem.focus();
+
+          if (typeof elem.selectionStart != 'undefined') {
+            elem.selectionStart = start;
+            elem.selectionEnd = end;
+          }
+          else if (document.selection) {
+            var range = elem.createTextRange();
+            range.collapse(true);
+            range.moveStart("character", start);
+            range.moveEnd("character", end - start);
+            range.select();
+          }
+        }
+
+        return {start:start, end:end};
+      }
+    }
+  });
+})(jQuery);
 
 $(document).ready(function() {
   $(".diff tr").hover(
@@ -138,7 +197,6 @@ function delete_comment(comment_id) {
 }
 
 function add_comment_form(loc, content) {
-  //$(loc).parents(".comment-box-container").fadeIn();
   if ($(loc).children(".comment-box").length > 0) {
     $(loc).find("textarea").focus();
     return;
@@ -150,11 +208,58 @@ function add_comment_form(loc, content) {
 }
 
 function close_comment_form(loc) {
-  //$(loc).parents(".comment-box-container").fadeOut();
   $(loc).parents(".comment-box").fadeOut(function() { 
     $(this).remove(); 
   });
 }
+
+function preview_comment(loc) {
+  var val = $(loc).parents('.comment-box').find('textarea').val();
+  $(loc).parents('.comment-box').hide().after(function() {
+    // this must match the format comment application helper
+    var comment = val.replace(/\{\{\{/g, '<div class="comment-code">');
+    comment = comment.replace(/\}\}\}/g, '</div>');
+    comment = comment.replace(/'''(.*?)'''/g, '<strong>$1</strong>');
+    var result = '<div class="comment comment-preview hidden"><h2>Preview</h2>' + comment; 
+    result += '<div><a href="#" onclick="close_preview_comment(this);return false;" class="button ui-corner-all ui-state-default" style="margin-top:0.5em;">Close Preview</a></div>';
+    result += '</div>';
+    return result;
+  });
+  $(loc).parents('.comment-box').next('.comment-preview').fadeIn();
+  setup_buttons();
+}
+
+function close_preview_comment(loc) {
+  $(loc).parents('.comment-preview').prev('.comment-box').fadeIn();
+  $(loc).parents('.comment-preview').remove();
+}
+
+function add_comment_code(loc) {
+  var textarea = $(loc).parents('.comment-box').find('textarea');
+  var range = textarea.caret();
+  range.start = range.start || 0;
+  range.end = range.end || 0;
+  var val = textarea.val();
+
+  textarea.val(val.substr(0, range.start) + '{{{ ' + 
+               val.substr(range.start, range.end - range.start) + ' }}}' + 
+               val.substr(range.end, val.length - range.start));
+  textarea.caret(range.end + '{{{ '.length);
+}
+
+function add_comment_bold(loc) {
+  var textarea = $(loc).parents('.comment-box').find('textarea');
+  var range = textarea.caret();
+  range.start = range.start || 0;
+  range.end = range.end || 0;
+  var val = textarea.val();
+
+  textarea.val(val.substr(0, range.start) + "'''" + 
+               val.substr(range.start, range.end - range.start) + "'''" + 
+               val.substr(range.end, val.length - range.start));
+  textarea.caret(range.end + "'''".length);
+}
+
 
 function create_changeset() {
   $("#create-changeset-dialog").dialog({
@@ -359,4 +464,5 @@ function remove_review_event(loc, event_id) {
     }
   });
 }
+
 

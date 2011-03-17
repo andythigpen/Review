@@ -13,6 +13,16 @@
           :class => "text ui-corner-all ui-widget-content"  %>
     </div>
     <div class="field text-right">
+      <%= link_to_function "Preview", "preview_comment(this);",
+          :class => "ui-corner-all ui-state-default button left" %>
+      <%= link_to_js "add_comment_code(this);",
+          :class => "ui-corner-all ui-state-default button left",
+          :style => "margin-left:0.2em;" do %>
+        <span class="ui-icon ui-icon-script left"></span>Code
+      <% end %>
+      <%= link_to_function "Bold", "add_comment_bold(this);",
+          :class => "ui-corner-all ui-state-default button left",
+          :style => "margin-left:0.2em;" %>
       <%= link_to_function "Save Comment", "submit_comment(this);",
           :class => "ui-corner-all ui-state-default button" %>
       <%= link_to_function "Close", "close_comment_form(this);", 

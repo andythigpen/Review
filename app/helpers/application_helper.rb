@@ -38,4 +38,11 @@ module ApplicationHelper
     html_options = args.extract_options!.symbolize_keys
     link_to_function(inner, func, html_options)
   end
+
+  def format_comment(text)
+    result = text.gsub(/\{\{\{/, "<div class=\"comment-code\">")
+    result.gsub!(/\}\}\}/, "</div>")
+    result.gsub!(/'''(.*?)'''/, "<strong>\\1</strong>")
+    result.html_safe
+  end
 end

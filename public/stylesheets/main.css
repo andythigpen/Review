@@ -213,10 +213,13 @@ ul {
   padding:0;
 }
 
-.diff pre {
+.diff pre, .comment-code {
   font-family: 'Inconsolata','Bitstream Vera Sans Mono','Courier New',monospace;
-  font-size: 0.8em;
   white-space: pre-wrap;  /* wrap really long lines */
+}
+
+.diff pre {
+  font-size: 0.8em;
 }
 
 .old {
@@ -458,4 +461,24 @@ ul li em {
 .changelog li {
   list-style: circle;
   margin-left: 1em;
+}
+
+.comment-text {
+  margin-left: 1em;
+  margin-top: 0.5em;
+}
+
+.comment-code {
+  margin: 0.2em;
+  padding: 0.4em;
+  border: 1px solid #ccc;
+  background: #dfdfdf;
+}
+
+.comment-preview {
+  margin: 0 1.5em;
+}
+
+.comment-preview h2 {
+  margin-bottom: 0.4em;
 }

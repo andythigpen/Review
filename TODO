@@ -1,12 +1,22 @@
+Enhancements:
 - Add mailer to notify of:
   - edits to a submitted review to all reviewers
   - submission of revisions to all reviewers
   - replies to comments
+  - submissions of comments
 - Keydown handler for all dialogs
 - Force users to add a comment for rejected items
 - Administrator role that can view all reviews and statuses
 - Send status email to users who have been removed from a review
 - Markup in comments that would allow users to add lists
+- Make split view default
+- User groups or project groups for creating new reviews in addition to be able to add individual users to reviews
 
 Issues:
 - Double submission of comments
+- Fix render comment bubble issue (general slowness)
+
+Feedback:
+- How to fix missing file context?
+- How to make jumping between files easier in large diffs?
+

@@ -70,16 +70,15 @@
 <% if show_accepted or show_rejected %>
   <div class="notice">
     <% if show_accepted %>
-      Reviewers who <strong>accepted</strong> this changeset: <br />
-      <% accepted.each do |u| %>
-        <strong><%= u.username %></strong>
-      <% end %>
+      Reviewers who <strong>accepted</strong> this changeset: 
+      <% accepted.map! {|x| "<strong>#{x.username}</strong>"} %>
+      <%= accepted.join(", ").html_safe %>
+      <br />
     <% end %>
     <% if show_rejected %>
-      Reviewers who <strong>rejected</strong> this changeset: <br />
-      <% rejected.each do |u| %>
-        <strong><%= u.username %></strong>
-      <% end %>
+      Reviewers who <strong>rejected</strong> this changeset: 
+      <% rejected.map! {|x| "<strong>#{x.username}</strong>"} %>
+      <%= rejected.join(", ").html_safe %>
     <% end %>
   </div>
 <% end %>

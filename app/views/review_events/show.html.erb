@@ -2,6 +2,8 @@
    title += " &gt; " + @changeset.name if not @changeset.nil? %>
 <% content_for :page_name, title.html_safe %>
 
+<%= render :partial => "shared/comment_form" %>
+
 <div id="create-changeset-dialog" class="hidden">
   <% if @review_event.changesets.size > 0 %>
     <div class="info"><strong>Note:</strong> Creating a new changeset will 

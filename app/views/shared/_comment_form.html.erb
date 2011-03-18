@@ -1,14 +1,12 @@
-<div class="comment-box hidden">
+<div id="comment-box" class="comment-box hidden">
   <%= form_for(:comment) do |f| %>
     <div class="field">
-      <% label = commentable.class == Comment ? "Reply" : "Comment" %>
-      <%= f.label :content, label %>
-      <%= f.hidden_field :commentable_id, :value => commentable.id %>
-      <%= f.hidden_field :commentable_type, 
-          :value => commentable.class.name %>
+      <%= f.label :content, "" %>
+      <%= f.hidden_field :commentable_id %>
+      <%= f.hidden_field :commentable_type %>
       <%= f.hidden_field :user_id, :value => current_user.id %>
-      <%= f.hidden_field :leftline, :value => leftline %>
-      <%= f.hidden_field :rightline, :value => rightline %>
+      <%= f.hidden_field :leftline %>
+      <%= f.hidden_field :rightline %>
       <%= f.text_area :content, :rows => 2, :style => "width:99%;",
           :class => "text ui-corner-all ui-widget-content"  %>
     </div>

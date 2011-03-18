@@ -196,13 +196,19 @@ function delete_comment(comment_id) {
   });
 }
 
-function add_comment_form(loc, content) {
+function add_comment_form(loc, commentable_id, commentable_type, leftline, rightline) {
   if ($(loc).children(".comment-box").length > 0) {
     $(loc).find("textarea").focus();
     return;
   }
+  var content = $("#comment-box").html();
   $(loc).append(content).children(".comment-box").fadeIn(function() {
     $(this).find("textarea").focus();
+    $(this).find("input[name='comment[commentable_id]']").val(commentable_id);
+    $(this).find("input[name='comment[commentable_type]']").
+      val(commentable_type);
+    $(this).find("input[name='comment[leftline]']").val(leftline);
+    $(this).find("input[name='comment[rightline]']").val(rightline);
   });
   setup_buttons();
 }

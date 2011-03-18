@@ -22,6 +22,7 @@ Review::Application.routes.draw do
   match "comments/destroy" => "comments#destroy", 
         :as => :destroy_comment, :via => :post
 
+  get "changeset/:id" => "changeset#show", :as => :changeset
   post "changeset/create"
   post "changeset/update/:id" => "changeset#update"
   post "changeset/destroy/:id" => "changeset#destroy"

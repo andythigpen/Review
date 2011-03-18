@@ -79,18 +79,12 @@
       <% elsif current_user.current_requests.size == 0 %>
         <li><em>No review requests at this time.</em></li>
       <% end %>
-
-  <!--    <li class="ui-corner-all"><span class="ui-icon ui-icon-carat-1-e" style="float:left; margin-right:0.3em"></span>
-      <a href="#">Minor change</a> <span class="author">by Joe Bob</span></li>
-      <li class="ui-corner-all overdue"><span class="ui-icon ui-icon-carat-1-e" style="float:left; margin-right:0.3em"></span>
-      <a href="#">Major change to everything</a> <span class="author">by Sally Mae</span></li> -->
     </ul>
   <% end %>
 </div>
 
 <div class="ui-widget ui-corner-top box">
   <h1>My Reviews
-    <!--<a href="#" class="ui-corner-all ui-state-default button"><span class="ui-icon ui-icon-circle-plus left"></span>Add</a>-->
     <%= link_to new_review_event_path, :class => "ui-corner-all ui-state-default button" do %>
       <span class="ui-icon ui-icon-circle-plus left"></span>Add
     <% end %>
@@ -150,34 +144,33 @@
             click the Add button above.</a>-->
            </em></li>
       <% end %>
-      <!--<li class="ui-corner-all neardue"><span class="ui-icon ui-icon-carat-1-e" style="float:left; margin-right:0.3em"></span>
-      <a href="#">Super awesome stuff</a> <span class="author">by Andrew Thigpen</span></li>
-      <li></li>-->
     </ul>
   <% end %>
 </div>
 
-<!--<div class="ui-widget ui-corner-top box">
+<% comments = recent_comments(1.week.ago, 10) %>
+<div class="ui-widget ui-corner-top box">
   <h1>Recent Activity</h1>
   <ul>
-    <li><em>No recent activity.</em></li>
-    <li class="ui-corner-all neardue"><span class="ui-icon ui-icon-carat-1-e" style="float:left; margin-right:0.3em"></span>
-    <a href="#">Super awesome stuff</a> <span class="author">by Andrew Thigpen</span></li>
-    <li></li>
-  </ul>
-</div>-->
-
-<!--<div class="ui-widget ui-corner-top box">
-  <h1>Recent Reviews</h1>
-  <ul>
-    <li><em>No recent reviews.</em></li>
+    <% if comments.size == 0 %>
+      <li><em>No recent activity.</em></li>
+    <% else %>
+      <% comments.each do |c| %>
+        <% changeset = c.get_changeset %>
+        <% event = changeset.review_event %>
+        <% owner = event.owner %>
+        <% type = "Comment" %>
+        <% type = "Reply" if c.commentable.class == Comment %>
+        <li class="ui-corner-all review-event">
+          <span class="ui-icon ui-icon-carat-1-e inline-icon" 
+                style="margin-right:0.3em"></span>
+          <em style="margin-right:1em;"><%= c.updated_at.to_s :short %></em>
+          <%= type %> from<span class="author"><%= c.user.username %></span>  
+          for <%= link_to "#{event.name}", review_event_path(event) %>
+          changeset <%= link_to "#{changeset.name}", changeset_path(changeset) %>
+        </li>
+      <% end %>
+    <% end %>
   </ul>
 </div>
-
-<div class="ui-widget ui-corner-top box">
-  <h1>Recent Requests</h1>
-  <ul>
-    <li><em>No recent requests.</em></li>
-  </ul>
-</div>-->
 

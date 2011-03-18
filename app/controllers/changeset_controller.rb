@@ -1,6 +1,11 @@
 class ChangesetController < ApplicationController
   before_filter :authenticate_user!
 
+  def show
+    @changeset = Changeset.find params[:id]
+    redirect_to review_event_path(@changeset.review_event) + "?changeset=#{@changeset.id}"
+  end
+
   def create
     @changeset = Changeset.new params[:changeset]
     if @changeset.name.size == 0

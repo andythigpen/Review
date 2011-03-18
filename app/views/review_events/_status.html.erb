@@ -72,13 +72,13 @@
     <% if show_accepted %>
       Reviewers who <strong>accepted</strong> this changeset: <br />
       <% accepted.each do |u| %>
-        <strong><%= u.username %></strong><br />
+        <strong><%= u.username %></strong>
       <% end %>
     <% end %>
     <% if show_rejected %>
       Reviewers who <strong>rejected</strong> this changeset: <br />
       <% rejected.each do |u| %>
-        <strong><%= u.username %></strong><br />
+        <strong><%= u.username %></strong>
       <% end %>
     <% end %>
   </div>

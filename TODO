@@ -6,7 +6,7 @@
 - Force users to add a comment for rejected items
 - Administrator role that can view all reviews and statuses
 - Send status email to users who have been removed from a review
-- Markup in comments that would allow users to add quotes, lists, and code
+- Markup in comments that would allow users to add lists
 
 Issues:
 - Double submission of comments

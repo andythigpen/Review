@@ -16,5 +16,4 @@ class Comment < ActiveRecord::Base
     c = c.commentable until c.class != Comment
     c.changeset
   end
-
 end

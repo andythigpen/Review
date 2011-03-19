@@ -107,8 +107,119 @@
     one.
   </div>
 <% else %>
-  <%= render :partial => "status" %>
-  <%= render :partial => "files" %>
+  <%#= render :partial => "status" %>
+  <% if current_user == @changeset.review_event.owner %>
+    <% if @changeset.accepted? 
+         status = "accepted"
+       elsif @changeset.rejected?
+         status = "rejected"
+       else
+         status = "notice"
+       end %>
+    <div id="changeset_status" class="<%= status %>" 
+        style="margin-top: -1em; border-top:none;">
+      <% if @changeset.submitted %>
+        <% if status == "accepted" %>
+          <%= image_tag "accept.png", 
+              :style => "vertical-align:middle; margin-right:0.3em" %>
+          <strong>Accepted</strong>: Congratulations! This changeset has 
+          been accepted by your peers.
+        <% elsif status == "rejected" %>
+          <%= image_tag "reject.png", 
+              :style => "vertical-align:middle; margin-right:0.3em" %>
+          <strong>Rejected</strong>: Sorry, but this changeset needs some 
+          work before it can be accepted.
+        <% else %>
+          This revision has been submitted and is awaiting review.
+        <% end %>
+      <% else %>
+        <%= link_to_function "Submit for Review", 
+            "submit_changeset('#{@changeset.id}');", 
+            :class => "ui-state-default ui-corner-all button right",
+            :style => "margin:0 -0.8em 0 0.8em;" %>
+        This revision has <strong>not</strong> been submitted for review yet.
+        <br />
+        Once this revision has been submitted, others will be able to comment
+        and approve/reject it.
+        <br /><!-- TODO: helper -->
+        <strong>Note:</strong>
+        You will not be able to modify this revision once it has been submitted.
+        <div style="clear:both;"></div>
+      <% end %>
+    </div>
+  <% else %>
+    <% if not @status.nil? %>
+      <% status = @status.accepted ? "accepted" : "rejected" %>
+      <div id="changeset_status" class="<%= status %>"
+        style="margin-bottom: 1em; margin-top: -1em; border-top:none;">
+        <% if @status.accepted %>
+          <%= image_tag "accept.png", 
+              :style => "vertical-align:middle; margin-right:0.3em" %>
+          <strong>Accepted</strong>: You accepted this changeset.
+          <%= link_to_function "Undo", 
+              "delete_changeset_status('#{@status.id}');", 
+              :class => "ui-state-default ui-corner-all button right",
+              :style => "margin:-0.2em 0;" %>
+        <% else %>
+          <%= image_tag "reject.png", 
+              :style => "vertical-align:middle; margin-right:0.3em" %>
+          <strong>Rejected</strong>: You rejected this changeset.
+          <%= link_to_function "Undo", 
+              "delete_changeset_status('#{@status.id}');", 
+              :class => "ui-state-default ui-corner-all button right",
+              :style => "margin:-0.2em 0;" %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <% accepted = @changeset.users_accepted %>
+  <% rejected = @changeset.users_rejected %>
+  <% show_accepted = (accepted.size > 0 and current_user == @changeset.review_event.owner) %>
+  <% show_rejected = (rejected.size > 0) %>
+  <% if show_accepted or show_rejected %>
+    <div class="notice">
+      <% if show_accepted %>
+        Reviewers who <strong>accepted</strong> this changeset: 
+        <% accepted.map! {|x| "<strong>#{x.username}</strong>"} %>
+        <%= accepted.join(", ").html_safe %>
+        <br />
+      <% end %>
+      <% if show_rejected %>
+        Reviewers who <strong>rejected</strong> this changeset: 
+        <% rejected.map! {|x| "<strong>#{x.username}</strong>"} %>
+        <%= rejected.join(", ").html_safe %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%#= render :partial => "files" %>
+  <a name="files"></a>
+  <div class="files">
+    <div style="margin-bottom:1em;">
+      <strong>Files:</strong>
+      <% if not @changeset.submitted %>
+        <%= link_to_js "add_new_diff();", :class => "right" do %>
+          <span class="ui-icon ui-icon-plus inline-icon"></span>Add New Diff
+        <% end %>
+      <% end %>
+      <div style="clear:both; margin-bottom:0.5em;"></div>
+    </div>
+
+    <ul>
+      <% @changeset.diffs.each do |d| %>
+        <li><a href="#file_<%= d.id %>">
+          <span class="ui-icon ui-icon-document left"></span> 
+          <%= d.updated_file %></a>
+          <% if not @changeset.submitted %>
+            <%= link_to_js "remove_diff('#{d.id}');", :class => "right" do %>
+              <span class="ui-icon ui-icon-close inline-icon"></span>Delete
+            <% end %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
 
   <div class="text-right view-settings" style="margin-top:1em;">
     View:

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110312192608) do
+ActiveRecord::Schema.define(:version => 20110319002416) do
 
   create_table "changeset_user_statuses", :force => true do |t|
     t.boolean  "accepted"
@@ -42,14 +42,17 @@ ActiveRecord::Schema.define(:version => 20110312192608) do
   end
 
   add_index "comments", ["commentable_id", "commentable_type"], :name => "comment_index"
+  add_index "comments", ["leftline", "rightline"], :name => "line_index"
+  add_index "comments", ["leftline"], :name => "index_comments_on_leftline"
+  add_index "comments", ["rightline"], :name => "index_comments_on_rightline"
 
   create_table "diffs", :force => true do |t|
     t.string   "origin_file"
+    t.string   "updated_file"
     t.text     "contents"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "changeset_id"
-    t.string   "updated_file"
   end
 
   create_table "review_event_users", :force => true do |t|

@@ -201,7 +201,7 @@ function add_comment_form(loc, commentable_id, commentable_type, leftline, right
     $(loc).find("textarea").focus();
     return;
   }
-  var content = $("#comment-box").html();
+  var content = $("#comment-form").html();
   $(loc).append(content).children(".comment-box").fadeIn(function() {
     $(this).find("textarea").focus();
     $(this).find("input[name='comment[commentable_id]']").val(commentable_id);

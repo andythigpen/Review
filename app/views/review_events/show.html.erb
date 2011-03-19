@@ -2,7 +2,9 @@
    title += " &gt; " + @changeset.name if not @changeset.nil? %>
 <% content_for :page_name, title.html_safe %>
 
-<%= render :partial => "shared/comment_form" %>
+<div id="comment-form" class="hidden">
+  <%= render :partial => "shared/comment_form" %>
+</div>
 
 <div id="create-changeset-dialog" class="hidden">
   <% if @review_event.changesets.size > 0 %>
@@ -107,6 +109,7 @@
 <% else %>
   <%= render :partial => "status" %>
   <%= render :partial => "files" %>
+
   <div class="text-right view-settings" style="margin-top:1em;">
     View:
     <% if @display_type == "split" %>
@@ -117,6 +120,6 @@
       Unified
     <% end %>
   </div>
-  <%= render :partial => "diff", :collection => @changeset.diffs, :as => :d %>
+  <%= render :partial => "diff", :collection => @changeset.diffs.includes(:comments), :as => :d %>
 <% end %>
 

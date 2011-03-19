@@ -1,3 +1,7 @@
+<% left_comments = diff.comments.where("leftline IS NOT NULL AND rightline IS NULL").order("leftline ASC") %>
+<% left_comments = left_comments.to_a.map {|i| [i.leftline, i]} %>
+<% right_comments = diff.comments.where("leftline IS NULL AND rightline IS NOT NULL").order("rightline ASC") %>
+<% right_comments = right_comments.to_a.map {|i| [i.rightline, i]} %>
 <table cellpadding="0" cellspacing="0" class="diff">
   <% lineno_left = 1 %>
   <% lineno_right = 1 %>
@@ -123,28 +127,40 @@
         <% if left[:type] == "line" and right[:type] == "line" %>
           <td class="lineno"></td>
           <td colspan="3">
-            <%= render :partial => "shared/comments", 
-                       :locals => { :commentable => diff, 
-                                    :leftline => left[:lineno],
-                                    :rightline => right[:lineno] } %>
+            <% if diff.comments.size > 0 %>
+              <%= render :partial => "shared/comments", 
+                         :locals => { :commentable => diff, 
+                                      :leftline => left[:lineno],
+                                      :rightline => right[:lineno] } %>
+            <% end %>
             <div id="line_comment_<%= diff.id %>_left_<%= left[:line_text] %>"></div>
           </td>
         <% else %>
           <td class="lineno"></td>
           <td>
             <% if not left[:lineno].nil? %>
-              <%= render :partial => "shared/comments", 
-                         :locals => { :commentable => diff, 
-                                      :leftline => left[:lineno] } %>
+              <%# comments = left_comments.where("leftline = ?", left[:lineno]) %>
+              <% c = left_comments.assoc(left[:lineno].to_i) %>
+              <% if not c.nil? %>
+              <%# comments.each do |c| %>
+                <%= render :partial => "shared/comment", 
+                           :locals => { :comment => c[1], 
+                                        :leftline => left[:lineno] } %>
+              <% end %>
               <div id="line_comment_<%= diff.id %>_left_<%= left[:line_text] %>"></div>
             <% end %>
           </td>
           <td class="lineno"></td>
           <td>
             <% if not right[:lineno].nil? %>
-              <%= render :partial => "shared/comments", 
-                         :locals => { :commentable => diff, 
-                                      :rightline => right[:lineno] } %>
+              <%# comments = right_comments.where("rightline = ?", right[:lineno]) %>
+              <% c = right_comments.assoc(right[:lineno].to_i) %>
+              <% if not c.nil? %>
+              <%# comments.each do |c| %>
+                <%= render :partial => "shared/comment", 
+                           :locals => { :comment => c[1], 
+                                        :rightline => right[:lineno] } %>
+              <% end %>
               <div id="line_comment_<%= diff.id %>_right_<%= right[:line_text] %>"></div>
             <% end %>
           </td>

@@ -1,3 +1,4 @@
+<% level = 0 if level.nil? %>
 <div class="comment" id="comment_<%= comment.id %>">
   <div>
     <div>
@@ -21,4 +22,11 @@
     <div class="comment-text"><%= format_comment(comment.content) %></div>
   </div> 
 </div>
+
+<div id="reply_<%= comment.id %>"></div>
+
+<% comment.comments.each do |c| %>
+  <%= render :partial => "shared/comment", 
+      :locals => { :comment => c, :level => level + 1 } %>
+<% end %>
 

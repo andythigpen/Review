@@ -13,8 +13,6 @@
   <div class="comment-box-container" style="padding:0;">
     <%= render :partial => "shared/comment", 
         :collection => d.overall_comments %>
-    <%#= render :partial => "shared/comments", 
-        :locals => { :commentable => d } %>
     <div id="diff_comment_<%= d.id %>"></div>
   </div>
 

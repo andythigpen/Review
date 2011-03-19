@@ -1,3 +1,7 @@
+<% left_comments = diff.left_comments %>
+<% right_comments = diff.right_comments %>
+<% both_comments = diff.both_comments %>
+
 <table cellpadding="0" cellspacing="0" class="diff">
   <% lineno_left = 1 %>
   <% lineno_right = 1 %>
@@ -49,12 +53,21 @@
         <% left = right = nil %>
         <% left = lineno_left - 1 if type == "line" or type == "old" %>
         <% right = lineno_right - 1 if type == "line" or type == "new" %>
-        <% if not (left.nil? and right.nil?) %>
-          <%= render :partial => "shared/comments", 
-                     :locals => { :commentable => diff, 
-                                  :leftline => left,
-                                  :rightline => right } %>
-          <div id="line_comment_<%= diff.id %>_<%= total_line %>"></div>
+        <% if not left_comments[left.to_i].nil? %>
+          <% left_comments[left.to_i].each do |c| %>
+            <%= render :partial => "shared/comment",
+                       :locals => { :comment => c } %>
+          <% end %>
+        <% elsif not right_comments[right.to_i].nil? %>
+          <% right_comments[right.to_i].each do |c| %>
+            <%= render :partial => "shared/comment",
+                       :locals => { :comment => c } %>
+          <% end %>
+        <% elsif not both_comments[left.to_i].nil? %>
+          <% both_comments[left.to_i].each do |c| %>
+            <%= render :partial => "shared/comment",
+                       :locals => { :comment => c } %>
+          <% end %>
         <% end %>
       </td>
     </tr>

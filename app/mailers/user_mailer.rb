@@ -24,4 +24,17 @@ class UserMailer < ActionMailer::Base
     @url = APP_CONFIG['url']
     mail(:to => reviewee.email, :subject => "Review Status Change")
   end
+
+  def comment_email(comment, commenter, commentee)
+    @comment = comment
+    @commenter = commenter
+    @commentee = commentee
+    @url = APP_CONFIG['url']
+    if comment.commentable.class == Comment
+      @subject = "Reply to your comment"
+    else
+      @subject = "New comment"
+    end
+    mail(:to => commentee.email, :subject => @subject)
+  end
 end

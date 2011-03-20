@@ -8,10 +8,15 @@ class CommentsController < ApplicationController
       if @comment.save
         level = 0
         level = 1 if @comment.commentable.class == Comment
+
+        if @comment.commentable.class == Comment
+          commentee = @comment.commentable.user
+        else
+          commentee = @comment.commentable.changeset.review_event.owner
+        end
+        UserMailer.comment_email(@comment, current_user, commentee).deliver
         format.json { render :partial => "shared/comment", 
             :locals => { :comment => @comment, :level => level } }
-#format.js { render :json => { :status => "ok", 
-#                                      :content => content } }
       else 
         format.js { render :json => @comment.errors, 
                     :status => :unprocessable_entity }
@@ -23,6 +28,9 @@ class CommentsController < ApplicationController
   end
 
   def show
+    @comment = Comment.find(params[:id])
+    changeset = @comment.get_changeset
+    redirect_to(changeset_path(changeset) + "#comment_#{@comment.id}")
   end
 
   def destroy

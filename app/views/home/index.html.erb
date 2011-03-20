@@ -165,7 +165,7 @@
           <span class="ui-icon ui-icon-carat-1-e inline-icon" 
                 style="margin-right:0.3em"></span>
           <em style="margin-right:1em;"><%= c.updated_at.to_s :short %></em>
-          <%= type %> from<span class="author"><%= c.user.username %></span>  
+          <%= link_to type, comment_path(c) %> from<span class="author"><%= c.user.username %></span>  
           for <%= link_to "#{event.name}", review_event_path(event) %>
           changeset <%= link_to "#{changeset.name}", changeset_path(changeset) %>
         </li>

@@ -1,4 +1,5 @@
 <% level = 0 if level.nil? %>
+<a name="<%= comment.id %>"></a>
 <div class="comment" id="comment_<%= comment.id %>">
   <div>
     <div>
@@ -19,7 +20,7 @@
         <% end %>
       </div>
     </div>
-    <div class="comment-text"><%= format_comment(comment.content) %></div>
+    <div class="comment-text"><%= comment.html_format %></div>
   </div> 
 </div>
 

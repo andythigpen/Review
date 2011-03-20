@@ -176,16 +176,18 @@ function delete_comment(comment_id) {
   $("#delete-confirm").dialog({
     resizable: false,
     modal: true,
+    title: "Delete Comment",
     buttons: {
       "Delete": function() {
-        $(this).dialog("close");
+        show_ajax_loader(this);
         $.post("/comments/destroy", { id : comment_id },
           function(data, textStatus, jqXHR) {
+            $("#delete-confirm").dialog("close");
             if (data.status == "ok") {
               $("#comment_"+comment_id).fadeOut();
             }
             else {
-              
+              display_error(data.errors);
             }
         }, "json");
       },
@@ -266,6 +268,31 @@ function add_comment_bold(loc) {
   textarea.caret(range.end + "'''".length);
 }
 
+/* Modified from http://stackoverflow.com/questions/577548/how-can-i-disable-a-button-in-a-jquery-dialog-from-a-function */
+function get_dialog_button(dialog_selector, button_name) {
+  var buttons = $(dialog_selector).siblings('.ui-dialog-buttonpane').
+      find('button');
+  for (var i = 0; i < buttons.length; ++i) {
+     var jButton = $(buttons[i]);
+     if (jButton.text() == button_name) {
+         return jButton;
+     }
+  }
+  return null;
+}
+
+function show_ajax_loader(dialog_widget) {
+  $(dialog_widget).find('.dialog-content').css('opacity', '0.2');
+  $(dialog_widget).find('.ajax-loader').fadeIn();
+  // disable non "Cancel" or "Close" buttons
+  var buttons = $(dialog_widget).dialog('option', 'buttons');
+  for (var name in buttons) {
+    if (name.toLowerCase() != "cancel" && name.toLowerCase() != "close") {
+      var button = get_dialog_button(dialog_widget, name);
+      button.button('disable');
+    }
+  }
+}
 
 function create_changeset() {
   $("#create-changeset-dialog").dialog({
@@ -274,17 +301,17 @@ function create_changeset() {
     title: "Create Changeset",
     buttons: {
       "Create Changeset": function() {
-        $.post("/changeset/create", $(this).children("form").serialize(),
+        show_ajax_loader(this);
+        $.post("/changeset/create", $(this).find("form").serialize(),
                function(data, textStatus, jqXHR) {
+                 $(this).dialog('close');
                  if (data.status == "ok") {
                    location.href += "?changeset="+data.id;
                  }
                  else {
                    display_error(data.errors);
                  }
-                 $(this).dialog('close');
         }, "json");
-        $(this).dialog('disable');
       },
       "Cancel": function() {
         $(this).dialog('close');
@@ -309,9 +336,11 @@ function submit_changeset(changeset_id) {
     title: "Submit for Review?",
     buttons: {
       "Submit": function() {
+        show_ajax_loader(this);
         $.post("/changeset/update/"+changeset_id, 
-               $(this).children("form").serialize(),
+               $(this).find("form").serialize(),
           function(data, textStatus, jqXHR) {
+            $(this).dialog('close');
             if (data.status == "ok") {
               /*$("#changeset_status").fadeOut(function() {
                 $(this).after(data.content).remove();
@@ -322,9 +351,7 @@ function submit_changeset(changeset_id) {
             else {
               display_error(data.errors);
             }
-            $(this).dialog('close');
           }, "json");
-        $(this).dialog('disable');
       },
       "Cancel": function() {
         $(this).dialog('close');
@@ -340,7 +367,8 @@ function add_new_diff() {
     title: "Add Diff",
     buttons: {
       "Add Diff": function() {
-        $(this).children("form").submit();
+        show_ajax_loader(this);
+        $(this).find("form").submit();
       },
       "Cancel": function() {
         $(this).dialog('close');
@@ -355,18 +383,18 @@ function remove_diff(diff_id) {
     title: "Delete Diff",
     buttons: {
       "Delete Diff": function() {
+        show_ajax_loader(this);
         $.post("/diffs/destroy/"+diff_id, 
-          $(this).children("form").serialize(),
+          $(this).find("form").serialize(),
           function(data, textStatus, jqXHR) {
+            $(this).dialog('close');
             if (data.status == "ok") {
               location.reload();
             }
             else {
               display_error(data.errors);
             }
-            $(this).dialog('close');
           }, "json");
-        $(this).dialog('disable');
       },
       "Cancel": function() {
         $(this).dialog('close');
@@ -381,18 +409,18 @@ function remove_changeset(changeset_id, review_id) {
     title: "Delete Changeset",
     buttons: {
       "Delete Changeset": function() {
+        show_ajax_loader(this);
         $.post("/changeset/destroy/"+changeset_id, 
-          $(this).children("form").serialize(),
+          $(this).find("form").serialize(),
           function(data, textStatus, jqXHR) {
+            $(this).dialog('close');
             if (data.status == "ok") {
               location.href = "/review_events/"+review_id;
             }
             else {
               display_error(data.errors);
             }
-            $(this).dialog('close');
           }, "json");
-        $(this).dialog('disable');
       },
       "Cancel": function() {
         $(this).dialog('close');
@@ -405,6 +433,7 @@ function submit_changeset_status(changeset_id, accepted) {
   var statusText = accepted ? "Accept" : "Reject";
   var buttons = {};
   buttons[statusText] = function() {
+    show_ajax_loader(this);//$("#status-changeset-dialog").dialog('widget')[0]);
     $.post("/changeset/status", { 
         changeset_user_status: {
           changeset_id: changeset_id,
@@ -412,25 +441,25 @@ function submit_changeset_status(changeset_id, accepted) {
         }
       },
       function(data, textStatus, jqXHR) {
+        $(this).dialog('close');
         if (data.status == "ok") {
           location.reload();
         }
         else {
           display_error(data.errors);
         }
-        $(this).dialog('close');
     }, "json");
-    $(this).dialog('disable');
   };
   buttons["Cancel"] = function() {
     $(this).dialog('close');
   };
-  $("#status-changeset-dialog").html("Are you sure you wish to "+
-      statusText.toLowerCase()+" this changeset?").
-    dialog({
-      modal: true,
-      title: "Update Status",
-      buttons: buttons
+  $("#status-changeset-dialog .dialog-content").
+      html("Are you sure you wish to "+
+      statusText.toLowerCase()+" this changeset?");
+  $("#status-changeset-dialog").dialog({
+    modal: true,
+    title: "Update Status",
+    buttons: buttons
   });
 }
 
@@ -451,6 +480,7 @@ function remove_review_event(loc, event_id) {
     title: "Remove Review Event",
     buttons: {
       "Remove": function() {
+        show_ajax_loader(this);
         $.ajax({
           url: "/review_events/"+event_id,
           type: "DELETE",
@@ -462,7 +492,6 @@ function remove_review_event(loc, event_id) {
             }
           }
         });
-        $(this).dialog('disable');
       },
       "Cancel": function() {
         $(this).dialog('close');

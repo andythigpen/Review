@@ -486,3 +486,11 @@ ul li em {
 .comment-preview h2 {
   margin-bottom: 0.4em;
 }
+
+.ajax-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -16px;
+  margin-top: -16px;
+}

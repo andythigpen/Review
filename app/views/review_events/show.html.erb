@@ -6,7 +6,7 @@
   <%= render :partial => "shared/comment_form" %>
 </div>
 
-<div id="create-changeset-dialog" class="hidden">
+<%= modal_dialog "create-changeset-dialog" do %>
   <% if @review_event.changesets.size > 0 %>
     <div class="info"><strong>Note:</strong> Creating a new changeset will 
     reset the status of your review, and all assigned reviewers will be 
@@ -18,23 +18,23 @@
         :class => "text ui-corner-all ui-widget-content" %>
     <%= f.hidden_field :review_event_id, :value => @review_event.id %>
   <% end %>
-</div>
+<% end %>
 
-<div id="submit-changeset-dialog" class="hidden">
+<%= modal_dialog "submit-changeset-dialog" do %>
   Are you sure you wish to submit this revision for review?
   <%= form_for :changeset do |f| %>
     <%= f.hidden_field :submitted, :value => true %>
   <% end %>
-</div>
+<% end %>
 
-<div id="remove-changeset-dialog" class="hidden">
-  Are you sure you wish to remove this changeset?
-</div>
+<%= modal_dialog "remove-changeset-dialog" do %>
+    Are you sure you wish to remove this changeset?
+<% end %>
 
-<div id="status-changeset-dialog" class="hidden"></div>
+<%= modal_dialog "status-changeset-dialog" %>
 
 <% if not @changeset.nil? %>
-  <div id="add-diff-dialog" class="hidden">
+  <%= modal_dialog "add-diff-dialog" do %>
     <div class="info">Create a unified diff with the command
     <pre>diff -ru &lt;old&gt; &lt;new&gt;</pre>
     and paste its contents here:</div>
@@ -48,11 +48,11 @@
       <div class="info">OR upload a patch file here:</div>
       <%= f.file_field :patch %>
     <% end %>
-  </div>
+  <% end %>
 
-  <div id="remove-diff-dialog" class="hidden">
+  <%= modal_dialog "remove-diff-dialog" do %>
     Are you sure you wish to remove this diff?
-  </div>
+  <% end %>
 <% end %>
 
 <div class="review">

@@ -39,4 +39,18 @@ module ApplicationHelper
     html_options = args.extract_options!.symbolize_keys
     link_to_function(inner, func, html_options)
   end
+
+  def modal_dialog(id, &block)
+    if block_given?
+      inner = capture(&block).html_safe
+    end
+    <<END_CONTENT.html_safe
+    <div id="#{id}" class="hidden">
+      <img src="/images/ajax-loader.gif" alt="loading" class="ajax-loader hidden" />
+      <div class="dialog-content">
+        #{inner}
+      </div>
+    </div>
+END_CONTENT
+  end
 end

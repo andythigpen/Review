@@ -148,26 +148,34 @@
   <% end %>
 </div>
 
-<% comments = recent_comments(1.week.ago, 10) %>
+<% activity = all_recent(1.week.ago, 10) %>
 <div class="ui-widget ui-corner-top box">
   <h1>Recent Activity</h1>
   <ul>
-    <% if comments.size == 0 %>
+    <% if activity.size == 0 %>
       <li><em>No recent activity.</em></li>
     <% else %>
-      <% comments.each do |c| %>
-        <% changeset = c.get_changeset %>
-        <% event = changeset.review_event %>
-        <% owner = event.owner %>
-        <% type = "Comment" %>
-        <% type = "Reply" if c.commentable.class == Comment %>
+      <% activity.each do |a| %>
         <li class="ui-corner-all review-event">
           <span class="ui-icon ui-icon-carat-1-e inline-icon" 
                 style="margin-right:0.3em"></span>
-          <em style="margin-right:1em;"><%= c.updated_at.to_s :short %></em>
-          <%= link_to type, comment_path(c) %> from<span class="author"><%= c.user.username %></span>  
-          for <%= link_to "#{event.name}", review_event_path(event) %>
-          changeset <%= link_to "#{changeset.name}", changeset_path(changeset) %>
+          <em style="margin-right:1em;"><%= a.updated_at.to_s :short %></em>
+          <% if a.class == Comment %>
+            <% changeset = a.get_changeset %>
+            <% event = changeset.review_event %>
+            <% owner = event.owner %>
+            <% type = "Comment" %>
+            <% type = "Reply" if a.commentable.class == Comment %>
+              <%= link_to type, comment_path(a) %> from<span class="author"><%= a.user.username %></span>  
+              for <%= link_to "#{event.name}", review_event_path(event) %>
+              changeset <%= link_to "#{changeset.name}", changeset_path(changeset) %>
+            </li>
+          <% elsif a.class == Changeset %>
+            <%= link_to "Changeset", changeset_path(a) %> from<span class="author"><%= a.review_event.owner.username %></span>  
+            for <%= link_to "#{a.review_event.name}", review_event_path(a.review_event) %>
+          <% else %>
+            Unknown activity for <%= a.class %>
+          <% end %>
         </li>
       <% end %>
     <% end %>

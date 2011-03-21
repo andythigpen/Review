@@ -14,7 +14,9 @@ class CommentsController < ApplicationController
         else
           commentee = @comment.commentable.changeset.review_event.owner
         end
-        UserMailer.comment_email(@comment, current_user, commentee).deliver
+        if commentee != current_user
+          UserMailer.comment_email(@comment, current_user, commentee).deliver
+        end
         format.json { render :partial => "shared/comment", 
             :locals => { :comment => @comment, :level => level } }
       else 

@@ -194,6 +194,9 @@ function delete_comment(comment_id) {
       "Cancel": function() {
         $(this).dialog("close");
       }
+    },
+    open: function() {
+      hide_ajax_loader(this);
     }
   });
 }
@@ -294,6 +297,18 @@ function show_ajax_loader(dialog_widget) {
   }
 }
 
+function hide_ajax_loader(dialog_widget) {
+  $(dialog_widget).find('.dialog-content').css('opacity', '1.0');
+  $(dialog_widget).find('.ajax-loader').hide();
+  var buttons = $(dialog_widget).dialog('option', 'buttons');
+  for (var name in buttons) {
+    if (name.toLowerCase() != "cancel" && name.toLowerCase() != "close") {
+      var button = get_dialog_button(dialog_widget, name);
+      button.button('enable');
+    }
+  }
+}
+
 function create_changeset() {
   $("#create-changeset-dialog").dialog({
     modal: true,
@@ -318,6 +333,7 @@ function create_changeset() {
       }
     },
     open: function() {
+      hide_ajax_loader(this);
       $(this).find("input[type=text]").val("").focus();
       $(this).keydown(function(e) {
         if (e.keyCode == 13) {
@@ -356,6 +372,9 @@ function submit_changeset(changeset_id) {
       "Cancel": function() {
         $(this).dialog('close');
       }
+    },
+    open: function() {
+      hide_ajax_loader(this);
     }
   });
 }
@@ -373,6 +392,9 @@ function add_new_diff() {
       "Cancel": function() {
         $(this).dialog('close');
       }
+    },
+    open: function() {
+      hide_ajax_loader(this);
     }
   });
 }
@@ -399,6 +421,9 @@ function remove_diff(diff_id) {
       "Cancel": function() {
         $(this).dialog('close');
       }
+    },
+    open: function() {
+      hide_ajax_loader(this);
     }
   });
 }
@@ -425,6 +450,9 @@ function remove_changeset(changeset_id, review_id) {
       "Cancel": function() {
         $(this).dialog('close');
       }
+    },
+    open: function() {
+      hide_ajax_loader(this);
     }
   });
 }
@@ -459,7 +487,10 @@ function submit_changeset_status(changeset_id, accepted) {
   $("#status-changeset-dialog").dialog({
     modal: true,
     title: "Update Status",
-    buttons: buttons
+    buttons: buttons,
+    open: function() {
+      hide_ajax_loader(this);
+    }
   });
 }
 
@@ -496,6 +527,9 @@ function remove_review_event(loc, event_id) {
       "Cancel": function() {
         $(this).dialog('close');
       }
+    },
+    open: function() {
+      hide_ajax_loader(this);
     }
   });
 }

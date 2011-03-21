@@ -4,7 +4,8 @@ html, body {
 
 body { 
   font-family: 'PT Sans', Lucida Sans, Arial, sans-serif;
-  font-size: 0.9em;
+  /*font-size: 0.8em;*/
+  font-size: 85%;
   color: #444; 
   background: #fff url('/images/body_back.png') repeat-x 0 106px;
 }
@@ -494,3 +495,32 @@ ul li em {
   margin-left: -16px;
   margin-top: -16px;
 }
+
+
+/* fixes for absolution theme */
+/* absolution theme available here: https://github.com/michaelvanderheeren/Absolution */
+.ui-widget a.button {
+  color: #000;
+}
+
+.ui-widget a.button:hover {
+  color: #fff;
+}
+
+.ui-dialog {
+  font-size: 0.9em;
+}
+
+.ui-dialog-title {
+  font-size: 0.8em;
+}
+
+.ui-widget a {
+  color: #3674BA;
+}
+
+.ui-dialog .ui-dialog-buttonpane button {
+  font-size: 1.1em;
+  font-weight: bold;
+}
+

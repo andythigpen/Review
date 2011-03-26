@@ -7,12 +7,11 @@ Enhancements:
 - Administrator role that can view all reviews and statuses
 - Markup in comments that would allow users to add lists
 - User groups or project groups for creating new reviews in addition to be able to add individual users to reviews
+- Fix overflow issue for diffs that extend beyond table boundaries
 
 Issues:
 - Double submission of comments
-- Fix render comment bubble issue (general slowness)
 
 Feedback:
 - How to fix missing file context?
-- How to make jumping between files easier in large diffs?
 

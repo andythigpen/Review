@@ -28,7 +28,8 @@ header {
   margin: 0;
 }
 
-header>div, nav>div, section {
+header>div, nav>div, section,
+#awesome-bar .contents {
   min-width: 720px; 
   margin: 0 auto;
   padding: 0 7%;
@@ -524,3 +525,29 @@ ul li em {
   font-weight: bold;
 }
 
+#awesome-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+#awesome-bar .contents {
+  height: 30px;
+  line-height: 30px;
+  background: #e0e0e0 url('/images/title_back.png') repeat-x;
+  border-bottom: 1px solid #ccc;
+  padding-top: 3px;
+}
+
+#awesome-bar .button {
+  font-size: 0.9em;
+  line-height: 1em;
+  margin-top: -4px;
+}
+
+#awesome-bar .shadow {
+  height: 20px;
+  background: url('/images/shadow.png') repeat-x;
+}

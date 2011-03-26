@@ -231,6 +231,35 @@
       Unified
     <% end %>
   </div>
+
+  <div id="awesome-bar" class="hidden">
+    <div class="contents">
+      <div class="left">
+        <span class="filename"></span>
+      </div>
+      <div class="right">
+        Comments:
+        <%= link_to_function "Previous", "prev_comment(this)", 
+            :class => "ui-state-default ui-corner-all button",
+            :id => "prev-comment" %>
+        <%= link_to_function "Next", "next_comment(this)", 
+            :class => "ui-state-default ui-corner-all button",
+            :id => "next-comment" %>
+      </div>
+      <div class="right" style="margin-right:1.5em;">
+        Files:
+        <%= link_to_function "Previous", "prev_file(this)",
+            :class => "ui-state-default ui-corner-all button",
+            :id => "prev-file" %>
+        <%= link_to "Top", "#files",
+            :class => "ui-state-default ui-corner-all button" %>
+        <%= link_to_function "Next", "next_file(this)",
+            :class => "ui-state-default ui-corner-all button",
+            :id =>:"next-file" %>
+      </div>
+    </div>
+    <div class="shadow"></div>
+  </div>
   <%= render :partial => "diff", :collection => @changeset.diffs.includes(:comments), :as => :d %>
 <% end %>
 

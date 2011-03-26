@@ -69,7 +69,10 @@ $(document).ready(function() {
       $(this).find(".right-add-comment-button").animate({'opacity':0.0}, 100); 
     }
   );
-  $(".datepicker").datepicker();
+  if ($(".datepicker").length > 0) {
+    $(".datepicker").datepicker();
+    $("#ui-datepicker-div").hide();
+  }
   $(".review-event").hover(
     function() { 
       $(this).find(".review-event-actions").animate({'opacity':1.0}, 100); 
@@ -82,6 +85,7 @@ $(document).ready(function() {
   setup_buttons();
   setup_comment_hover();
   setup_reviewer_autocomplete();
+  setup_awesome_bar();
 });
 
 function setup_buttons() {
@@ -94,6 +98,9 @@ function setup_buttons() {
       $(this).addClass('ui-state-active');
     }).
     mouseleave(function(e) {
+      $(this).removeClass('ui-state-active');
+    }).
+    mouseup(function(e) {
       $(this).removeClass('ui-state-active');
     });
 }
@@ -531,6 +538,124 @@ function remove_review_event(loc, event_id) {
     open: function() {
       hide_ajax_loader(this);
     }
+  });
+}
+
+function next_comment(loc) {
+  var min = -1;
+  var minitem = null;
+  var nextitem = null;
+  var wtop = $(window).scrollTop();
+  $(".comment").each(function() {
+    var itop = $(this).offset().top;
+    var diff = wtop - itop;
+    diff = parseInt(diff, 10);
+    if (diff >= -30) {
+      return true;
+    }
+    nextitem = minitem;
+    minitem = this;
+    if (nextitem != null) {
+      return false;
+    }
+  });
+  if (nextitem != null) {
+    $.scrollTo(nextitem, {axis: 'y', offset:-30});
+  }
+}
+
+function prev_comment(loc) {
+  var min = -1;
+  var minitem = null;
+  //var previtem = null;
+  var wtop = $(window).scrollTop();
+  $(".comment").each(function() {
+    var itop = $(this).offset().top;
+    var diff = wtop - itop;
+    diff = parseInt(diff, 10);
+    if (diff <= 1) {    // 1px for FF
+      return false;
+    }
+    minitem = this;
+  });
+  if (minitem != null) {
+    $.scrollTo(minitem, {axis: 'y', offset:-30});
+  }
+}
+
+function next_file(loc) {
+  var min = -1;
+  var minitem = null;
+  var wtop = $(window).scrollTop();
+  $(".box").each(function() {
+    var itop = $(this).offset().top;
+    var diff = wtop - itop;
+    diff = parseInt(diff, 10);
+    if (diff >= 0) {
+      return true;
+    }
+    minitem = this;
+    return false;
+  });
+  if (minitem != null) {
+    $.scrollTo(minitem, {axis: 'y', offset:1});
+  }
+}
+
+function prev_file(loc) {
+  var min = -1;
+  var minitem = null;
+  var previtem = null;
+  var wtop = $(window).scrollTop();
+  $(".box").each(function() {
+    var itop = $(this).offset().top;
+    var diff = wtop - itop;
+    diff = parseInt(diff, 10);
+    if (diff <= 1) {    // 1px for FF
+      return false;
+    }
+    //if (diff < min || min == -1) {
+      //min = diff;
+      //previtem = minitem;
+      minitem = this;
+    //}
+  });
+  if (minitem != null) {
+    $.scrollTo(minitem, {axis: 'y', offset:1});
+  }
+}
+
+// keeps track of where we are on page
+var file_index = -1;
+var comment_index = -1;
+
+function setup_awesome_bar() {
+  $(window).unbind('scroll').scroll(function() {
+    var min = 0;
+    var minitem = null;
+    var wtop = $(window).scrollTop();
+    var index = -1;
+    $(".box").each(function() {
+      var itop = $(this).offset().top;
+      var diff = wtop - itop;
+      index += 1;
+      if (diff < 0) {
+        return false;   // stop iterating
+      }
+      //if (diff < min || min == 0) {
+      //  min = diff;
+        minitem = this;
+      //}
+    });
+    if (minitem != null) {
+      $("#awesome-bar").slideDown();
+      var title = $(minitem).children('h1').children(".filename").text();
+      $("#awesome-bar .contents .filename").html(title);
+    }
+    else {
+      $("#awesome-bar").slideUp();
+    }
+    file_index = index;
   });
 }
 

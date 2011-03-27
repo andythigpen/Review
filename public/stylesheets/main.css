@@ -4,8 +4,7 @@ html, body {
 
 body { 
   font-family: 'PT Sans', Lucida Sans, Arial, sans-serif;
-  /*font-size: 0.8em;*/
-  font-size: 85%;
+  font-size: 0.9em;
   color: #444; 
   background: #fff url('/images/body_back.png') repeat-x 0 106px;
 }
@@ -55,6 +54,7 @@ nav a {
 section {
   padding-top: 1em;
   padding-bottom: 1em;
+  font-size: 0.9em;
 }
 
 .push {

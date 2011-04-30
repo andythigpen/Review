@@ -37,4 +37,11 @@ class UserMailer < ActionMailer::Base
     end
     mail(:to => commentee.email, :subject => @subject)
   end
+
+  def reminder_email(review_event, reviewer)
+    @url = APP_CONFIG['url']
+    @reviewer = reviewer
+    @review_event = review_event
+    mail(:to => reviewer.email, :subject => "Review Reminder")
+  end
 end

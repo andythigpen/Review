@@ -1,0 +1,11 @@
+Review Reminder: 
+
+<% d = @review_event.duedate.to_date - DateTime.now.to_date %>
+The Review "<%= @review_event.name %>" <%= d < 0 ? "was" : "is" %> due <%= d == 0 ? "today" : d.abs.days.inspect %><% if d < 0 %> ago<% elsif d > 0 %> from today<% end %>.
+
+Due date: <%= @review_event.duedate.to_date.inspect %>
+Review URL: <%= @url %><%= review_event_path(@review_event) %>
+
+Signed,
+The Review Swami
+

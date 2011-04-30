@@ -2,8 +2,11 @@ html, body {
   height: 100%;
 }
 
-body { 
+body, .review pre { 
   font-family: 'PT Sans', Lucida Sans, Arial, sans-serif;
+}
+
+body {
   font-size: 0.9em;
   color: #444; 
   background: #fff url('/images/body_back.png') repeat-x 0 106px;
@@ -266,7 +269,7 @@ ul li em {
   margin: 1em 0;
 }
 
-.review p {
+.review p, .review pre {
   margin: 0em 1em 0.6em;
 }
 

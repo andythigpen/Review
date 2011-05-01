@@ -511,6 +511,10 @@ ul li em {
   color: #fff;
 }
 
+.ui-widget a.ui-state-disabled:hover {
+  color: #000;
+}
+
 .ui-dialog {
   font-size: 0.9em;
 }

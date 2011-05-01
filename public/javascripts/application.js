@@ -166,6 +166,15 @@ function add_reviewer(link, content) {
 
 function submit_comment(loc) {
   var comment = $(loc).parents(".comment-box").find("form").serialize();
+  $(loc).unbind().removeAttr('onclick').addClass("ui-state-disabled");
+  $(loc).bind('click', function() { return false; });
+  $(loc).siblings(".button").each(function() {
+    if ($(this).text().toLowerCase() == "close") {
+      return 0;
+    }
+    $(this).unbind().removeAttr('onclick').addClass("ui-state-disabled");
+    $(this).bind('click', function() { return false; });
+  });
   $.post("/comments/create", comment,
     function(data, textStatus, jqXHR) {
       if (data.status == "ok") {

@@ -337,7 +337,9 @@ function create_changeset() {
                function(data, textStatus, jqXHR) {
                  $(this).dialog('close');
                  if (data.status == "ok") {
-                   location.href += "?changeset="+data.id;
+                   var url = location.href;
+                   url = url.replace(/\?changeset=\d+/, "");
+                   location.href = url+"?changeset="+data.id;
                  }
                  else {
                    display_error(data.errors);

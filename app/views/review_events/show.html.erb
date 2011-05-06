@@ -62,7 +62,9 @@
           :class => "ui-state-default ui-corner-all button" do %>
         <span class="ui-icon ui-icon-pencil left"></span>Edit
       <% end %>
-    <% elsif @status.nil? and @review_event.reviewers.include?(current_user) %>
+    <% elsif @status.nil? and 
+       @review_event.reviewers.include?(current_user) and 
+       @changeset.submitted %>
       <%= link_to_js "submit_changeset_status('#{@changeset.id}', true);",
           :class => "ui-state-default ui-corner-all button" do %>
         <span class="ui-icon ui-icon-check left"></span>
@@ -105,6 +107,12 @@
   <div class="notice">
     No changesets yet.  Click &quot;Add new changeset&quot; above to create
     one.
+  </div>
+<% elsif current_user != @changeset.review_event.owner and 
+         not @changeset.submitted %>
+  <div class="warn">
+    You shouldn't be here...This changeset has not been submitted for 
+    review yet! 
   </div>
 <% else %>
   <%#= render :partial => "status" %>

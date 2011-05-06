@@ -2,6 +2,9 @@
   <strong>Revisions (changesets):</strong>
   <ol>
     <% @review_event.changesets.each do |c| %>
+      <% if current_user != @review_event.owner %>
+        <% next if not c.submitted %>
+      <% end %>
       <li class="changeset">
         <% if @changeset == c %>
           <span class="ui-icon ui-icon-bullet left"></span>
@@ -9,6 +12,10 @@
         <% else %>
           <span class="ui-icon ui-icon-radio-on left"></span>
           <%= link_to "#{c.name}", review_event_path(:changeset => c.id) %>
+        <% end %>
+        <% if not c.submitted %>
+          <span class="ui-corner-all warn" 
+            style="margin-left:2em; padding:0.2em 0.5em;">Not Submitted</span>
         <% end %>
       </li>
     <% end %>

@@ -302,6 +302,9 @@ ul li em {
 .notice {
   background: #FCFBE3;
   border: 1px solid #F7F3BC;
+}
+
+.notice, .warn {
   padding: 0.5em 1em;
   margin-bottom: 1em;
 }
@@ -311,7 +314,7 @@ ul li em {
   border: 1px solid #BDDCF0;
 }
 
-.rejected {
+.rejected, .warn {
   background: #F57373;
   border: 1px solid #CC1F1F;
   color: #fff;

@@ -273,6 +273,10 @@ ul li em {
   margin: 0em 1em 0.6em;
 }
 
+.review pre {
+  white-space: pre-wrap;
+}
+
 .review ul {
   margin: 1em 0;
 }

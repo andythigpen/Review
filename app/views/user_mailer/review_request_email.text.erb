@@ -4,7 +4,8 @@ You've been asked to review <%= @reviewee.username %>'s code.
 
 <% if not @review_event.duedate.nil? %>Due Date: <%= @review_event.duedate %><% end %>
 Review Name: <%= @review_event.name %>
-URL: <%= @url %><%= review_event_path(@review_event) %>
+Changeset: <%= @changeset.name %>
+URL: <%= @url %><%= changeset_path(@changeset) %>
 Notes: 
 <%= @review_event.notes %>
 

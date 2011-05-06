@@ -8,10 +8,11 @@ class UserMailer < ActionMailer::Base
          :subject => "Thanks for Registering for Review")
   end
 
-  def review_request_email(reviewer, reviewee, review_event)
+  def review_request_email(reviewer, reviewee, changeset)
     @reviewer = reviewer
     @reviewee = reviewee
-    @review_event = review_event
+    @review_event = changeset.review_event
+    @changeset = changeset
     @url = APP_CONFIG['url']
     mail(:to => reviewer.email, :subject => "Review Request")
   end

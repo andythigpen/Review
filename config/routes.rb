@@ -34,6 +34,8 @@ Review::Application.routes.draw do
   post "changeset/status" => "changeset_user_status#update"
   match "changeset/status/:id" => "changeset_user_status#destroy", 
         :via => :delete
+  get "changeset/download/:id" => "changeset#download", 
+      :as => :changeset_download
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

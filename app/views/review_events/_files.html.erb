@@ -6,6 +6,10 @@
       <%= link_to_js "add_new_diff();", :class => "right" do %>
         <span class="ui-icon ui-icon-plus inline-icon"></span>Add New Diff
       <% end %>
+    <%= else %>
+      <span class="right">
+        <span class="ui-icon ui-icon-document inline-icon"></span>Download Patch
+      </span>
     <% end %>
     <div style="clear:both; margin-bottom:0.5em;"></div>
   </div>

@@ -45,12 +45,23 @@ class ChangesetController < ApplicationController
   end
 
   def destroy
-    @comment = Changeset.find(params[:id])
-    @comment.destroy
+    @changeset = Changeset.find(params[:id])
+    @changeset.destroy
 
     respond_to do |format|
       format.js  { render :json => { :status => "ok" } }
     end
+  end
+
+  def download
+    @changeset = Changeset.find(params[:id])
+    @patch = ""
+    @changeset.diffs.each do |c|
+      @patch += "--- " + c.origin_file + "\n"
+      @patch += "+++ " + c.updated_file + "\n"
+      @patch += c.contents + "\n"
+    end
+    send_data @patch, :filename => "changeset_#{@changeset.id}.patch"
   end
 
 end

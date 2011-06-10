@@ -14,7 +14,8 @@ class UserMailer < ActionMailer::Base
     @review_event = changeset.review_event
     @changeset = changeset
     @url = APP_CONFIG['url']
-    mail(:to => reviewer.email, :subject => "Review Request")
+    subject = "Review Request: #{@review_event.name}"
+    mail(:to => reviewer.email, :subject => subject)
   end
 
   def status_email(status, reviewer, reviewee)
@@ -23,7 +24,8 @@ class UserMailer < ActionMailer::Base
     @reviewee = reviewee
     @reviewer = reviewer
     @url = APP_CONFIG['url']
-    mail(:to => reviewee.email, :subject => "Review Status Change")
+    subject = "Review Status Change: #{@changeset.review_event.name}"
+    mail(:to => reviewee.email, :subject => subject)
   end
 
   def comment_email(comment, commenter, commentee)
@@ -43,6 +45,7 @@ class UserMailer < ActionMailer::Base
     @url = APP_CONFIG['url']
     @reviewer = reviewer
     @review_event = review_event
-    mail(:to => reviewer.email, :subject => "Review Reminder")
+    subject = "Review Reminder: #{@review_event.name}"
+    mail(:to => reviewer.email, :subject => subject)
   end
 end

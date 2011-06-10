@@ -15,4 +15,5 @@ class ReviewEvent < ActiveRecord::Base
     return nil if status.nil?
     return status.accepted
   end
+
 end

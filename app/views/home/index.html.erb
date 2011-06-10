@@ -56,6 +56,7 @@
         <li class="ui-corner-all review-event" style="margin-bottom:0.5em;">
           <span class="ui-icon ui-icon-carat-1-e inline-icon" 
                 style="margin-right:0.3em"></span>
+          <em style="font-size:0.9em;margin-right:1em;"><%= r.updated_at.to_date %></em>
           <%= link_to "#{r.name}", review_event_path(r.id) %>
           <span class="author">by <%= r.owner.username %></span>
           <% if not accepted.nil? and not accepted %>
@@ -102,11 +103,13 @@
     </div>
   <% else %>
     <ul>
-      <% current_user.reviews_owned.each do |r| %>
+      <%# current_user.reviews_owned.sort_by {|r| r.updated_at}.each do |r| %>
+      <% ReviewEvent.find_all_by_user_id(current_user.id, :order => "updated_at DESC").each do |r| %>
         <li class="ui-corner-all review-event">
           <div style="display:inline-block; vertical-align:middle;">
             <span class="ui-icon ui-icon-carat-1-e inline-icon" 
                   style="margin-right:0.3em"></span>
+            <em style="font-size:0.9em;margin-right:1em;"><%= r.updated_at.to_date %></em>
             <%= link_to "#{r.name}", review_event_path(r.id) %>
             <span class="author">by <%= current_user.username %></span>
             <% if r.changesets.last.nil? or not r.changesets.last.submitted %>

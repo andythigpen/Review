@@ -432,6 +432,7 @@ ul li em {
 
 .comment {
   padding: 1em 2em;
+  border-top: 1px solid #f0e0e0;
 }
 
 .comment-actions {
@@ -481,8 +482,9 @@ ul li em {
 }
 
 .comment-text {
-  margin-left: 1em;
-  margin-top: 0.5em;
+  /* margin-left: 1em; */
+  /* margin-top: 0.5em; */
+  display: inline-block;
 }
 
 .comment-code {

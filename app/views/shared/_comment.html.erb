@@ -2,25 +2,29 @@
 <a name="<%= comment.id %>"></a>
 <div class="comment" id="comment_<%= comment.id %>">
   <div>
-    <div>
+    <div class="right">
       <span class="author"><%= comment.user.full_name %></span> 
-      <span><%= level == 0 ? "said" : "replied" %>
-      <% if level > 0 %>
-        to <span class="author"><%= comment.commentable.user.full_name %></span>
-      <% end %>
-      </span>
-      <div class="comment-actions hidden right">
+      <div class="comment-actions hidden">
         <% if comment.user != current_user %>
           <%= add_comment_button comment, "#reply_#{comment.id}" do %>
             <span class="ui-icon ui-icon-arrowreturnthick-1-w inline-icon"></span>Reply
-          <% end %>
+          <% end %>&nbsp;
         <% elsif comment.comments.size == 0 %>
           <a href="#" onclick="delete_comment('<%= comment.id %>'); return false;">
             <span class="ui-icon ui-icon-close inline-icon"></span>Delete</a> 
+        <% else %>
+          <span class="ui-icon ui-icon-locked inline-icon"></span>Locked
         <% end %>
       </div>
     </div>
-    <div class="comment-text"><%= comment.html_format %></div>
+    <div class="comment-text">
+      <% if level == 0 %>
+        <span class="ui-icon ui-icon-carat-1-n inline-icon"></span>
+      <% else %>
+        <span class="ui-icon ui-icon-arrowreturnthick-1-w inline-icon"></span>
+      <% end %>
+      <%= comment.html_format %>
+    </div>
   </div> 
 </div>
 

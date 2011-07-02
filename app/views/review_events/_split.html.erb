@@ -123,7 +123,9 @@
         </td>
       </tr>
       <tr class="comment-box-container">
-        <% if left[:type] == "line" and right[:type] == "line" %>
+        <% if left[:type] == "range" or right[:type] == "range" %>
+          <%# skip comments for ranges %>
+        <% elsif left[:type] == "line" and right[:type] == "line" %>
           <td class="lineno"></td>
           <td colspan="3">
             <% comments = both_comments[left[:lineno].to_i] %>

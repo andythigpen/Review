@@ -1,0 +1,37 @@
+<%= form_for(:profile, @profile, :url => { :action => "update" }) do |f| %>
+  <% if @profile.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@profile.errors.count, "error") %> 
+      prohibited this review_event from being saved:</h2>
+
+      <ul>
+      <% @profile.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label "First Name" %>
+    <%= f.text_field :first_name, :style => "width:20em;", 
+        :class => "text ui-corner-all ui-widget-content" %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Last Name" %>
+    <%= f.text_field :last_name, :style => "width:20em;",
+        :class => "text ui-corner-all ui-widget-content" %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Display diffs as: " %>
+    <%= f.select :display_type, [['Split (two column)', 'split'], ['Unified (one column)', 'unified']],
+        :class => "text ui-corner-all ui-widget-content" %>
+  </div>
+
+  <div class="actions field">
+    <%= f.submit :value => submit_value, 
+        :class => "ui-corner-all ui-state-default button" %>
+  </div>
+<% end %>

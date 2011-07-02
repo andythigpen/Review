@@ -1,5 +1,8 @@
 Review::Application.routes.draw do
 
+  get "profile/edit" => "profile#edit", :as => :profile
+  post "profile/update" => "profile#update"
+
   devise_for :users, :path_names => { :sign_in => "login", 
                                       :sign_up => "register", 
                                       :sign_out => "logout" }

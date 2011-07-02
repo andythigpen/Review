@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
            :source => :review_event, :order => "updated_at DESC"
   has_many :comments, :dependent => :destroy
   has_many :changeset_user_statuses, :dependent => :destroy
+  has_one :profile
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :lockable, :timeoutable and :activatable
@@ -12,7 +13,8 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :username
+  attr_accessible :email, :password, :password_confirmation, :username,
+                  :first_name, :last_name
 
   def current_requests
     res = []

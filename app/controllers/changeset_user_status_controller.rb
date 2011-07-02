@@ -1,4 +1,6 @@
 class ChangesetUserStatusController < ApplicationController
+  before_filter :authenticate_user!
+
   def update
     @status = ChangesetUserStatus.find_by_user_id_and_changeset_id(
             current_user.id, params[:changeset_user_status][:changeset_id])

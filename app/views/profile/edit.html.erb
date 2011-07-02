@@ -1,0 +1,12 @@
+<% content_for :page_name do %>
+  Edit Profile
+<% end %>
+
+<div class="ui-widget ui-corner-top box">
+  <h1><strong>User Profile</strong></h1>
+
+  <div>
+    <%= render :partial => 'form', :locals => { :submit_value => "Update" } %>
+  </div>
+</div>
+

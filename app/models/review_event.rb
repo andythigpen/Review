@@ -16,4 +16,11 @@ class ReviewEvent < ActiveRecord::Base
     return status.accepted
   end
 
+  def accepted_total
+    return self.changesets.last.users_accepted.count
+  end
+
+  def reviewers_total
+    return self.review_event_users.count
+  end
 end

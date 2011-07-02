@@ -107,6 +107,7 @@
     <ul>
       <%# current_user.reviews_owned.sort_by {|r| r.updated_at}.each do |r| %>
       <% @my_reviews.each do |r| %>
+        <% lastchset = r.changesets.last %>
         <li class="ui-corner-all review-event">
           <div style="display:inline-block; vertical-align:middle;">
             <span class="ui-icon ui-icon-carat-1-e inline-icon" 
@@ -114,25 +115,26 @@
             <em style="font-size:0.9em;margin-right:1em;"><%= r.updated_at.to_date %></em>
             <%= link_to "#{r.name}", review_event_path(r.id) %>
             <span class="author">by <%= current_user.username %></span>
-            <% if r.changesets.last.nil? or not r.changesets.last.submitted %>
-              <span class="ui-corner-all info"
-                    style="padding:0.2em 0.5em;margin:0;">Not Submitted</span>
-            <% elsif r.changesets.last.rejected? %>
-              <span class="ui-corner-all rejected" 
-                    style="padding:0.2em 0.5em;margin:0;">Rejected</span>
-            <% elsif r.changesets.last.accepted? %>
-              <span class="ui-corner-all accepted" 
-                    style="padding:0.2em 0.5em;margin:0;">Accepted</span>
+            <% if lastchset.nil? or not lastchset.submitted %>
+              <span class="ui-corner-all info badge">Not Submitted</span>
+            <% elsif lastchset.rejected? %>
+              <span class="ui-corner-all rejected badge">Rejected</span>
+            <% elsif lastchset.accepted? %>
+              <span class="ui-corner-all accepted badge">Accepted</span>
             <% elsif not r.duedate.nil? %>
               <% extra = "neardue" if (r.duedate.to_date - 2).past? %>
               <% extra = "overdue" if r.duedate.to_date.past? %>
               <% countdown = r.duedate.to_date - DateTime.now.to_date %>
-              <span class="ui-corner-all <%= extra %>"
-                    style="padding:0.2em 0.5em; display:inline-block;">
+              <span class="ui-corner-all <%= extra %> badge"
+                    style="display:inline-block;">
                 due <%= "in" if countdown > 0 %> 
                 <%= countdown == 0 ? "today" : countdown.abs.days.inspect %>
                 <%= "ago" if countdown < 0 %>
               </span>
+            <% end %>
+
+            <% if not lastchset.nil? and lastchset.submitted and not lastchset.is_completed? %>
+              <span class="ui-corner-all info badge"><%= r.accepted_total %>/<%= r.reviewers_total %> accepted</span>
             <% end %>
           </div>
           <div class="review-event-actions">

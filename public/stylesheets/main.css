@@ -574,3 +574,8 @@ ul li em {
   font-size: 0.9em;
   padding-left: 0.5em;
 }
+
+.badge {
+  padding:0.2em 0.5em;
+  margin:0;
+}

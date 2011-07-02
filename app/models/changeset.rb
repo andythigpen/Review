@@ -48,4 +48,10 @@ class Changeset < ActiveRecord::Base
     ret
   end
 
+  def is_completed?
+    return false if not self.submitted
+    return true if self.rejected?
+    return true if self.accepted?
+    return false
+  end
 end

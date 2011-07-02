@@ -24,8 +24,9 @@ class ReviewEventsController < ApplicationController
     if not @changeset.nil?
       @status = @changeset.statuses.find_by_user_id(current_user.id)
     end
-    @display_type = params[:display]
-    if not current_user.profile.nil?
+    if not params[:display].nil?
+      @display_type = params[:display]
+    elsif not current_user.profile.nil?
       @display_type = current_user.profile.display_type
     end
     # default to split if not yet set in profile

@@ -3,10 +3,10 @@
 <div class="comment" id="comment_<%= comment.id %>">
   <div>
     <div>
-      <span class="author"><%= comment.user.username %></span> 
+      <span class="author"><%= comment.user.full_name %></span> 
       <span><%= level == 0 ? "said" : "replied" %>
       <% if level > 0 %>
-        to <span class="author"><%= comment.commentable.user.username %></span>
+        to <span class="author"><%= comment.commentable.user.full_name %></span>
       <% end %>
       </span>
       <div class="comment-actions hidden right">

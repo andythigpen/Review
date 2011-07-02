@@ -37,4 +37,21 @@ class User < ActiveRecord::Base
     end
     res
   end
+
+  def profile_name
+    if self.profile.nil? or not self.profile.valid_name?
+      self.username 
+    else
+      self.profile.full_name_and_username
+    end
+  end
+
+  def full_name
+    if self.profile.nil? or not self.profile.valid_name?
+      self.username 
+    else
+      self.profile.full_name
+    end
+  end
+
 end

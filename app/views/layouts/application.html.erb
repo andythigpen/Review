@@ -32,7 +32,7 @@
       <% end %>
       <div style="float:right; margin:0.5em 1.5em; font-size:0.9em;">
         <% if user_signed_in? %>
-           Logged in as <em><%= link_to "#{current_user.username}", profile_path %></em> |
+           Logged in as <em><%= link_to "#{current_user.profile_name}", profile_path %></em> |
            <%= link_to "Logout", destroy_user_session_path %>
         <% else %>
            <%= link_to "Register", new_user_registration_path %> |

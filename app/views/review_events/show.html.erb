@@ -80,7 +80,7 @@
 
   <h2>
     (<%= @review_event.id %>) <strong><%= @review_event.name %></strong> 
-    <span class="author">by <%= @review_event.owner.username %></span>
+    <span class="author">by <%= @review_event.owner.profile_name %></span>
     <div style="clear:both;"></div>
   </h2>
 
@@ -90,7 +90,7 @@
     </p>
 
     <p><strong>Reviewers:</strong>&nbsp;&nbsp;
-      <%= @review_event.reviewers.map { |u| u.username }.join(", ") %>
+    <%= @review_event.reviewers.map {|u| u.full_name }.join(", ") %>
     </p>
 
     <p>
@@ -189,13 +189,13 @@
     <div class="notice">
       <% if show_accepted %>
         Reviewers who <strong>accepted</strong> this changeset: 
-        <% accepted.map! {|x| "<strong>#{x.username}</strong>"} %>
+        <% accepted.map! {|x| "<strong>#{x.full_name}</strong>"} %>
         <%= accepted.join(", ").html_safe %>
         <br />
       <% end %>
       <% if show_rejected %>
         Reviewers who <strong>rejected</strong> this changeset: 
-        <% rejected.map! {|x| "<strong>#{x.username}</strong>"} %>
+        <% rejected.map! {|x| "<strong>#{x.full_name}</strong>"} %>
         <%= rejected.join(", ").html_safe %>
       <% end %>
     </div>

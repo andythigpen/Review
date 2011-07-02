@@ -58,7 +58,7 @@
                 style="margin-right:0.3em"></span>
           <em style="font-size:0.9em;margin-right:1em;"><%= r.updated_at.to_date %></em>
           <%= link_to "#{r.name}", review_event_path(r.id) %>
-          <span class="author">by <%= r.owner.username %></span>
+          <span class="author">by <%= r.owner.full_name %></span>
           <% if not accepted.nil? and not accepted %>
             <span class="ui-corner-all rejected" 
                   style="padding:0.2em 0.5em;margin:0;margin-left:0.3em;">Rejected</span>
@@ -113,8 +113,9 @@
             <span class="ui-icon ui-icon-carat-1-e inline-icon" 
                   style="margin-right:0.3em"></span>
             <em style="font-size:0.9em;margin-right:1em;"><%= r.updated_at.to_date %></em>
-            <%= link_to "#{r.name}", review_event_path(r.id) %>
-            <span class="author">by <%= current_user.username %></span>
+            <%= link_to "#{r.name}", review_event_path(r.id), 
+                        :style => "margin-right:1em;" %>
+            <!--<span class="author">by <%= current_user.full_name %></span>-->
             <% if lastchset.nil? or not lastchset.submitted %>
               <span class="ui-corner-all info badge">Not Submitted</span>
             <% elsif lastchset.rejected? %>
@@ -176,12 +177,12 @@
             <% owner = event.owner %>
             <% type = "Comment" %>
             <% type = "Reply" if a.commentable.class == Comment %>
-              <%= link_to type, comment_path(a) %> from<span class="author"><%= a.user.username %></span>  
+              <%= link_to type, comment_path(a) %> from<span class="author"><%= a.user.full_name %></span>  
               for <%= link_to "#{event.name}", review_event_path(event) %>
               changeset <%= link_to "#{changeset.name}", changeset_path(changeset) %>
             </li>
           <% elsif a.class == Changeset %>
-            <%= link_to "Changeset", changeset_path(a) %> from<span class="author"><%= a.review_event.owner.username %></span>  
+            <%= link_to "Changeset", changeset_path(a) %> from<span class="author"><%= a.review_event.owner.full_name %></span>  
             for <%= link_to "#{a.review_event.name}", review_event_path(a.review_event) %>
           <% else %>
             Unknown activity for <%= a.class %>

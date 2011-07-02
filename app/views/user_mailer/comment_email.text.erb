@@ -1,8 +1,8 @@
 
-The user "<%= @commenter.username %>" (<%= @commenter.email %>) has <% if @comment.commentable.class == Comment %>replied to<% else %>commented on<% end %> your <%= @comment.commentable.class.to_s.downcase %>.
+The user <%= @commenter.full_name %> (<%= @commenter.email %>) has <% if @comment.commentable.class == Comment %>replied to<% else %>commented on<% end %> your <%= @comment.commentable.class.to_s.downcase %>.
 
 Comment URL: <%= @url %><%= comment_path(@comment) %>
-<%= @commenter.username %>'s Comment:
+<%= @commenter.full_name %>'s Comment:
 <%= @comment.text_format %>
 
 

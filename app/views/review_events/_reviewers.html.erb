@@ -1,7 +1,9 @@
 <table class="reviewer-table">
   <% @review_event.review_event_users.each do |r| %>
     <tr>
-      <td><%= r.user.username %></td>
+      <td>
+        <%= r.user.profile_name %>
+      </td>
       <td>
         <%= link_to_function "<span class=\"ui-icon ui-icon-close left\"></span>Remove".html_safe, "remove_reviewer(this);", :class => "remove-link" %>
         <%= f.fields_for :review_event_users, r do |f2| %>

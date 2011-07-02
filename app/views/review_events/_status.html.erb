@@ -71,13 +71,13 @@
   <div class="notice">
     <% if show_accepted %>
       Reviewers who <strong>accepted</strong> this changeset: 
-      <% accepted.map! {|x| "<strong>#{x.username}</strong>"} %>
+      <% accepted.map! {|x| "<strong>#{x.full_name}</strong>"} %>
       <%= accepted.join(", ").html_safe %>
       <br />
     <% end %>
     <% if show_rejected %>
       Reviewers who <strong>rejected</strong> this changeset: 
-      <% rejected.map! {|x| "<strong>#{x.username}</strong>"} %>
+      <% rejected.map! {|x| "<strong>#{x.full_name}</strong>"} %>
       <%= rejected.join(", ").html_safe %>
     <% end %>
   </div>

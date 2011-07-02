@@ -38,7 +38,7 @@
   <h1>My Review Requests</h1>
 
   <% if current_user.sign_in_count == 1 and 
-        current_user.current_requests.size == 0 %>
+        @current_requests.size == 0 %>
     <div style="font-size:0.9em;">
       <span class="ui-icon ui-icon-info" style="float:left; margin-right:0.3em;"></span>
       <strong>You don't have any review requests yet</strong>... 
@@ -49,11 +49,11 @@
   <% else %>
     <ul>
       <% requests = 0 %>
-      <% current_user.current_requests.each do |r| %>
+      <% @current_requests.each do |r| %>
         <% extra = "neardue" if not r.duedate.nil? and (r.duedate.to_date - 2).past? %>
         <% extra = "overdue" if not r.duedate.nil? and r.duedate.to_date.past? %>
         <% accepted = r.status_for(current_user) %>
-        <li class="ui-corner-all review-event" style="margin-bottom:0.5em;">
+        <li class="ui-corner-all review-event">
           <span class="ui-icon ui-icon-carat-1-e inline-icon" 
                 style="margin-right:0.3em"></span>
           <em style="font-size:0.9em;margin-right:1em;"><%= r.updated_at.to_date %></em>
@@ -78,8 +78,10 @@
       <% end %>
       <% if current_user.review_requests.size == 0 %>
         <li><em>No one has requested you review their code yet.</em></li>
-      <% elsif current_user.current_requests.size == 0 %>
+      <% elsif @current_requests.size == 0 %>
         <li><em>No review requests at this time.</em></li>
+      <% else %>
+        <%= paginate @current_requests, :param_name => "cur" %>
       <% end %>
     </ul>
   <% end %>
@@ -104,7 +106,7 @@
   <% else %>
     <ul>
       <%# current_user.reviews_owned.sort_by {|r| r.updated_at}.each do |r| %>
-      <% ReviewEvent.find_all_by_user_id(current_user.id, :order => "updated_at DESC").each do |r| %>
+      <% @my_reviews.each do |r| %>
         <li class="ui-corner-all review-event">
           <div style="display:inline-block; vertical-align:middle;">
             <span class="ui-icon ui-icon-carat-1-e inline-icon" 
@@ -147,19 +149,21 @@
             <!--<a href="#">Download</a> the utility to submit new changesets or
             click the Add button above.</a>-->
            </em></li>
+      <% else %>
+        <%= paginate @my_reviews, :param_name => "rev" %>
       <% end %>
     </ul>
   <% end %>
 </div>
 
-<% activity = all_recent(1.week.ago, 10) %>
+<% recent_activity = all_recent(1.week.ago, 10) %>
 <div class="ui-widget ui-corner-top box">
   <h1>Recent Activity</h1>
   <ul>
-    <% if activity.size == 0 %>
+    <% if recent_activity.size == 0 %>
       <li><em>No recent activity.</em></li>
     <% else %>
-      <% activity.each do |a| %>
+      <% recent_activity.each do |a| %>
         <li class="ui-corner-all review-event">
           <span class="ui-icon ui-icon-carat-1-e inline-icon" 
                 style="margin-right:0.3em"></span>

@@ -8,6 +8,8 @@ gem 'rails' #, '3.0.4'
 gem 'sqlite3'
 gem 'devise' #, '1.1rc0'
 
+gem 'kaminari'
+
 # Use unicorn as the web server
 # gem 'unicorn'
 

@@ -138,6 +138,7 @@ ul {
 
 .review-event {
   padding: 0.3em;
+  margin-bottom:0.5em;
 }
 
 .review-event-actions {
@@ -564,4 +565,12 @@ ul li em {
 #awesome-bar .shadow {
   height: 20px;
   background: url('/images/shadow.png') repeat-x;
+}
+
+.pagination {
+  background: transparent;
+  border-top: 1px solid #eee;
+  border-bottom: none;
+  font-size: 0.9em;
+  padding-left: 0.5em;
 }

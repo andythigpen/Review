@@ -1,4 +1,6 @@
-<% content_for :page_name, "Edit User" %>
+<% content_for :page_name do %>
+  <%= link_to "Edit Profile", profile_path %> | Edit Account Details
+<% end %>
 <div style="text-align:center;">
   <div class="ui-widget ui-corner-top box" style="display:inline-block; text-align:left;">
     <h1><strong>Edit <%= resource_name.to_s.humanize %></strong></h1>

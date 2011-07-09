@@ -9,7 +9,7 @@ body, .review pre {
 body {
   font-size: 0.9em;
   color: #444; 
-  background: #fff url('/images/body_back.png') repeat-x 0 106px;
+  background: #fff url('/images/body_back.png') repeat-x 0 0;
 }
 
 section, article, aside, footer, header, nav, hgroup {
@@ -25,9 +25,14 @@ section, article, aside, footer, header, nav, hgroup {
 
 header {	
   background: #DDE3ED url('/images/header_back.png') repeat-x; 
-  height: 75px;
+  height: 50px;
+  /* height: 75px; */
   /* margin-top: -0.2em !important; */
   margin: 0;
+}
+
+header, header a {
+  color: #fff;
 }
 
 header>div, nav>div, section,
@@ -38,20 +43,28 @@ header>div, nav>div, section,
 }
 
 nav {
-  border-top: 2px solid #ddd;
-  border-bottom: 1px solid #ddd;
+  /* border-top: 2px solid #ddd; */
+  /* border-bottom: 1px solid #ddd; */
   margin: 0;
+  font-size: 0.9em;
 }
 
 nav, nav>div {
-  height: 30px;
-  line-height: 30px;
-  background: #e0e0e0;
+  /* height: 30px; */
+  /* line-height: 30px; */
+  /* background: #e0e0e0; */
+  height: 2.5em;
+  line-height: 2.5em;
+  background: #777;
 }
 
 nav a {
-  color: #444;
+  /* color: #444; */
   padding: 0 0.2em;
+}
+
+nav, nav a {
+  color: #efefef;
 }
 
 section {

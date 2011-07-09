@@ -45,7 +45,7 @@
   </div>
 <% end %>
 
-<div class="ui-widget ui-corner-top box">
+<div class="ui-widget box">
   <h1>My Review Requests</h1>
 
   <% if current_user.sign_in_count == 1 and 
@@ -96,9 +96,8 @@
       <% end %>
     </ul>
   <% end %>
-</div>
 
-<div class="ui-widget ui-corner-top box">
+
   <h1>My Reviews
     <%= link_to new_review_event_path, :class => "ui-corner-all ui-state-default button" do %>
       <span class="ui-icon ui-icon-circle-plus left"></span>Add
@@ -168,10 +167,9 @@
       <% end %>
     </ul>
   <% end %>
-</div>
+
 
 <% recent_activity = all_recent(1.week.ago, 10) %>
-<div class="ui-widget ui-corner-top box">
   <h1>Recent Activity</h1>
   <ul>
     <% if recent_activity.size == 0 %>

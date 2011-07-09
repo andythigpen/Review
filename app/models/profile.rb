@@ -1,7 +1,7 @@
 class Profile < ActiveRecord::Base
   before_validation :clear_avatar
   belongs_to :user
-  has_attached_file :avatar, :styles => { :medium => "300x300>", 
+  has_attached_file :avatar, :styles => { :medium => "128x128>", 
                                           :thumb => "24x24>" }
   #attr_accessible :avatar, :first_name, :last_name, :display_type, 
                   #:delete_avatar, :user

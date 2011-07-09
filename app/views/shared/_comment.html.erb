@@ -3,7 +3,8 @@
 <div class="comment" id="comment_<%= comment.id %>">
   <div>
     <div class="right">
-      <span class="author"><%= comment.user.full_name %></span> 
+      <!--<span class="author"><%= comment.user.full_name %></span> -->
+      <%= user_profile_popup(comment.user, true) %>
       <div class="comment-actions hidden">
         <% if comment.user != current_user %>
           <%= add_comment_button comment, "#reply_#{comment.id}" do %>

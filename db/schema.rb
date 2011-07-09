@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110709011655) do
+ActiveRecord::Schema.define(:version => 20110709174040) do
 
   create_table "changeset_user_statuses", :force => true do |t|
     t.boolean  "accepted"
@@ -66,6 +66,8 @@ ActiveRecord::Schema.define(:version => 20110709011655) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
+    t.string   "profession"
+    t.string   "location"
   end
 
   create_table "review_event_users", :force => true do |t|

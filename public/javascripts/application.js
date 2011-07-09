@@ -86,7 +86,16 @@ $(document).ready(function() {
   setup_comment_hover();
   setup_reviewer_autocomplete();
   setup_awesome_bar();
+  setup_profile_popups();
 });
+
+function setup_profile_popups() {
+  $(".username").unbind().
+    hover(
+      function() { $(this).find(".profile").removeClass('hidden'); },
+      function() { $(this).find(".profile").addClass('hidden'); }
+    );
+}
 
 function setup_buttons() {
   $(".button").unbind().

@@ -2,12 +2,7 @@
   <% @review_event.review_event_users.each do |r| %>
     <tr>
       <td>
-        <% if r.user.profile %>
-          <%= image_tag r.user.profile.avatar.url(:thumb), :class => "thumbnail" %>
-        <% else %>
-          <%= image_tag "/avatars/thumb/missing.png", :class => "thumbnail" %>
-        <% end %>
-        <%= r.user.profile_name %>
+        <%= user_profile_popup(r.user) %>
       </td>
       <td>
         <%= link_to_function "<span class=\"ui-icon ui-icon-close left\"></span>Remove".html_safe, "remove_reviewer(this);", :class => "remove-link" %>

@@ -39,6 +39,18 @@
   </div>
 
   <div class="field">
+    <%= f.label "Profession" %>
+    <%= f.text_field :profession, :style => "width:20em;",
+        :class => "text ui-corner-all ui-widget-content" %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Location" %>
+    <%= f.text_field :location, :style => "width:20em;",
+        :class => "text ui-corner-all ui-widget-content" %>
+  </div>
+
+  <div class="field">
     <%= f.label "Display diffs as: " %>
     <%= f.select :display_type, [['Split (two column)', 'split'], ['Unified (one column)', 'unified']],
         :class => "text ui-corner-all ui-widget-content" %>

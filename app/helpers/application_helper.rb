@@ -53,4 +53,40 @@ module ApplicationHelper
     </div>
 END_CONTENT
   end
+
+  def user_profile_popup(user, short_format=false)
+    avatar_small = image_tag "/avatars/thumb/missing.png", 
+                   :class => "thumbnail"
+    avatar_large = image_tag "/avatars/original/missing.png", 
+                   :class => "thumnail"
+    if user.profile
+      avatar_small = image_tag user.profile.avatar.url(:thumb), 
+                     :class => "thumbnail"
+      avatar_large = image_tag user.profile.avatar.url(:medium), 
+                     :class => "thumnail"
+    end
+    p = user.profile
+    name = user.profile_name
+    name = user.username if short_format
+
+    <<END_POPUP.html_safe
+    <span class="username">
+      #{avatar_small} #{name}
+      <div class="profile hidden">
+        <table>
+          <tr>
+            <td>#{avatar_large}</td>
+            <td style="padding-left:1em;">
+              <strong>Username:</strong> #{user.username}<br />
+              <strong>Full Name:</strong> #{user.full_name}<br />
+              <strong>Profession:</strong> #{p.try(:profession)}<br />
+              <strong>Location:</strong> #{p.try(:location)}
+            </td>
+          </tr>
+        </table>
+      </div>
+    </span>
+END_POPUP
+  end
+
 end

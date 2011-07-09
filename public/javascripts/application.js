@@ -90,10 +90,34 @@ $(document).ready(function() {
 });
 
 function setup_profile_popups() {
+  var timer;
+  var item;
   $(".username").unbind().
     hover(
-      function() { $(this).find(".profile").removeClass('hidden'); },
-      function() { $(this).find(".profile").addClass('hidden'); }
+      function() { 
+          if (timer) {
+              clearTimeout(timer);
+              timer = null;
+              $(".profile").addClass('hidden');
+          }
+          item = $(this);
+          timer = setTimeout(function() {
+              item.find(".profile").removeClass('hidden'); 
+              timer = null;
+          }, 500);
+      },
+      function() { 
+          if (timer) {
+              clearTimeout(timer);
+              timer = null;
+              $(".profile").addClass('hidden');
+          }
+          item = $(this);
+          timer = setTimeout(function() {
+              item.find(".profile").addClass('hidden'); 
+              timer = null;
+          }, 1000);
+      }
     );
 }
 

@@ -81,7 +81,7 @@
   <h2>
     (<%= @review_event.id %>) <strong><%= @review_event.name %></strong> 
     <span class="">by 
-      <%= user_profile_popup(current_user) %>
+      <%= user_profile_popup(@review_event.owner) %>
     </span>
     <div style="clear:both;"></div>
   </h2>
@@ -91,11 +91,19 @@
       <%= @review_event.duedate.to_date if not @review_event.duedate.nil? %>
     </p>
 
+    <% accepted = @changeset.users_accepted %>
+    <% rejected = @changeset.users_rejected %>
     <p><strong>Reviewers:</strong>&nbsp;&nbsp;
     <ul>
     <%= @review_event.reviewers.map do |u| 
           p = user_profile_popup(u)
-          "<li>#{p}</li>"
+          badge = ""
+          if current_user == @review_event.owner and accepted.include?(u)
+            badge = "<span class=\"ui-corner-all badge accepted\">Accepted</span>" 
+          elsif rejected.include?(u)
+            badge = "<span class=\"ui-corner-all badge rejected\">Rejected</span>" 
+          end
+          "<li>#{p} #{badge}</li>"
         end.join("").html_safe %>
     </ul>
     </p>
@@ -186,26 +194,6 @@
         <% end %>
       </div>
     <% end %>
-  <% end %>
-
-  <% accepted = @changeset.users_accepted %>
-  <% rejected = @changeset.users_rejected %>
-  <% show_accepted = (accepted.size > 0 and current_user == @changeset.review_event.owner) %>
-  <% show_rejected = (rejected.size > 0) %>
-  <% if show_accepted or show_rejected %>
-    <div class="notice">
-      <% if show_accepted %>
-        Reviewers who <strong>accepted</strong> this changeset: 
-        <% accepted.map! {|x| "<strong>#{x.full_name}</strong>"} %>
-        <%= accepted.join(", ").html_safe %>
-        <br />
-      <% end %>
-      <% if show_rejected %>
-        Reviewers who <strong>rejected</strong> this changeset: 
-        <% rejected.map! {|x| "<strong>#{x.full_name}</strong>"} %>
-        <%= rejected.join(", ").html_safe %>
-      <% end %>
-    </div>
   <% end %>
 
   <%#= render :partial => "files" %>

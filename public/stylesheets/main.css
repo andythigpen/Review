@@ -25,8 +25,6 @@ section, article, aside, footer, header, nav, hgroup {
 header {	
   background: #353535 url('/images/header_back.png') repeat-x; 
   height: 50px;
-  /* height: 75px; */
-  /* margin-top: -0.2em !important; */
   margin: 0;
 }
 
@@ -49,13 +47,10 @@ nav {
 
 nav, nav>div {
   height: 2em;
-  /* line-height: 2.5em; */
-  /* background: #777; */
   background: #353535;
 }
 
 nav a {
-  /* color: #444; */
   padding: 0 0.2em;
 }
 
@@ -63,12 +58,15 @@ nav, nav a {
   color: #efefef;
 }
 
+body, section {
+  background-color: #f8f8f8;
+}
+
 section {
   padding-top: 1em;
   padding-bottom: 1em;
   font-size: 0.9em;
-  /* background-color: #eee; */
-  background: #f8f8f8 url('/images/body_back.png') repeat-x 0 0;
+  background: url('/images/body_back.png') repeat-x 0 0;
 }
 
 .push {
@@ -104,7 +102,6 @@ h1 {
   background: url('/images/title_back.png') repeat-x 0 100%;
   border-bottom: 1px solid #ddd;
   font-size: 0.9em;
-  /* color: #efefef; */
 }
 
 h1 .button {
@@ -181,7 +178,6 @@ ul {
 .lineno-left, .lineno-right {
   text-align: right;
   color: #999;
-  /* padding: 0.4em; */
   padding: 0 0.8em;
   font-size: 0.9em;
 }
@@ -494,8 +490,6 @@ ul li em {
 }
 
 .comment-text {
-  /* margin-left: 1em; */
-  /* margin-top: 0.5em; */
   display: inline-block;
 }
 

@@ -23,7 +23,7 @@ section, article, aside, footer, header, nav, hgroup {
 }
 
 header {	
-  background: #DDE3ED url('/images/header_back.png') repeat-x; 
+  background: #353535 url('/images/header_back.png') repeat-x; 
   height: 50px;
   /* height: 75px; */
   /* margin-top: -0.2em !important; */
@@ -42,19 +42,16 @@ header>div, nav>div, section,
 }
 
 nav {
-  /* border-top: 2px solid #ddd; */
-  /* border-bottom: 1px solid #ddd; */
+  border-bottom: 1px solid #ddd;
   margin: 0;
   font-size: 0.9em;
 }
 
 nav, nav>div {
-  /* height: 30px; */
-  /* line-height: 30px; */
-  /* background: #e0e0e0; */
-  height: 2.5em;
-  line-height: 2.5em;
-  background: #777;
+  height: 2em;
+  /* line-height: 2.5em; */
+  /* background: #777; */
+  background: #353535;
 }
 
 nav a {
@@ -62,7 +59,7 @@ nav a {
   padding: 0 0.2em;
 }
 
-nav, nav a, #awesome-bar {
+nav, nav a {
   color: #efefef;
 }
 

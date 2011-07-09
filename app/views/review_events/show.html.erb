@@ -1,4 +1,4 @@
-<% content_for :title, "#{@review_event.name}, #{@changeset.name}" %>
+<% content_for :title, "#{@review_event.name} #{@changeset.try(:name)}" %>
 
 <% title = "Show Review"
    title += " &gt; " + @changeset.name if not @changeset.nil? %>
@@ -95,8 +95,9 @@
       </p>
     <% end %>
 
-    <% accepted = @changeset.users_accepted %>
-    <% rejected = @changeset.users_rejected %>
+    <% accepted = rejected = [] %>
+    <% accepted = @changeset.users_accepted if @changeset %>
+    <% rejected = @changeset.users_rejected if @changeset %>
     <p><strong>Reviewers:</strong>&nbsp;&nbsp;
     <ul>
     <%= @review_event.reviewers.map do |u| 

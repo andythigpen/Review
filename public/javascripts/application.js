@@ -216,6 +216,7 @@ function submit_comment(loc) {
           $(this).children(".comment-box").remove();
           $(this).fadeIn();
           setup_comment_hover();
+          setup_profile_popups();
         });
       }
   }, "json");

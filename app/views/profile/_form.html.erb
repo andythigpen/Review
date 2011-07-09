@@ -1,4 +1,4 @@
-<%= form_for(:profile, @profile, :url => { :action => "update" }) do |f| %>
+<%= form_for(:profile, @profile, :url => { :action => "update" }, :html => { :multipart => true }) do |f| %>
   <% if @profile.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@profile.errors.count, "error") %> 
@@ -9,6 +9,20 @@
         <li><%= msg %></li>
       <% end %>
       </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label "Avatar" %>
+    <%= f.file_field :avatar %><br />
+  </div>
+
+  <% if @profile.avatar? %>
+    <div class="field">
+      <%= f.check_box(:delete_avatar) %>
+      <%= f.label(:delete_avatar, 'Delete Avatar?', :style => "display:inline;") %>
+      <br />
+      <%= image_tag @profile.avatar.url(:medium) %>
     </div>
   <% end %>
 

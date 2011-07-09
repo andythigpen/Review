@@ -2,6 +2,11 @@
   <% @review_event.review_event_users.each do |r| %>
     <tr>
       <td>
+        <% if r.user.profile %>
+          <%= image_tag r.user.profile.avatar.url(:thumb), :class => "thumbnail" %>
+        <% else %>
+          <%= image_tag "/avatars/thumb/missing.png", :class => "thumbnail" %>
+        <% end %>
         <%= r.user.profile_name %>
       </td>
       <td>

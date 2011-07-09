@@ -21,6 +21,7 @@
         Add button next to <em>My Reviews</em> below to create a new
         review request.
         </li> -->
+        <li style="list-style:circle;"><%= link_to "Update your profile", profile_path %></li>
       <li style="list-style:circle;">Create a new review event by clicking the
         Add button next to &quot;My Reviews&quot; below.</li>
       <li style="list-style:circle;">Add reviewers and set a due date for your
@@ -31,6 +32,16 @@
       <li style="list-style:circle;">...</li>
       <li style="list-style:circle;">Profit???</li>
     </ul>
+  </div>
+<% end %>
+
+<% if current_user.profile.nil? and current_user.sign_in_count > 1 %>
+  <div class="info">
+    <span class="ui-icon ui-icon-info inline-icon"></span>
+    Profiles are now active! Click <%= link_to "here", profile_path %>
+    to update your information.
+    Profiles can be editted at any time by clicking on your username in the
+    upper left-hand corner.
   </div>
 <% end %>
 

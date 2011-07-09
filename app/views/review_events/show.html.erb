@@ -80,7 +80,7 @@
 
   <h2>
     (<%= @review_event.id %>) <strong><%= @review_event.name %></strong> 
-    <span class="author">by <%= @review_event.owner.profile_name %></span>
+    <span class="author">by <%= image_tag @review_event.owner.profile.avatar.url(:thumb), :class => "thumbnail" %><%= @review_event.owner.profile_name %></span>
     <div style="clear:both;"></div>
   </h2>
 
@@ -90,7 +90,15 @@
     </p>
 
     <p><strong>Reviewers:</strong>&nbsp;&nbsp;
-    <%= @review_event.reviewers.map {|u| u.full_name }.join(", ") %>
+    <ul>
+    <%= @review_event.reviewers.map do |u| 
+          i = image_tag "/avatars/thumb/missing.png", :class => "thumbnail"
+          if u.profile
+            i = image_tag u.profile.avatar.url(:thumb), :class => "thumbnail"
+          end
+          "<li>#{i} #{u.profile_name}</li>"
+        end.join("").html_safe %>
+    </ul>
     </p>
 
     <p>

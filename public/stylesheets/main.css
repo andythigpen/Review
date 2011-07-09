@@ -9,7 +9,6 @@ body, .review pre {
 body {
   font-size: 0.9em;
   color: #444; 
-  background: #fff url('/images/body_back.png') repeat-x 0 0;
 }
 
 section, article, aside, footer, header, nav, hgroup {
@@ -63,7 +62,7 @@ nav a {
   padding: 0 0.2em;
 }
 
-nav, nav a {
+nav, nav a, #awesome-bar {
   color: #efefef;
 }
 
@@ -71,6 +70,8 @@ section {
   padding-top: 1em;
   padding-bottom: 1em;
   font-size: 0.9em;
+  /* background-color: #eee; */
+  background: #f8f8f8 url('/images/body_back.png') repeat-x 0 0;
 }
 
 .push {
@@ -106,6 +107,7 @@ h1 {
   background: url('/images/title_back.png') repeat-x 0 100%;
   border-bottom: 1px solid #ddd;
   font-size: 0.9em;
+  /* color: #efefef; */
 }
 
 h1 .button {

@@ -116,7 +116,7 @@ function setup_profile_popups() {
           timer = setTimeout(function() {
               item.find(".profile").addClass('hidden'); 
               timer = null;
-          }, 1000);
+          }, 500);
       }
     );
 }

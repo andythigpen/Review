@@ -54,7 +54,7 @@ module ApplicationHelper
 END_CONTENT
   end
 
-  def user_profile_popup(user, short_format=false)
+  def user_profile_popup(user, short_format=false, profile_class="profile-left")
     avatar_small = image_tag "/avatars/thumb/missing.png", 
                    :class => "thumbnail"
     avatar_large = image_tag "/avatars/original/missing.png", 
@@ -72,7 +72,7 @@ END_CONTENT
     <<END_POPUP.html_safe
     <span class="username">
       #{avatar_small} #{name}
-      <div class="profile hidden">
+      <div class="profile #{profile_class} hidden">
         <table>
           <tr>
             <td>#{avatar_large}</td>

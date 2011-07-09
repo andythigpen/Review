@@ -2,7 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Review</title>
+  <title>
+    Review 
+    <% if content_for? :title %>
+      - <%= yield :title %>
+    <% end %>
+  </title>
   <%= stylesheet_link_tag "reset.css" %>
   <%#= stylesheet_link_tag "custom-theme/jquery-ui-1.8.10.custom.css" %>
   <%= stylesheet_link_tag "absolution/jquery.ui.all.css" %>

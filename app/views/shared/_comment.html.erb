@@ -4,7 +4,7 @@
   <div>
     <div class="right">
       <!--<span class="author"><%= comment.user.full_name %></span> -->
-      <%= user_profile_popup(comment.user, true) %>
+      <%= user_profile_popup(comment.user, true, "profile-right") %>
       <div class="comment-actions hidden">
         <% if comment.user != current_user %>
           <%= add_comment_button comment, "#reply_#{comment.id}" do %>

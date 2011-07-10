@@ -57,7 +57,7 @@ END_CONTENT
   def user_profile_popup(user, short_format=false, profile_class="profile-left")
     avatar_small = image_tag "/avatars/thumb/missing.png", 
                    :class => "thumbnail"
-    avatar_large = image_tag "/avatars/original/missing.png", 
+    avatar_large = image_tag "/avatars/medium/missing.png", 
                    :class => "thumnail"
     if user.profile
       avatar_small = image_tag user.profile.avatar.url(:thumb), 

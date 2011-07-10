@@ -75,14 +75,25 @@ END_CONTENT
       <div class="profile #{profile_class} hidden">
         <table>
           <tr>
-            <td>#{avatar_large}</td>
-            <td style="padding-left:1em;">
-              <strong>Username:</strong> #{user.username}<br />
-              <strong>Full Name:</strong> #{user.full_name}<br />
-              <strong>Profession:</strong> #{p.try(:profession)}<br />
-              <strong>Location:</strong> #{p.try(:location)}<br />
-              <strong>Quote:</strong> #{p.try(:quote)}
-            </td>
+            <td rowspan="5" style="padding-right:1em;">#{avatar_large}</td>
+            <td><strong>Username:</strong></td>
+            <td>#{user.username}</td>
+          </tr>
+          <tr>
+            <td><strong>Full Name:</strong></td>
+            <td>#{user.full_name}</td>
+          </tr>
+          <tr>
+            <td><strong>Profession:</strong></td>
+            <td>#{p.try(:profession)}</td>
+          </tr>
+          <tr>
+            <td><strong>Location:</strong></td>
+            <td>#{p.try(:location)}</td>
+          </tr>
+          <tr>
+            <td><strong>Quote:</strong></td>
+            <td>#{p.try(:quote)}</td>
           </tr>
         </table>
       </div>

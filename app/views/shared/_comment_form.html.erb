@@ -1,7 +1,7 @@
 <div id="comment-box" class="comment-box hidden">
   <%= form_for(:comment) do |f| %>
     <div class="field">
-      <%= f.label :content, "" %>
+      <%= f.label :content, "Comment" %>
       <%= f.hidden_field :commentable_id %>
       <%= f.hidden_field :commentable_type %>
       <%= f.hidden_field :user_id, :value => current_user.id %>

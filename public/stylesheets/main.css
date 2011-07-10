@@ -607,6 +607,11 @@ ul li em {
   min-width: 300px;
 }
 
+.profile td {
+  vertical-align: top;
+  padding: 0.1em;
+}
+
 .profile-right {
   right: 0;
 }
@@ -614,3 +619,4 @@ ul li em {
 .profile-left {
   left: 0;
 }
+

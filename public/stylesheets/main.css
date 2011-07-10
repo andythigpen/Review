@@ -63,10 +63,11 @@ section {
   padding-bottom: 1em;
   font-size: 0.9em;
   background: url('/images/body_back.png') repeat-x 0 0;
+  border-top: 1px solid #e5e5e5;
 }
 
 html, body, section {
-  background-color: #f8f8f8;
+  background-color: #f5f5f5;
 }
 
 .push {
@@ -159,7 +160,7 @@ ul {
 
 .box {
   margin: 1em 0;
-  border: 1px solid #bcbcbc;
+  border: 1px solid #d5d5d5;
   background: #fff;
   position: relative;
 }

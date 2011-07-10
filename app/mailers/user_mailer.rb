@@ -48,4 +48,14 @@ class UserMailer < ActionMailer::Base
     subject = "Review Reminder: #{@review_event.name}"
     mail(:to => reviewer.email, :subject => subject)
   end
+
+  def review_change_email(reviewer, reviewee, changeset)
+    @reviewer = reviewer
+    @reviewee = reviewee
+    @review_event = changeset.review_event
+    @changeset = changeset
+    @url = APP_CONFIG['url']
+    subject = "Review Changed: #{@review_event.name}"
+    mail(:to => reviewer.email, :subject => subject)
+  end
 end

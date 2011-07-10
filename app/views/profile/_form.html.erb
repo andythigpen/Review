@@ -56,6 +56,13 @@
         :class => "text ui-corner-all ui-widget-content" %>
   </div>
 
+  <div class="field">
+    <%= f.label "Quote" %>
+    <%= f.text_area :quote, :rows => "2", :style => "width:20em;",
+        :class => "text ui-corner-all ui-widget-content" %>
+  </div>
+
+
   <div class="actions field">
     <%= f.submit :value => submit_value, 
         :class => "ui-corner-all ui-state-default button" %>

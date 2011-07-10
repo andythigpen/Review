@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110709174040) do
+ActiveRecord::Schema.define(:version => 20110710200602) do
 
   create_table "changeset_user_statuses", :force => true do |t|
     t.boolean  "accepted"
@@ -48,11 +48,11 @@ ActiveRecord::Schema.define(:version => 20110709174040) do
 
   create_table "diffs", :force => true do |t|
     t.string   "origin_file"
-    t.string   "updated_file"
     t.text     "contents"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "changeset_id"
+    t.string   "updated_file"
   end
 
   create_table "profiles", :force => true do |t|
@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(:version => 20110709174040) do
     t.datetime "avatar_updated_at"
     t.string   "profession"
     t.string   "location"
+    t.string   "quote"
   end
 
   create_table "review_event_users", :force => true do |t|

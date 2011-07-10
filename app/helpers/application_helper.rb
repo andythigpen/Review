@@ -80,7 +80,8 @@ END_CONTENT
               <strong>Username:</strong> #{user.username}<br />
               <strong>Full Name:</strong> #{user.full_name}<br />
               <strong>Profession:</strong> #{p.try(:profession)}<br />
-              <strong>Location:</strong> #{p.try(:location)}
+              <strong>Location:</strong> #{p.try(:location)}<br />
+              <strong>Quote:</strong> #{p.try(:quote)}
             </td>
           </tr>
         </table>

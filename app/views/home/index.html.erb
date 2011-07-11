@@ -5,7 +5,7 @@
 <% end %>
 
 <% if current_user.sign_in_count == 1 %>
-  <div class="info ui-corner-all">
+  <div class="info">
     <!--<a href="#" class="button ui-corner-all ui-state-default" 
       style="float:right; margin-left:1em;">Hide</a>-->
     <span style="font-size:1.5em;">Getting Started is Easy</span>.<br />
@@ -22,18 +22,10 @@
         Add button next to <em>My Reviews</em> below to create a new
         review request.
         </li> -->
-        <li style="list-style:circle;"><%= link_to "Update your profile", profile_path %></li>
-      <li style="list-style:circle;">Create a new review event by clicking the
-        Add button next to &quot;My Reviews&quot; below.</li>
-      <li style="list-style:circle;">Add reviewers and set a due date for your
-        review.</li>
-      <li style="list-style:circle;">Add a changeset to your review.  A
-        changeset is a collection of unified diffs.</li>
-      <li style="list-style:circle;">Submit your changeset for review.</li>
-      <li style="list-style:circle;">...</li>
-      <li style="list-style:circle;">Profit???</li>
+      <li style="list-style:circle;">First, <%= link_to "update your profile", profile_path %> with your relevant information.</li>
     </ul>
   </div>
+
 <% end %>
 
 <% if current_user.profile.nil? and current_user.sign_in_count > 1 %>
@@ -58,6 +50,19 @@
       This is where you will see review requests from other users when 
       they ask you to take a look at their code. 
     </div>
+
+    <div class="info" style="font-size:0.9em;">
+      <p style="font-size:1.2em;">Reviewing other's code:</p>
+      <ul style="margin-left:2em;">
+        <li style="list-style:circle;">Click on the review event(s) that appear 
+        here.</li>
+        <li style="list-style:circle;">Look over the code and make any 
+        comments/suggestions necessary (remember to play nice).</li>
+        <li style="list-style:circle;">Click &quot;Accept&quot; or 
+        &quot;Reject&quot; at the top of the review to submit your 
+        approval/disapproval.</li>
+      </ul>
+    </div>
   <% else %>
     <ul>
       <% requests = 0 %>
@@ -65,13 +70,15 @@
         <% extra = "neardue" if not r.duedate.nil? and (r.duedate.to_date - 2).past? %>
         <% extra = "overdue" if not r.duedate.nil? and r.duedate.to_date.past? %>
         <% accepted = r.status_for(current_user) %>
-        <li class="ui-corner-all review-event">
+        <li class="review-event <%= cycle("even", "odd") %>">
           <span class="ui-icon ui-icon-carat-1-e inline-icon" 
                 style="margin-right:0.3em"></span>
           <em style="font-size:0.9em;margin-right:1em;"><%= r.updated_at.to_date %></em>
           <%= link_to "#{r.name}", review_event_path(r.id) %>
           <span class="author">by <%= r.owner.full_name %></span>
-          <% if not accepted.nil? and not accepted %>
+
+          <div class="right">
+           <% if not accepted.nil? and not accepted %>
             <span class="ui-corner-all rejected" 
                   style="padding:0.2em 0.5em;margin:0;margin-left:0.3em;">Rejected</span>
           <% elsif accepted %>
@@ -86,8 +93,11 @@
               <%= "ago" if countdown < 0 %>
             </span>
           <% end %>
+          </div>
+
         </li>
       <% end %>
+      <% reset_cycle %>
       <% if current_user.review_requests.size == 0 %>
         <li><em>No one has requested you review their code yet.</em></li>
       <% elsif @current_requests.size == 0 %>
@@ -109,24 +119,49 @@
         current_user.reviews_owned.size == 0 %>
     <div style="font-size:0.9em;">
       <span class="ui-icon ui-icon-info left" style="margin-right:0.3em;"></span>
-      <strong>You haven't made any review requests yet</strong>... 
+      <strong>You haven't created any reviews yet</strong>... 
       <br />
-      This is where you will see review requests to other users while 
-      you are waiting for them to take a look at your code. 
+      This is where you will see the reviews that you have created. 
     </div>
+
+    <div class="info" style="font-size:0.9em;">
+      <p style="font-size:1.2em;">Submitting code for others to review:</p>
+      <ul style="margin-left:2em;">
+        <li style="list-style:circle;">Create a new review event by clicking the
+          Add button above.</li>
+        <li style="list-style:circle;">Add reviewers to your review by typing
+          in their name, username, or email address.</li>
+        <li style="list-style:circle;">Add a changeset to your review.  (A
+          changeset is a collection of unified diffs.)</li>
+          <li style="list-style:circle;">Upload unified diffs (from a patch file) or copy/paste the unified diffs manually.</li>
+        <li style="list-style:circle;">Submit your changeset for review.</li>
+        <li style="list-style:circle;">...</li>
+        <li style="list-style:circle;">Profit???</li>
+      </ul>
+    </div>
+
   <% else %>
     <ul>
       <%# current_user.reviews_owned.sort_by {|r| r.updated_at}.each do |r| %>
       <% @my_reviews.each do |r| %>
         <% lastchset = r.changesets.last %>
-        <li class="ui-corner-all review-event">
+        <li class="review-event <%= cycle("even", "odd") %>">
           <div style="display:inline-block; vertical-align:middle;">
             <span class="ui-icon ui-icon-carat-1-e inline-icon" 
                   style="margin-right:0.3em"></span>
             <em style="font-size:0.9em;margin-right:1em;"><%= r.updated_at.to_date %></em>
             <%= link_to "#{r.name}", review_event_path(r.id), 
                         :style => "margin-right:1em;" %>
-            <!--<span class="author">by <%= current_user.full_name %></span>-->
+          </div>
+
+          <div class="review-event-actions right">
+            <%= link_to_js "remove_review_event(this, '#{r.id}');" do %>
+              <span class="ui-icon ui-icon-close left"></span>
+              Delete
+            <% end %>
+          </div>
+
+          <div class="right">
             <% if lastchset.nil? or not lastchset.submitted %>
               <span class="ui-corner-all info badge">Not Submitted</span>
             <% elsif lastchset.rejected? %>
@@ -146,17 +181,13 @@
             <% end %>
 
             <% if not lastchset.nil? and lastchset.submitted and not lastchset.is_completed? %>
-              <span class="ui-corner-all info badge"><%= r.accepted_total %>/<%= r.reviewers_total %> accepted</span>
+              <span class="ui-corner-all badge"><%= r.accepted_total %>/<%= r.reviewers_total %> accepted</span>
             <% end %>
           </div>
-          <div class="review-event-actions">
-            <%= link_to_js "remove_review_event(this, '#{r.id}');" do %>
-              <span class="ui-icon ui-icon-close left"></span>
-              Delete
-            <% end %>
-          </div>
+
         </li>
       <% end %>
+      <% reset_cycle %>
       <% if current_user.reviews_owned.size == 0 %>
         <li><em>You haven't submitted any code for review yet!
          Click the &quot;Add&quot; button above to create a new review event.
@@ -187,12 +218,14 @@
             <% owner = event.owner %>
             <% type = "Comment" %>
             <% type = "Reply" if a.commentable.class == Comment %>
-              <%= link_to type, comment_path(a) %> from<span class="author"><%= a.user.full_name %></span>  
+            <%= link_to type, comment_path(a) %> from 
+            <%= user_profile_popup(a.user, :thumbnail => false, :username => a.user.full_name) %>
               for <%= link_to "#{event.name}", review_event_path(event) %>
               changeset <%= link_to "#{changeset.name}", changeset_path(changeset) %>
             </li>
           <% elsif a.class == Changeset %>
-            <%= link_to "Changeset", changeset_path(a) %> from<span class="author"><%= a.review_event.owner.full_name %></span>  
+            <%= link_to "Changeset", changeset_path(a) %> from 
+            <%= user_profile_popup(a.review_event.owner, :thumbnail => false, :username => a.review_event.owner.full_name) %>
             for <%= link_to "#{a.review_event.name}", review_event_path(a.review_event) %>
           <% else %>
             Unknown activity for <%= a.class %>

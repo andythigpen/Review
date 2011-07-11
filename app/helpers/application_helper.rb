@@ -54,25 +54,31 @@ module ApplicationHelper
 END_CONTENT
   end
 
-  def user_profile_popup(user, short_format=false, profile_class="profile-left")
+  def user_profile_popup(user, params={})
+    defaults = { :short_format  => false, 
+                 :profile_class => "profile-left",
+                 :thumbnail     => true, 
+                 :username      => user.profile_name }
+    params = defaults.merge(params)
+
     avatar_small = image_tag "/avatars/thumb/missing.png", 
-                   :class => "thumbnail"
+                   :class => "thumbnail" if params[:thumbnail]
     avatar_large = image_tag "/avatars/medium/missing.png", 
                    :class => "thumnail"
     if user.profile
       avatar_small = image_tag user.profile.avatar.url(:thumb), 
-                     :class => "thumbnail"
+                     :class => "thumbnail" if params[:thumbnail]
       avatar_large = image_tag user.profile.avatar.url(:medium), 
                      :class => "thumnail"
     end
     p = user.profile
-    name = user.profile_name
-    name = user.username if short_format
+    name = params[:username]
+    name = user.username if params[:short_format]
 
     <<END_POPUP.html_safe
     <span class="username">
       #{avatar_small} #{name}
-      <div class="profile #{profile_class} hidden">
+      <div class="profile #{params[:profile_class]} hidden">
         <table>
           <tr>
             <td rowspan="5" style="padding-right:1em;">#{avatar_large}</td>

@@ -75,7 +75,7 @@
                 style="margin-right:0.3em"></span>
           <em style="font-size:0.9em;margin-right:1em;"><%= r.updated_at.to_date %></em>
           <%= link_to "#{r.name}", review_event_path(r.id) %>
-          <span class="author">by <%= r.owner.full_name %></span>
+          <span class="author">by <%= user_profile_popup(r.owner, :username => r.owner.full_name) %></span>
 
           <div class="right">
            <% if not accepted.nil? and not accepted %>

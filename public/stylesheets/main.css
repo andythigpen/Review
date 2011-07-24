@@ -618,5 +618,6 @@ ul li em {
 }
 
 .reviewers-list {
-  width: 250px;
+  width: 300px;
+  z-index: 0;
 }

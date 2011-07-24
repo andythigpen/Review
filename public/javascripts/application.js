@@ -84,7 +84,6 @@ $(document).ready(function() {
 
   setup_buttons();
   setup_comment_hover();
-  setup_reviewer_autocomplete();
   setup_awesome_bar();
   setup_profile_popups();
 });
@@ -169,19 +168,11 @@ function change_reviewer_autocomplete(ev, ui) {
 }
 
 function setup_reviewer_autocomplete() {
-  $(".chosen").chosen();
-  // $(".reviewer_autocomplete").autocomplete('destroy').autocomplete({
-  //   source: "/reviewers/show",
-  //   change: change_reviewer_autocomplete,
-  //   select: change_reviewer_autocomplete,
-  //   delay: 100,
-  //   selectFirst: true
-  // }).keydown(function (e) {
-  //   if (e.keyCode == 13) {
-  //     e.preventDefault();
-  //     return false;
-  //   }
-  // });
+  $(".chosen").filter(":last").chosen().change(function() {
+    if ($(".chosen").filter(":last").val()) {
+      add_reviewer();
+    }
+  });
 }
 
 function remove_reviewer(reviewer) {
@@ -189,12 +180,10 @@ function remove_reviewer(reviewer) {
   $(reviewer).closest('tr').fadeOut();
 }
 
-function add_reviewer(link, content) {
+function add_reviewer() {
   var now = new Date().getTime();
   var re = new RegExp("new_review_event_user", "g");
-  $(link).prevUntil("table").append("<tr><td colspan=\"2\">"+content.replace(re, now)+"</td></tr>");
-  // $(link).prevUntil("table").find("input[type=text]:last").focus();
-  $(link).prev(".info").show();
+  $("#new_reviewers").append($("#new_reviewer_template").html().replace(re, now));
   setup_reviewer_autocomplete();
 }
 

@@ -35,11 +35,9 @@
   <div class="field">
     <%= f.label "Reviewers" %>
     <%= render :partial => "reviewers", :locals => { :f => f } %>
-    <p class="info hidden" style="font-style:italic; font-size:0.8em;">New Reviewers:</p>
-    <%= link_to_add_reviewer "Add Reviewer", f %>
-    <!--<a href="#" onclick="add_reviewer(this);">
-      <span class="ui-icon ui-icon-plus left"></span>Add Reviewer
-    </a>-->
+    <%= add_reviewer_select "Add Reviewer", f %>
+    <div id="new_reviewers"></div>
+    <script type="text/javascript">add_reviewer();</script>
   </div>
 
   <div class="actions field">

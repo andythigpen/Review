@@ -7,13 +7,12 @@ class ReviewEvent < ActiveRecord::Base
         :reject_if => proc { |attributes| !attributes['_destroy'] and attributes['user_id'].blank? }
   has_many :changesets, :dependent => :destroy
 
-  # returns nil if no status yet, or true if accepted, false if rejected
+  # returns a changeset user status object for given user
   def status_for(user)
     return nil if self.changesets.nil?
     status = ChangesetUserStatus.find_by_user_id_and_changeset_id(user.id, 
                 self.changesets.last.id)
-    return nil if status.nil?
-    return status.accepted
+    return status
   end
 
   def accepted_total

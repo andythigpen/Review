@@ -509,15 +509,18 @@ function remove_changeset(changeset_id, review_id) {
   });
 }
 
-function submit_changeset_status(changeset_id, accepted) {
-  var statusText = accepted ? "Accept" : "Reject";
+function submit_changeset_status(changeset_id, statusText, statusType, dialogText) {
+  // var statusText = status[0].toUpperCase() + status.slice(1);
+  // var statusText = accepted ? "Accept" : "Reject";
+  var dialogText = dialogText || "Are you sure you wish to "+statusText.toLowerCase()+" this changeset?";
   var buttons = {};
   buttons[statusText] = function() {
     show_ajax_loader(this);//$("#status-changeset-dialog").dialog('widget')[0]);
     $.post("/changeset/status", { 
         changeset_user_status: {
           changeset_id: changeset_id,
-          accepted: accepted
+          status: statusType
+          // accepted: accepted
         }
       },
       function(data, textStatus, jqXHR) {
@@ -533,9 +536,7 @@ function submit_changeset_status(changeset_id, accepted) {
   buttons["Cancel"] = function() {
     $(this).dialog('close');
   };
-  $("#status-changeset-dialog .dialog-content").
-      html("Are you sure you wish to "+
-      statusText.toLowerCase()+" this changeset?");
+  $("#status-changeset-dialog .dialog-content").html(dialogText);
   $("#status-changeset-dialog").dialog({
     modal: true,
     title: "Update Status",

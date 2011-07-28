@@ -69,7 +69,7 @@
       <% @current_requests.each do |r| %>
         <% extra = "neardue" if not r.duedate.nil? and (r.duedate.to_date - 2).past? %>
         <% extra = "overdue" if not r.duedate.nil? and r.duedate.to_date.past? %>
-        <% accepted = r.status_for(current_user) %>
+        <% status = r.status_for(current_user) %>
         <li class="review-event <%= cycle("even", "odd") %>">
           <span class="ui-icon ui-icon-carat-1-e inline-icon" 
                 style="margin-right:0.3em"></span>
@@ -78,12 +78,15 @@
           <span class="author">by <%= user_profile_popup(r.owner, :username => r.owner.full_name) %></span>
 
           <div class="right">
-           <% if not accepted.nil? and not accepted %>
+           <% if not status.nil? and status.rejected? %>
             <span class="ui-corner-all rejected" 
                   style="padding:0.2em 0.5em;margin:0;margin-left:0.3em;">Rejected</span>
-          <% elsif accepted %>
+          <% elsif not status.nil? and status.accepted? %>
             <span class="ui-corner-all accepted" 
                   style="padding:0.2em 0.5em;margin:0;margin-left:0.3em;">Accepted</span>
+          <% elsif not status.nil? and status.abstained? %>
+            <span class="ui-corner-all info" 
+                  style="padding:0.2em 0.5em;margin:0;margin-left:0.3em;">Requested Removal</span>
           <% elsif not r.duedate.nil? %>
             <% countdown = r.duedate.to_date - DateTime.now.to_date %>
             <span class="ui-corner-all <%= extra %>" 

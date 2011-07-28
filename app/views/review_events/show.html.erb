@@ -125,7 +125,7 @@
     <%= render :partial => "revisions" %>
   </div>
 
-  <div class="left">
+  <div class="left" style="clear:left;">
     <% if not @review_event.notes.empty? %>
       <p>
         <strong>Notes:</strong>&nbsp;&nbsp;<pre><%= @review_event.notes %></pre>

@@ -10,7 +10,8 @@ class Changeset < ActiveRecord::Base
     self.review_event.reviewers.each do |r|
       c = ChangesetUserStatus.find_by_user_id_and_changeset_id(r.id, 
           self.id)
-      return false if c.nil? or not c.accepted
+      #return false if c.nil? or not c.accepted
+      return false if c.nil? or not (c.accepted? or c.abstained?)
     end
     return true
   end
@@ -19,7 +20,8 @@ class Changeset < ActiveRecord::Base
     self.review_event.reviewers.each do |r|
       c = ChangesetUserStatus.find_by_user_id_and_changeset_id(r.id, 
           self.id)
-      return true if not c.nil? and not c.accepted
+      #return true if not c.nil? and not c.accepted
+      return true if not c.nil? and c.rejected?
     end
     return false
   end
@@ -28,7 +30,7 @@ class Changeset < ActiveRecord::Base
     ret = []
     self.reviewers.each do |r|
       c = r.changeset_user_statuses.find_by_changeset_id(self.id)
-      if not c.accepted
+      if c.rejected?
         yield r if block_given?
         ret.push(r)
       end
@@ -40,7 +42,19 @@ class Changeset < ActiveRecord::Base
     ret = []
     self.reviewers.each do |r|
       c = r.changeset_user_statuses.find_by_changeset_id(self.id)
-      if c.accepted
+      if c.accepted?
+        yield r if block_given?
+        ret.push(r)
+      end
+    end
+    ret
+  end
+
+  def users_abstained
+    ret = []
+    self.reviewers.each do |r|
+      c = r.changeset_user_statuses.find_by_changeset_id(self.id)
+      if c.abstained?
         yield r if block_given?
         ret.push(r)
       end

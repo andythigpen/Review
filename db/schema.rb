@@ -10,17 +10,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110710200602) do
+ActiveRecord::Schema.define(:version => 20110728000355) do
 
   create_table "changeset_user_statuses", :force => true do |t|
-    t.boolean  "accepted"
     t.integer  "user_id"
     t.integer  "changeset_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "status"
   end
 
-  add_index "changeset_user_statuses", ["user_id", "changeset_id"], :name => "index_changeset_user_statuses_on_user_id_and_changeset_id", :unique => true
+  add_index "changeset_user_statuses", ["user_id", "changeset_id"], :name => "index_changeset_user_statuses_on_user_id_and_changeset_id"
 
   create_table "changesets", :force => true do |t|
     t.string   "name"
@@ -48,11 +48,11 @@ ActiveRecord::Schema.define(:version => 20110710200602) do
 
   create_table "diffs", :force => true do |t|
     t.string   "origin_file"
+    t.string   "updated_file"
     t.text     "contents"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "changeset_id"
-    t.string   "updated_file"
   end
 
   create_table "profiles", :force => true do |t|

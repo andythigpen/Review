@@ -9,7 +9,10 @@ task :reminder_mail => :environment do
         next if e.changesets.last.accepted?
         next if e.changesets.last.rejected?
         e.reviewers.each do |r|
-            next if not e.status_for(r).nil?
+            status = e.status_for(r)
+            if not status.nil?
+              next if status.valid_status?
+            end
             puts "Emailing #{r.email} for #{e.name}"
             UserMailer.reminder_email(e, r).deliver
         end

@@ -13,12 +13,7 @@ section, article, aside, footer, header, nav, hgroup {
   display:block;
 }
 
-#wrap {
-  min-height: 100%;
-  height: auto !important;
-  height: 100%;
-  margin: 0 auto -8em;
-}
+#wrap { min-height: 100%; }
 
 header {	
   background: #353535 url('/images/header_back.png') repeat-x; 
@@ -59,20 +54,22 @@ section {
   font-size: 0.9em;
   background: url('/images/body_back.png') repeat-x 0 0;
   border-top: 1px solid #e5e5e5;
+  overflow: auto;
+  padding-bottom: 120px;
 }
 
 html, body, section {
   background-color: #f5f5f5;
 }
 
-.push { height: 8em; }
-
 footer {
   background: #5c5c5c url('/images/footer_back.png') repeat-x;
   color: #efefef;
-  padding: 2em;
-  height: 4.1em;
   border-top: 1px solid #bbb;
+  height: 120px;
+  position: relative;
+  margin-top: -121px;
+  clear: both;
 }
 
 footer a { color: #cfcfcf; }

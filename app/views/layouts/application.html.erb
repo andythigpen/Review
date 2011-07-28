@@ -69,13 +69,12 @@
       <%= content_tag :div, msg, :id => "flash_#{name}" %>
     <% end %>
     <%= yield %>
-    <div class="push"></div>
   </section>
 </div>
 
 <footer>
   <% if user_signed_in? %>
-    <div class="text-center">
+    <div class="text-center" style="margin-top:1.5em;">
       <ul>
         <li><%= link_to "Home", root_path %></li>
         <li><%= link_to "Changelog", "/changelog" %></li>
@@ -95,7 +94,7 @@
       </ul>
     </div>
   <% end %>
-  <div class="text-center" style="font-size:0.7em;">
+  <div class="text-center" style="font-size:0.7em;<% if not user_signed_in? %>margin-top:1.5em;<% end %>">
     Copyright &copy; 2011 Andrew Thigpen
   </div>
 </footer>

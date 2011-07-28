@@ -1,6 +1,6 @@
 Review Status Change: <% if @status.accepted? %>ACCEPTED<% elsif @status.rejected? %>REJECTED<% end %>
 
-<% if @status.accepted? or @status.rejected? %>The user <%= @reviewer.full_name %> (<%= @reviewer.email %>) has <% if @status.accepted %>accepted<% else %>rejected<% end %> your "<%= @changeset.name %>" changeset for the review "<%= @changeset.review_event.name %>".
+<% if @status.accepted? or @status.rejected? %>The user <%= @reviewer.full_name %> (<%= @reviewer.email %>) has <% if @status.accepted? %>accepted<% else %>rejected<% end %> your "<%= @changeset.name %>" changeset for the review "<%= @changeset.review_event.name %>".
 <% else %>The user <%= @reviewer.full_name %> (<%= @reviewer.email %>) has requested to be removed from your review "<%= @changeset.review_event.name %>".<% end %>
 
 Review URL: <%= @url %><%= review_event_path(@changeset.review_event) %>

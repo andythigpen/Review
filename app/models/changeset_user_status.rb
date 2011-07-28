@@ -13,4 +13,8 @@ class ChangesetUserStatus < ActiveRecord::Base
   def abstained?
     return self.status == CHANGESET_STATUSES[:abstain]
   end
+
+  def valid_status?
+    return CHANGESET_STATUSES.has_value?(self.status)
+  end
 end

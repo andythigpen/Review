@@ -85,7 +85,7 @@
             <span class="ui-corner-all accepted" 
                   style="padding:0.2em 0.5em;margin:0;margin-left:0.3em;">Accepted</span>
           <% elsif not status.nil? and status.abstained? %>
-            <span class="ui-corner-all info" 
+            <span class="ui-corner-all notice" 
                   style="padding:0.2em 0.5em;margin:0;margin-left:0.3em;">Requested Removal</span>
           <% elsif not r.duedate.nil? %>
             <% countdown = r.duedate.to_date - DateTime.now.to_date %>

@@ -112,7 +112,7 @@
             badge = "<span class=\"ui-corner-all badge accepted\">Accepted</span>" 
           elsif rejected.include?(u)
             badge = "<span class=\"ui-corner-all badge rejected\">Rejected</span>" 
-          elsif abstained.include?(u)
+          elsif current_user == @review_event.owner and abstained.include?(u)
             badge = "<span class=\"ui-corner-all badge notice\">Requested Removal</span>" 
           end
           "<li>#{p} #{badge}</li>"

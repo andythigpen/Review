@@ -2,7 +2,7 @@
 <a name="<%= comment.id %>"></a>
 <div class="comment" id="comment_<%= comment.id %>">
   <div>
-    <div class="right">
+    <div class="right" style="margin:0 0 0.5em 1em;">
       <!--<span class="author"><%= comment.user.full_name %></span> -->
       <%= user_profile_popup(comment.user, :short_format => true, 
                              :profile_class => "profile-right") %>

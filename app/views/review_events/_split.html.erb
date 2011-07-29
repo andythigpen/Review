@@ -139,7 +139,7 @@
           </td>
         <% else %>
           <td class="lineno"></td>
-          <td>
+          <td style="vertical-align:top;">
             <% if not left[:lineno].nil? %>
               <%# comments = left_comments.where("leftline = ?", left[:lineno]) %>
               <% comments = left_comments[left[:lineno].to_i] %>

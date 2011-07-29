@@ -33,8 +33,6 @@ class ModifyChangesetUserStatus < ActiveRecord::Migration
         c.update_attribute :accepted, true
       elsif c.rejected?
         c.update_attribute :accepted, false
-      else
-        c.update_attribute :accepted, nil
       end
     end
     change_table :changeset_user_statuses do |t|

@@ -164,7 +164,7 @@
             <% end %>
           </div>
 
-          <div class="right">
+          <div class="right" style="font-size:0.9em">
             <% if lastchset.nil? or not lastchset.submitted %>
               <span class="ui-corner-all info badge">Not Submitted</span>
             <% elsif lastchset.rejected? %>
@@ -175,16 +175,18 @@
               <% extra = "neardue" if (r.duedate.to_date - 2).past? %>
               <% extra = "overdue" if r.duedate.to_date.past? %>
               <% countdown = r.duedate.to_date - DateTime.now.to_date %>
-              <span class="ui-corner-all <%= extra %> badge"
-                    style="display:inline-block;">
-                due <%= "in" if countdown > 0 %> 
+              <span class="ui-corner-all <%= extra %> badge">
+                Due <%= "in" if countdown > 0 %> 
                 <%= countdown == 0 ? "today" : countdown.abs.days.inspect %>
                 <%= "ago" if countdown < 0 %>
               </span>
             <% end %>
 
             <% if not lastchset.nil? and lastchset.submitted and not lastchset.is_completed? %>
-              <span class="ui-corner-all badge"><%= r.accepted_total %>/<%= r.reviewers_total %> accepted</span>
+              <% if lastchset.users_abstained.length > 0 %> 
+                <span class="ui-corner-all badge notice tooltip showonload" title="A reviewer has requested to be removed from this review."><span class="ui-icon ui-icon-notice inline-icon"></span></span>
+              <% end %>
+              <span class="ui-corner-all badge tooltip" title="Number of reviewers accepted/total"><%= r.accepted_total %>/<%= r.reviewers_total %> accepted</span>
             <% end %>
           </div>
 

@@ -240,7 +240,7 @@
           <span class="ui-icon ui-icon-plus inline-icon"></span>Add New Diff
         <% end %>
       <% else %>
-        <a href="<%= changeset_download_path(@changeset) %>" class="right">
+        <a href="<%= changeset_download_path(@changeset) %>" class="right tooltip" title="Click to download a patch file containing all the diffs from this changeset.">
           <span class="ui-icon ui-icon-document inline-icon"></span>Download Patch
         </a>
       <% end %>

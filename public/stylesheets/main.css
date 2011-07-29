@@ -493,3 +493,7 @@ ul li em {
   width: 300px;
   z-index: 0;
 }
+
+div.chzn-container {
+  z-index: 0;
+}

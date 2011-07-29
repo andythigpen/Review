@@ -7,12 +7,18 @@ class Changeset < ActiveRecord::Base
 
   def accepted?
     return false if self.review_event.reviewers.size == 0
+    abstained = false
+    total_reviewers = 0
     self.review_event.reviewers.each do |r|
       c = ChangesetUserStatus.find_by_user_id_and_changeset_id(r.id, 
           self.id)
       #return false if c.nil? or not c.accepted
+
       return false if c.nil? or not (c.accepted? or c.abstained?)
+      abstained = true if c.abstained?
+      total_reviewers += 1
     end
+    return false if total_reviewers == 1 and abstained
     return true
   end
 

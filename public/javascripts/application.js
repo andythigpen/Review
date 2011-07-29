@@ -86,6 +86,9 @@ $(document).ready(function() {
   setup_comment_hover();
   setup_awesome_bar();
   setup_profile_popups();
+
+  $(".tooltip").tipTip({ defaultPosition: "top" });
+  $(".tooltip.showonload").tipTip('show');
 });
 
 function setup_profile_popups() {

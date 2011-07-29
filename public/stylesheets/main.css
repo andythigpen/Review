@@ -419,6 +419,7 @@ ul li em {
 .badge {
   padding:0.2em 0.5em;
   margin:0;
+  display: inline-block;
 }
 
 .thumbnail { vertical-align: middle; }
@@ -495,5 +496,5 @@ ul li em {
 }
 
 div.chzn-container {
-  z-index: 0;
+  z-index: 1;
 }

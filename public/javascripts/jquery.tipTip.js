@@ -109,6 +109,9 @@
     show : function() { 
       var org_elem = $(this);
       var opts = $(this).data('tiptip');
+      if (!opts) {
+          return;
+      }
       var tiptip_content = $("#tiptip_content");
       var tiptip_holder = $("#tiptip_holder");
       var tiptip_arrow = $("#tiptip_arrow");

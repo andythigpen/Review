@@ -99,7 +99,7 @@
       </p>
     <% end %>
 
-    <% accepted = rejected = [] %>
+    <% accepted = rejected = abstained = [] %>
     <% accepted = @changeset.users_accepted if @changeset %>
     <% rejected = @changeset.users_rejected if @changeset %>
     <% abstained = @changeset.users_abstained if @changeset %>

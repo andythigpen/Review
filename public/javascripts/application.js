@@ -88,7 +88,8 @@ $(document).ready(function() {
   setup_profile_popups();
 
   $(".tooltip").tipTip({ defaultPosition: "top" });
-  $(".tooltip.showonload").tipTip('show');
+  $(".tooltip-below").tipTip({ defaultPosition: "bottom" });
+  $(".showonload").tipTip('show');
 });
 
 function setup_profile_popups() {

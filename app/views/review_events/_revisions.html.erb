@@ -21,8 +21,9 @@
     <% end %>
     <% if current_user == @review_event.owner %>
       <li class="changeset">
+        <% css = "tooltip-below showonload" if @changeset.nil? %>
         <%= link_to_function "Add new changeset", 
-            "create_changeset(this);" %>
+          "create_changeset(this);", :class => css, :title => "Click here to create a new changeset." %>
         <% if not @changeset.nil? and not @changeset.submitted %>
           | <%= link_to_function "Remove this changeset",
                 "remove_changeset('#{@changeset.id}', '#{@review_event.id}');" %>

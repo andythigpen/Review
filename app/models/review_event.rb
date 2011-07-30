@@ -7,6 +7,8 @@ class ReviewEvent < ActiveRecord::Base
         :reject_if => proc { |attributes| !attributes['_destroy'] and attributes['user_id'].blank? }
   has_many :changesets, :dependent => :destroy
 
+  validates_presence_of :name
+
   # returns a changeset user status object for given user
   def status_for(user)
     return nil if self.changesets.nil?

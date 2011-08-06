@@ -236,7 +236,8 @@
     <div style="margin-bottom:1em;">
       <strong>Files:</strong>
       <% if not @changeset.submitted %>
-        <%= link_to_js "add_new_diff();", :class => "right" do %>
+        <% css = "tooltip-below showonload" if @changeset.diffs.length == 0 %>
+        <%= link_to_js "add_new_diff();", :class => "right #{css}", :title => "Click here to add a new unified diff or upload a patch file." do %>
           <span class="ui-icon ui-icon-plus inline-icon"></span>Add New Diff
         <% end %>
       <% else %>

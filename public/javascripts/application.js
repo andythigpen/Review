@@ -584,7 +584,6 @@ function remove_review_event(loc, event_id) {
 function next_comment(loc) {
   var min = -1;
   var minitem = null;
-  var nextitem = null;
   var wtop = $(window).scrollTop();
   $(".comment").each(function() {
     var itop = $(this).offset().top;
@@ -593,14 +592,11 @@ function next_comment(loc) {
     if (diff >= -30) {
       return true;
     }
-    nextitem = minitem;
     minitem = this;
-    if (nextitem != null) {
-      return false;
-    }
+    return false;
   });
-  if (nextitem != null) {
-    $.scrollTo(nextitem, {axis: 'y', offset:-30});
+  if (minitem != null) {
+    $.scrollTo(minitem, {axis: 'y', offset:-30});
   }
 }
 

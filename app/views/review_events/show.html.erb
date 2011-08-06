@@ -281,23 +281,33 @@
       </div>
       <div class="right">
         Comments:
-        <%= link_to_function "Previous", "prev_comment(this)", 
+        <%= link_to_js "prev_comment(this)", 
             :class => "ui-state-default ui-corner-all button",
-            :id => "prev-comment" %>
-        <%= link_to_function "Next", "next_comment(this)", 
+            :id => "prev-comment" do %>
+          <span class="ui-icon ui-icon-triangle-1-w"></span>
+        <% end %>
+        <%= link_to_js "next_comment(this)", 
             :class => "ui-state-default ui-corner-all button",
-            :id => "next-comment" %>
+            :id => "next-comment" do %>
+          <span class="ui-icon ui-icon-triangle-1-e"></span>
+        <% end %>
       </div>
       <div class="right" style="margin-right:1.5em;">
         Files:
-        <%= link_to_function "Previous", "prev_file(this)",
+        <%= link_to_js "prev_file(this)",
             :class => "ui-state-default ui-corner-all button",
-            :id => "prev-file" %>
-        <%= link_to "Top", "#files",
-            :class => "ui-state-default ui-corner-all button" %>
-        <%= link_to_function "Next", "next_file(this)",
+            :id => "prev-file" do %>
+          <span class="ui-icon ui-icon-triangle-1-w"></span>
+        <% end %>
+        <%= link_to "#files",
+            :class => "ui-state-default ui-corner-all button" do %>
+          <span class="ui-icon ui-icon-triangle-1-n"></span>
+        <% end %>
+        <%= link_to_js "next_file(this)",
             :class => "ui-state-default ui-corner-all button",
-            :id =>:"next-file" %>
+            :id =>:"next-file" do %>
+          <span class="ui-icon ui-icon-triangle-1-e"></span>
+        <% end %>
       </div>
     </div>
     <div class="shadow"></div>

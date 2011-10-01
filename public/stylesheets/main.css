@@ -489,12 +489,8 @@ ul li em {
   background: url('/images/shadow.png') repeat-x;
 }
 
-
 .reviewers-list {
   width: 300px;
   z-index: 0;
 }
 
-div.chzn-container {
-  z-index: 1;
-}

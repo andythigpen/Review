@@ -566,7 +566,17 @@ function remove_review_event(loc, event_id) {
           success: function(msg) {
             $('#remove-review-dialog').dialog('close');
             if (msg.status == "ok") {
-              $(loc).parents(".review-event").fadeOut();
+              var prevBg = $(loc).parents(".review-event").css('backgroundColor');
+              $(loc).parents(".review-event").animate({
+                'opacity': 0,
+              }, function() {
+                var msg = "Review removed.";
+                $(this).html('<div style="display:inline-block; vertical-align:middle;"><span class="ui-icon ui-icon-close inline-icon" style="margin-right:0.3em"></span>'+msg+'</div>');
+                $(this).animate({
+                    'opacity': 1.0,
+                    'color': '#777',
+                });
+              });
             }
           }
         });

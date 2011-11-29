@@ -25,6 +25,7 @@
   <%= javascript_include_tag "html5.js" %>
   <%= javascript_include_tag "chosen.jquery.js" %>
   <%= javascript_include_tag "jquery.tipTip.js" %>
+  <%= javascript_include_tag "jquery.history.js" %>
 <script type="text/javascript">
   var IE7_PNG_SUFFIX = ".png";
 </script>
@@ -39,9 +40,10 @@
       <%= link_to root_path do %>
         <img src="/images/logo.png" alt="review" />
       <% end %>
-      <div style="float:right; margin:0.5em 1.5em; font-size:0.9em;">
+      <div id="user-links">
         <% if user_signed_in? %>
-           Logged in as <em><%= link_to "#{current_user.profile_name}", profile_path %></em> |
+          Welcome <%= "#{current_user.full_name}" %> - <%= link_to "My Account", profile_path %> |
+           <%= link_to "Report Bug", "http://github.com/andythigpen/Review/issues" %> | 
            <%= link_to "Logout", destroy_user_session_path %>
         <% else %>
            <%= link_to "Register", new_user_registration_path %> |
@@ -51,15 +53,18 @@
     </div>
   </header>
 
-  <nav>
-    <div>
-      <%= link_to "Home", root_path %>
+  <nav id="main-nav">
+    <ul>
+      <li <%= 'class="active"' if not content_for? :page_name %>><%= link_to "Dashboard", root_path, :"data-filter" => "home" %></li>
+      <li><%= link_to "Inbox", root_path + "#inbox", :"data-filter" => "inbox" %></li>
+      <li><%= link_to "Outbox", root_path + "#outbox", :"data-filter" => "outbox" %></li>
       <% if content_for? :page_name %>
-        | <%= yield :page_name %>
+        <li class="active"><%= yield :page_name %></li>
       <% end %>
-    </div>
+    </ul>
   </nav>
 
+  <!--TODO move this to a more appropriate place. -->
   <!-- Dialogs -->
   <%= modal_dialog "delete-confirm" do %>
     Are you sure you want to delete this comment?
@@ -83,15 +88,12 @@
         <!--<li><a href="#">Download</a></li>
         <li><a href="#">Tutorial</a></li>-->
       </ul>
-      <!--<ul>
-        <li><a href="#">Recent Reviews</a></li>
-        <li><a href="#">Recent Requests</a></li>
-      </ul>-->
       <ul>
         <li><%= link_to "My Profile", profile_path %></li>
         <li><%= link_to "My Account", edit_user_registration_path %></li>
       </ul>
       <ul>
+        <li><a href="http://github.com/andythigpen/Review/issues">Report Bug</a></li>
         <li><%= link_to "Logout", destroy_user_session_path %></li>
       </ul>
     </div>

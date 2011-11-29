@@ -1,0 +1,135 @@
+<% content_for :title, "Dashboard" %>
+
+<%= modal_dialog "remove-review-dialog" do %>
+  Remove this review event?
+<% end %>
+
+<%# Notices/Info on login %>
+<% if current_user.sign_in_count == 1 %>
+  <div class="info">
+    <span style="font-size:1.5em;">Thanks for registering!</span><br />
+    Why not <%= link_to "update your profile", profile_path %> with your relevant information?
+  </div>
+
+<% end %>
+
+<% if current_user.profile.nil? and current_user.sign_in_count > 1 %>
+  <div class="info">
+    <h1><%= link_to "Create a Profile", profile_path %></h1>
+    Profiles are now active! Click <%= link_to "here", profile_path %>
+    to update your information.
+    Profiles can be editted at any time by clicking on your username in the
+    upper left-hand corner.
+  </div>
+<% end %>
+
+<h1>My Dashboard
+    <%= link_to new_review_event_path, :class => "ui-corner-all ui-state-default button" do %>
+      <span class="ui-icon ui-icon-circle-plus left"></span>New Review 
+    <% end %></h1>
+<div id="dashboard" class="ui-widget box">
+  <div id="dashboard-left">
+    <ul>
+      <li>
+        <%= link_to dashboard_inbox_path, :remote => true, :class => "filter", 
+          :"data-type" => "html", :"data-filter" => "inbox" do %>
+            Inbox <span class="size"><%= "(#{@all_inbox.size})" if @all_inbox.size > 0 %></span>
+        <% end %>
+      </li>
+      <ul>
+        <li>
+        <%= link_to dashboard_due_soon_path, :remote => true, 
+          :class => "filter", :"data-type" => "html", 
+          :"data-filter" => "due_soon" do %>
+            Due Soon <span class="size"><%= "(#{@due_soon.size})" if @due_soon.size > 0 %></span>
+        <% end %>
+        </li>
+        <li>
+        <%= link_to dashboard_late_path, :remote => true, 
+          :class => "filter", :"data-type" => "html", 
+          :"data-filter" => "late" do %>
+            Late <span class="size"><%= "(#{@late.size})" if @late.size > 0 %></span>
+        <% end %>
+        </li>
+      </ul>
+
+      <li>
+        <%= link_to dashboard_outbox_path, :remote => true, :class => "filter", 
+          :"data-type" => "html", :"data-filter" => "outbox" do %>
+            Outbox <span class="size"><%= "(#{@all_outbox.size})" if @all_outbox.size > 0 %></span>
+        <% end %>
+      </li>
+      <ul>
+        <li>
+          <%= link_to dashboard_drafts_path, :remote => true, 
+            :class => "filter", :"data-type" => "html", 
+            :"data-filter" => "drafts" do %>
+              Drafts <span class="size"><%= "(#{@drafts.size})" if @drafts.size > 0 %></span>
+          <% end %>
+        </li>
+        <li>
+          <%= link_to dashboard_accepted_path, :remote => true, 
+            :class => "filter", :"data-type" => "html", 
+            :"data-filter" => "accepted" do %>
+              Accepted <span class="size"><%= "(#{@accepted.size})" if @accepted.size > 0 %></span>
+            <% end %>
+        </li>
+        <li>
+          <%= link_to dashboard_rejected_path, :remote => true, 
+            :class => "filter", :"data-type" => "html", 
+            :"data-filter" => "rejected" do %>
+              Rejected <span class="size"><%= "(#{@rejected.size})" if @rejected.size > 0 %></span>
+            <% end %>
+        </li>
+      </ul>
+
+      <!--<li>Closed</li>-->
+    </ul>
+  </div>
+  <div id="dashboard-right" class="clearfix">
+    <div id="dashboard-right-loading">
+      <%= image_tag("ajax-loader.gif") %>
+    </div>
+    <div id="dashboard-right-contents">
+      <%#= render :partial => "#{@filter}" %>
+    </div>
+  </div>
+</div>
+
+<% recent_activity = all_recent(1.week.ago, 10) %>
+<h1>Recent Activity</h1>
+<ul id="recent_activity">
+  <% if recent_activity.size == 0 %>
+    <li><em>No recent activity.</em></li>
+  <% else %>
+    <% recent_activity.each do |a| %>
+      <li class="ui-corner-all review-event">
+        <span class="ui-icon ui-icon-carat-1-e inline-icon" 
+              style="margin-right:0.3em"></span>
+        <em style="margin-right:1em;"><%= a.updated_at.to_s :short %></em>
+        <% if a.class == Comment %>
+          <% changeset = a.get_changeset %>
+          <% event = changeset.review_event %>
+          <% owner = event.owner %>
+          <% type = "Comment" %>
+          <% type = "Reply" if a.commentable.class == Comment %>
+          <%= link_to type, comment_path(a) %> from 
+          <%= user_profile_popup(a.user, :short_format => true) %>
+            for <%= link_to "#{event.name}", review_event_path(event) %>
+            changeset <%= link_to "#{changeset.name}", changeset_path(changeset) %>
+          </li>
+        <% elsif a.class == Changeset %>
+          <%= link_to "Changeset", changeset_path(a) %> from 
+          <%= user_profile_popup(a.review_event.owner, :short_format => true) %>
+          for <%= link_to "#{a.review_event.name}", review_event_path(a.review_event) %>
+        <% else %>
+          Unknown activity for <%= a.class %>
+        <% end %>
+      </li>
+    <% end %>
+  <% end %>
+</ul>
+
+<script type="text/javascript">
+  setup_dashboard();
+</script>

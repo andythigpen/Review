@@ -2,7 +2,7 @@
 
 <% title = "Show Review"
    title += " &gt; " + @changeset.name if not @changeset.nil? %>
-<% content_for :page_name, title.html_safe %>
+<% content_for :page_name, @review_event.name %>
 
 <div id="comment-form" class="hidden">
   <%= render :partial => "shared/comment_form" %>
@@ -15,8 +15,14 @@
     notified.</div>
   <% end %>
   <%= form_for :changeset do |f| %>
+    <% value = "Revision 1"
+       if not @changeset.nil? 
+        value = "Revision #{@changeset.review_event.changesets.size + 1}"
+       end %>
     <%= f.label :name, "Name (optional)", :style => "display:block;" %>
-    <%= f.text_field :name, :style => "width:20em;", 
+    <%= f.text_field :name, 
+        :value => value, 
+        :style => "width:20em;", 
         :class => "text ui-corner-all ui-widget-content" %>
     <%= f.hidden_field :review_event_id, :value => @review_event.id %>
   <% end %>
@@ -24,6 +30,9 @@
 
 <%= modal_dialog "submit-changeset-dialog" do %>
   Are you sure you wish to submit this revision for review?
+  <br /><br />
+  Users will be notified about the review, and no further changes will be
+  allowed.
   <%= form_for :changeset do |f| %>
     <%= f.hidden_field :submitted, :value => true %>
   <% end %>
@@ -57,6 +66,43 @@
   <% end %>
 <% end %>
 
+<% if not @changeset.nil? and 
+      current_user == @changeset.review_event.owner %>
+  <div class="info">
+    <% if @changeset.accepted? 
+         status = "accepted"
+       elsif @changeset.rejected?
+         status = "rejected"
+       else
+         status = "notice"
+       end %>
+     <div class="<%= status %>"> 
+      <% if @changeset.submitted %>
+        <% if status == "accepted" %>
+          <%= image_tag "accept.png", 
+              :style => "vertical-align:middle; margin-right:0.3em" %>
+          Ship it!
+        <% elsif status == "rejected" %>
+          <%= image_tag "reject.png", 
+              :style => "vertical-align:middle; margin-right:0.3em" %>
+          Don't ship it!  It's not ready yet.
+        <% else %>
+          This revision has been submitted and is awaiting review.
+        <% end %>
+      <% else %>
+        <%= image_tag "info.png", 
+            :style => "vertical-align:middle; margin-right:0.3em" %>
+        <%= link_to_function "Submit for Review", 
+            "submit_changeset('#{@changeset.id}');", 
+            :class => "ui-state-default ui-corner-all button right" %>
+        This review is not yet public.
+        <div style="clear:both;"></div>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+
 <div class="review">
   <div style="float:right; padding:0.2em 0.2em 0;">
     <% if current_user == @review_event.owner %>
@@ -85,12 +131,9 @@
     <% end %>
   </div>
 
-  <h2>
-    (<%= @review_event.id %>) <strong><%= @review_event.name %></strong> 
-    <span class="">by 
-      <%= user_profile_popup(@review_event.owner) %>
-    </span>
-  </h2>
+  <h1>
+    <%= @review_event.name %> 
+  </h1>
 
   <div class="left" style="width:50%; vertical-align:top;">
     <% if not @review_event.duedate.nil? %>
@@ -112,22 +155,11 @@
     <% accepted = @changeset.users_accepted if @changeset %>
     <% rejected = @changeset.users_rejected if @changeset %>
     <% abstained = @changeset.users_abstained if @changeset %>
-    <p><strong>Reviewers:</strong>&nbsp;&nbsp;
-    <ul>
+    <div style="margin: 0em 1em 0.6em;"><strong>Reviewers:</strong>&nbsp;&nbsp;
     <%= @review_event.reviewers.map do |u| 
-          p = user_profile_popup(u)
-          badge = ""
-          if current_user == @review_event.owner and accepted.include?(u)
-            badge = "<span class=\"ui-corner-all badge accepted\">Accepted</span>" 
-          elsif rejected.include?(u)
-            badge = "<span class=\"ui-corner-all badge rejected\">Rejected</span>" 
-          elsif current_user == @review_event.owner and abstained.include?(u)
-            badge = "<span class=\"ui-corner-all badge notice\">Requested Removal</span>" 
-          end
-          "<li>#{p} #{badge}</li>"
-        end.join("").html_safe %>
-    </ul>
-    </p>
+          user_profile_popup(u, :short_format => true)
+        end.join("&nbsp;").html_safe %>
+    </div>
   </div>
 
   <div class="right" style="width:49%; vertical-align:top;">
@@ -141,7 +173,6 @@
       </p>
     <% end %>
   </div>
-
 
   <div style="clear:both;"></div>
 </div>
@@ -159,87 +190,74 @@
     review yet! 
   </div>
 <% else %>
-  <%#= render :partial => "status" %>
-  <% if current_user == @changeset.review_event.owner %>
-    <% if @changeset.accepted? 
-         status = "accepted"
-       elsif @changeset.rejected?
-         status = "rejected"
-       else
-         status = "notice"
-       end %>
-    <div id="changeset_status" class="<%= status %>" 
-        style="margin-top: -1em; border-top:none;">
-      <% if @changeset.submitted %>
-        <% if status == "accepted" %>
-          <%= image_tag "accept.png", 
-              :style => "vertical-align:middle; margin-right:0.3em" %>
-          <strong>Accepted</strong>: Congratulations! This changeset has 
-          been accepted by your peers.
-        <% elsif status == "rejected" %>
-          <%= image_tag "reject.png", 
-              :style => "vertical-align:middle; margin-right:0.3em" %>
-          <strong>Rejected</strong>: Sorry, but this changeset needs some 
-          work before it can be accepted.
-        <% else %>
-          This revision has been submitted and is awaiting review.
-        <% end %>
-      <% else %>
-        <%= link_to_function "Submit for Review", 
-            "submit_changeset('#{@changeset.id}');", 
-            :class => "ui-state-default ui-corner-all button right",
-            :style => "margin:0 -0.8em 0 0.8em;" %>
-        This revision has <strong>not</strong> been submitted for review yet.
-        <br />
-        Once this revision has been submitted, others will be able to comment
-        and approve/reject it.
-        <br /><!-- TODO: helper -->
-        <strong>Note:</strong>
-        You will not be able to modify this revision once it has been submitted.
-        <div style="clear:both;"></div>
-      <% end %>
-    </div>
-  <% else %>
-    <% if not @status.nil? %>
-      <%# status = @status.accepted ? "accepted" : "rejected" %>
-      <% status = "accepted" if @status.accepted? %>
-      <% status = "rejected" if @status.rejected? %>
-      <% status = "notice" if @status.abstained? %>
-      <div id="changeset_status" class="<%= status %>"
-        style="margin-bottom: 1em; margin-top: -1em; border-top:none;">
-        <% if @status.accepted? %>
-          <%= image_tag "accept.png", 
-              :style => "vertical-align:middle; margin-right:0.3em" %>
-          <strong>Accepted</strong>: You accepted this changeset.
-          <%= link_to_function "Undo", 
-              "delete_changeset_status('#{@status.id}');", 
-              :class => "ui-state-default ui-corner-all button right",
-              :style => "margin:-0.2em 0;" %>
-        <% elsif @status.rejected? %>
-          <%= image_tag "reject.png", 
-              :style => "vertical-align:middle; margin-right:0.3em" %>
-          <strong>Rejected</strong>: You rejected this changeset.
-          <%= link_to_function "Undo", 
-              "delete_changeset_status('#{@status.id}');", 
-              :class => "ui-state-default ui-corner-all button right",
-              :style => "margin:-0.2em 0;" %>
-        <% elsif @status.abstained? %>
-          <%= image_tag "info.png", 
-              :style => "vertical-align:middle; margin-right:0.3em" %>
-          <strong>Requested Removal</strong>: You requested to be removed from
-          this review.
-          <%= link_to_function "Undo", 
-              "delete_changeset_status('#{@status.id}');", 
-              :class => "ui-state-default ui-corner-all button right",
-              :style => "margin:-0.2em 0;" %>
-        <% else %>
-          <strong>Unknown status:</strong> Contact the administrator, quick!
-        <% end %>
-      </div>
-    <% end %>
-  <% end %>
 
-  <%#= render :partial => "files" %>
+  <div class="statuses">
+    <ul>
+      <% if not @status.nil? %>
+        <li>
+          <% status = "accepted" if @status.accepted? %>
+          <% status = "rejected" if @status.rejected? %>
+          <% status = "notice" if @status.abstained? %>
+          <div id="changeset_status">
+            <% if @status.accepted? %>
+              <%= image_tag "accept.png", 
+                  :style => "vertical-align:middle; margin-right:0.3em" %>
+              You accepted this changeset.
+              <%= link_to_function "Undo", 
+                  "delete_changeset_status('#{@status.id}');", 
+                  :class => "ui-state-default ui-corner-all button right",
+                  :style => "margin:-0.2em 0;" %>
+            <% elsif @status.rejected? %>
+              <%= image_tag "reject.png", 
+                  :style => "vertical-align:middle; margin-right:0.3em" %>
+              You rejected this changeset.
+              <%= link_to_function "Undo", 
+                  "delete_changeset_status('#{@status.id}');", 
+                  :class => "ui-state-default ui-corner-all button right",
+                  :style => "margin:-0.2em 0;" %>
+            <% elsif @status.abstained? %>
+              <%= image_tag "info.png", 
+                  :style => "vertical-align:middle; margin-right:0.3em" %>
+              You requested to be removed from this review.
+              <%= link_to_function "Undo", 
+                  "delete_changeset_status('#{@status.id}');", 
+                  :class => "ui-state-default ui-corner-all button right",
+                  :style => "margin:-0.2em 0;" %>
+            <% else %>
+              <strong>Unknown status:</strong> Contact the administrator, quick!
+            <% end %>
+          </div>
+        </li>
+      <% end %>
+
+      <% @changeset.statuses.each do |s| %>
+      <li>
+        <% break if s.user == current_user %>
+          <% if s.status == CHANGESET_STATUSES[:accept] %>
+            <%= image_tag "accept.png", 
+                :style => "vertical-align:middle; margin-right:0.3em" %>
+          <% elsif s.status == CHANGESET_STATUSES[:reject] %>
+            <%= image_tag "reject.png", 
+                :style => "vertical-align:middle; margin-right:0.3em" %>
+          <% elsif s.status == CHANGESET_STATUSES[:abstain] %>
+            <%= image_tag "info.png", 
+                :style => "vertical-align:middle; margin-right:0.3em" %>
+          <% end %>
+
+          <%= user_profile_popup(s.user, :short_format => true) %>:
+
+          <% if s.status == CHANGESET_STATUSES[:accept] %>
+            Ship It!
+          <% elsif s.status == CHANGESET_STATUSES[:reject] %>
+            Don't ship it!
+          <% elsif s.status == CHANGESET_STATUSES[:abstain] %>
+            Abstained!
+          <% end %>
+      </li>
+    <% end %>
+    </ul>
+  </div>
+
   <a name="files"></a>
   <div class="files">
     <div style="margin-bottom:1em;">

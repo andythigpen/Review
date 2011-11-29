@@ -1,0 +1,7 @@
+$("#dashboard-right-contents").html('<%= escape_javascript(render(:partial => "#{template}")) %>');
+<% if size > 0 %>
+$("[data-filter=<%= filter %>] .size").html("(<%= size %>)");
+<% else %>
+$("[data-filter=<%= filter %>] .size").html("");
+<% end %>
+

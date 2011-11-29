@@ -1,3 +1,6 @@
+Dashboard:
+- Customize welcome message.
+
 Enhancements:
 - Add mailer to notify of:
   - edits to a submitted review to all reviewers

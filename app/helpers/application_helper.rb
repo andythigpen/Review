@@ -60,14 +60,17 @@ END_CONTENT
                  :thumbnail     => true, 
                  :username      => user.profile_name }
     params = defaults.merge(params)
-
-    avatar_small = image_tag "/avatars/thumb/missing.png", 
-                   :class => "thumbnail" if params[:thumbnail]
+    if params[:thumbnail] and not params[:short_format]
+      avatar_small = image_tag "/avatars/thumb/missing.png", 
+                     :class => "thumbnail" 
+    end
     avatar_large = image_tag "/avatars/medium/missing.png", 
                    :class => "thumnail"
     if user.profile
-      avatar_small = image_tag user.profile.avatar.url(:thumb), 
-                     :class => "thumbnail" if params[:thumbnail]
+      if params[:thumbnail] and not params[:short_format]
+        avatar_small = image_tag user.profile.avatar.url(:thumb), 
+                       :class => "thumbnail" 
+      end
       avatar_large = image_tag user.profile.avatar.url(:medium), 
                      :class => "thumnail"
     end
@@ -106,5 +109,4 @@ END_CONTENT
     </span>
 END_POPUP
   end
-
 end

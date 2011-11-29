@@ -7,7 +7,14 @@ Review::Application.routes.draw do
                                       :sign_up => "register", 
                                       :sign_out => "logout" }
 
-  root :to => "home#index"
+  root :to => "home#dashboard"
+  match "/dashboard/inbox"  => "home#inbox"
+  match "/dashboard/due_soon"  => "home#due_soon"
+  match "/dashboard/late"  => "home#late"
+  match "/dashboard/outbox" => "home#outbox"
+  match "/dashboard/drafts" => "home#drafts"
+  match "/dashboard/accepted" => "home#accepted"
+  match "/dashboard/rejected" => "home#rejected"
   match "changelog" => "home#changelog"
 
 #resources :diffs

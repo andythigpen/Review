@@ -3,7 +3,9 @@
 development:
   url: "http://localhost:3000"
   email_from: "test@localhost"
+  bug_tracker: "http://bugzilla/show_bug.cgi?id={{bugid}}"
 
 production:
   url: "http://192.168.10.66:3000"
   email_from: "review@circadence.com"
+  bug_tracker: "http://bugzilla/show_bug.cgi?id={{bugid}}"

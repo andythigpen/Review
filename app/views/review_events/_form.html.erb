@@ -27,6 +27,13 @@
   </div>
 
   <div class="field">
+    <%= f.label "Bug Number (optional)" %>
+    <%= f.text_field :buglink, :style => "width:20em;", 
+        :class => "text ui-corner-all ui-widget-content" %>
+  </div>
+
+  <div class="field">
+  <div class="field">
     <%= f.label "Notes (optional)" %>
     <%= f.text_area :notes, :rows => 5, 
         :class => "text ui-corner-all ui-widget-content" %>

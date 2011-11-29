@@ -99,6 +99,15 @@
       </p>
     <% end %>
 
+    <% if not @review_event.buglink.nil? %>
+      <p><strong>Bug(s):</strong>&nbsp;&nbsp;
+        <% bugs = @review_event.buglink.split(%r{,\s*}) %>
+        <%= bugs.map do |bug| 
+              link_to bug, APP_CONFIG['bug_tracker'].gsub(/\{\{bugid\}\}/, bug) 
+            end.join(", ").html_safe %>
+      </p>
+    <% end %>
+
     <% accepted = rejected = abstained = [] %>
     <% accepted = @changeset.users_accepted if @changeset %>
     <% rejected = @changeset.users_rejected if @changeset %>

@@ -1,6 +1,8 @@
 class HomeController < ApplicationController
   before_filter :is_user_signed_in
 
+  #FIXME refactor these functions to reduce common code
+
   def index
     @current_requests = current_user.current_requests
     @current_requests = Kaminari.paginate_array(@current_requests).
@@ -32,7 +34,7 @@ class HomeController < ApplicationController
     @all_outbox = ReviewEvent.find_all_by_user_id(current_user.id, 
                                                   :order => "updated_at DESC")
     @drafts = @all_outbox.find_all do |r| 
-      r.changesets.last and not r.changesets.last.submitted
+      r.changesets.last.nil? or not r.changesets.last.submitted
     end
     @accepted = @all_outbox.find_all do |r| 
       r.changesets.last and r.changesets.last.accepted?
@@ -111,7 +113,7 @@ class HomeController < ApplicationController
     @all_outbox = ReviewEvent.find_all_by_user_id(current_user.id, 
                                                   :order => "updated_at DESC")
     @all_outbox = @all_outbox.find_all do |r| 
-      r.changesets.last and not r.changesets.last.submitted
+      r.changesets.last.nil? or not r.changesets.last.submitted
     end
 
     @outbox = Kaminari.paginate_array(@all_outbox).page(params[:page]).per(20)

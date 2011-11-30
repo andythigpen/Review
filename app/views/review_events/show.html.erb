@@ -136,6 +136,11 @@
   </h1>
 
   <div class="left" style="width:50%; vertical-align:top;">
+    <div style="margin:0em 1em 0.6em;">
+      <strong>Posted By:</strong>&nbsp;&nbsp;
+      <%= user_profile_popup(@review_event.owner, :short_format => true) %>
+    </div>
+
     <% if not @review_event.duedate.nil? %>
       <p><strong>Due Date:</strong>&nbsp;&nbsp;
         <%= @review_event.duedate.to_date %>

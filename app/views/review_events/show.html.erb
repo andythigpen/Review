@@ -231,30 +231,30 @@
       <% end %>
 
       <% @changeset.statuses.each do |s| %>
-      <li>
         <% break if s.user == current_user %>
-          <% if s.status == CHANGESET_STATUSES[:accept] %>
-            <%= image_tag "accept.png", 
-                :style => "vertical-align:middle; margin-right:0.3em" %>
-          <% elsif s.status == CHANGESET_STATUSES[:reject] %>
-            <%= image_tag "reject.png", 
-                :style => "vertical-align:middle; margin-right:0.3em" %>
-          <% elsif s.status == CHANGESET_STATUSES[:abstain] %>
-            <%= image_tag "info.png", 
-                :style => "vertical-align:middle; margin-right:0.3em" %>
-          <% end %>
+        <li>
+            <% if s.status == CHANGESET_STATUSES[:accept] %>
+              <%= image_tag "accept.png", 
+                  :style => "vertical-align:middle; margin-right:0.3em" %>
+            <% elsif s.status == CHANGESET_STATUSES[:reject] %>
+              <%= image_tag "reject.png", 
+                  :style => "vertical-align:middle; margin-right:0.3em" %>
+            <% elsif s.status == CHANGESET_STATUSES[:abstain] %>
+              <%= image_tag "info.png", 
+                  :style => "vertical-align:middle; margin-right:0.3em" %>
+            <% end %>
 
-          <%= user_profile_popup(s.user, :short_format => true) %>:
+            <%= user_profile_popup(s.user, :short_format => true) %>:
 
-          <% if s.status == CHANGESET_STATUSES[:accept] %>
-            Ship It!
-          <% elsif s.status == CHANGESET_STATUSES[:reject] %>
-            Don't ship it!
-          <% elsif s.status == CHANGESET_STATUSES[:abstain] %>
-            Abstained!
-          <% end %>
-      </li>
-    <% end %>
+            <% if s.status == CHANGESET_STATUSES[:accept] %>
+              Ship It!
+            <% elsif s.status == CHANGESET_STATUSES[:reject] %>
+              Don't ship it!
+            <% elsif s.status == CHANGESET_STATUSES[:abstain] %>
+              Abstained!
+            <% end %>
+        </li>
+      <% end %>
     </ul>
   </div>
 

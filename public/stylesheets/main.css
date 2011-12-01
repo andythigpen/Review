@@ -653,6 +653,10 @@ ul li em {
   font-weight: bold;
 }
 
+#ui-datepicker-div {
+ z-index: 1000 !important;
+}
+
 #awesome-bar {
   position: fixed;
   top: 0;

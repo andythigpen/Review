@@ -2,7 +2,10 @@
 
 <% title = "Show Review"
    title += " &gt; " + @changeset.name if not @changeset.nil? %>
+<% if not (current_user != @review_event.owner and 
+           not @changeset.try(:submitted)) %>
 <% content_for :page_name, @review_event.name %>
+<% end %>
 
 <div id="comment-form" class="hidden">
   <%= render :partial => "shared/comment_form" %>
@@ -67,7 +70,7 @@
 <% end %>
 
 <% if not @changeset.nil? and 
-      current_user == @changeset.review_event.owner %>
+      current_user == @review_event.owner %>
   <div class="info">
     <% if @changeset.accepted? 
          status = "accepted accepted-box"
@@ -102,7 +105,9 @@
   </div>
 <% end %>
 
-
+<%# don't allow anyone to see if not yet submitted %>
+<% if not (current_user != @review_event.owner and 
+         not @changeset.try(:submitted)) %>
 <div class="review">
   <div style="float:right; padding:0.2em 0.2em 0;">
     <% if current_user == @review_event.owner %>
@@ -181,19 +186,19 @@
 
   <div style="clear:both;"></div>
 </div>
+<% end %>
 
-<% if @changeset.nil? %>
+<% if current_user != @review_event.owner and 
+         not @changeset.try(:submitted) %>
+  <div class="warn rejected-box">
+    Hmm...You shouldn't be here right now.
+  </div>
+<% elsif @changeset.nil? %>
   <div class="notice">
     <%= image_tag "info.png", 
         :style => "vertical-align:middle; margin-right:0.3em" %>
     No changesets yet.  Click &quot;Add new changeset&quot; above to create
     one.
-  </div>
-<% elsif current_user != @changeset.review_event.owner and 
-         not @changeset.submitted %>
-  <div class="warn">
-    You shouldn't be here...This changeset has not been submitted for 
-    review yet! 
   </div>
 <% else %>
 

@@ -612,8 +612,10 @@ ul li em {
 }
 
 #dashboard-right-loading img {
-  vertical-align: middle;
-  padding: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -16px -16px 0 0;
 }
 
 #dashboard-right > div {

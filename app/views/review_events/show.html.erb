@@ -70,19 +70,19 @@
       current_user == @changeset.review_event.owner %>
   <div class="info">
     <% if @changeset.accepted? 
-         status = "accepted"
+         status = "accepted accepted-box"
        elsif @changeset.rejected?
-         status = "rejected"
+         status = "rejected rejected-box"
        else
          status = "notice"
        end %>
      <div class="<%= status %>"> 
       <% if @changeset.submitted %>
-        <% if status == "accepted" %>
+        <% if @changeset.accepted? %>
           <%= image_tag "accept.png", 
               :style => "vertical-align:middle; margin-right:0.3em" %>
           Ship it!
-        <% elsif status == "rejected" %>
+        <% elsif @changeset.rejected? %>
           <%= image_tag "reject.png", 
               :style => "vertical-align:middle; margin-right:0.3em" %>
           Don't ship it!  It's not ready yet.
@@ -253,11 +253,11 @@
             <%= user_profile_popup(s.user, :short_format => true) %>:
 
             <% if s.status == CHANGESET_STATUSES[:accept] %>
-              Ship It!
+              Accepted
             <% elsif s.status == CHANGESET_STATUSES[:reject] %>
-              Don't ship it!
+              Rejected
             <% elsif s.status == CHANGESET_STATUSES[:abstain] %>
-              Abstained!
+              Abstained
             <% end %>
         </li>
       <% end %>

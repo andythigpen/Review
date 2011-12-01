@@ -315,16 +315,28 @@ ul li em {
   font-weight: bolder;
 }
 
+.rejected-box {
+  background: #F57373;
+  border: 1px solid #CC1F1F;
+  color: #fff;
+  padding: 1em;
+}
+
 .warn {
   padding: 0.5em 1em;
   margin-bottom: 1em;
 }
 
 .accepted {
-  /* background: #BBEDB2; */
-  /* border: 1px solid #72DE5F; */
   color: #72DE5F;
   font-weight: bolder;
+}
+
+.accepted-box {
+  background: #BBEDB2;
+  border: 1px solid #72DE5F;
+  padding: 1em;
+  color: #444;
 }
 
 .info, .notice {

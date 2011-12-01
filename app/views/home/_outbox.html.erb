@@ -13,7 +13,7 @@
     </td>
     <td>
       <% if not r.duedate.nil? %>
-        <% if not lastchset.is_completed? %>
+        <% if not lastchset.nil? and not lastchset.is_completed? %>
           <% extra = "neardue" if (r.duedate.to_date - 2).past? %>
           <% extra = "overdue" if r.duedate.to_date.past? %>
         <% end %>

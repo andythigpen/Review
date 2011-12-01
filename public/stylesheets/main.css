@@ -585,6 +585,12 @@ ul li em {
   text-decoration: none;
 }
 
+#dashboard-left .size {
+  float: right;
+  font-style: italic;
+  font-size: 0.9em;
+}
+
 #dashboard-right {
   margin-left: 150px;  /* match dashboard-left width */
   background: #fff;

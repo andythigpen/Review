@@ -33,7 +33,7 @@
       <li>
         <%= link_to dashboard_inbox_path, :remote => true, :class => "filter", 
           :"data-type" => "html", :"data-filter" => "inbox" do %>
-            Inbox <span class="size"><%= "(#{@all_inbox.size})" if @all_inbox.size > 0 %></span>
+            Inbox <span class="size"><%= "#{@all_inbox.size}" if @all_inbox.size > 0 %></span>
         <% end %>
       </li>
       <ul>
@@ -41,14 +41,14 @@
         <%= link_to dashboard_due_soon_path, :remote => true, 
           :class => "filter", :"data-type" => "html", 
           :"data-filter" => "due_soon" do %>
-            Due Soon <span class="size"><%= "(#{@due_soon.size})" if @due_soon.size > 0 %></span>
+            Due Soon <span class="size"><%= "#{@due_soon.size}" if @due_soon.size > 0 %></span>
         <% end %>
         </li>
         <li>
         <%= link_to dashboard_late_path, :remote => true, 
           :class => "filter", :"data-type" => "html", 
           :"data-filter" => "late" do %>
-            Late <span class="size"><%= "(#{@late.size})" if @late.size > 0 %></span>
+            Late <span class="size"><%= "#{@late.size}" if @late.size > 0 %></span>
         <% end %>
         </li>
       </ul>
@@ -56,7 +56,7 @@
       <li>
         <%= link_to dashboard_outbox_path, :remote => true, :class => "filter", 
           :"data-type" => "html", :"data-filter" => "outbox" do %>
-            Outbox <span class="size"><%= "(#{@all_outbox.size})" if @all_outbox.size > 0 %></span>
+            Outbox <span class="size"><%= "#{@all_outbox.size}" if @all_outbox.size > 0 %></span>
         <% end %>
       </li>
       <ul>
@@ -64,21 +64,21 @@
           <%= link_to dashboard_drafts_path, :remote => true, 
             :class => "filter", :"data-type" => "html", 
             :"data-filter" => "drafts" do %>
-              Drafts <span class="size"><%= "(#{@drafts.size})" if @drafts.size > 0 %></span>
+              Drafts <span class="size"><%= "#{@drafts.size}" if @drafts.size > 0 %></span>
           <% end %>
         </li>
         <li>
           <%= link_to dashboard_accepted_path, :remote => true, 
             :class => "filter", :"data-type" => "html", 
             :"data-filter" => "accepted" do %>
-              Accepted <span class="size"><%= "(#{@accepted.size})" if @accepted.size > 0 %></span>
+              Accepted <span class="size"><%= "#{@accepted.size}" if @accepted.size > 0 %></span>
             <% end %>
         </li>
         <li>
           <%= link_to dashboard_rejected_path, :remote => true, 
             :class => "filter", :"data-type" => "html", 
             :"data-filter" => "rejected" do %>
-              Rejected <span class="size"><%= "(#{@rejected.size})" if @rejected.size > 0 %></span>
+              Rejected <span class="size"><%= "#{@rejected.size}" if @rejected.size > 0 %></span>
             <% end %>
         </li>
       </ul>

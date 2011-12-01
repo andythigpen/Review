@@ -1,7 +1,7 @@
 <table>
   <% requests = 0 %>
   <tr>
-    <th>Date</th><th>Name</th><th>Posted By</th><th>Status</th>
+    <th>Date</th><th>Name</th><th>Due Date</th><th>Posted By</th><th>Status</th>
   </tr>
   <% @inbox.each do |r| %>
     <tr class="review-event <%= cycle("even", "odd") %>">
@@ -14,6 +14,9 @@
     </td>
     <td>
       <%= link_to "#{r.name}", review_event_path(r.id) %>
+    </td>
+    <td>
+      <span class="<%= extra if status.nil? %>"><%= r.duedate.to_date if not r.duedate.nil? %></span>
     </td>
     <td>
       <%= user_profile_popup(r.owner, :short_format => true) %>

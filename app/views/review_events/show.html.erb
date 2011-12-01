@@ -148,8 +148,8 @@
     <% end %>
 
     <% if not @review_event.buglink.nil? %>
-      <p><strong>Bug(s):</strong>&nbsp;&nbsp;
-        <% bugs = @review_event.buglink.split(%r{,\s*}) %>
+      <p><strong>Bugs:</strong>&nbsp;&nbsp;
+        <% bugs = @review_event.buglink.split(%r{[,\s]+}) %>
         <%= bugs.map do |bug| 
               link_to bug, APP_CONFIG['bug_tracker'].gsub(/\{\{bugid\}\}/, bug) 
             end.join(", ").html_safe %>
@@ -184,7 +184,8 @@
 
 <% if @changeset.nil? %>
   <div class="notice">
-    <span class="ui-icon ui-icon-info inline-icon"></span>
+    <%= image_tag "info.png", 
+        :style => "vertical-align:middle; margin-right:0.3em" %>
     No changesets yet.  Click &quot;Add new changeset&quot; above to create
     one.
   </div>

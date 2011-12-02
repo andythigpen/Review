@@ -23,7 +23,8 @@
   <div class="field">
     <%= f.label "Due Date (optional)" %>
     <%= f.text_field :duedate, :style => "width:20em;",
-        :class => "text ui-corner-all ui-widget-content datepicker" %>
+      :class => "text ui-corner-all ui-widget-content datepicker",
+      :value => (@review_event.duedate.nil? ? "" : @review_event.duedate.to_s(:review)) %>
   </div>
 
   <div class="field">

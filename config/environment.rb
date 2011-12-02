@@ -5,3 +5,4 @@ require File.expand_path('../application', __FILE__)
 Review::Application.initialize!
 
 CHANGESET_STATUSES = {:accept => 1, :reject => 2, :abstain => 3}
+Time::DATE_FORMATS[:review] = "%m/%d/%Y"

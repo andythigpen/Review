@@ -156,7 +156,8 @@
       <p><strong>Bugs:</strong>&nbsp;&nbsp;
         <% bugs = @review_event.buglink.split(%r{[,\s]+}) %>
         <%= bugs.map do |bug| 
-              link_to bug, APP_CONFIG['bug_tracker'].gsub(/\{\{bugid\}\}/, bug) 
+            link_to bug, APP_CONFIG['bug_tracker'].gsub(/\{\{bugid\}\}/, bug),
+              :target => "_blank"
             end.join(", ").html_safe %>
       </p>
     <% end %>

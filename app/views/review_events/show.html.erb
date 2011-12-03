@@ -242,7 +242,7 @@
       <% end %>
 
       <% @changeset.statuses.each do |s| %>
-        <% break if s.user == current_user %>
+        <% next if s.user == current_user %>
         <li>
             <% if s.status == CHANGESET_STATUSES[:accept] %>
               <%= image_tag "accept.png", 

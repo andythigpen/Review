@@ -2,10 +2,7 @@
 $(document).ready(function() {
   setup_buttons();
   setup_profile_popups();
-
-  $(".tooltip").tipTip({ defaultPosition: "top" });
-  $(".tooltip-below").tipTip({ defaultPosition: "bottom" });
-  $(".showonload").tipTip('show');
+  setup_tooltips();
 });
 
 function setup_profile_popups() {
@@ -55,6 +52,12 @@ function setup_buttons() {
     mouseup(function(e) {
       $(this).removeClass('ui-state-active');
     });
+}
+
+function setup_tooltips() {
+  $(".tooltip").tipTip({ defaultPosition: "top" });
+  $(".tooltip-below").tipTip({ defaultPosition: "bottom" });
+  $(".showonload").tipTip('show');
 }
 
 function display_error(error) {

@@ -26,9 +26,6 @@ class CommentsController < ApplicationController
     end
   end
 
-  def update
-  end
-
   def show
     @comment = Comment.find(params[:id])
     changeset = @comment.get_changeset

@@ -259,10 +259,6 @@ function submit_changeset(changeset_id) {
           function(data, textStatus, jqXHR) {
             $(this).dialog('close');
             if (data.status == "ok") {
-              /*$("#changeset_status").fadeOut(function() {
-                $(this).after(data.content).remove();
-                $("#changeset_status").hide().fadeIn();
-              });*/
               location.reload();
             }
             else {
@@ -310,17 +306,14 @@ function remove_changeset(changeset_id, review_id) {
 }
 
 function submit_changeset_status(changeset_id, statusText, statusType, dialogText) {
-  // var statusText = status[0].toUpperCase() + status.slice(1);
-  // var statusText = accepted ? "Accept" : "Reject";
   var dialogText = dialogText || "Are you sure you wish to "+statusText.toLowerCase()+" this changeset?";
   var buttons = {};
   buttons[statusText] = function() {
-    show_ajax_loader(this);//$("#status-changeset-dialog").dialog('widget')[0]);
+    show_ajax_loader(this);
     $.post("/changeset/status", { 
         changeset_user_status: {
           changeset_id: changeset_id,
           status: statusType
-          // accepted: accepted
         }
       },
       function(data, textStatus, jqXHR) {
@@ -429,7 +422,6 @@ function next_comment(loc) {
 function prev_comment(loc) {
   var min = -1;
   var minitem = null;
-  //var previtem = null;
   var wtop = $(window).scrollTop();
   $(".comment").each(function() {
     var itop = $(this).offset().top;
@@ -476,11 +468,7 @@ function prev_file(loc) {
     if (diff <= 1) {    // 1px for FF
       return false;
     }
-    //if (diff < min || min == -1) {
-      //min = diff;
-      //previtem = minitem;
-      minitem = this;
-    //}
+    minitem = this;
   });
   if (minitem != null) {
     $.scrollTo(minitem, {axis: 'y', offset:1});
@@ -504,10 +492,7 @@ function setup_awesome_bar() {
       if (diff < 0) {
         return false;   // stop iterating
       }
-      //if (diff < min || min == 0) {
-      //  min = diff;
-        minitem = this;
-      //}
+      minitem = this;
     });
     if (minitem != null) {
       $("#awesome-bar").slideDown();
@@ -520,5 +505,3 @@ function setup_awesome_bar() {
     file_index = index;
   });
 }
-
-

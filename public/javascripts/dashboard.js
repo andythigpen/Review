@@ -14,11 +14,6 @@ function setup_dashboard() {
     $.history.load($('#dashboard-left li.active > a').attr('data-filter')+","+page);
     return false;
   });
-  /*.live('ajax:success', function(xhr, data, status) {
-    // $("#dashboard-right-contents").html(data);
-    // $("#dashboard-right-loading").fadeOut();
-    // $.history.load($('li.active > a').attr('data-filter')+",page=1");
-  });*/
 
   $.history.init(function(hash) {
     $("#dashboard-right-loading").fadeIn();
@@ -26,7 +21,6 @@ function setup_dashboard() {
       // initialize...
       $.history.load("inbox");
     } else {
-      // $("#dashboard-right-contents").load("/dashboard/"+hash, function(response, text, xhr) {
       var page_array = hash.split(',');
       var url = "/dashboard/"+page_array[0];
       if (page_array[1] !== undefined) {
@@ -34,7 +28,6 @@ function setup_dashboard() {
       }
       $.getScript(url, function(data, status) {
         $("#dashboard-right-loading").fadeOut();
-        // $(".filter").parents("li").removeClass("active");
         $('[data-filter]').closest("li").removeClass("active");
         $('[data-filter="'+page_array[0]+'"]').closest("li").addClass("active");
       });

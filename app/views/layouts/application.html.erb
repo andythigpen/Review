@@ -48,6 +48,7 @@
   <!--[if IE]>
     <%= javascript_include_tag "IE9.js" %>
   <![endif]-->
+  <%= yield :page_js %>
 </head>
 <body>
 <div id="wrap">
@@ -80,11 +81,6 @@
     </ul>
   </nav>
 
-  <!--TODO move this to a more appropriate place. -->
-  <!-- Dialogs -->
-  <%= modal_dialog "delete-confirm" do %>
-    Are you sure you want to delete this comment?
-  <% end %>
   <%= modal_dialog "error-dialog" %>
 
   <section>

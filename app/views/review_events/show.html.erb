@@ -1,4 +1,7 @@
 <% content_for :title, "#{@review_event.name} #{@changeset.try(:name)}" %>
+<% content_for :page_js do %>
+  <%= javascript_include_tag "review_show.js" %>
+<% end %>
 
 <% title = "Show Review"
    title += " &gt; " + @changeset.name if not @changeset.nil? %>
@@ -10,6 +13,10 @@
 <div id="comment-form" class="hidden">
   <%= render :partial => "shared/comment_form" %>
 </div>
+
+<%= modal_dialog "delete-confirm" do %>
+  Are you sure you want to delete this comment?
+<% end %>
 
 <%= modal_dialog "create-changeset-dialog" do %>
   <% if @review_event.changesets.size > 0 %>

@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
            :source => :review_event, :order => "updated_at DESC"
   has_many :comments, :dependent => :destroy
   has_many :changeset_user_statuses, :dependent => :destroy
-  has_one :profile
+  has_one :profile, :dependent => :destroy
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :lockable, :timeoutable and :activatable

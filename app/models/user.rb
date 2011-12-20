@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   has_many :reviews_owned, :class_name => "ReviewEvent", :dependent => :destroy
-  has_many :review_event_users
+  has_many :review_event_users, :dependent => :destroy
   has_many :review_requests, :through => :review_event_users, 
            :source => :review_event, :order => "updated_at DESC"
   has_many :comments, :dependent => :destroy

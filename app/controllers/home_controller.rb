@@ -2,95 +2,37 @@ class HomeController < ApplicationController
   before_filter :is_user_signed_in
   before_filter :setup_filters
 
-  #FIXME refactor these functions to reduce common code
+  # filter name, template
+  @@filters = { 
+    "inbox"     => "inbox",
+    "due_soon"  => "inbox",
+    "late"      => "inbox",
+    "outbox"    => "outbox",
+    "drafts"    => "outbox",
+    "accepted"  => "outbox",
+    "rejected"  => "outbox",
+  }
+
+  @@filters.keys.each do |method|
+    define_method method do
+      run_filter(method)
+    end
+  end
+
+  def run_filter(filter)
+    reviews = self.instance_variable_get("@#{filter}")
+    pages = Kaminari.paginate_array(reviews).page(params[:page]).per(20)
+
+    respond_to do |format|
+      format.js { render :partial => "dashboard", 
+        :locals => { :template => @@filters[filter], 
+                     :filters => @@filters,
+                     :reviews => pages } }
+    end
+  end
 
   def dashboard
   end
-
-  def inbox
-    @inbox = Kaminari.paginate_array(@recent_inbox).page(params[:page]).per(20)
-
-    respond_to do |format|
-      format.js { render :partial => "dashboard", 
-        :locals => { :template => "inbox", 
-                     :filter => "inbox", 
-                     :size => @recent_inbox.size } }
-    end
-  end
-
-  def due_soon
-    @all_inbox = current_user.current_requests
-    @all_inbox = @all_inbox.find_all do |r| 
-      if r.duedate.nil? or not r.status_for(current_user).nil?
-        false 
-      else
-        (r.duedate.to_date - 2).past? and not r.duedate.to_date.past?
-      end
-    end
-    @inbox = Kaminari.paginate_array(@all_inbox).page(params[:page]).per(20)
-
-    respond_to do |format|
-      format.js { render :partial => "dashboard", 
-        :locals => { :template => "inbox",
-                     :filter => "due_soon", 
-                     :size => @all_inbox.size } }
-    end
-  end
-
-  def late
-    @inbox = Kaminari.paginate_array(@late).page(params[:page]).per(20)
-    respond_to do |format|
-      format.js { render :partial => "dashboard", 
-        :locals => { :template => "inbox",
-                     :filter => "late", 
-                     :size => @late.size } }
-    end
-  end
-
-  def outbox
-    @outbox = Kaminari.paginate_array(@all_outbox).page(params[:page]).per(20)
-
-    respond_to do |format|
-      format.js { render :partial => "dashboard", 
-        :locals => { :template => "outbox",
-                     :filter => "outbox", 
-                     :size => @all_outbox.size } }
-    end
-  end
-
-  def drafts
-    @outbox = Kaminari.paginate_array(@drafts).page(params[:page]).per(20)
-
-    respond_to do |format|
-      format.js { render :partial => "dashboard", 
-        :locals => { :template => "outbox",
-                     :filter => "drafts", 
-                     :size => @drafts.size } }
-    end
-  end
-
-  def accepted
-    @outbox = Kaminari.paginate_array(@accepted).page(params[:page]).per(20)
-
-    respond_to do |format|
-      format.js { render :partial => "dashboard", 
-        :locals => { :template => "outbox",
-                     :filter => "accepted", 
-                     :size => @accepted.size } }
-    end
-  end
-
-  def rejected
-    @outbox = Kaminari.paginate_array(@rejected).page(params[:page]).per(20)
-
-    respond_to do |format|
-      format.js { render :partial => "dashboard", 
-        :locals => { :template => "outbox",
-                     :filter => "rejected", 
-                     :size => @rejected.size } }
-    end
-  end
-
 
  protected
     def is_user_signed_in
@@ -101,8 +43,8 @@ class HomeController < ApplicationController
 
     def setup_filters
       @all_inbox = current_user.review_requests
-      @all_outbox = current_user.reviews_owned
-      @recent_inbox = []
+      @outbox = current_user.reviews_owned
+      @inbox = []
       @due_soon = []
       @late = []
       @drafts = []
@@ -112,7 +54,7 @@ class HomeController < ApplicationController
       @all_inbox.each do |r|
         status = r.status_for(current_user)
         if status.nil?
-          @recent_inbox.push(r)
+          @inbox.push(r)
           next if r.duedate.nil?
           if r.duedate.to_date.past? 
             @late.push(r)
@@ -120,11 +62,11 @@ class HomeController < ApplicationController
             @due_soon.push(r)
           end
         else
-          @recent_inbox.push(r) if not (status.updated_at.to_date + 7).past?
+          @inbox.push(r) if not (status.updated_at.to_date + 7).past?
         end
       end
 
-      @all_outbox.each do |r|
+      @outbox.each do |r|
         changeset = r.changesets.last
         if not changeset or not changeset.submitted
           @drafts.push(r)

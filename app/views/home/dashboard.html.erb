@@ -59,7 +59,7 @@
       <li>
         <%= link_to dashboard_outbox_path, :remote => true, :class => "filter", 
           :"data-type" => "html", :"data-filter" => "outbox" do %>
-            Outbox <span class="size"><%= "#{@all_outbox.size}" if @all_outbox.size > 0 %></span>
+            Outbox <span class="size"><%= "#{@outbox.size}" if @outbox.size > 0 %></span>
         <% end %>
       </li>
       <ul>

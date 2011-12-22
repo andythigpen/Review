@@ -202,8 +202,8 @@ ul {
 .lineno-left, .lineno-right {
   text-align: right;
   color: #999;
-  padding: 0 0.8em;
   font-size: 0.9em;
+  font-weight: bold;
 }
 
 .lineno-right {
@@ -213,6 +213,10 @@ ul {
 .lineno, .lineno-left, .lineno-right {
   background: #efefef;
   border-right: 1px solid #cdcdcd;
+}
+
+.lineno:hover, .lineno-left:hover, .lineno-right:hover {
+  text-decoration: underline;
 }
 
 .diff {
@@ -712,5 +716,11 @@ ul li em {
 .reviewers li {
   display: inline;
   float: left;
+}
+
+.lineno-left a, .lineno-right a {
+  color: #999;
+  padding: 0 0.8em;
+  cursor: pointer;
 }
 

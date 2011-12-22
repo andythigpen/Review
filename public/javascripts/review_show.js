@@ -59,16 +59,6 @@
 })(jQuery);
 
 $(document).ready(function() {
-  $(".diff tr").hover(
-    function() { 
-      $(this).find(".add-comment-button").animate({'opacity':1.0}, 100); 
-      $(this).find(".right-add-comment-button").animate({'opacity':1.0}, 100); 
-    },
-    function() { 
-      $(this).find(".add-comment-button").animate({'opacity':0.0}, 100); 
-      $(this).find(".right-add-comment-button").animate({'opacity':0.0}, 100); 
-    }
-  );
   setup_comment_hover();
   setup_awesome_bar();
 });

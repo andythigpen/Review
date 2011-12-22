@@ -243,7 +243,6 @@ ul {
 }
 }
 
-.diff tr .comment { padding: 1em; }
 .diff tr.comment-box-container { line-height: 1.2em; }
 .diff tr.comment-box-container td { padding:0; }
 
@@ -418,19 +417,27 @@ ul li em {
   padding: 0.5em 1em;
 }
 
-.comment-box { padding: 0.5em 2em 1em; }
-.comment-box .field { margin: 0em; }
+.comment-box .field, .comment-preview .field { 
+  margin: 0em; 
+  padding: 0.5em; 
+}
+
 .comment-box-container { font-size: 0.9em; }
-.comment, .comment-box-container { background: #fffff5; }
-.comment {
-  padding: 1em 2em;
-  border-top: 1px solid #e9e0e0;
+.comment, .comment-box {
+  margin: 10px;
+  border: 1px solid #e9e0e0;
+}
+
+.topbar {
+  padding: 0.5em 0.5em 0.6em;
+  background: #f9f9f9;
+  border-bottom: 1px solid #ddd;
 }
 
 .comment-actions {
   margin-left: 0.8em; 
   display: inline-block; 
-  opacity: 0;
+  font-size: 0.9em;
 }
 
 .add-comment-button, .right-add-comment-button {
@@ -468,16 +475,16 @@ ul li em {
   margin-left: 1em;
 }
 
-.comment-text { display: inline; }
+.comment-text { 
+  padding: 0.8em;
+}
+
 .comment-code {
   margin: 0.2em;
   padding: 0.4em;
   border: 1px solid #ccc;
   background: #dfdfdf;
 }
-
-.comment-preview { margin: 0 1.5em; }
-.comment-preview h2 { margin-bottom: 0.4em; }
 
 .ajax-loader {
   position: absolute;

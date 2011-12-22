@@ -59,20 +59,8 @@
 })(jQuery);
 
 $(document).ready(function() {
-  setup_comment_hover();
   setup_awesome_bar();
 });
-
-function setup_comment_hover() {
-  $(".comment").unbind().hover(
-    function() { 
-      $(this).find(".comment-actions").animate({'opacity':1.0}, 100); 
-    },
-    function() { 
-      $(this).find(".comment-actions").animate({'opacity':0.0}, 100); 
-    }
-  ); 
-}
 
 function submit_comment(loc) {
   var comment = $(loc).parents(".comment-box").find("form").serialize();
@@ -88,11 +76,12 @@ function submit_comment(loc) {
   $.post("/comments/create", comment,
     function(data, textStatus, jqXHR) {
       if (data.status == "ok") {
+        var margin = $(loc).parents(".comment-box").css('margin-left');
+        margin = parseInt(margin, 10) - 10;  // defaults to 10px 
         $(loc).parents(".comment-box").parent().fadeOut(function() {
-          $(this).append(data.content);
+          $(this).append(data.content).css('margin-left', margin+'px');
           $(this).children(".comment-box").remove();
           $(this).fadeIn();
-          setup_comment_hover();
           setup_profile_popups();
         });
       }
@@ -134,7 +123,13 @@ function add_comment_form(loc, commentable_id, commentable_type, leftline, right
     return;
   }
   var content = $("#comment-form").html();
-  $(loc).append(content).children(".comment-box").fadeIn(function() {
+  var margin = $(loc).prev(".comment").css('margin-left');
+  margin = parseInt(margin, 10) + 10;
+  $(loc).
+    append(content).
+    children(".comment-box").
+    css('margin-left', margin+'px').
+    fadeIn(function() {
     $(this).find("textarea").focus();
     $(this).find("input[name='comment[commentable_id]']").val(commentable_id);
     $(this).find("input[name='comment[commentable_type]']").
@@ -153,13 +148,18 @@ function close_comment_form(loc) {
 
 function preview_comment(loc) {
   var val = $(loc).parents('.comment-box').find('textarea').val();
+
+  var margin = $(loc).parents(".comment-box").css('margin-left');
   $(loc).parents('.comment-box').hide().after(function() {
     // this must match the format comment application helper
     var comment = val.replace(/\{\{\{/g, '<div class="comment-code">');
     comment = comment.replace(/\}\}\}/g, '</div>');
     comment = comment.replace(/'''(.*?)'''/g, '<strong>$1</strong>');
-    var result = '<div class="comment comment-preview hidden"><h2>Preview</h2>' + comment; 
-    result += '<div><a href="#" onclick="close_preview_comment(this);return false;" class="button ui-corner-all ui-state-default" style="margin-top:0.5em;">Close Preview</a></div>';
+    var result = '<div class="comment comment-preview hidden" style="margin-left:'+
+      margin+';">';
+    result += '<div class="topbar">Comment Preview</div>';
+    result += '<div class="comment-text">' + comment + '</div>'; 
+    result += '<div class="field"><a href="#" onclick="close_preview_comment(this);return false;" class="button ui-corner-all ui-state-default" style="margin-top:0.5em;">Close Preview</a></div>';
     result += '</div>';
     return result;
   });

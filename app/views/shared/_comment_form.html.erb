@@ -1,7 +1,11 @@
-<div id="comment-box" class="comment-box hidden">
+<% level = 0 if level.nil? %>
+<div class="comment-box hidden" style="margin-left:<%= level * 10 + 10 %>px;">
+  <div class="topbar">
+    <%= user_profile_popup(current_user) %>
+  </div>
+
   <%= form_for(:comment) do |f| %>
     <div class="field">
-      <%= f.label :content, "Comment" %>
       <%= f.hidden_field :commentable_id %>
       <%= f.hidden_field :commentable_type %>
       <%= f.hidden_field :user_id, :value => current_user.id %>
@@ -13,15 +17,13 @@
     <div class="field text-right">
       <%= link_to_function "Preview", "preview_comment(this);",
           :class => "ui-corner-all ui-state-default button left" %>
-      <%= link_to_js "add_comment_code(this);",
+      <%= link_to_function "Code", "add_comment_code(this);",
           :class => "ui-corner-all ui-state-default button left",
-          :style => "margin-left:0.2em;" do %>
-        <span class="ui-icon ui-icon-script left"></span>Code
-      <% end %>
+          :style => "margin-left:0.2em;" %>
       <%= link_to_function "Bold", "add_comment_bold(this);",
           :class => "ui-corner-all ui-state-default button left",
           :style => "margin-left:0.2em;" %>
-      <%= link_to_function "Save Comment", "submit_comment(this);",
+      <%= link_to_function "Save", "submit_comment(this);",
           :class => "ui-corner-all ui-state-default button" %>
       <%= link_to_function "Close", "close_comment_form(this);", 
           :class => "ui-corner-all ui-state-default button" %>

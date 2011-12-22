@@ -54,7 +54,7 @@ END_CONTENT
     defaults = { :short_format  => false, 
                  :profile_class => "profile-left",
                  :thumbnail     => true, 
-                 :username      => user.profile_name }
+                 :username      => user.username }
     params = defaults.merge(params)
     if params[:thumbnail] and not params[:short_format]
       avatar_small = image_tag "/avatars/thumb/missing.png", 

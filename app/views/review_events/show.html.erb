@@ -248,7 +248,7 @@
             <% else %>
               <strong>Unknown status:</strong> Contact the administrator, quick!
             <% end %>
-            <%= link_to_function "Remove", 
+            <%= link_to_function "Remove Status", 
                 "delete_changeset_status('#{@status.id}');", 
                 :class => "ui-state-default ui-corner-all button right" %>
           </div>
@@ -300,7 +300,7 @@
           <% else %>
             <% s.comments.each do |c| %>
               <%= render :partial => "shared/comment",
-                         :locals => { :comment => c } %>
+                :locals => { :comment => c, :allow_delete => false } %>
             <% end %>
           <% end %>
         </li>

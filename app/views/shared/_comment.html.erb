@@ -1,17 +1,25 @@
 <% level = 0 if level.nil? %>
+<% 
+  if not defined? allow_delete
+    allow_delete = true
+  end
+  if not defined? allow_reply 
+    allow_reply = true 
+  end 
+%>
 <a name="<%= comment.id %>"></a>
 <div class="comment" id="comment_<%= comment.id %>" style="margin-left:<%= level * 10 + 10 %>px;">
   <div class="topbar">
     <%= user_profile_popup(comment.user) %>
     <div class="right">
       <div class="comment-actions">
-        <% if comment.user != current_user %>
+        <% if allow_reply and comment.user != current_user %>
           <%= add_comment_button comment, "#reply_#{comment.id}" do %>
             <span class="ui-icon ui-icon-arrowreturnthick-1-w inline-icon"></span>Reply<% end %>
-        <% elsif comment.comments.size == 0 %>
+        <% elsif allow_delete and comment.user == current_user and comment.comments.size == 0 %>
           <a href="#" onclick="delete_comment('<%= comment.id %>'); return false;">
             <span class="ui-icon ui-icon-close inline-icon"></span>Delete</a> 
-        <% else %>
+        <% elsif allow_delete and allow_reply %>
           <span class="ui-icon ui-icon-locked inline-icon"></span>Locked
         <% end %>
       </div>

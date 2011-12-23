@@ -77,7 +77,7 @@ function submit_comment(loc) {
     function(data, textStatus, jqXHR) {
       if (data.status == "ok") {
         var margin = $(loc).parents(".comment-box").css('margin-left');
-        margin = parseInt(margin, 10) - 10;  // defaults to 10px 
+        margin = parseInt(margin, 10) - 20;  // defaults to 10px + 10px margin
         $(loc).parents(".comment-box").parent().fadeOut(function() {
           $(this).append(data.content).css('margin-left', margin+'px');
           $(this).children(".comment-box").remove();
@@ -347,6 +347,7 @@ function delete_changeset_status(status_id) {
     title: "Remove Status",
     buttons: {
       "Remove": function() {
+        show_ajax_loader(this);
         $.ajax({
           url: "/changeset/status/"+status_id,
           type: "DELETE",

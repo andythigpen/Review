@@ -39,7 +39,7 @@
       <td class="lineno-left"><a onclick="<%= onclick %>"><%= line_text_left %></a></td>
       <td class="lineno-right"><a onclick="<%= onclick %>"><%= line_text_right %></a></td>
       <td class="line-unified <%= type %>">
-        <pre><%= line %></pre>
+        <pre ondblclick="<%= onclick %>"><%= line %></pre>
       </td>
     </tr>
     <tr class="comment-box-container">

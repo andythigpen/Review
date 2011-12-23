@@ -94,7 +94,7 @@
         <% end %>
         <td class="lineno-left"><a onclick="<%= onclick %>"><%= left[:line_text] %></a></td>
         <td class="line-split <%= left[:type] %>">
-          <pre><%= left[:text] %></pre>
+          <pre ondblclick="<%= onclick %>"><%= left[:text] %></pre>
         </td>
 
         <% onclick = "" %>
@@ -111,7 +111,7 @@
         <% end %>
         <td class="lineno-right"><a onclick="<%= onclick %>"><%= right[:line_text] %></a></td>
         <td class="line-split <%= right[:type] %>">
-          <pre><%= right[:text] %></pre>
+          <pre ondblclick="<%= onclick %>"><%= right[:text] %></pre>
         </td>
       </tr>
       <tr class="comment-box-container">

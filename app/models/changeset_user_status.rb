@@ -1,6 +1,8 @@
 class ChangesetUserStatus < ActiveRecord::Base
   belongs_to :user
   belongs_to :changeset
+  has_many :comments, :as => :commentable, :dependent => :destroy
+  accepts_nested_attributes_for :comments
 
   def accepted?
     return self.status == CHANGESET_STATUSES[:accept]

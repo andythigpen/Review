@@ -325,6 +325,10 @@ ul li em {
   padding: 1em;
 }
 
+.rejected-comment {
+  border-left: 10px solid #CC1F1F;
+}
+
 .warn {
   padding: 0.5em 1em;
   margin-bottom: 1em;
@@ -340,6 +344,14 @@ ul li em {
   border: 1px solid #72DE5F;
   padding: 1em;
   color: #444;
+}
+
+.accepted-comment {
+  border-left: 10px solid #72DE5F;
+}
+
+.abstained-comment {
+  border-left: 10px solid #5E7C88;
 }
 
 .info, .notice {
@@ -413,13 +425,10 @@ ul li em {
   margin-bottom: 1em;
 }
 
-.statuses li {
-  padding: 0.5em 1em;
-}
-
 .comment-box .field, .comment-preview .field { 
   margin: 0em; 
   padding: 0.5em; 
+  background: #fff;
 }
 
 .comment-box-container { font-size: 0.9em; }
@@ -477,6 +486,7 @@ ul li em {
 
 .comment-text { 
   padding: 0.8em;
+  background: #fff;
 }
 
 .comment-code {

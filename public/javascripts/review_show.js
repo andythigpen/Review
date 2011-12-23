@@ -295,15 +295,23 @@ function remove_changeset(changeset_id, review_id) {
   });
 }
 
-function submit_changeset_status(changeset_id, statusText, statusType, dialogText) {
-  var dialogText = dialogText || "Are you sure you wish to "+statusText.toLowerCase()+" this changeset?";
+function submit_changeset_status(user_id, changeset_id, statusText, statusType, defaultComment, dialogText) {
+  var dialogText = dialogText || statusText;
+  $("#status-changeset-dialog .status").html(dialogText.toLowerCase());
+  $("#status-changeset-dialog textarea").html(defaultComment);
   var buttons = {};
   buttons[statusText] = function() {
     show_ajax_loader(this);
     $.post("/changeset/status", { 
         changeset_user_status: {
-          changeset_id: changeset_id,
-          status: statusType
+          "changeset_id": changeset_id,
+          "status": statusType,
+          "comments_attributes": [
+            { 
+              "content": $("#status-changeset-dialog textarea").val(),
+              "user_id": user_id 
+            }
+          ]
         }
       },
       function(data, textStatus, jqXHR) {
@@ -319,7 +327,6 @@ function submit_changeset_status(changeset_id, statusText, statusType, dialogTex
   buttons["Cancel"] = function() {
     $(this).dialog('close');
   };
-  $("#status-changeset-dialog .dialog-content").html(dialogText);
   $("#status-changeset-dialog").dialog({
     modal: true,
     title: "Update Status",

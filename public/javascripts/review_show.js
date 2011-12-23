@@ -301,6 +301,10 @@ function submit_changeset_status(user_id, changeset_id, statusText, statusType, 
   $("#status-changeset-dialog textarea").html(defaultComment);
   var buttons = {};
   buttons[statusText] = function() {
+    if ($("#status-changeset-dialog textarea").val().length == 0) {
+      $("#status-changeset-dialog .errorExplanation").fadeIn();
+      return false;
+    }
     show_ajax_loader(this);
     $.post("/changeset/status", { 
         changeset_user_status: {
@@ -338,12 +342,26 @@ function submit_changeset_status(user_id, changeset_id, statusText, statusType, 
 }
 
 function delete_changeset_status(status_id) {
-  $.ajax({
-    url: "/changeset/status/"+status_id,
-    type: "DELETE",
-    dataType: "json",
-    success: function (msg) {
-      location.reload();
+  $("#delete-status").dialog({
+    modal: true,
+    title: "Remove Status",
+    buttons: {
+      "Remove": function() {
+        $.ajax({
+          url: "/changeset/status/"+status_id,
+          type: "DELETE",
+          dataType: "json",
+          success: function (msg) {
+            location.reload();
+          }
+        });
+      },
+      "Cancel": function() {
+        $(this).dialog('close');
+      }
+    },
+    open: function() {
+      hide_ajax_loader(this);
     }
   });
 }

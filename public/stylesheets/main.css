@@ -425,6 +425,10 @@ ul li em {
   margin-bottom: 1em;
 }
 
+.statuses li { margin: 0; }
+.statuses .comment { margin: 10px 0; }
+#changeset_status { margin: 10px 0 20px; }
+
 .comment-box .field, .comment-preview .field { 
   margin: 0em; 
   padding: 0.5em; 
@@ -434,13 +438,13 @@ ul li em {
 .comment-box-container { font-size: 0.9em; }
 .comment, .comment-box {
   margin: 10px;
-  border: 1px solid #e9e0e0;
+  border: 1px solid #f8e3b6;
 }
 
 .topbar {
   padding: 0.5em 0.5em 0.6em;
-  background: #f9f9f9;
-  border-bottom: 1px solid #ddd;
+  background: #fbf9f6;
+  border-bottom: 1px solid #efe4cc;
 }
 
 .comment-actions {
@@ -688,7 +692,7 @@ ul li em {
 .ui-widget a.ui-state-disabled:hover { color: #000; }
 .ui-dialog { font-size: 0.9em; }
 .ui-dialog-title { font-size: 0.8em; }
-.ui-widget a { color: #3674BA; }
+.ui-widget a { color: #5E7C88; }
 .ui-dialog .ui-dialog-buttonpane button {
   font-size: 1.1em;
   font-weight: bold;

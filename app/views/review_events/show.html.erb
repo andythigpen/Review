@@ -18,6 +18,10 @@
   Are you sure you want to delete this comment?
 <% end %>
 
+<%= modal_dialog "delete-status" do %>
+  Are you sure you want to remove your review status?
+<% end %>
+
 <%= modal_dialog "create-changeset-dialog" do %>
   <% if @review_event.changesets.size > 0 %>
     <div class="info"><strong>Note:</strong> Creating a new changeset will 
@@ -55,7 +59,9 @@
 <%= modal_dialog "status-changeset-dialog" do %>
   Are you sure you wish to <span class="status"></span> this changeset?
   <br /><br />
-  Comment:
+  <div class="errorExplanation hidden">A comment is required.</div>
+  <br />
+  Comment (required):
   <%= form_for :comment do |f| %>
     <%= f.text_area :content, :rows => 5,
           :class => "text ui-corner-all ui-widget-content",
@@ -231,65 +237,72 @@
               <%= image_tag "accept.png", 
                   :style => "vertical-align:middle; margin-right:0.3em" %>
               You accepted this changeset.
-              <%= link_to_function "Undo", 
-                  "delete_changeset_status('#{@status.id}');", 
-                  :class => "ui-state-default ui-corner-all button right",
-                  :style => "margin:-0.2em 0;" %>
             <% elsif @status.rejected? %>
               <%= image_tag "reject.png", 
                   :style => "vertical-align:middle; margin-right:0.3em" %>
               You rejected this changeset.
-              <%= link_to_function "Undo", 
-                  "delete_changeset_status('#{@status.id}');", 
-                  :class => "ui-state-default ui-corner-all button right",
-                  :style => "margin:-0.2em 0;" %>
             <% elsif @status.abstained? %>
               <%= image_tag "info.png", 
                   :style => "vertical-align:middle; margin-right:0.3em" %>
               You requested to be removed from this review.
-              <%= link_to_function "Undo", 
-                  "delete_changeset_status('#{@status.id}');", 
-                  :class => "ui-state-default ui-corner-all button right",
-                  :style => "margin:-0.2em 0;" %>
             <% else %>
               <strong>Unknown status:</strong> Contact the administrator, quick!
             <% end %>
+            <%= link_to_function "Remove", 
+                "delete_changeset_status('#{@status.id}');", 
+                :class => "ui-state-default ui-corner-all button right" %>
           </div>
         </li>
       <% end %>
 
       <% @changeset.statuses.each do |s| %>
-        <% next if s.user == current_user %>
+        <%# next if s.user == current_user %>
 
-        <li>
+        <% comment_style = "" %>
+        <% if s.status == CHANGESET_STATUSES[:accept] %>
+          <% comment_style = "accepted-comment" %>
+        <% elsif s.status == CHANGESET_STATUSES[:reject] %>
+          <% comment_style = "rejected-comment" %>
+        <% elsif s.status == CHANGESET_STATUSES[:abstain] %>
+          <% comment_style = "abstained-comment" %>
+        <% end %>
+
+        <li class="<%= comment_style %>">
+          <% if s.comments.find_by_user_id(s.user).nil? %>
+            <%# legacy mode...no comments available, so just show status %>
+            <% comment_style = "" %>
             <!--<% if s.status == CHANGESET_STATUSES[:accept] %>
               <%= image_tag "accept.png", 
                   :style => "vertical-align:middle; margin-right:0.3em" %>
+              <% comment_style = "accepted-comment" %>
             <% elsif s.status == CHANGESET_STATUSES[:reject] %>
               <%= image_tag "reject.png", 
                   :style => "vertical-align:middle; margin-right:0.3em" %>
+              <% comment_style = "rejected-comment" %>
             <% elsif s.status == CHANGESET_STATUSES[:abstain] %>
               <%= image_tag "info.png", 
                   :style => "vertical-align:middle; margin-right:0.3em" %>
-            <% end %>
-
-            <%= user_profile_popup(s.user, :short_format => true) %>:
-
-            <% comment_style = "" %>
-            <% if s.status == CHANGESET_STATUSES[:accept] %>
-              <% comment_style = "accepted-comment" %>
-            <% elsif s.status == CHANGESET_STATUSES[:reject] %>
-              <% comment_style = "rejected-comment" %>
-            <% elsif s.status == CHANGESET_STATUSES[:abstain] %>
               <% comment_style = "abstained-comment" %>
             <% end %>-->
 
-            <div class="<%= comment_style %>">
-              <% s.comments.each do |c| %>
-                <%= render :partial => "shared/comment",
-                           :locals => { :comment => c } %>
+            <div style="margin: 10px;">
+              <%= user_profile_popup(s.user) %>:
+
+              <% comment_style = "" %>
+              <% if s.status == CHANGESET_STATUSES[:accept] %>
+                Accepted
+              <% elsif s.status == CHANGESET_STATUSES[:reject] %>
+                Rejected
+              <% elsif s.status == CHANGESET_STATUSES[:abstain] %>
+                Abstained
               <% end %>
             </div>
+          <% else %>
+            <% s.comments.each do |c| %>
+              <%= render :partial => "shared/comment",
+                         :locals => { :comment => c } %>
+            <% end %>
+          <% end %>
         </li>
       <% end %>
     </ul>

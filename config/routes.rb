@@ -8,9 +8,11 @@ Review::Application.routes.draw do
   # Dashboard
   root :to => "home#dashboard"
   match "/dashboard/inbox"  => "home#inbox"
+  match "/dashboard/all_inbox"  => "home#all_inbox"
   match "/dashboard/due_soon"  => "home#due_soon"
   match "/dashboard/late"  => "home#late"
   match "/dashboard/outbox" => "home#outbox"
+  match "/dashboard/all_outbox"  => "home#all_outbox"
   match "/dashboard/drafts" => "home#drafts"
   match "/dashboard/accepted" => "home#accepted"
   match "/dashboard/rejected" => "home#rejected"

@@ -4,13 +4,15 @@ class HomeController < ApplicationController
 
   # filter name, template
   @@filters = { 
-    "inbox"     => "inbox",
-    "due_soon"  => "inbox",
-    "late"      => "inbox",
-    "outbox"    => "outbox",
-    "drafts"    => "outbox",
-    "accepted"  => "outbox",
-    "rejected"  => "outbox",
+    "inbox"       => "inbox",
+    "all_inbox"   => "inbox",
+    "due_soon"    => "inbox",
+    "late"        => "inbox",
+    "outbox"      => "outbox",
+    "all_outbox"  => "outbox",
+    "drafts"      => "outbox",
+    "accepted"    => "outbox",
+    "rejected"    => "outbox",
   }
 
   @@filters.keys.each do |method|
@@ -43,10 +45,11 @@ class HomeController < ApplicationController
 
     def setup_filters
       @all_inbox = current_user.review_requests
-      @outbox = current_user.reviews_owned
+      @all_outbox = current_user.reviews_owned
       @inbox = []
       @due_soon = []
       @late = []
+      @outbox = []
       @drafts = []
       @accepted = []
       @rejected = []
@@ -66,14 +69,27 @@ class HomeController < ApplicationController
         end
       end
 
-      @outbox.each do |r|
+      @all_outbox.each do |r|
         changeset = r.changesets.last
+        already_in_outbox = false
+
+        # show everything in outbox from the past week
+        # TODO instead of changeset.updated_at, should it be the latest
+        # changeset status updated_at??
+        if not changeset.nil? and not (changeset.updated_at.to_date + 7).past?
+          @outbox.push(r)
+          already_in_outbox = true
+        end
+
         if not changeset or not changeset.submitted
           @drafts.push(r)
+          @outbox.push(r) unless already_in_outbox
         elsif changeset.accepted?
           @accepted.push(r)
         elsif changeset.rejected?
           @rejected.push(r)
+        else
+          @outbox.push(r) unless already_in_outbox
         end
       end
     end

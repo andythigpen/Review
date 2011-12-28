@@ -18,7 +18,13 @@ class ReviewEvent < ActiveRecord::Base
   end
 
   def accepted_total
+    return 0 if not self.changesets.last
     return self.changesets.last.users_accepted.count
+  end
+
+  def abstained_total
+    return 0 if not self.changesets.last
+    return self.changesets.last.users_abstained.count
   end
 
   def reviewers_total

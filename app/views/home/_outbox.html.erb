@@ -32,8 +32,9 @@
         <% if not lastchset.nil? and lastchset.submitted %>
           <% if not lastchset.is_completed? %>
             <div class="graph">
-              <div class="bar" style="width:<%= (r.accepted_total.to_f / r.reviewers_total.to_f * 100.0).to_i if r.reviewers_total > 0 %>%"></div>
-              <div class="label"><%= r.accepted_total %>/<%= r.reviewers_total %></div>
+              <% users = r.accepted_total + r.abstained_total %>
+              <div class="bar" style="width:<%= (users.to_f / r.reviewers_total.to_f * 100.0).to_i if r.reviewers_total > 0 %>%"></div>
+              <div class="label"><%= users %>/<%= r.reviewers_total %></div>
             </div>
           <% end %>
         <% end %>

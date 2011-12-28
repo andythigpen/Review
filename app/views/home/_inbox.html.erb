@@ -3,7 +3,7 @@
   <tr>
     <th>Date</th><th>Name</th><th>Due Date</th><th>Posted By</th><th>Status</th>
   </tr>
-  <% @inbox.each do |r| %>
+  <% reviews.each do |r| %>
     <tr class="review-event <%= cycle("even", "odd") %>">
       
     <% extra = "neardue" if not r.duedate.nil? and (r.duedate.to_date - 2).past? %>
@@ -42,9 +42,9 @@
   <% reset_cycle %>
   <% if current_user.review_requests.size == 0 %>
     <tr><td colspan="4"><em>No one has requested you review their code yet.</em></td></tr>
-  <% elsif @inbox.size == 0 %>
+  <% elsif reviews.size == 0 %>
     <tr><td colspan="4"><em>No results found.</em></td>
   <% end %>
 </table>
-<%= paginate @inbox, :remote => true %>
+<%= paginate reviews, :remote => true %>
 

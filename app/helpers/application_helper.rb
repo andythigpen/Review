@@ -13,12 +13,8 @@ module ApplicationHelper
     rightline = nil if not defined? rightline 
 
     html_options = args.extract_options!.symbolize_keys
-    #content = render("shared/comment_form", :commentable => commentable, 
-    #                 :leftline => leftline, :rightline => rightline)
     href = "#"
     onclick = "add_comment_form('#{location}', '#{commentable.id}', '#{commentable.class.name}', '#{leftline}', '#{rightline}');return false;"
-    #onclick = "add_comment_form('#{location}', '#{escape_javascript(content)}');return false;"
-#"<a href=\"#\" onclick=\"".html_safe() + "#{onclick}" + "\">#{inner}</a>".html_safe
     content_tag(:a, html_options.merge(:href => href, :onclick => onclick)) do 
       inner
     end
@@ -58,7 +54,7 @@ END_CONTENT
     defaults = { :short_format  => false, 
                  :profile_class => "profile-left",
                  :thumbnail     => true, 
-                 :username      => user.profile_name }
+                 :username      => user.username }
     params = defaults.merge(params)
     if params[:thumbnail] and not params[:short_format]
       avatar_small = image_tag "/avatars/thumb/missing.png", 

@@ -1,17 +1,6 @@
 class ReviewEventsController < ApplicationController
   before_filter :authenticate_user!
 
-  # GET /review_events
-  # GET /review_events.xml
-  def index
-    @review_events = ReviewEvent.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @review_events }
-    end
-  end
-
   # GET /review_events/1
   # GET /review_events/1.xml
   def show

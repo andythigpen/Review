@@ -202,8 +202,8 @@ ul {
 .lineno-left, .lineno-right {
   text-align: right;
   color: #999;
-  padding: 0 0.8em;
   font-size: 0.9em;
+  font-weight: bold;
 }
 
 .lineno-right {
@@ -213,6 +213,10 @@ ul {
 .lineno, .lineno-left, .lineno-right {
   background: #efefef;
   border-right: 1px solid #cdcdcd;
+}
+
+.lineno:hover, .lineno-left:hover, .lineno-right:hover {
+  text-decoration: underline;
 }
 
 .diff {
@@ -239,7 +243,6 @@ ul {
 }
 }
 
-.diff tr .comment { padding: 1em; }
 .diff tr.comment-box-container { line-height: 1.2em; }
 .diff tr.comment-box-container td { padding:0; }
 
@@ -322,6 +325,10 @@ ul li em {
   padding: 1em;
 }
 
+.rejected-comment {
+  border-left: 10px solid #CC1F1F;
+}
+
 .warn {
   padding: 0.5em 1em;
   margin-bottom: 1em;
@@ -337,6 +344,14 @@ ul li em {
   border: 1px solid #72DE5F;
   padding: 1em;
   color: #444;
+}
+
+.accepted-comment {
+  border-left: 10px solid #72DE5F;
+}
+
+.abstained-comment {
+  border-left: 10px solid #5E7C88;
 }
 
 .info, .notice {
@@ -410,23 +425,32 @@ ul li em {
   margin-bottom: 1em;
 }
 
-.statuses li {
-  padding: 0.5em 1em;
+.statuses li { margin: 0; }
+.statuses .comment { margin: 10px 0; }
+#changeset_status { margin: 10px 0 20px; }
+
+.comment-box .field, .comment-preview .field { 
+  margin: 0em; 
+  padding: 0.5em; 
+  background: #fff;
 }
 
-.comment-box { padding: 0.5em 2em 1em; }
-.comment-box .field { margin: 0em; }
 .comment-box-container { font-size: 0.9em; }
-.comment, .comment-box-container { background: #fffff5; }
-.comment {
-  padding: 1em 2em;
-  border-top: 1px solid #e9e0e0;
+.comment, .comment-box {
+  margin: 10px;
+  border: 1px solid #f8e3b6;
+}
+
+.topbar {
+  padding: 0.5em 0.5em 0.6em;
+  background: #fbf9f6;
+  border-bottom: 1px solid #efe4cc;
 }
 
 .comment-actions {
   margin-left: 0.8em; 
   display: inline-block; 
-  opacity: 0;
+  font-size: 0.9em;
 }
 
 .add-comment-button, .right-add-comment-button {
@@ -464,16 +488,17 @@ ul li em {
   margin-left: 1em;
 }
 
-.comment-text { display: inline; }
+.comment-text { 
+  padding: 0.8em;
+  background: #fff;
+}
+
 .comment-code {
   margin: 0.2em;
   padding: 0.4em;
   border: 1px solid #ccc;
   background: #dfdfdf;
 }
-
-.comment-preview { margin: 0 1.5em; }
-.comment-preview h2 { margin-bottom: 0.4em; }
 
 .ajax-loader {
   position: absolute;
@@ -667,7 +692,7 @@ ul li em {
 .ui-widget a.ui-state-disabled:hover { color: #000; }
 .ui-dialog { font-size: 0.9em; }
 .ui-dialog-title { font-size: 0.8em; }
-.ui-widget a { color: #3674BA; }
+.ui-widget a { color: #5E7C88; }
 .ui-dialog .ui-dialog-buttonpane button {
   font-size: 1.1em;
   font-weight: bold;
@@ -712,5 +737,11 @@ ul li em {
 .reviewers li {
   display: inline;
   float: left;
+}
+
+.lineno-left a, .lineno-right a {
+  color: #999;
+  padding: 0 0.8em;
+  cursor: pointer;
 }
 

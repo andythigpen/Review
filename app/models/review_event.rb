@@ -11,14 +11,20 @@ class ReviewEvent < ActiveRecord::Base
 
   # returns a changeset user status object for given user
   def status_for(user)
-    return nil if self.changesets.nil?
+    return nil if self.changesets.nil? or self.changesets.last.nil?
     status = ChangesetUserStatus.find_by_user_id_and_changeset_id(user.id, 
                 self.changesets.last.id)
     return status
   end
 
   def accepted_total
+    return 0 if not self.changesets.last
     return self.changesets.last.users_accepted.count
+  end
+
+  def abstained_total
+    return 0 if not self.changesets.last
+    return self.changesets.last.users_abstained.count
   end
 
   def reviewers_total

@@ -1,5 +1,8 @@
 <% content_for :title, "New Review" %>
 <% content_for :page_name, "New Review" %>
+<% content_for :page_js do %>
+  <%= javascript_include_tag "review_edit.js" %>
+<% end %>
 
 <h1>New Review</h1>
 <div class="ui-widget box">

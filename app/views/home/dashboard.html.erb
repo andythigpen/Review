@@ -1,4 +1,7 @@
 <% content_for :title, "Dashboard" %>
+<% content_for :page_js do %>
+  <%= javascript_include_tag "dashboard.js" %>
+<% end %>
 
 <%= modal_dialog "remove-review-dialog" do %>
   Remove this review event?
@@ -33,10 +36,17 @@
       <li>
         <%= link_to dashboard_inbox_path, :remote => true, :class => "filter", 
           :"data-type" => "html", :"data-filter" => "inbox" do %>
-            Inbox <span class="size"><%= "#{@all_inbox.size}" if @all_inbox.size > 0 %></span>
+            Inbox <span class="size"><%= "#{@inbox.size}" if @inbox.size > 0 %></span>
         <% end %>
       </li>
       <ul>
+        <li>
+          <%= link_to dashboard_all_inbox_path, :remote => true, 
+            :class => "filter", :"data-type" => "html", 
+            :"data-filter" => "all_inbox" do %>
+              All <span class="size"><%= "#{@all_inbox.size}" if @all_inbox.size > 0 %></span>
+          <% end %>
+        </li>
         <li>
         <%= link_to dashboard_due_soon_path, :remote => true, 
           :class => "filter", :"data-type" => "html", 
@@ -56,10 +66,17 @@
       <li>
         <%= link_to dashboard_outbox_path, :remote => true, :class => "filter", 
           :"data-type" => "html", :"data-filter" => "outbox" do %>
-            Outbox <span class="size"><%= "#{@all_outbox.size}" if @all_outbox.size > 0 %></span>
+            Outbox <span class="size"><%= "#{@outbox.size}" if @outbox.size > 0 %></span>
         <% end %>
       </li>
       <ul>
+        <li>
+          <%= link_to dashboard_all_outbox_path, :remote => true, 
+            :class => "filter", :"data-type" => "html", 
+            :"data-filter" => "all_outbox" do %>
+              All <span class="size"><%= "#{@all_outbox.size}" if @all_outbox.size > 0 %></span>
+          <% end %>
+        </li>
         <li>
           <%= link_to dashboard_drafts_path, :remote => true, 
             :class => "filter", :"data-type" => "html", 

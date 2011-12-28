@@ -31,19 +31,15 @@
          lineno_right += 1 %>
     <% end %>
 
+    <% onclick = "" %>
+    <% if not type == "range" %>
+      <% onclick = "add_comment_form('#line_comment_#{diff.id}_#{total_line}', '#{diff.id}', '#{diff.class.name}', '#{line_text_left}', '#{line_text_right}');return false;" %>
+    <% end %>
     <tr>
-      <td class="lineno-left"><%= line_text_left %></td>
-      <td class="lineno-right"><%= line_text_right %></td>
+      <td class="lineno-left"><a onclick="<%= onclick %>"><%= line_text_left %></a></td>
+      <td class="lineno-right"><a onclick="<%= onclick %>"><%= line_text_right %></a></td>
       <td class="line-unified <%= type %>">
-        <% if not type == "range" %>
-          <%= add_comment_button diff, "#line_comment_#{diff.id}_#{total_line}",
-              line_text_left, line_text_right, 
-              :class => "add-comment-button" do %>
-            <span class="ui-icon ui-icon-plus left"></span>
-            <span class="ui-icon ui-icon-comment left"></span>
-          <% end %>
-        <% end %>
-        <pre><%= line %></pre>
+        <pre ondblclick="<%= onclick %>"><%= line %></pre>
       </td>
     </tr>
     <tr class="comment-box-container">

@@ -9,12 +9,15 @@ class CommentsController < ApplicationController
         level = 0
         level = 1 if @comment.commentable.class == Comment
 
+        commentee = nil
         if @comment.commentable.class == Comment
           commentee = @comment.commentable.user
-        else
+        elsif @comment.commentable.class == Diff
+          commentee = @comment.commentable.changeset.review_event.owner
+        elsif @comment.commentable.class == ChangesetUserStatus
           commentee = @comment.commentable.changeset.review_event.owner
         end
-        if commentee != current_user
+        if not commentee.nil? and commentee != current_user
           UserMailer.comment_email(@comment, current_user, commentee).deliver
         end
         format.json { render :partial => "shared/comment", 
@@ -24,9 +27,6 @@ class CommentsController < ApplicationController
                     :status => :unprocessable_entity }
       end
     end
-  end
-
-  def update
   end
 
   def show

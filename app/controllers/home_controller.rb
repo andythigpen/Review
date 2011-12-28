@@ -1,170 +1,96 @@
 class HomeController < ApplicationController
   before_filter :is_user_signed_in
+  before_filter :setup_filters
 
-  #FIXME refactor these functions to reduce common code
+  # filter name, template
+  @@filters = { 
+    "inbox"       => "inbox",
+    "all_inbox"   => "inbox",
+    "due_soon"    => "inbox",
+    "late"        => "inbox",
+    "outbox"      => "outbox",
+    "all_outbox"  => "outbox",
+    "drafts"      => "outbox",
+    "accepted"    => "outbox",
+    "rejected"    => "outbox",
+  }
 
-  def index
-    @current_requests = current_user.current_requests
-    @current_requests = Kaminari.paginate_array(@current_requests).
-                          page(params[:cur]).per(5)
-    @my_reviews = ReviewEvent.find_all_by_user_id(current_user.id, 
-                                                  :order => "updated_at DESC")
-    @my_reviews = Kaminari.paginate_array(@my_reviews).
-                    page(params[:rev]).per(5)
+  @@filters.keys.each do |method|
+    define_method method do
+      run_filter(method)
+    end
+  end
+
+  def run_filter(filter)
+    reviews = self.instance_variable_get("@#{filter}")
+    pages = Kaminari.paginate_array(reviews).page(params[:page]).per(20)
+
+    respond_to do |format|
+      format.js { render :partial => "dashboard", 
+        :locals => { :template => @@filters[filter], 
+                     :filters => @@filters,
+                     :reviews => pages } }
+    end
   end
 
   def dashboard
-    # @filter = @filter || "inbox"
-    @all_inbox = current_user.current_requests
-    @due_soon = @all_inbox.find_all do |r| 
-      if r.duedate.nil? or not r.status_for(current_user).nil?
-        false
-      else
-        (r.duedate.to_date - 2).past? and not r.duedate.to_date.past? 
-      end
-    end
-    @late = @all_inbox.find_all do |r| 
-      if r.duedate.nil? or not r.status_for(current_user).nil?
-        false
-      else
-        r.duedate.to_date.past? 
-      end
-    end
-    # @inbox = Kaminari.paginate_array(@all_inbox).page(params[:page]).per(5)
-    @all_outbox = ReviewEvent.find_all_by_user_id(current_user.id, 
-                                                  :order => "updated_at DESC")
-    @drafts = @all_outbox.find_all do |r| 
-      r.changesets.last.nil? or not r.changesets.last.submitted
-    end
-    @accepted = @all_outbox.find_all do |r| 
-      r.changesets.last and r.changesets.last.accepted?
-    end
-    @rejected = @all_outbox.find_all do |r| 
-      r.changesets.last and r.changesets.last.rejected?
-    end
-    # @outbox = Kaminari.paginate_array(@all_outbox).page(params[:page]).per(5)
   end
-
-  def inbox
-    @all_inbox = current_user.current_requests
-    @inbox = Kaminari.paginate_array(@all_inbox).page(params[:page]).per(20)
-
-    respond_to do |format|
-      # format.js { render :partial => "inbox" }
-      format.js { render :partial => "dashboard", 
-        :locals => { :template => "inbox", 
-                     :filter => "inbox", 
-                     :size => @all_inbox.size } }
-    end
-  end
-
-  def due_soon
-    @all_inbox = current_user.current_requests
-    @all_inbox = @all_inbox.find_all do |r| 
-      if r.duedate.nil? or not r.status_for(current_user).nil?
-        false 
-      else
-        (r.duedate.to_date - 2).past? and not r.duedate.to_date.past?
-      end
-    end
-    @inbox = Kaminari.paginate_array(@all_inbox).page(params[:page]).per(20)
-
-    respond_to do |format|
-      format.js { render :partial => "dashboard", 
-        :locals => { :template => "inbox",
-                     :filter => "due_soon", 
-                     :size => @all_inbox.size } }
-    end
-  end
-
-  def late
-    @all_inbox = current_user.current_requests
-    @all_inbox = @all_inbox.find_all do |r| 
-      if r.duedate.nil? or not r.status_for(current_user).nil?
-        false
-      else
-        r.duedate.to_date.past?
-      end
-    end
-    @inbox = Kaminari.paginate_array(@all_inbox).page(params[:page]).per(20)
-
-    respond_to do |format|
-      format.js { render :partial => "dashboard", 
-        :locals => { :template => "inbox",
-                     :filter => "late", 
-                     :size => @all_inbox.size } }
-    end
-  end
-
-  def outbox
-    @all_outbox = ReviewEvent.find_all_by_user_id(current_user.id, 
-                                                  :order => "updated_at DESC")
-    @outbox = Kaminari.paginate_array(@all_outbox).page(params[:page]).per(20)
-
-    respond_to do |format|
-      format.js { render :partial => "dashboard", 
-        :locals => { :template => "outbox",
-                     :filter => "outbox", 
-                     :size => @all_outbox.size } }
-    end
-  end
-
-  def drafts
-    @all_outbox = ReviewEvent.find_all_by_user_id(current_user.id, 
-                                                  :order => "updated_at DESC")
-    @all_outbox = @all_outbox.find_all do |r| 
-      r.changesets.last.nil? or not r.changesets.last.submitted
-    end
-
-    @outbox = Kaminari.paginate_array(@all_outbox).page(params[:page]).per(20)
-
-    respond_to do |format|
-      format.js { render :partial => "dashboard", 
-        :locals => { :template => "outbox",
-                     :filter => "drafts", 
-                     :size => @all_outbox.size } }
-    end
-  end
-
-  def accepted
-    @all_outbox = ReviewEvent.find_all_by_user_id(current_user.id, 
-                                                  :order => "updated_at DESC")
-    @all_outbox = @all_outbox.find_all do |r| 
-      r.changesets.last and r.changesets.last.accepted?
-    end
-
-    @outbox = Kaminari.paginate_array(@all_outbox).page(params[:page]).per(20)
-
-    respond_to do |format|
-      format.js { render :partial => "dashboard", 
-        :locals => { :template => "outbox",
-                     :filter => "accepted", 
-                     :size => @all_outbox.size } }
-    end
-  end
-
-  def rejected
-    @all_outbox = ReviewEvent.find_all_by_user_id(current_user.id, 
-                                                  :order => "updated_at DESC")
-    @all_outbox = @all_outbox.find_all do |r| 
-      r.changesets.last and r.changesets.last.rejected?
-    end
-
-    @outbox = Kaminari.paginate_array(@all_outbox).page(params[:page]).per(20)
-
-    respond_to do |format|
-      format.js { render :partial => "dashboard", 
-        :locals => { :template => "outbox",
-                     :filter => "rejected", 
-                     :size => @all_outbox.size } }
-    end
-  end
-
 
  protected
     def is_user_signed_in
       if not user_signed_in?
         redirect_to new_user_session_path
+      end
+    end
+
+    def setup_filters
+      @all_inbox = current_user.review_requests
+      @all_outbox = current_user.reviews_owned
+      @inbox = []
+      @due_soon = []
+      @late = []
+      @outbox = []
+      @drafts = []
+      @accepted = []
+      @rejected = []
+
+      @all_inbox.each do |r|
+        status = r.status_for(current_user)
+        if status.nil?
+          @inbox.push(r)
+          next if r.duedate.nil?
+          if r.duedate.to_date.past? 
+            @late.push(r)
+          elsif (r.duedate.to_date - 2).past? 
+            @due_soon.push(r)
+          end
+        else
+          @inbox.push(r) if not (status.updated_at.to_date + 7).past?
+        end
+      end
+
+      @all_outbox.each do |r|
+        changeset = r.changesets.last
+        already_in_outbox = false
+
+        # show everything in outbox from the past week
+        # TODO instead of changeset.updated_at, should it be the latest
+        # changeset status updated_at??
+        if not changeset.nil? and not (changeset.updated_at.to_date + 7).past?
+          @outbox.push(r)
+          already_in_outbox = true
+        end
+
+        if not changeset or not changeset.submitted
+          @drafts.push(r)
+          @outbox.push(r) unless already_in_outbox
+        elsif changeset.accepted?
+          @accepted.push(r)
+        elsif changeset.rejected?
+          @rejected.push(r)
+        else
+          @outbox.push(r) unless already_in_outbox
+        end
       end
     end
 end

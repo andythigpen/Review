@@ -2,7 +2,7 @@
   <tr>
     <th>Date</th><th>Name</th><th>Due Date</th><th>Status</th><th>Action</th>
   </tr>
-  <% @outbox.each do |r| %>
+  <% reviews.each do |r| %>
     <tr class="review-event <%= cycle("even", "odd") %>">
     <% lastchset = r.changesets.last %>
     <td>
@@ -13,10 +13,9 @@
     </td>
     <td>
       <% if not r.duedate.nil? %>
-        <% if not lastchset.nil? and not lastchset.is_completed? %>
           <% extra = "neardue" if (r.duedate.to_date - 2).past? %>
           <% extra = "overdue" if r.duedate.to_date.past? %>
-        <% end %>
+          <% extra = "" if not lastchset.nil? and lastchset.is_completed? %>
         <span class="<%= extra %>"><%= r.duedate.to_date %></span>
       <% end %>
     </td>
@@ -32,10 +31,10 @@
 
         <% if not lastchset.nil? and lastchset.submitted %>
           <% if not lastchset.is_completed? %>
-            <!--<span class="ui-corner-all badge tooltip" title="Number of reviewers accepted/total"><%= r.accepted_total %>/<%= r.reviewers_total %> accepted</span>-->
             <div class="graph">
-              <div class="bar" style="width:<%= (r.accepted_total.to_f / r.reviewers_total.to_f * 100.0).to_i if r.reviewers_total > 0 %>%"></div>
-              <div class="label"><%= r.accepted_total %>/<%= r.reviewers_total %></div>
+              <% users = r.accepted_total + r.abstained_total %>
+              <div class="bar" style="width:<%= (users.to_f / r.reviewers_total.to_f * 100.0).to_i if r.reviewers_total > 0 %>%"></div>
+              <div class="label"><%= users %>/<%= r.reviewers_total %></div>
             </div>
           <% end %>
         <% end %>
@@ -56,11 +55,12 @@
   <% end %>
   <% reset_cycle %>
   <% if current_user.reviews_owned.size == 0 %>
-    <!-- TODO check this... -->
     <tr><td colspan="5"><em>You haven't submitted any code for review yet!
      Click the &quot;New Review&quot; button above to create a new review event.
        </em></td></tr>
+  <% elsif reviews.size == 0 %>
+    <tr><td colspan="5"><em>No results found.</em></td>
   <% end %>
 </table>
-<%= paginate @outbox, :remote => true %>
+<%= paginate reviews, :remote => true %>
 

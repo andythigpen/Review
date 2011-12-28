@@ -9,30 +9,46 @@
     <% end %>
   </title>
   <%= stylesheet_link_tag "reset.css" %>
-  <%#= stylesheet_link_tag "custom-theme/jquery-ui-1.8.10.custom.css" %>
-  <%= stylesheet_link_tag "absolution/jquery.ui.all.css" %>
-  <%#= stylesheet_link_tag "Aristo/jquery-ui-1.8.7.custom.css" %>
-  <%= stylesheet_link_tag "chosen.css" %>
-  <%= stylesheet_link_tag "main.css" %>
-  <%= stylesheet_link_tag "tipTip.css" %>
+
+  <%= stylesheet_link_tag "absolution/jquery.ui.base.css", 
+    "absolution/jquery.ui.core.css",
+    "absolution/jquery.ui.resizable.css",
+    "absolution/jquery.ui.selectable.css",
+    "absolution/jquery.ui.accordion.css",
+    "absolution/jquery.ui.autocomplete.css",
+    "absolution/jquery.ui.button.css",
+    "absolution/jquery.ui.dialog.css",
+    "absolution/jquery.ui.slider.css",
+    "absolution/jquery.ui.tabs.css",
+    "absolution/jquery.ui.datepicker.css",
+    "absolution/jquery.ui.progressbar.css",
+    "absolution/jquery.ui.uniform.css",
+    "absolution/jquery.ui.wijmo.css",
+    "absolution/jquery.ui.html.css", 
+    "absolution/colors/jquery.ui.colors.blue.css", 
+    :cache => "absolution/all" %>
+  <%= stylesheet_link_tag "chosen.css", 
+    "main.css", 
+    "tipTip.css", :cache => "cache/all" %>
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
   <%= csrf_meta_tag %>
-  <%= javascript_include_tag "jquery-1.4.4.min.js" %>
-  <%= javascript_include_tag "jquery-ui-1.8.9.custom.min.js" %>
-  <%= javascript_include_tag "jquery.ui.autocomplete.selectFirst.js" %>
-  <%= javascript_include_tag "jquery.scrollTo-min.js" %>
-  <%= javascript_include_tag "rails.js" %>
-  <%= javascript_include_tag "application.js" %>
-  <%= javascript_include_tag "html5.js" %>
-  <%= javascript_include_tag "chosen.jquery.js" %>
-  <%= javascript_include_tag "jquery.tipTip.js" %>
-  <%= javascript_include_tag "jquery.history.js" %>
-<script type="text/javascript">
-  var IE7_PNG_SUFFIX = ".png";
-</script>
-<!--[if IE]>
-  <%= javascript_include_tag "IE9.js" %>
-<![endif]-->
+  <%= javascript_include_tag "jquery-1.4.4.min.js", 
+    "jquery-ui-1.8.9.custom.min.js", 
+    "jquery.ui.autocomplete.selectFirst.js", 
+    "jquery.scrollTo-min.js", 
+    "rails.js", 
+    "application.js", 
+    "html5.js", 
+    "chosen.jquery.js", 
+    "jquery.tipTip.js", 
+    "jquery.history.js", :cache => "cache/all" %>
+  <script type="text/javascript">
+    var IE7_PNG_SUFFIX = ".png";
+  </script>
+  <!--[if IE]>
+    <%= javascript_include_tag "IE9.js" %>
+  <![endif]-->
+  <%= yield :page_js %>
 </head>
 <body>
 <div id="wrap">
@@ -65,11 +81,6 @@
     </ul>
   </nav>
 
-  <!--TODO move this to a more appropriate place. -->
-  <!-- Dialogs -->
-  <%= modal_dialog "delete-confirm" do %>
-    Are you sure you want to delete this comment?
-  <% end %>
   <%= modal_dialog "error-dialog" %>
 
   <section>
@@ -86,8 +97,6 @@
       <ul>
         <li><%= link_to "Home", root_path %></li>
         <li><%= link_to "Changelog", "/changelog" %></li>
-        <!--<li><a href="#">Download</a></li>
-        <li><a href="#">Tutorial</a></li>-->
       </ul>
       <ul>
         <li><%= link_to "My Profile", profile_path %></li>

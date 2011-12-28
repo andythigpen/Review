@@ -56,10 +56,10 @@
 	{ 
 		color: #ffffff;
 		border-color: #2e63a5; 
-		background: #5e9ae2;
-		background: -webkit-gradient(linear, left top, left bottom, from(#5e9ae2), to(#3570b8));
-		background: -moz-linear-gradient(top, #5e9ae2,  #3570b8);
-		filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#5e9ae2', endColorstr='#3570b8');
+        background: #617b8d;
+		background: -webkit-gradient(linear, left top, left bottom, from(#617b8d), to(#4B5F6D));
+		background: -moz-linear-gradient(top, #617b8d,  #4B5F6D);
+		filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#617b8d', endColorstr='#4B5F6D');
 	}
 
 /**
@@ -85,10 +85,10 @@
 	{
 		color: #ffffff;
 		border-color: #2e63a5;  
-		background: #3570b8;
-		background: -webkit-gradient(linear, left top, left bottom, from(#3570b8), to(#5e9ae2));
-		background: -moz-linear-gradient(top, #3570b8,  #5e9ae2);
-		filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#3570b8', endColorstr='#5e9ae2');
+		background: #4B5F6D;
+		background: -webkit-gradient(linear, left top, left bottom, from(#4B5F6D), to(#617b8d));
+		background: -moz-linear-gradient(top, #4B5F6D,  #617b8d);
+		filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#4B5F6D', endColorstr='#617b8d');
 	}
 
 .ui-autocomplete-input:hover, .ui-autocomplete-input:focus, .ui-progressbar,

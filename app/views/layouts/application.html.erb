@@ -60,11 +60,11 @@
       <div id="user-links">
         <% if user_signed_in? %>
           Welcome <%= "#{current_user.full_name}" %> - <%= link_to "My Account", profile_path %> |
-           <%= link_to "Report Bug", "http://github.com/andythigpen/Review/issues" %> | 
-           <%= link_to "Logout", destroy_user_session_path %>
+          <%= link_to "Report Bug", "http://github.com/andythigpen/Review/issues", :target => "_blank" %> | 
+          <%= link_to "Logout", destroy_user_session_path %>
         <% else %>
-           <%= link_to "Register", new_user_registration_path %> |
-           <%= link_to "Login", new_user_session_path %>
+          <%= link_to "Register", new_user_registration_path %> |
+          <%= link_to "Login", new_user_session_path %>
         <% end %>
       </div>
     </div>
@@ -103,7 +103,7 @@
         <li><%= link_to "My Account", edit_user_registration_path %></li>
       </ul>
       <ul>
-        <li><a href="http://github.com/andythigpen/Review/issues">Report Bug</a></li>
+        <li><a href="http://github.com/andythigpen/Review/issues" target="_blank">Report Bug</a></li>
         <li><%= link_to "Logout", destroy_user_session_path %></li>
       </ul>
     </div>

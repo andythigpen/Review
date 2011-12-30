@@ -30,4 +30,8 @@ class Comment < ActiveRecord::Base
     result.gsub!(/'''(.*?)'''/, "<strong>\\1</strong>")
     result.html_safe
   end
+
+  def is_deleted?
+    return self.user_id.nil?
+  end
 end

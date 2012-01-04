@@ -76,10 +76,11 @@ function submit_comment(loc) {
   $.post("/comments/create", comment,
     function(data, textStatus, jqXHR) {
       if (data.status == "ok") {
-        var margin = $(loc).parents(".comment-box").css('margin-left');
-        margin = parseInt(margin, 10) - 20;  // defaults to 10px + 10px margin
+        var margin = $(loc).parents(".comment-box").css('margin-left') || 0;
+        margin = parseInt(margin, 10);
         $(loc).parents(".comment-box").parent().fadeOut(function() {
-          $(this).append(data.content).css('margin-left', margin+'px');
+          $(this).append(data.content); 
+          $(this).children(".comment").css('margin-left', margin+'px');
           $(this).children(".comment-box").remove();
           $(this).fadeIn();
           setup_profile_popups();

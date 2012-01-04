@@ -56,8 +56,9 @@ class CommentsController < ApplicationController
     def destroy_comment(comment)
       parent = comment.commentable
       comment.destroy
-      if parent and parent.is_deleted? and parent.comments.size == 0
-        destroy_comment(parent)
+      if parent and parent.class == Comment and \
+        parent.is_deleted? and parent.comments.size == 0
+          destroy_comment(parent)
       end
     end
 

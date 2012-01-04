@@ -44,7 +44,7 @@ class HomeController < ApplicationController
     end
 
     def setup_filters
-      @all_inbox = current_user.review_requests
+      @all_inbox = current_user.current_requests
       @all_outbox = current_user.reviews_owned
       @inbox = []
       @due_soon = []

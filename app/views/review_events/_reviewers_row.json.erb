@@ -1,0 +1,7 @@
+{
+  "user_id": <%= r.user.id %>,
+  "content": <% with_format 'html' do %><%= render(
+      :partial => "review_events/reviewers_row", 
+      :locals => { :r => r, :adding => true }).to_json().html_safe %><% end %>
+}
+

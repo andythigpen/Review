@@ -1,0 +1,12 @@
+<% content_for :page_name, "Edit #{@group.name}" %>
+<% content_for :page_js do %>
+  <%= javascript_include_tag "review_edit.js" %>
+<% end %>
+
+<h1>Edit Group</h1>
+
+<div class="ui-widget box">
+  <div>
+    <%= render 'form' %>
+  </div>
+</div>

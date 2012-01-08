@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   has_many :comments, :dependent => :destroy
   has_many :changeset_user_statuses, :dependent => :destroy
   has_one :profile, :dependent => :destroy
+  has_many :groups, :dependent => :destroy
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :lockable, :timeoutable and :activatable
@@ -46,4 +47,11 @@ class User < ActiveRecord::Base
     end
   end
 
+  def groups_for(current_user)
+    groups = []
+    current_user.groups.each do |g|
+      groups.push g if g.members.include?(self)
+    end
+    return groups
+  end
 end

@@ -72,9 +72,11 @@
 
   <nav id="main-nav">
     <ul>
-      <li <%= 'class="active"' if not content_for? :page_name %>><%= link_to "Dashboard", root_path, :"data-filter" => "home" %></li>
+      <% active_page = yield :active_page %>
       <li><%= link_to "Inbox", root_path + "#inbox", :"data-filter" => "inbox" %></li>
       <li><%= link_to "Outbox", root_path + "#outbox", :"data-filter" => "outbox" %></li>
+      <% cls = "active" if active_page == "my_groups" %>
+      <li><%= link_to "My Groups", groups_path, :class => cls %></li>
       <% if content_for? :page_name %>
         <li class="active"><%= yield :page_name %></li>
       <% end %>

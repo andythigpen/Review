@@ -1,19 +1,29 @@
-<table class="reviewer-table">
-  <% reviewers = User.all.map { |r| [r.profile_name, r.id] } %>
-  <% @review_event.review_event_users.each do |r| %>
-    <tr>
-      <td>
-        <%= user_profile_popup(r.user) %>
-      </td>
-      <td>
-        <%= link_to_function "<span class=\"ui-icon ui-icon-close left\"></span>Remove".html_safe, "remove_reviewer(this);", :class => "remove-link" %>
-        <%= f.fields_for :review_event_users, r do |f2| %>
-          <%= f2.hidden_field :_destroy %> 
-          <%= render :partial => "new_reviewer", 
-                     :locals => { :f => f2, :r => reviewers } %>
-        <% end %>
-      </td>
-    </tr>
+<% if not defined?(allow_groups); allow_groups = true; end %>
+<div>
+  <div id="add_reviewer"><%= add_reviewer_select "Add Reviewer", f %></div>
+  <% if allow_groups %>
+    <div id="add_group"><%= add_group_select "Add Group", f %></div>
   <% end %>
-</table>
+</div>
 
+<div id="reviewer-container">
+  <div id="reviewer-loading" class="hidden">
+      <%= image_tag("ajax-loader.gif") %>
+  </div>
+  <table id="reviewer-table">
+    <tr>
+      <th></th><th>User</th><th>Member of</th>
+      <th>
+        <div class="right">
+          Select:
+          <a href="javascript:select_reviewers('checked');">All</a> |
+          <a href="javascript:select_reviewers('');">None</a>
+          &nbsp;&nbsp;
+          <a href="javascript:remove_selected_reviewers();" class="button ui-corner-all ui-state-default">Remove Selected</a>
+        </div>
+      </th>
+    </tr>
+    <%= render :partial => "review_events/reviewers_row", 
+      :collection => @users, :as => :r, :locals => { :f => f } %>
+  </table>
+</div>

@@ -1,0 +1,44 @@
+<tr id="reviewer_<%= r.user.id %>">
+  <td style="width:32px;">
+    <%= check_box_tag "checkuser_#{r.id}" %>
+    <% if defined?(adding) and adding %>
+      <%= fields_for @parent do |builder| %>
+        <% ts = (Time.now.to_i * 1000000) + Time.now.usec %>
+        <%= builder.fields_for(@user_type, r, :child_index => ts) do |f2| %>
+          <%= f2.hidden_field :_destroy %> 
+          <%= f2.hidden_field "#{@parent.class.name.underscore}_id", 
+            :value => @parent.id %>
+          <%= f2.hidden_field :user_id, :value => r.user_id %>
+        <% end %>
+      <% end %>
+    <% else %>
+        <%= f.fields_for @user_type, r do |f2| %>
+          <%= f2.hidden_field :_destroy %> 
+          <%= f2.hidden_field "#{@parent.class.name.underscore}_id", 
+            :value => @parent.id %>
+          <%= f2.hidden_field :user_id %>
+        <% end %>
+    <% end %>
+
+  </td>
+  <td>
+    <%= user_profile_popup(r.user) %>
+  </td>
+  <td colspan="2">
+    <% groups = r.user.groups_for(current_user) %>
+    <%= groups.map do |g| %>
+      <% g.name %>
+    <% end.join(", ") %>
+  </td>
+<% if false %>
+  <td>
+    <%= link_to_function "<span class=\"ui-icon ui-icon-close left\"></span>Remove".html_safe, "remove_reviewer(this);", :class => "remove-link" %>
+    <%= f.fields_for :review_event_users, r do |f2| %>
+      <%= f2.hidden_field :_destroy %> 
+      <%= render :partial => "new_reviewer", 
+                 :locals => { :f => f2, :r => reviewers } %>
+    <% end %>
+  </td>
+<% end %>
+</tr>
+

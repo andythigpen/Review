@@ -1,0 +1,51 @@
+<% content_for :active_page, "my_groups" %>
+<% content_for :title, "My Groups" %>
+<% content_for :page_js do %>
+  <%= javascript_include_tag "groups.js" %>
+<% end %>
+
+<%= modal_dialog "remove-group-dialog" do %>
+  Remove this group?
+<% end %>
+
+<h1>My Groups 
+  <%= link_to new_group_path, :class => "ui-state-default ui-corner-all button" do %>
+      <span class="ui-icon ui-icon-circle-plus left"></span>New Group
+  <% end %>
+</h1>
+
+<div class="ui-widget box">
+  <div>
+    <% if @groups.size == 0 %>
+      <div class="notice">
+        <%= image_tag "info.png", :style => "vertical-align:middle; margin-right:0.3em" %>
+        Groups are an easy way to add
+        a list of users to a review.  Click "New Group" above to get started.
+      </div>
+    <% end %>
+    <table id="reviewer-table">
+      <tr>
+        <th>Name</th>
+        <th>Members</th>
+        <th>Action</th>
+      </tr>
+      <% if @groups.size == 0 %>
+        <tr><td colspan="3">You haven't created any groups yet!</td></tr>
+      <% else %>
+        <% @groups.each do |group| %>
+          <tr>
+            <td><%= link_to group.name, edit_group_path(group) %></td>
+            <td><%= group.members.map {|m| m.username }.join(', ') %></td>
+            <td>
+              <%= link_to_js "remove_group('#{group.id}')" do %>
+                <span class="ui-icon ui-icon-close left"></span>Remove
+              <% end %>
+            </td>
+            <!--<td><%= link_to 'Destroy', group, :confirm => 'Are you sure?', :method => :delete %></td>-->
+          </tr>
+        <% end %>
+      <% end %>
+    </table>
+  </div>
+</div>
+

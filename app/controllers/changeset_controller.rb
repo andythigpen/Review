@@ -35,8 +35,7 @@ class ChangesetController < ApplicationController
           end
         end
 
-        format.json { render :partial => "review_events/status",
-                             :locals => { :changeset => @changeset } }
+        format.json { render :json => { :status => "ok" } }
       else
         format.json { render :json => { :status => "error",
                                         :errors => @changeset.errors } }

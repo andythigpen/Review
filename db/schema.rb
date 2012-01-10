@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111129205506) do
+ActiveRecord::Schema.define(:version => 20120108211212) do
 
   create_table "changeset_user_statuses", :force => true do |t|
     t.integer  "user_id"
@@ -48,11 +48,25 @@ ActiveRecord::Schema.define(:version => 20111129205506) do
 
   create_table "diffs", :force => true do |t|
     t.string   "origin_file"
-    t.string   "updated_file"
     t.text     "contents"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "changeset_id"
+    t.string   "updated_file"
+  end
+
+  create_table "group_members", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "group_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "groups", :force => true do |t|
+    t.string   "name"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "profiles", :force => true do |t|

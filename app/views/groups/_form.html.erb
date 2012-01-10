@@ -1,0 +1,31 @@
+<script type="text/javascript">
+  var user_type = 'group_id';
+</script>
+<%= form_for(@group) do |f| %>
+  <% if @group.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@group.errors.count, "error") %> prohibited this group from being saved:</h2>
+
+      <ul>
+      <% @group.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label "Name" %>
+    <%= f.text_field :name, :style => "width:20em;", 
+        :class => "text ui-corner-all ui-widget-content" %>
+  </div>
+
+  <div class="field">
+    <%= render :partial => "review_events/reviewers", 
+      :locals => { :f => f, :allow_groups => false } %>
+  </div>
+
+  <div class="actions field">
+    <%= f.submit :class => "ui-corner-all ui-state-default button" %>
+  </div>
+<% end %>

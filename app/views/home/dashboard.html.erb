@@ -120,6 +120,7 @@
     <li><em>No recent activity.</em></li>
   <% else %>
     <% recent_activity.each do |a| %>
+      <% next if a.class == Comment and a.is_deleted? %>
       <li class="ui-corner-all review-event">
         <span class="ui-icon ui-icon-carat-1-e inline-icon" 
               style="margin-right:0.3em"></span>
@@ -133,8 +134,8 @@
           <%= link_to type, comment_path(a) %> from 
           <%= user_profile_popup(a.user, :short_format => true) %>
             for <%= link_to "#{event.name}", review_event_path(event) %>
-            changeset <%= link_to "#{changeset.name}", changeset_path(changeset) %>
-          </li>
+            changeset 
+            <%= link_to "#{changeset.name}", changeset_path(changeset) %>
         <% elsif a.class == Changeset %>
           <%= link_to "Changeset", changeset_path(a) %> from 
           <%= user_profile_popup(a.review_event.owner, :short_format => true) %>

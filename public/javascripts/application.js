@@ -8,8 +8,7 @@ $(document).ready(function() {
 function setup_profile_popups() {
   var timer;
   var item;
-  $(".username").unbind().
-    hover(
+  $(".username").live("mouseover",
       function() { 
           if (timer) {
               clearTimeout(timer);
@@ -21,7 +20,7 @@ function setup_profile_popups() {
               item.find(".profile").removeClass('hidden'); 
               timer = null;
           }, 500);
-      },
+    }).live("mouseout",
       function() { 
           if (timer) {
               clearTimeout(timer);
@@ -33,8 +32,7 @@ function setup_profile_popups() {
               item.find(".profile").addClass('hidden'); 
               timer = null;
           }, 500);
-      }
-    );
+    });
 }
 
 function setup_buttons() {

@@ -55,7 +55,7 @@
 	div.selector.focus span, div.selector.hover span, div.selector:hover span
 	{ 
 		color: #ffffff;
-		border-color: #2e63a5; 
+		border-color: #6c8fa7; 
         background: #617b8d;
 		background: -webkit-gradient(linear, left top, left bottom, from(#617b8d), to(#4B5F6D));
 		background: -moz-linear-gradient(top, #617b8d,  #4B5F6D);
@@ -84,7 +84,7 @@
 	div.selector.focus.active span
 	{
 		color: #ffffff;
-		border-color: #2e63a5;  
+		border-color: #6c8fa7;  
 		background: #4B5F6D;
 		background: -webkit-gradient(linear, left top, left bottom, from(#4B5F6D), to(#617b8d));
 		background: -moz-linear-gradient(top, #4B5F6D,  #617b8d);
@@ -156,7 +156,7 @@ input.text, input.email, input.password, textarea.uniform
 
 .ui-progressbar .ui-widget-header
 {
-	border-color: #2e63a5;
+	border-color: #6c8fa7;
 	background: #5e9ae2;
 	background: -webkit-gradient(linear, left top, left bottom, from(#5e9ae2), to(#3570b8));
 	background: -moz-linear-gradient(top, #5e9ae2,  #3570b8);

@@ -1,4 +1,8 @@
+<script type="text/javascript">
+  var user_type = 'review_event_id';
+</script>
 <%= form_for(@review_event) do |f| %>
+  <input type="hidden" id="review_event_id" value="<%= @review_event.id %>" />
   <% if @review_event.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@review_event.errors.count, "error") %> 
@@ -34,7 +38,6 @@
   </div>
 
   <div class="field">
-  <div class="field">
     <%= f.label "Notes (optional)" %>
     <%= f.text_area :notes, :rows => 5, 
         :class => "text ui-corner-all ui-widget-content" %>
@@ -42,10 +45,10 @@
 
   <div class="field">
     <%= f.label "Reviewers" %>
+    <!--<%= add_reviewer_select "Add Reviewer", f %>-->
     <%= render :partial => "reviewers", :locals => { :f => f } %>
-    <%= add_reviewer_select "Add Reviewer", f %>
-    <div id="new_reviewers"></div>
-    <script type="text/javascript">add_reviewer();</script>
+    <!--<div id="new_reviewers"></div>
+    <script type="text/javascript">add_reviewer();</script>-->
   </div>
 
   <div class="actions field">

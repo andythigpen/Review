@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   has_many :comments, :dependent => :destroy
   has_many :changeset_user_statuses, :dependent => :destroy
   has_one :profile, :dependent => :destroy
+  has_many :groups, :dependent => :destroy
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :lockable, :timeoutable and :activatable
@@ -23,17 +24,6 @@ class User < ActiveRecord::Base
       latest = r.changesets.last
       # filter out those without changesets or submitted changesets
       next if latest.nil? or not latest.submitted
-
-      next if latest.statuses.nil? 
-      status = latest.statuses.find_by_user_id(self.id)
-      if not status.nil?
-        # filter out accepted requests older than 7 days
-        next if status.accepted? and (status.updated_at.to_date + 7).past?
-        # filter out rejected requests older than 7 days
-        next if status.rejected? and (status.updated_at.to_date + 7).past?
-        # filter out abstained requests older than 7 days
-        next if status.abstained? and (status.updated_at.to_date + 7).past?
-      end
 
       yield r if block_given?
       res.push(r)
@@ -57,4 +47,11 @@ class User < ActiveRecord::Base
     end
   end
 
+  def groups_for(current_user)
+    groups = []
+    current_user.groups.each do |g|
+      groups.push g if g.members.include?(self)
+    end
+    return groups
+  end
 end

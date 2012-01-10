@@ -41,12 +41,22 @@ class ReviewEventsController < ApplicationController
   # GET /review_events/1/edit
   def edit
     @review_event = ReviewEvent.find(params[:id])
+
+    # for the reviewer_row html partial
+    @user_type = :review_event_users
+    @parent = @review_event
+    @users = @review_event.review_event_users
   end
 
   # POST /review_events
   # POST /review_events.xml
   def create
     @review_event = ReviewEvent.new(params[:review_event])
+
+    # for the reviewer row html partial
+    @user_type = :review_event_users
+    @parent = @review_event
+    @users = @review_event.review_event_users
 
     respond_to do |format|
       if @review_event.save
@@ -98,4 +108,5 @@ class ReviewEventsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
 end

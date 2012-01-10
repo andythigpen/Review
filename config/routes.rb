@@ -20,6 +20,11 @@ Review::Application.routes.draw do
 
   # Review events
   resources :review_events, :except => :index
+  match "/reviewer/:user_id" => "reviewers#reviewer"
+  match "/reviewer/group/:group_id" => "reviewers#group"
+
+  # Groups
+  resources :groups
 
   # Comments
   match "comments/create" => "comments#create", 

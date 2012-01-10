@@ -11,16 +11,21 @@
 <% margin = (level * 10) + 10 %>
 <div class="comment" id="comment_<%= comment.id %>" style="margin-left:<%= margin %>px;">
   <div class="topbar">
-    <%= user_profile_popup(comment.user) %>
+    <% if comment.is_deleted? %>
+      [Deleted]
+    <% else %>
+      <%= user_profile_popup(comment.user) %>
+    <% end %>
     <div class="right">
       <div class="comment-actions">
         <% if allow_reply and comment.user != current_user %>
           <%= add_comment_button comment, "#reply_#{comment.id}" do %>
             <span class="ui-icon ui-icon-arrowreturnthick-1-w inline-icon"></span>Reply<% end %>
-        <% elsif allow_delete and comment.user == current_user and comment.comments.size == 0 %>
+        <% elsif allow_delete and comment.user == current_user %>
           <a href="#" onclick="delete_comment('<%= comment.id %>'); return false;">
             <span class="ui-icon ui-icon-close inline-icon"></span>Delete</a> 
         <% elsif allow_delete and allow_reply %>
+          <%# unreachable? %>
           <span class="ui-icon ui-icon-locked inline-icon"></span>Locked
         <% end %>
       </div>

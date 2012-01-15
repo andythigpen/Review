@@ -16,7 +16,9 @@
     <div id="diff_comment_<%= d.id %>"></div>
   </div>
 
-  <%= render :partial => @display_type, :locals => { :diff => d } %>
+  <div class="diff-container">
+    <%= render :partial => @display_type, :locals => { :diff => d } %>
+  </div>
 </div>
 
 <div style="font-size:0.9em;">

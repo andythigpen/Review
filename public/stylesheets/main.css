@@ -195,6 +195,11 @@ ul {
   padding: 1em;
 }
 
+.box > div.diff-container {
+  padding: 0;
+  overflow-x: auto;
+}
+
 .lineno-left, .lineno-right {
   text-align: right;
   color: #999;

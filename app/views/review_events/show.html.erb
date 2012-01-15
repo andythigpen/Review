@@ -344,9 +344,9 @@
     View:
     <% if @display_type == "split" %>
       Split |
-      <a href="<%= review_event_path(@review_event) %>?display=unified">Unified</a>
+      <%= link_to 'Unified', url_for(params.merge(:display => "unified")) %>
     <% elsif @display_type == "unified" %>
-      <a href="<%= review_event_path(@review_event) %>?display=split">Split</a> | 
+      <%= link_to 'Split', url_for(params.merge(:display => "split")) %> | 
       Unified
     <% end %>
   </div>

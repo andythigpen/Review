@@ -23,14 +23,14 @@ task :changelog, :since_c, :until_c do |t,args|
   days.reverse.each do |day|
     puts "Adding entry for #{day}"
     formatted_day = `date --date="#{day}" "+%a %b %e, %Y"`.chomp
-    changelog_content += "<h1>#{formatted_day}</h1>\n<ul class=\"changelog\">\n"
+    changelog_content += "<h2>#{formatted_day}</h2>\n<ul class=\"changelog\">\n"
     entries[day].reverse.each do |entry| 
       changelog_content += "  <li>#{entry}</li>\n"
     end
     changelog_content += "</ul>\n\n"
   end
 
-  original_file = "app/views/home/changelog.html.erb"
+  original_file = "app/views/static/changelog.html.erb"
   new_file = original_file + ".new"
   File.open(new_file, "w") do |f|
     f.puts changelog_content

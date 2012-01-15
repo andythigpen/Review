@@ -16,7 +16,8 @@ Review::Application.routes.draw do
   match "/dashboard/drafts" => "home#drafts"
   match "/dashboard/accepted" => "home#accepted"
   match "/dashboard/rejected" => "home#rejected"
-  match "changelog" => "home#changelog"
+
+  match ':action' => 'static#:action', :as => :static
 
   # Review events
   resources :review_events, :except => :index

@@ -1,0 +1,156 @@
+<h1>Version 0.1</h1>
+
+<h2>Tue Nov 29, 2011</h2>
+<ul class="changelog">
+  <li>Adds new dashboard layout and updated look-and-feel (Issue #34).</li>
+</ul>
+
+<h2>Sat Nov 26, 2011</h2>
+<ul class="changelog">
+  <li>Fix issue where review event is removed from list when deleting (Issue #26).</li>
+</ul>
+
+<h2>Sat Oct 01, 2011</h2>
+<ul class="changelog">
+  <li>Fix issue where drop-down boxes on new review page overlapped (Issue #29).</li>
+</ul>
+
+<h2>Sat Aug 06, 2011</h2>
+<ul class="changelog">
+  <li>Fix issue where next comment button fails to scroll to last comment (Issue #25).</li>
+  <li>Interface improvements.</li>
+</ul>
+
+<h2>Sat Jul 30, 2011</h2>
+<ul class="changelog">
+  <li>Review Events must be submitted with a name (Issue #24).</li>
+</ul>
+
+<h2>Thu Jul 28, 2011</h2>
+<ul class="changelog">
+  <li>Fixes issues with interface.</li>
+  <li>Adds tooltips.</li>
+  <li>Fixes comment div to wrap around username instead of push beneath.</li>
+</ul>
+
+<h2>Wed Jul 27, 2011</h2>
+<ul class="changelog">
+  <li>Adds ability to request removal from a review event (Issue #22).</li>
+  <li>Updates 'Add Reviewer' control to a searchable drop-down.</li>
+</ul>
+
+<h2>Sat Jul 9, 2011</h2>
+<ul class="changelog">
+  <li>Adds pop-up profile information for users, including profession and 
+  location.</li>
+</ul>
+
+<h2>Fri Jul 8, 2011</h2>
+<ul class="changelog">
+  <li>Adds thumbnails for user profiles.</li>
+</ul>
+
+<h2>Sat Jul 2, 2011</h2>
+<ul class="changelog">
+  <li>Adds pagination to items on home screen (Issue #20).</li>
+  <li>Adds number of reviewers accepted count to home screen (Issue #19).</li>
+  <li>Adds user profiles that currently contain first/last name and a preference
+  setting for the type of display for diffs (unified/split), (Issue #18).  
+  De-emphasizes usernames in favor of full names where available.</li>
+  <li>Fixes issue where comments show up for ranges in split-view in 
+  one-line diffs.</li>
+</ul>
+
+<h2>Fri Jun 10, 2011</h2>
+<ul class="changelog">
+  <li>Review events are now sorted by updated date descending (Issue #17).</li>
+  <li>Adds review event names to email subject (Issue #16).</li>
+</ul>
+
+<h2>Wed Jun 8, 2011</h2>
+<ul class="changelog">
+  <li>Adds ability to download patch files for changesets.</li>
+</ul>
+
+<h2>Thu May 5, 2011</h2>
+<ul class="changelog">
+  <li>Fixes issue where non-owners can delete diffs from unsubmitted 
+  changes (Issue #11).</li>
+  <li>Fixes review notes not wrapping on review events page (Issue #12).</li>
+  <li>Adds changeset names to review request emails and changes the 
+  included URL in the email to link directly to the corresponding changeset 
+  (Issue #13).</li>
+  <li>Fixes issue where users can view non-submitted changesets (Issue #14).</li>
+  <li>Fixes issue where adding a new changeset redirects to a URL with 
+  multiple "?changeset=" options in the GET request.</li>
+</ul>
+
+<h2>Sun May 1, 2011</h2>
+<ul class="changelog">
+  <li>Disables comment buttons upon submission (Issue #5).</li>
+</ul>
+
+<h2>Sat Apr 30, 2011</h2>
+<ul class="changelog">
+  <li>Fixes password reset email notification failure (Issue #1).</li>
+  <li>Fixes formatting of review event notes (Issue #2).</li>
+  <li>Adds ability to send periodic reminder emails via a rake task (Issue #4).</li>
+</ul>
+
+<h2>Sat Mar 26, 2011</h2>
+<ul class="changelog">
+  <li>Implements "awesome bar" for easier navigation in large diffs.</li>
+  <li>Fixes footer display issue.</li>
+  <li>Fixes IE9 javascript error for other browsers.</li>
+  <li>Fixes issue where IE would attempt to load stylesheets from a relative path.</li>
+</ul>
+
+<h2>Sun Mar 20, 2011</h2>
+<ul class="changelog">
+  <li>Adds email notification for new comments.</li>
+  <li>Improves performance when rendering large changesets with many diffs.</li>
+  <li>Adds newly submitted changesets to Recent Activity display on user's 
+  home page.</li>
+  <li>Improves look of dialogs when submitting requests to server.</li>
+  <li>Adds new "Absolution" theme from 
+    <a href="https://github.com/michaelvanderheeren/Absolution">here</a>
+  </li>
+</ul>
+
+<h2>Fri Mar 18, 2011</h2>
+<ul class="changelog">
+  <li>Fixes filename parsing issue for submitted diffs.</li>
+  <li>Changes default view to "split" view for diffs due to popular demand.</li>
+  <li>Fixes issue where review events are shown as "accepted" when there are 
+  no reviewers associated.</li>
+</ul>
+
+<h2>Thu Mar 17, 2011</h2>
+<ul class="changelog">
+  <li>Adds Recent Activity comment list to user's home screen.</li>
+  <li>Adds comment formatting for inserting code snippets and bold statements 
+  into comments.</li>
+  <li>Adds comment previewing so that formatting can be checked before 
+  submission.</li>
+</ul>
+
+<h2>Sun Mar 13, 2011</h2>
+<ul class="changelog">
+  <li>Adds undo button for submitted changeset statuses for reviewers.</li>
+  <li>Fixes 1px table row issue in Firefox and Chrome.</li>
+  <li>Adds (minimal) support for IE.</li>
+  <li>Adds support for uploading patch files when creating new diffs for a 
+  review.</li>
+  <li>Fixes issue where add comment button is offscreen in Firefox.</li>
+  <li>Adds support for "split" view in addition to "unified" view when viewing 
+  diffs.</li>
+  <li>Updates verbiage in user mailer to include reviewer's name and status 
+  upon review submission.</li>
+  <li>Accepted/Rejected review requests will now remain on home screen for 
+  1 day/1 week, respectively.</li>
+  <li>Fixes issue where non-reviewers can submit statuses for review events.</li>
+  <li>Fixes issue with colon in filename (for Windows) when submitting new 
+  diffs.</li>
+  <li>Fixes javascript errors encountered in IE7.</li>
+  <li>Updates stylesheet to remove fixed width rendering.</li>
+</ul>

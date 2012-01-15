@@ -151,7 +151,7 @@
         Reject
       <% end %>
       <br />
-      <%= link_to_js "submit_changeset_status('#{current_user.id}', '#{@changeset.id}', 'Request Removal', '#{CHANGESET_STATUSES[:abstain]}', 'Abstained', 'request removal from');",
+      <%= link_to_js "submit_changeset_status('#{current_user.id}', '#{@changeset.id}', 'Request Removal', '#{CHANGESET_STATUSES[:abstain]}', '', 'request removal from');",
         :class => "right", :style => "margin:0.4em;" do %>
         Request Removal
       <% end %>

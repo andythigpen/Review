@@ -325,10 +325,6 @@ ul li em {
   padding: 1em;
 }
 
-.rejected-comment {
-  border-left: 10px solid #CC1F1F;
-}
-
 .warn {
   padding: 0.5em 1em;
   margin-bottom: 1em;
@@ -346,17 +342,12 @@ ul li em {
   color: #444;
 }
 
-.accepted-comment {
-  border-left: 10px solid #72DE5F;
-}
-
-.abstained-comment {
-  border-left: 10px solid #5E7C88;
-}
+.accepted-comment { border-left: 10px solid #7EF28C; }
+.abstained-comment { border-left: 10px solid #5E7C88; }
+.rejected-comment { border-left: 10px solid #f57373; }
 
 .info, .notice {
   padding: 1em 0;
-  /* margin: 1em 0; */
 }
 
 .notice {

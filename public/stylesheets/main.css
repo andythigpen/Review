@@ -195,10 +195,6 @@ ul {
   padding: 1em;
 }
 
-.line:hover, .new:hover, .old:hover {
-  background: #fffff5;
-}
-
 .lineno-left, .lineno-right {
   text-align: right;
   color: #999;
@@ -265,6 +261,10 @@ ul {
   display: inline-block;
 }
 
+.line:hover, .new:hover, .old:hover {
+  background: #fffff5;
+}
+
 .range {
   background: #e4f3f7;
   color: #777;
@@ -272,6 +272,12 @@ ul {
 
 .line-unified { width: 100%; }
 .line-split { width: 50%; }
+
+.deleted-message {
+  padding: 0.6em;
+  text-align: center;
+  font-weight: bold;
+}
 
 ul li em {
   font-style: italic;

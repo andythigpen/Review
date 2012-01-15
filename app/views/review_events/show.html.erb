@@ -329,7 +329,7 @@
       <% @changeset.diffs.each do |d| %>
         <li><a href="#file_<%= d.id %>">
           <span class="ui-icon ui-icon-document left"></span> 
-          <%= d.updated_file %></a>
+          <%= d.origin_file %></a>
           <% if not @changeset.submitted %>
             <%= link_to_js "remove_diff('#{d.id}');", :class => "right" do %>
               <span class="ui-icon ui-icon-close inline-icon"></span>Delete

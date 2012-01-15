@@ -5,13 +5,18 @@
 <table cellpadding="0" cellspacing="0" class="diff">
   <% lineno_left = 1 %>
   <% lineno_right = 1 %>
+  <% context_left = -1 %>
+  <% context_right = -1 %>
   <% type = "" %>
   <% total_line = 0 %>
+  <% was_deleted = false %>
   <% diff.contents.lines.to_a.each do |line| %>
     <% if line =~ /^@@\s+-(\d+)(,(\d+))*\s+\+(\d+)(,(\d+))*\s+@@/ %>
       <% lineno_left = $1.to_i 
          lineno_right = $4.to_i 
          line_text_left = line_text_right = "..." 
+         context_left = $3.to_i
+         context_right = $6.to_i
          type = "range" %>
     <% elsif line =~ /^\+/ %>
       <% line_text_left = "" 
@@ -35,10 +40,15 @@
     <% if not type == "range" %>
       <% onclick = "add_comment_form('#line_comment_#{diff.id}_#{total_line}', '#{diff.id}', '#{diff.class.name}', '#{line_text_left}', '#{line_text_right}');return false;" %>
     <% end %>
-    <tr>
+
+    <% if context_right <= 0 and lineno_right <= 0 %>
+      <% was_deleted = true %>
+    <% end %>
+
+    <tr class="<%= type %> <%= "hidden" if was_deleted %>">
       <td class="lineno-left"><a onclick="<%= onclick %>"><%= line_text_left %></a></td>
       <td class="lineno-right"><a onclick="<%= onclick %>"><%= line_text_right %></a></td>
-      <td class="line-unified <%= type %>">
+      <td class="line-unified">
         <pre ondblclick="<%= onclick %>"><%= line %></pre>
       </td>
     </tr>
@@ -69,5 +79,13 @@
       </td>
     </tr>
     <% total_line += 1 %>
+  <% end %>
+  <% if was_deleted %>
+    <tr>
+      <td colspan="3" class="old deleted-message">
+        This file was deleted.  
+        <a href="#" onclick="javascript:show_diff(this); return false;">Show me</a>.
+      </td>
+    </tr>
   <% end %>
 </table>

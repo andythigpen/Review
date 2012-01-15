@@ -4,6 +4,9 @@
 <table cellpadding="0" cellspacing="0" class="diff">
   <% lineno_left = 1 %>
   <% lineno_right = 1 %>
+  <% context_left = -1 %>
+  <% context_right = -1 %>
+  <% was_deleted = false %>
   <% type = "line" %>
   <% total_line = 0 %>
   <% old_lines = 0 %>
@@ -16,6 +19,8 @@
     <% if line =~ /^@@\s+-(\d+)(,(\d+))*\s+\+(\d+)(,(\d+))*\s+@@/ %>
       <% lineno_left = $1.to_i 
          lineno_right = $4.to_i 
+         context_left = $3.to_i
+         context_right = $6.to_i
          line_text_left = line_text_right = "..." 
          type = "range" 
          left = { :lineno => lineno_left, 
@@ -79,12 +84,16 @@
        %>
     <% end %>
 
+    <% if context_right <= 0 and lineno_right <= 0 %>
+      <% was_deleted = true %>
+    <% end %>
+
     <% until left_buffer.empty? and right_buffer.empty? %>
       <% left = left_buffer.shift() %>
       <% right = right_buffer.shift() %>
       <% left = {} if left.nil? %>
       <% right = {} if right.nil? %>
-      <tr>
+      <tr class="<%= "hidden" if was_deleted %>">
         <% onclick = "" %>
         <% if not left[:type] == "range" %>
           <% right_lineno = nil %>
@@ -161,5 +170,14 @@
       </tr>
       <% total_line += 1 %>
     <% end %>
+  <% end %>
+
+  <% if was_deleted %>
+    <tr>
+      <td colspan="4"class="deleted-message old">
+        This file was deleted.
+        <a href="#" onclick="javascript:show_diff(this); return false;">Show me</a>.
+      </td>
+    </tr>
   <% end %>
 </table>

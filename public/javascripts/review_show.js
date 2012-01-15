@@ -522,3 +522,9 @@ function setup_awesome_bar() {
     file_index = index;
   });
 }
+
+function show_diff(loc) {
+  $(loc).closest("tr").fadeOut(function() {
+    $(this).siblings("tr:not(.comment-box-container)").fadeIn();
+  });
+}

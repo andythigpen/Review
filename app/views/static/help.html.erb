@@ -1,0 +1,31 @@
+<% content_for :title, "Help" %>
+<% content_for :page_name, "Help" %>
+
+<h1>What the what?</h1>
+<br />
+
+<h2>What's expected of a reviewer?</h2>
+<p>
+  
+Look over the changeset carefully for:
+<ul class="bulleted">
+  <li>spelling mistakes</li>
+  <li>logic errors</li>
+  <li>architectural issues</li>
+  <li>code maintainability</li>
+  <li>potential performance issues</li>
+  <li>do the changes fulfill the requirements?</li>
+  <li>does the code function as the programmer intended?</li>
+</ul>
+The goal is to identify defects or potential problems and address them before the changes are introduced into the product.
+
+</p>
+<br />
+
+<h2>What does each status mean?</h2>
+<ul class="bulleted">
+  <li><strong>Accepted</strong> : You agree with the changes and think they should be integrated into the product.  Accepted does not mean that the changeset is free from errors, but rather that you have made a good faith effort to review it and did not find any.</li>
+  <li><strong>Rejected</strong> : You reviewed the changes and found a mistake or problem that should prevent the changeset from being integrated into the product.  Make sure to leave a good comment so that the review owner knows why you rejected the changes.</li>
+  <li><strong>Request Removal</strong> : You are abstaining from the review.</li>
+</ul>
+<br />

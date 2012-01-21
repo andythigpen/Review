@@ -139,9 +139,17 @@ h1 .button {
   margin-top: -0.4em;
 }
 
+h2 {
+  font-size: 1.3em;
+}
+
 ul {
   list-style: none;
   padding: 0;
+}
+
+ul.bulleted, ul.bulleted li {
+  list-style: circle;
 }
 
 .author {

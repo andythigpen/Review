@@ -21,6 +21,7 @@ task :changelog, :since_c, :until_c do |t,args|
   days = entries.keys.sort {|a,b| a <=> b }
   # generate clean output
   days.reverse.each do |day|
+    next if entries[day].length == 0
     puts "Adding entry for #{day}"
     formatted_day = `date --date="#{day}" "+%a %b %e, %Y"`.chomp
     changelog_content += "<h2>#{formatted_day}</h2>\n<ul class=\"changelog\">\n"

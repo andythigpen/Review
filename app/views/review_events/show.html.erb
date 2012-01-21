@@ -174,13 +174,12 @@
       </p>
     <% end %>
 
-    <% if not @review_event.buglink.nil? %>
+    <% if not @review_event.buglink.nil? and not @review_event.buglink.empty? %>
       <p><strong>Bugs:</strong>&nbsp;&nbsp;
-        <% bugs = @review_event.buglink.split(%r{[,\s]+}) %>
-        <%= bugs.map do |bug| 
-            link_to bug, APP_CONFIG['bug_tracker'].gsub(/\{\{bugid\}\}/, bug),
-              :target => "_blank"
-            end.join(", ").html_safe %>
+      <%= @review_event.buglink.gsub(/(#{APP_CONFIG["bug_num_regex"]})/) do |m|
+          link_to $1, APP_CONFIG['bug_tracker'].gsub(/\{\{bugid\}\}/, $1),
+            :target => "_blank"
+         end.html_safe %>
       </p>
     <% end %>
 

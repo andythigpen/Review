@@ -17,8 +17,6 @@ Review::Application.routes.draw do
   match "/dashboard/accepted" => "home#accepted"
   match "/dashboard/rejected" => "home#rejected"
 
-  match ':action' => 'static#:action', :as => :static
-
   # Review events
   resources :review_events, :except => :index
   match "/reviewer/:user_id" => "reviewers#reviewer"
@@ -58,4 +56,5 @@ Review::Application.routes.draw do
   # reviewer autocomplete
   # get "reviewers/show"
 
+  match ':action' => 'static#:action', :as => :static
 end

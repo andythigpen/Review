@@ -1,36 +1,37 @@
-<table>
+<table class="table table-striped">
   <% requests = 0 %>
   <tr>
     <th>Date</th><th>Name</th><th>Due Date</th><th>Posted By</th><th>Status</th>
   </tr>
   <% reviews.each do |r| %>
-    <tr class="review-event <%= cycle("even", "odd") %>">
+    <!--<tr class="review-event <%= cycle("even", "odd") %>">-->
+    <tr>
       
-    <% extra = "neardue" if not r.duedate.nil? and (r.duedate.to_date - 2).past? %>
-    <% extra = "overdue" if not r.duedate.nil? and r.duedate.to_date.past? %>
+    <% extra = "label-warning" if not r.duedate.nil? and (r.duedate.to_date - 2).past? %>
+    <% extra = "label-important" if not r.duedate.nil? and r.duedate.to_date.past? %>
     <% status = r.status_for(current_user) %>
     <td>
-      <em style="font-size:0.9em;"><%= r.updated_at.to_date %></em>
+      <em><%= r.updated_at.to_date %></em>
     </td>
     <td>
       <%= link_to "#{r.name}", review_event_path(r.id) %>
     </td>
     <td>
-      <span class="<%= extra if status.nil? %>"><%= r.duedate.to_date if not r.duedate.nil? %></span>
+      <%= r.duedate.to_date if not r.duedate.nil? %>
     </td>
     <td>
       <%= user_profile_popup(r.owner, :short_format => true) %>
     </td>
     <td>
-       <% if not status.nil? and status.rejected? %>
-        <span class="rejected">Rejected</span>
+      <% if not status.nil? and status.rejected? %>
+        <span class="label label-important">Rejected</span>
       <% elsif not status.nil? and status.accepted? %>
-        <span class="accepted">Accepted</span>
+        <span class="label label-success">Accepted</span>
       <% elsif not status.nil? and status.abstained? %>
-        <span>Requested Removal</span>
+        <span class="label label-info">Requested Removal</span>
       <% elsif not r.duedate.nil? %>
         <% countdown = r.duedate.to_date - DateTime.now.to_date %>
-        <span class="<%= extra %>">
+        <span class="label <%= extra %>">
           Due <%= "in" if countdown > 0 %> 
           <%= countdown == 0 ? "today" : countdown.abs.days.inspect %>
           <%= "ago" if countdown < 0 %>

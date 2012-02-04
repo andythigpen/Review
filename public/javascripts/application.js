@@ -53,9 +53,9 @@ function setup_buttons() {
 }
 
 function setup_tooltips() {
-  $(".tooltip").tipTip({ defaultPosition: "top" });
-  $(".tooltip-below").tipTip({ defaultPosition: "bottom" });
-  $(".showonload").tipTip('show');
+  // $(".tooltip").tipTip({ defaultPosition: "top" });
+  // $(".tooltip-below").tipTip({ defaultPosition: "bottom" });
+  // $(".showonload").tipTip('show');
 }
 
 function display_error(error) {

@@ -1,40 +1,43 @@
-<table>
+<table class="table table-striped">
   <tr>
     <th>Date</th><th>Name</th><th>Due Date</th><th>Status</th><th>Action</th>
   </tr>
   <% reviews.each do |r| %>
-    <tr class="review-event <%= cycle("even", "odd") %>">
+    <tr>
     <% lastchset = r.changesets.last %>
     <td>
-      <em style="font-size:0.9em;"><%= r.updated_at.to_date %></em>
+      <em><%= r.updated_at.to_date %></em>
     </td>
     <td>
         <%= link_to "#{r.name}", review_event_path(r.id) %>
     </td>
     <td>
       <% if not r.duedate.nil? %>
-          <% extra = "neardue" if (r.duedate.to_date - 2).past? %>
-          <% extra = "overdue" if r.duedate.to_date.past? %>
-          <% extra = "" if not lastchset.nil? and lastchset.is_completed? %>
-        <span class="<%= extra %>"><%= r.duedate.to_date %></span>
+        <% extra = "label-warning" if (r.duedate.to_date - 2).past? %>
+        <% extra = "label-important" if r.duedate.to_date.past? %>
+        <% extra = "" if not lastchset.nil? and lastchset.is_completed? %>
+        <%= r.duedate.to_date %>
       <% end %>
     </td>
     <td>
-      <div style="font-size:0.9em">
+      <div>
         <% if lastchset.nil? or not lastchset.submitted %>
-          <span class="not-submitted">Not Submitted</span>
+          <span class="label label-info">Not Submitted</span>
         <% elsif lastchset.rejected? %>
-          <span class="rejected">Rejected</span>
+          <span class="label label-important">Rejected</span>
         <% elsif lastchset.accepted? %>
-          <span class="accepted">Accepted</span>
+          <span class="label label-success">Accepted</span>
         <% end %>
 
         <% if not lastchset.nil? and lastchset.submitted %>
           <% if not lastchset.is_completed? %>
-            <div class="graph">
+            <div class="progress">
               <% users = r.accepted_total + r.abstained_total %>
-              <div class="bar" style="width:<%= (users.to_f / r.reviewers_total.to_f * 100.0).to_i if r.reviewers_total > 0 %>%"></div>
-              <div class="label"><%= users %>/<%= r.reviewers_total %></div>
+              <div class="bar" style="width:<%= (users.to_f / r.reviewers_total.to_f * 100.0).to_i if r.reviewers_total > 0 %>%">
+                <% if users > 0 %>
+                  <span><%= users %>/<%= r.reviewers_total %></span>
+                <% end %>
+              </div>
             </div>
           <% end %>
         <% end %>
@@ -53,7 +56,7 @@
   </tr>
 
   <% end %>
-  <% reset_cycle %>
+
   <% if current_user.reviews_owned.size == 0 %>
     <tr><td colspan="5"><em>You haven't submitted any code for review yet!
      Click the &quot;New Review&quot; button above to create a new review event.

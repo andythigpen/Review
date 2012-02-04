@@ -421,18 +421,19 @@ function next_comment(loc) {
   var min = -1;
   var minitem = null;
   var wtop = $(window).scrollTop();
+  var bar_height = $("#awesome-bar .contents").height();
   $(".comment").each(function() {
     var itop = $(this).offset().top;
     var diff = wtop - itop;
     diff = parseInt(diff, 10);
-    if (diff >= -30) {
+    if (diff >= -bar_height) {
       return true;
     }
     minitem = this;
     return false;
   });
   if (minitem != null) {
-    $.scrollTo(minitem, {axis: 'y', offset:-30});
+    $.scrollTo(minitem, {axis: 'y', offset:-bar_height});
   }
 }
 
@@ -440,6 +441,7 @@ function prev_comment(loc) {
   var min = -1;
   var minitem = null;
   var wtop = $(window).scrollTop();
+  var bar_height = $("#awesome-bar .contents").height();
   $(".comment").each(function() {
     var itop = $(this).offset().top;
     var diff = wtop - itop;
@@ -450,7 +452,7 @@ function prev_comment(loc) {
     minitem = this;
   });
   if (minitem != null) {
-    $.scrollTo(minitem, {axis: 'y', offset:-30});
+    $.scrollTo(minitem, {axis: 'y', offset:-bar_height});
   }
 }
 

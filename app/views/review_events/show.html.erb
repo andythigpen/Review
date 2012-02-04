@@ -3,11 +3,9 @@
   <%= javascript_include_tag "review_show.js" %>
 <% end %>
 
-<% title = "Show Review"
-   title += " &gt; " + @changeset.name if not @changeset.nil? %>
 <% if not (current_user != @review_event.owner and 
            not @changeset.try(:submitted)) %>
-<% content_for :page_name, @review_event.name %>
+  <% content_for :page_name, @review_event.name %>
 <% end %>
 
 <div id="comment-form" class="hidden">
@@ -24,9 +22,11 @@
 
 <%= modal_dialog "create-changeset-dialog" do %>
   <% if @review_event.changesets.size > 0 %>
-    <div class="info"><strong>Note:</strong> Creating a new changeset will 
-    reset the status of your review, and all assigned reviewers will be 
-    notified.</div>
+    <div class="alert alert-info">
+      <strong>Note:</strong> Creating a new changeset will 
+      reset the status of your review, and all assigned reviewers will be 
+      notified.
+    </div>
   <% end %>
   <%= form_for :changeset do |f| %>
     <% value = "Revision 1"
@@ -59,13 +59,11 @@
 <%= modal_dialog "status-changeset-dialog" do %>
   Are you sure you wish to <span class="status"></span> this changeset?
   <br /><br />
-  <div class="errorExplanation hidden">A comment is required.</div>
+  <div class="alert alert-error hidden">A comment is required.</div>
   <br />
   Comment (required):
   <%= form_for :comment do |f| %>
-    <%= f.text_area :content, :rows => 3,
-          :class => "text ui-corner-all ui-widget-content",
-          :style => "width:97%" %>
+    <%= f.text_area :content, :rows => 3, :class => "span3" %>
   <% end %>
 <% end %>
 
@@ -78,9 +76,7 @@
                  :html => {:multipart => true} do |f| %>
       <%= f.hidden_field :changeset_id, :value => @changeset.id %>
       <%= f.label :contents, :value => "Diff" %>
-      <%= f.text_area :contents, :rows => 5, 
-          :class => "text ui-corner-all ui-widget-content",
-          :style => "width:97%" %>
+      <%= f.text_area :contents, :rows => 5, :class => "span3" %>
       <div class="info">OR upload a patch file here:</div>
       <%= f.file_field :patch %>
     <% end %>
@@ -93,36 +89,34 @@
 
 <% if not @changeset.nil? and 
       current_user == @review_event.owner %>
-  <div class="info">
-    <% if @changeset.accepted? 
-         status = "accepted accepted-box"
-       elsif @changeset.rejected?
-         status = "rejected rejected-box"
-       else
-         status = "notice"
-       end %>
-     <div class="<%= status %>"> 
-      <% if @changeset.submitted %>
-        <% if @changeset.accepted? %>
-          <%= image_tag "accept.png", 
-              :style => "vertical-align:middle; margin-right:0.3em" %>
-          Ship it!
-        <% elsif @changeset.rejected? %>
-          <%= image_tag "reject.png", 
-              :style => "vertical-align:middle; margin-right:0.3em" %>
-          Don't ship it!  It's not ready yet.
+  <div class="row-fluid">
+    <div class="span12">
+      <% if @changeset.accepted? 
+           status = "alert alert-success"
+         elsif @changeset.rejected?
+           status = "alert alert-error"
+         else
+           status = "alert alert-info"
+         end %>
+       <div class="<%= status %>"> 
+        <% if @changeset.submitted %>
+          <% if @changeset.accepted? %>
+            <%= image_tag "accept.png", 
+                :style => "vertical-align:middle; margin-right:0.3em" %>
+            Ship it!
+          <% elsif @changeset.rejected? %>
+            <%= image_tag "reject.png", 
+                :style => "vertical-align:middle; margin-right:0.3em" %>
+            Don't ship it!  It's not ready yet.
+          <% else %>
+            This revision has been submitted and is awaiting review.
+          <% end %>
         <% else %>
-          This revision has been submitted and is awaiting review.
+          <%= image_tag "info.png", 
+              :style => "vertical-align:middle; margin-right:0.3em" %>
+          This review is not yet public.
         <% end %>
-      <% else %>
-        <%= image_tag "info.png", 
-            :style => "vertical-align:middle; margin-right:0.3em" %>
-        <%= link_to_function "Submit for Review", 
-            "submit_changeset('#{@changeset.id}');", 
-            :class => "ui-state-default ui-corner-all button right" %>
-        This review is not yet public.
-        <div style="clear:both;"></div>
-      <% end %>
+      </div>
     </div>
   </div>
 <% end %>
@@ -130,107 +124,113 @@
 <%# don't allow anyone to see if not yet submitted %>
 <% if not (current_user != @review_event.owner and 
          not @changeset.try(:submitted)) %>
-<div class="review">
-  <div style="float:right; padding:0.2em 0.2em 0;">
+<div>
+  <div class="pull-right">
     <% if current_user == @review_event.owner %>
-      <%= link_to edit_review_event_path(@review_event), 
-          :class => "ui-state-default ui-corner-all button" do %>
-        <span class="ui-icon ui-icon-pencil left"></span>Edit
-      <% end %>
+      <div class="btn-group">
+        <%= link_to edit_review_event_path(@review_event), :class => "btn" do %>
+          <i class="icon-pencil"></i> Edit
+        <% end %>
+        <% if not @changeset.nil? and not @changeset.submitted %>
+          <%= link_to_js "submit_changeset('#{@changeset.id}');", 
+              :class => "btn pull-right" do %>
+            <i class="icon-share-alt"></i> Submit for Review
+          <% end %>
+        <% end %>
+      </div>
     <% elsif @status.nil? and 
        @review_event.reviewers.include?(current_user) and 
        @changeset.submitted %>
        <%= link_to_js "submit_changeset_status('#{current_user.id}', '#{@changeset.id}', 'Accept', '#{CHANGESET_STATUSES[:accept]}', 'Ship It!');",
-          :class => "ui-state-default ui-corner-all button" do %>
-        <span class="ui-icon ui-icon-check left"></span>
-        Accept
+          :class => "btn" do %>
+        <i class="icon-ok"></i> Accept
       <% end %>
       <%= link_to_js "submit_changeset_status('#{current_user.id}', '#{@changeset.id}', 'Reject', '#{CHANGESET_STATUSES[:reject]}', '');",
-          :class => "ui-state-default ui-corner-all button" do %>
-        <span class="ui-icon ui-icon-closethick left"></span>
-        Reject
+          :class => "btn" do %>
+        <i class="icon-remove"></i> Reject
       <% end %>
       <br />
       <%= link_to_js "submit_changeset_status('#{current_user.id}', '#{@changeset.id}', 'Request Removal', '#{CHANGESET_STATUSES[:abstain]}', '', 'request removal from');",
-        :class => "right", :style => "margin:0.4em;" do %>
+        :class => "pull-right", :style => "margin:0.4em;" do %>
         Request Removal
       <% end %>
     <% end %>
   </div>
 
-  <h1>
-    <%= @review_event.name %> 
-  </h1>
+  <div class="row-fluid">
+    <h1><%= @review_event.name %></h1>
+    <br />
+  </div>
 
-  <div class="left" style="width:50%; vertical-align:top;">
-    <div style="margin:0em 1em 0.6em;">
-      <strong>Posted By:</strong>&nbsp;&nbsp;
-      <%= user_profile_popup(@review_event.owner, :short_format => true) %>
+  <div class="row-fluid">
+    <div class="span6">
+      <div>
+        <strong>Posted By:</strong>&nbsp;&nbsp;
+        <%= user_profile_popup(@review_event.owner, :short_format => true) %>
+      </div>
+
+      <% if not @review_event.duedate.nil? %>
+        <div>
+          <strong>Due Date:</strong>&nbsp;&nbsp;
+          <%= @review_event.duedate.to_date %>
+        </div>
+      <% end %>
+
+      <% if not @review_event.buglink.nil? and not @review_event.buglink.empty? %>
+        <div>
+          <strong>Bugs:</strong>&nbsp;&nbsp;
+          <%= @review_event.buglink.gsub(/(#{APP_CONFIG["bug_num_regex"]})/) do |m|
+              link_to $1, APP_CONFIG['bug_tracker'].gsub(/\{\{bugid\}\}/, $1),
+                :target => "_blank"
+             end.html_safe %>
+        </div>
+      <% end %>
+
+      <% accepted = rejected = abstained = [] %>
+      <% accepted = @changeset.users_accepted if @changeset %>
+      <% rejected = @changeset.users_rejected if @changeset %>
+      <% abstained = @changeset.users_abstained if @changeset %>
+      <div>
+        <strong>Reviewers:</strong>&nbsp;&nbsp;
+        <%= @review_event.reviewers.map do |u| 
+              user_profile_popup(u, :short_format => true)
+            end.join(",").html_safe %>
+      </div>
     </div>
 
-    <% if not @review_event.duedate.nil? %>
-      <p><strong>Due Date:</strong>&nbsp;&nbsp;
-        <%= @review_event.duedate.to_date %>
-      </p>
-    <% end %>
-
-    <% if not @review_event.buglink.nil? and not @review_event.buglink.empty? %>
-      <p><strong>Bugs:</strong>&nbsp;&nbsp;
-      <%= @review_event.buglink.gsub(/(#{APP_CONFIG["bug_num_regex"]})/) do |m|
-          link_to $1, APP_CONFIG['bug_tracker'].gsub(/\{\{bugid\}\}/, $1),
-            :target => "_blank"
-         end.html_safe %>
-      </p>
-    <% end %>
-
-    <% accepted = rejected = abstained = [] %>
-    <% accepted = @changeset.users_accepted if @changeset %>
-    <% rejected = @changeset.users_rejected if @changeset %>
-    <% abstained = @changeset.users_abstained if @changeset %>
-    <div style="margin: 0em 1em 0.6em;"><strong>Reviewers:</strong>&nbsp;&nbsp;
-    <%= @review_event.reviewers.map do |u| 
-          user_profile_popup(u, :short_format => true)
-        end.join("&nbsp;").html_safe %>
+    <div class="span6">
+      <%= render :partial => "revisions" %>
     </div>
   </div>
 
-  <div class="right" style="width:49%; vertical-align:top;">
-    <%= render :partial => "revisions" %>
-  </div>
-
-  <div class="left" style="clear:left;">
-    <% if not @review_event.notes.empty? %>
-      <p>
+  <% if not @review_event.notes.empty? %>
+    <div class="row-fluid">
+       <div class="span12">
         <strong>Notes:</strong>&nbsp;&nbsp;<pre><%= @review_event.notes %></pre>
-      </p>
-    <% end %>
-  </div>
-
-  <div style="clear:both;"></div>
+      </div>
+    </div>
+  <% end %>
 </div>
 <% end %>
 
 <% if current_user != @review_event.owner and 
          not @changeset.try(:submitted) %>
-  <div class="warn rejected-box">
+  <div class="alert alert-error">
     Hmm...You shouldn't be here right now.
   </div>
 <% elsif @changeset.nil? %>
-  <div class="notice">
+  <div class="alert alert-info">
     <%= image_tag "info.png", 
         :style => "vertical-align:middle; margin-right:0.3em" %>
-    No changesets yet.  Click &quot;Add new changeset&quot; above to create
-    one.
+    No changesets yet.  Click &quot;Add&quot; above to create one.
   </div>
 <% else %>
 
-  <div class="statuses">
-    <ul>
+  <hr />
+  <div>
+    <ul class="unstyled">
       <% if not @status.nil? %>
         <li>
-          <% status = "accepted" if @status.accepted? %>
-          <% status = "rejected" if @status.rejected? %>
-          <% status = "notice" if @status.abstained? %>
           <div id="changeset_status">
             <% if @status.accepted? %>
               <%= image_tag "accept.png", 
@@ -249,14 +249,12 @@
             <% end %>
             <%= link_to_function "Remove Status", 
                 "delete_changeset_status('#{@status.id}');", 
-                :class => "ui-state-default ui-corner-all button right" %>
+                :class => "btn pull-right" %>
           </div>
         </li>
       <% end %>
 
       <% @changeset.statuses.each do |s| %>
-        <%# next if s.user == current_user %>
-
         <% comment_style = "" %>
         <% if s.status == CHANGESET_STATUSES[:accept] %>
           <% comment_style = "accepted-comment" %>
@@ -269,22 +267,7 @@
         <li class="<%= comment_style %>">
           <% if s.comments.find_by_user_id(s.user).nil? %>
             <%# legacy mode...no comments available, so just show status %>
-            <% comment_style = "" %>
-            <!--<% if s.status == CHANGESET_STATUSES[:accept] %>
-              <%= image_tag "accept.png", 
-                  :style => "vertical-align:middle; margin-right:0.3em" %>
-              <% comment_style = "accepted-comment" %>
-            <% elsif s.status == CHANGESET_STATUSES[:reject] %>
-              <%= image_tag "reject.png", 
-                  :style => "vertical-align:middle; margin-right:0.3em" %>
-              <% comment_style = "rejected-comment" %>
-            <% elsif s.status == CHANGESET_STATUSES[:abstain] %>
-              <%= image_tag "info.png", 
-                  :style => "vertical-align:middle; margin-right:0.3em" %>
-              <% comment_style = "abstained-comment" %>
-            <% end %>-->
-
-            <div style="margin: 10px;">
+            <div>
               <%= user_profile_popup(s.user) %>:
 
               <% comment_style = "" %>
@@ -307,31 +290,34 @@
     </ul>
   </div>
 
+  <hr />
   <a name="files"></a>
-  <div class="files">
-    <div style="margin-bottom:1em;">
-      <strong>Files:</strong>
-      <% if not @changeset.submitted %>
-        <% css = "tooltip-below showonload" if @changeset.diffs.length == 0 %>
-        <%= link_to_js "add_new_diff();", :class => "right #{css}", :title => "Click here to add a new unified diff or upload a patch file." do %>
-          <span class="ui-icon ui-icon-plus inline-icon"></span>Add New Diff
+  <div class="row-fluid">
+    <div class="span12">
+      <h4>Files
+        <% if not @changeset.submitted %>
+          <%= link_to_js "add_new_diff();", :class => "pull-right", 
+            :title => "Click here to add a new unified diff or upload a patch file." do %>
+            <i class="icon-plus"></i> Add New Diff
+          <% end %>
+        <% else %>
+          <a href="<%= changeset_download_path(@changeset) %>" class="right tooltip" title="Click to download a patch file containing all the diffs from this changeset.">
+            <i class="icon-download-alt"></i>Download Patch
+          </a>
         <% end %>
-      <% else %>
-        <a href="<%= changeset_download_path(@changeset) %>" class="right tooltip" title="Click to download a patch file containing all the diffs from this changeset.">
-          <span class="ui-icon ui-icon-document inline-icon"></span>Download Patch
-        </a>
-      <% end %>
-      <div style="clear:both; margin-bottom:0.5em;"></div>
+      </h4>
     </div>
 
-    <ul>
+    <br />
+    <ul class="unstyled">
       <% @changeset.diffs.each do |d| %>
-        <li><a href="#file_<%= d.id %>">
-          <span class="ui-icon ui-icon-document left"></span> 
-          <%= d.origin_file %></a>
+        <li>
+          <i class="icon-file"></i>
+          <a href="#file_<%= d.id %>"><%= d.origin_file %></a>
           <% if not @changeset.submitted %>
-            <%= link_to_js "remove_diff('#{d.id}');", :class => "right" do %>
-              <span class="ui-icon ui-icon-close inline-icon"></span>Delete
+            <%= link_to_js "remove_diff('#{d.id}');", 
+              :class => "pull-right" do %>
+              <i class="icon-remove"></i> Delete
             <% end %>
           <% end %>
         </li>
@@ -339,50 +325,52 @@
     </ul>
   </div>
 
-  <div class="text-right view-settings" style="margin-top:1em;">
-    View:
-    <% if @display_type == "split" %>
-      Split |
-      <%= link_to 'Unified', url_for(params.merge(:display => "unified")) %>
-    <% elsif @display_type == "unified" %>
-      <%= link_to 'Split', url_for(params.merge(:display => "split")) %> | 
-      Unified
-    <% end %>
+  <div class="row-fluid">
+    <div class="pull-right">
+      View:
+      <% if @display_type == "split" %>
+        Split |
+        <%= link_to 'Unified', url_for(params.merge(:display => "unified")) %>
+      <% elsif @display_type == "unified" %>
+        <%= link_to 'Split', url_for(params.merge(:display => "split")) %> | 
+        Unified
+      <% end %>
+    </div>
   </div>
 
   <div id="awesome-bar" class="hidden">
     <div class="contents">
-      <div class="left">
+      <div class="pull-left">
         <span class="filename"></span>
       </div>
-      <div class="right">
+      <div class="pull-right">
         Comments:
         <%= link_to_js "prev_comment(this)", 
-            :class => "ui-state-default ui-corner-all button",
+            :class => "btn btn-small",
             :id => "prev-comment" do %>
-          <span class="ui-icon ui-icon-triangle-1-w"></span>
+          <i class="icon-chevron-left"></i>
         <% end %>
         <%= link_to_js "next_comment(this)", 
-            :class => "ui-state-default ui-corner-all button",
+            :class => "btn btn-small",
             :id => "next-comment" do %>
-          <span class="ui-icon ui-icon-triangle-1-e"></span>
+          <i class="icon-chevron-right"></i>
         <% end %>
       </div>
-      <div class="right" style="margin-right:1.5em;">
+      <div class="pull-right" style="margin-right:1.5em;">
         Files:
         <%= link_to_js "prev_file(this)",
-            :class => "ui-state-default ui-corner-all button",
+            :class => "btn btn-small",
             :id => "prev-file" do %>
-          <span class="ui-icon ui-icon-triangle-1-w"></span>
+          <i class="icon-chevron-left"></i>
         <% end %>
         <%= link_to "#files",
-            :class => "ui-state-default ui-corner-all button" do %>
-          <span class="ui-icon ui-icon-triangle-1-n"></span>
+            :class => "btn btn-small" do %>
+          <i class="icon-chevron-up"></i>
         <% end %>
         <%= link_to_js "next_file(this)",
-            :class => "ui-state-default ui-corner-all button",
+            :class => "btn btn-small",
             :id =>:"next-file" do %>
-          <span class="ui-icon ui-icon-triangle-1-e"></span>
+          <i class="icon-chevron-right"></i>
         <% end %>
       </div>
     </div>

@@ -1,26 +1,29 @@
-<div class="ui-widget box">
-  <h1>
+<div class="row-fluid">
+  <h3>
     <a name="file_<%= d.id %>" class="filemark"></a>
-    <span class="ui-icon ui-icon-document left" 
-          style="margin-right:0.3em"></span>
+    <i class="icon-file" style="margin-right:0.3em"></i>
     <span class="filename"><%= d.origin_file %></span>
     <%= add_comment_button d, "#diff_comment_#{d.id}", 
-        :class => "ui-state-default ui-corner-all button" do %>
-      <span class="ui-icon ui-icon-circle-plus left"></span>Add Comment
+        :class => "pull-right btn btn-small" do %>
+      <i class="icon-plus-sign"></i>Add Comment
     <% end %>
-  </h1>
+  </h3>
+</div>
 
-  <div class="comment-box-container" style="padding:0;">
+<div class="row-fluid">
+  <div class="span12 comment-box-container">
     <%= render :partial => "shared/comment", 
         :collection => d.overall_comments %>
     <div id="diff_comment_<%= d.id %>"></div>
   </div>
+</div>
 
-  <div class="diff-container">
+<div class="row-fluid">
+  <div class="span12">
     <%= render :partial => @display_type, :locals => { :diff => d } %>
   </div>
 </div>
 
-<div style="font-size:0.9em;">
-  <a href="#files"><span class="ui-icon ui-icon-carat-1-n inline-icon"></span>Back to Top</a>
+<div class="row-fluid">
+  <a href="#files"><i class="icon-chevron-up"></i>Back to Top</a>
 </div>

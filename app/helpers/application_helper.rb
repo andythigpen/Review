@@ -73,9 +73,27 @@ END_CONTENT
     p = user.profile
     name = params[:username]
     name = user.username if params[:short_format]
+    
+    popup = "<div class=\"pull-left\" style=\"margin-right:10px\">#{avatar_large}</div>"
+    popup += "<div class=\"clearfix\">"
+    #popup += "<div><strong>Username:</strong> #{user.username}</div>"
+    popup += "<div><strong>Full Name:</strong> #{user.full_name}</div>" if not user.full_name.blank?
+    if not p.nil?
+      popup += "<div><strong>Profession:</strong> #{p.profession}</div>" if not p.profession.blank?
+      popup += "<div><strong>Location:</strong> #{p.location}</div>" if not p.location.blank?
+      popup += "<div><strong>Quote:</strong> #{p.quote}</div>" if not p.quote.blank?
+    end
+    popup += "</div>"
+    
+    return content_tag(:span, "#{avatar_small} #{name}".html_safe, 
+                       :class => "username", 
+                       :title => "#{name}", 
+                       "data-content" => "#{popup.html_safe}") 
 
+    if false
     <<END_POPUP.html_safe
-    <span class="username">
+    <span class="username" data-original-title="#{user.username}"
+      data-content="<strong>#{user.username}</strong>">
       #{avatar_small} #{name}
       <div class="profile #{params[:profile_class]} hidden">
         <table>
@@ -104,5 +122,6 @@ END_CONTENT
       </div>
     </span>
 END_POPUP
+    end
   end
 end

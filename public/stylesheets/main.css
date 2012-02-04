@@ -3,6 +3,7 @@ html, body { height: 100%; }
 .text-center { text-align:center; }
 .background-white { background:#fff; }
 .background-grey { background:#f8f8f8; }
+/* .hidden { display: none; } */
 
 .navbar .brand { padding:8px 20px 12px 0; font-weight: 800; }
 .progress { margin-bottom: 0; }
@@ -82,6 +83,43 @@ html, body { height: 100%; }
   margin-bottom: 52px;
 }
 
+.username {
+  cursor: default;
+  position: relative;
+}
+.username .thumbnail {
+  display: inline;
+  vertical-align: middle;
+  padding: 2px;
+}
+
+.comment {
+  margin: 10px 0;
+  border: 1px solid #ccc;
+}
+.topbar {
+  padding: 0.5em 0.5em 0.6em;
+  border-bottom: 1px solid #ccc;
+}
+.comment-text {
+  padding: 10px;
+  background: #fff;
+}
+
+/* .profile { */
+/*   position: absolute; */
+/*   border: 1px solid #ddd; */
+/*   background: #f5f5f5; */
+/*   padding: 1em; */
+/*   z-index: 100; */
+/*   min-width: 300px; */
+/*   color: #777; */
+/* } */
+/* .profile td { */
+/*   vertical-align: top; */
+/*   padding: 0.1em; */
+/* } */
+
 /* .graph { */
 /*   border: 1px solid #ddd; */
 /*   height: 1.2em; */
@@ -114,6 +152,36 @@ html, body { height: 100%; }
   -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
 }
+
+#awesome-bar .contents {
+  min-width: 720px; 
+  margin: 0 auto;
+  padding: 0 7%;
+}
+#awesome-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+#awesome-bar .contents {
+  height: 34px;
+  line-height: 30px;
+  background: #e0e0e0 url('/images/title_back.png') repeat-x;
+  border-bottom: 1px solid #ccc;
+  padding-top: 3px;
+}
+#awesome-bar .button {
+  font-size: 0.9em;
+  line-height: 1em;
+  margin-top: -4px;
+}
+#awesome-bar .shadow {
+  height: 20px;
+  background: url('/images/shadow.png') repeat-x;
+}
+
 
 
 /* html, body { height: 100%; } */
@@ -326,81 +394,86 @@ html, body { height: 100%; }
 /*   overflow-x: auto; */
 /* } */
 /*  */
-/* .lineno-left, .lineno-right { */
-/*   text-align: right; */
-/*   color: #999; */
-/*   font-size: 0.9em; */
-/*   font-weight: bold; */
-/* } */
-/*  */
-/* .lineno-right { */
-/*   margin-right: 1em; */
-/* } */
-/*  */
-/* .lineno, .lineno-left, .lineno-right { */
-/*   background: #efefef; */
-/*   border-right: 1px solid #cdcdcd; */
-/* } */
-/*  */
-/* .lineno:hover, .lineno-left:hover, .lineno-right:hover { */
-/*   text-decoration: underline; */
-/* } */
-/*  */
-/* .diff { */
-/*   margin: 0; */
-/*   padding: 0; */
-/*   color: #111; */
-/*   position: relative; */
-/*   width: 100%; */
-/* } */
-/*  */
-/* .diff tr { */
-/*   line-height: 1.4em; */
-/* } */
-/*  */
-/* .diff tr td.lineno-left, .diff tr td.lineno-right { */
-/*   border-top: 1px solid #e7e7e7; */
-/* } */
-/*  */
-/* /* hack for FF to get rid of 1px border in table (due to 1px lineno border) */  */
-/* @-moz-document url-prefix() { */
-/* .diff tr td.lineno-left, .diff tr td.lineno-right { */
-/*   border-top: 0; */
-/*   border-bottom: 1px solid #e7e7e7; */
-/* } */
-/* } */
-/*  */
-/* .diff tr.comment-box-container { line-height: 1.2em; } */
-/* .diff tr.comment-box-container td { padding:0; } */
-/*  */
-/* .diff pre, .comment-code { */
-/*   font-family: "Ubuntu Mono", "Inconsolata", "Consolas", "Monaco", "Droid Sans Mono", "Bitstream Vera Mono", monospace; */
-/*   /* font-family: 'Inconsolata','Bitstream Vera Sans Mono','Courier New',monospace; */ */
-/*   white-space: pre-wrap;  /* wrap really long lines */ */
-/* } */
-/* .diff pre { font-size: 0.8em; } */
-/*  */
-/* .old { background: #ffd9d9; } */
-/* .old-highlight { */
-/*   background: #FF9696; */
-/*   display: inline-block; */
-/* } */
-/*  */
-/* .new { background: #c8ffcc; } */
-/* .new-highlight { */
-/*   background: #7ef28c; */
-/*   display: inline-block; */
-/* } */
-/*  */
-/* .line:hover, .new:hover, .old:hover { */
-/*   background: #fffff5; */
-/* } */
-/*  */
-/* .range { */
-/*   background: #e4f3f7; */
-/*   color: #777; */
-/* } */
-/*  */
+.lineno-left, .lineno-right {
+  text-align: right;
+  color: #999;
+  font-size: 0.9em;
+  font-weight: bold;
+}
+.lineno-right {
+  margin-right: 1em;
+}
+.lineno, .lineno-left, .lineno-right {
+  background: #efefef;
+  border-right: 1px solid #cdcdcd;
+}
+.lineno:hover, .lineno-left:hover, .lineno-right:hover {
+  text-decoration: underline;
+}
+.lineno-left a, .lineno-right a {
+  color: #999;
+  padding: 0 0.8em;
+  cursor: pointer;
+}
+
+.diff {
+  margin: 0;
+  padding: 0;
+  color: #111;
+  position: relative;
+  width: 100%;
+  background: #fff;
+}
+
+.diff tr {
+  line-height: 1.4em;
+}
+
+.diff tr td.lineno-left, .diff tr td.lineno-right {
+  border-top: 1px solid #e7e7e7;
+}
+
+/* hack for FF to get rid of 1px border in table (due to 1px lineno border) */ 
+@-moz-document url-prefix() {
+.diff tr td.lineno-left, .diff tr td.lineno-right {
+  border-top: 0;
+  border-bottom: 1px solid #e7e7e7;
+}
+}
+
+.diff tr.comment-box-container { line-height: 1.2em; }
+.diff tr.comment-box-container td { padding:0; }
+
+.diff pre, .comment-code {
+  /* font-family: "Ubuntu Mono", "Inconsolata", "Consolas", "Monaco", "Droid Sans Mono", "Bitstream Vera Mono", monospace; */
+  /* font-family: 'Inconsolata','Bitstream Vera Sans Mono','Courier New',monospace; */
+  white-space: pre-wrap;  /* wrap really long lines */
+}
+.diff pre { 
+  font-size: 0.8em; 
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+}
+.old { background: #ffd9d9; }
+.old-highlight {
+  background: #FF9696;
+  display: inline-block;
+}
+.new { background: #c8ffcc; }
+.new-highlight {
+  background: #7ef28c;
+  display: inline-block;
+}
+.line:hover, .new:hover, .old:hover {
+  background: #fffff5;
+}
+.range {
+  background: #e4f3f7;
+  color: #777;
+}
+
 /* .line-unified { width: 100%; } */
 /* .line-split { width: 50%; } */
 /*  */
@@ -860,9 +933,4 @@ html, body { height: 100%; }
 /*   float: left; */
 /* } */
 /*  */
-/* .lineno-left a, .lineno-right a { */
-/*   color: #999; */
-/*   padding: 0 0.8em; */
-/*   cursor: pointer; */
-/* } */
-/*  */
+

@@ -6,33 +6,36 @@ $(document).ready(function() {
 });
 
 function setup_profile_popups() {
-  var timer;
-  var item;
-  $(".username").live("mouseover",
-      function() { 
-          if (timer) {
-              clearTimeout(timer);
-              timer = null;
-              $(".profile").addClass('hidden');
-          }
-          item = $(this);
-          timer = setTimeout(function() {
-              item.find(".profile").removeClass('hidden'); 
-              timer = null;
-          }, 500);
-    }).live("mouseout",
-      function() { 
-          if (timer) {
-              clearTimeout(timer);
-              timer = null;
-              $(".profile").addClass('hidden');
-          }
-          item = $(this);
-          timer = setTimeout(function() {
-              item.find(".profile").addClass('hidden'); 
-              timer = null;
-          }, 500);
-    });
+  $(".username").popover({
+    html: true
+  });
+  // var timer;
+  // var item;
+  // $(".username").live("mouseover",
+  //     function() { 
+  //         if (timer) {
+  //             clearTimeout(timer);
+  //             timer = null;
+  //             $(".profile").addClass('hidden');
+  //         }
+  //         item = $(this);
+  //         timer = setTimeout(function() {
+  //             item.find(".profile").removeClass('hidden'); 
+  //             timer = null;
+  //         }, 500);
+  //   }).live("mouseout",
+  //     function() { 
+  //         if (timer) {
+  //             clearTimeout(timer);
+  //             timer = null;
+  //             $(".profile").addClass('hidden');
+  //         }
+  //         item = $(this);
+  //         timer = setTimeout(function() {
+  //             item.find(".profile").addClass('hidden'); 
+  //             timer = null;
+  //         }, 500);
+  //   });
 }
 
 function setup_buttons() {

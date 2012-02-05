@@ -36,10 +36,55 @@ module ApplicationHelper
     link_to_function(inner, func, html_options)
   end
 
-  def modal_dialog(id, &block)
-    if block_given?
-      inner = capture(&block).html_safe
+  class ModalResponder
+    attr_accessor :title, :body, :footer
+    def initialize
+      @title = "Modal Dialog"
+      @body = "Nothing to see here!"
+      @footer = "<a href=\"#\" class=\"btn btn-primary\" data-dismiss=\"modal\">OK</a>"
     end
+
+    def for_title(&block)
+      # @title = capture(&block).html_safe
+      if block_given?
+        @title = yield 
+      end
+    end
+    def for_body(&block)
+      # @body = capture(&block).html_safe
+      if block_given?
+        @body = yield
+      end
+    end
+    def for_footer(&block)
+      # @footer = capture(&block).html_safe
+      if block_given?
+        @footer = yield
+      end
+    end
+  end
+
+  def modal_dialog(id, &block)
+    responder = ModalResponder.new
+    if block_given?
+      # inner = capture(&block).html_safe
+      yield responder
+    end
+    return <<END_CONTENT.html_safe
+    <div id="#{id}" class="modal hidden">
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal">&times;</a>
+        <h3>#{responder.title.html_safe}</h3>
+      </div>
+      <div class="modal-body">
+        <p>#{responder.body.html_safe}</p>
+      </div>
+      <div class="modal-footer">
+        #{responder.footer.html_safe}
+      </div>
+    </div>
+END_CONTENT
+    if false
     <<END_CONTENT.html_safe
     <div id="#{id}" class="hidden">
       <img src="/images/ajax-loader.gif" alt="loading" class="ajax-loader hidden" />
@@ -48,6 +93,7 @@ module ApplicationHelper
       </div>
     </div>
 END_CONTENT
+    end
   end
 
   def user_profile_popup(user, params={})

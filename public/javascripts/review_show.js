@@ -64,13 +64,13 @@ $(document).ready(function() {
 
 function submit_comment(loc) {
   var comment = $(loc).parents(".comment-box").find("form").serialize();
-  $(loc).unbind().removeAttr('onclick').addClass("ui-state-disabled");
+  $(loc).unbind().removeAttr('onclick').addClass("btn-disabled");
   $(loc).bind('click', function() { return false; });
   $(loc).siblings(".button").each(function() {
     if ($(this).text().toLowerCase() == "close") {
       return 0;
     }
-    $(this).unbind().removeAttr('onclick').addClass("ui-state-disabled");
+    $(this).unbind().removeAttr('onclick').addClass("btn-disabled");
     $(this).bind('click', function() { return false; });
   });
   $.post("/comments/create", comment,
@@ -153,14 +153,14 @@ function preview_comment(loc) {
   var margin = $(loc).parents(".comment-box").css('margin-left');
   $(loc).parents('.comment-box').hide().after(function() {
     // this must match the format comment application helper
-    var comment = val.replace(/\{\{\{/g, '<div class="comment-code">');
-    comment = comment.replace(/\}\}\}/g, '</div>');
+    var comment = val.replace(/\{\{\{/g, '<pre>');
+    comment = comment.replace(/\}\}\}/g, '</pre>');
     comment = comment.replace(/'''(.*?)'''/g, '<strong>$1</strong>');
     var result = '<div class="comment comment-preview hidden" style="margin-left:'+
       margin+';">';
     result += '<div class="topbar">Comment Preview</div>';
     result += '<div class="comment-text">' + comment + '</div>'; 
-    result += '<div class="field"><a href="#" onclick="close_preview_comment(this);return false;" class="button ui-corner-all ui-state-default" style="margin-top:0.5em;">Close Preview</a></div>';
+    result += '<div class="field" style="margin:10px;"><a href="#" onclick="close_preview_comment(this);return false;" class="btn btn-small" style="margin-top:0.5em;">Close Preview</a></div>';
     result += '</div>';
     return result;
   });
@@ -515,7 +515,7 @@ function setup_awesome_bar() {
     });
     if (minitem != null) {
       $("#awesome-bar").slideDown();
-      var title = $(minitem).children('h1').children(".filename").text();
+      var title = $(minitem).find(".filename").text();
       $("#awesome-bar .contents .filename").html(title);
     }
     else {

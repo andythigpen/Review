@@ -25,8 +25,9 @@ class Comment < ActiveRecord::Base
   end
 
   def html_format
-    result = self.content.gsub(/\{\{\{/, "<div class=\"comment-code\">")
-    result.gsub!(/\}\}\}/, "</div>")
+    #result = self.content.gsub(/\{\{\{/, "<div class=\"comment-code\">")
+    result = self.content.gsub(/\{\{\{/, "<pre>")
+    result.gsub!(/\}\}\}/, "</pre>")
     result.gsub!(/'''(.*?)'''/, "<strong>\\1</strong>")
     result.html_safe
   end

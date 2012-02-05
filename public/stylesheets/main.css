@@ -94,12 +94,13 @@ html, body { height: 100%; }
 }
 
 .comment {
-  margin: 10px 0;
+  margin: 10px;
   border: 1px solid #ccc;
 }
 .topbar {
   padding: 0.5em 0.5em 0.6em;
   border-bottom: 1px solid #ccc;
+  background: #eee;
 }
 .comment-text {
   padding: 10px;
@@ -416,6 +417,17 @@ html, body { height: 100%; }
   cursor: pointer;
 }
 
+.box {
+  border: 1px solid #ddd;
+}
+.box h4 {
+  padding: 10px;
+  background: #e0e0e0 url('/images/title_back.png') repeat-x;
+}
+.box h4 .btn {
+  margin-top: -5px;
+}
+
 .diff {
   margin: 0;
   padding: 0;
@@ -424,15 +436,12 @@ html, body { height: 100%; }
   width: 100%;
   background: #fff;
 }
-
 .diff tr {
   line-height: 1.4em;
 }
-
 .diff tr td.lineno-left, .diff tr td.lineno-right {
   border-top: 1px solid #e7e7e7;
 }
-
 /* hack for FF to get rid of 1px border in table (due to 1px lineno border) */ 
 @-moz-document url-prefix() {
 .diff tr td.lineno-left, .diff tr td.lineno-right {
@@ -440,10 +449,8 @@ html, body { height: 100%; }
   border-bottom: 1px solid #e7e7e7;
 }
 }
-
 .diff tr.comment-box-container { line-height: 1.2em; }
 .diff tr.comment-box-container td { padding:0; }
-
 .diff pre, .comment-code {
   /* font-family: "Ubuntu Mono", "Inconsolata", "Consolas", "Monaco", "Droid Sans Mono", "Bitstream Vera Mono", monospace; */
   /* font-family: 'Inconsolata','Bitstream Vera Sans Mono','Courier New',monospace; */
@@ -473,10 +480,17 @@ html, body { height: 100%; }
   background: #e4f3f7;
   color: #777;
 }
+.comment-code {
+  margin: 0.2em;
+  padding: 0.4em;
+  border: 1px solid #ccc;
+  background: #dfdfdf;
+  font-family: Menlo,Monaco,"Courier New",monospace;
+}
 
-/* .line-unified { width: 100%; } */
-/* .line-split { width: 50%; } */
-/*  */
+.line-unified { width: 100%; }
+.line-split { width: 50%; }
+
 /* .deleted-message { */
 /*   padding: 0.6em; */
 /*   text-align: center; */
@@ -727,12 +741,6 @@ html, body { height: 100%; }
 /*   background: #fff; */
 /* } */
 /*  */
-/* .comment-code { */
-/*   margin: 0.2em; */
-/*   padding: 0.4em; */
-/*   border: 1px solid #ccc; */
-/*   background: #dfdfdf; */
-/* } */
 /*  */
 /* .ajax-loader { */
 /*   position: absolute; */

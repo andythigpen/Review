@@ -1,16 +1,16 @@
 <% content_for :title, "Login" %>
 <div style="text-align:center;">
-  <div class="ui-widget box" style="display:inline-block; text-align:left;">
+  <div style="display:inline-block; text-align:left;">
     <div>
       <%= form_for(resource_name, resource, :url => session_path(resource_name)) do |f| %>
         <div class="field">
           <%= f.label :username %>
-          <%= f.text_field :username, :class => "text ui-corner-all ui-widget-content" %>
+          <%= f.text_field :username %>
         </div>
 
         <div class="field">
           <%= f.label :password %>
-          <%= f.password_field :password, :class => "text ui-corner-all ui-widget-content" %>
+          <%= f.password_field :password %>
         </div>
 
         <% if devise_mapping.rememberable? -%>
@@ -19,8 +19,10 @@
           </div>
         <% end %>
 
+        <br />
+
         <div class="field">
-          <%= f.submit "Sign in", :class => "ui-corner-all ui-state-default button" %>
+          <%= f.submit "Sign in", :class => "btn" %>
         </div>
       <% end %>
     </div>

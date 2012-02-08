@@ -1,5 +1,5 @@
 <div style="text-align:center;">
-  <div class="ui-widget box" style="display:inline-block; text-align:left;">
+  <div style="display:inline-block; text-align:left;">
     <h1><strong>Change your password</strong></h1>
 
     <div>
@@ -9,16 +9,16 @@
 
         <div class="field">
           <%= f.label :password %>
-          <%= f.password_field :password, :class => "text ui-corner-all ui-widget-content" %>
+          <%= f.password_field :password %>
         </div>
 
         <div class="field">
           <%= f.label :password_confirmation %>
-          <%= f.password_field :password_confirmation, :class => "text ui-corner-all ui-widget-content" %>
+          <%= f.password_field :password_confirmation %>
         </div>
 
         <div class="field">
-          <%= f.submit "Change my password", :class => "ui-corner-all ui-state-default button" %>
+          <%= f.submit "Change my password", :class => "btn" %>
         </div>
       <% end %>
     </div>

@@ -1,17 +1,17 @@
 <% content_for :title, "Reset Password" %>
 <div style="text-align:center;">
-  <div class="ui-widget box" style="display:inline-block; text-align:left;">
+  <div style="display:inline-block; text-align:left;">
     <div>
       <%= form_for(resource_name, resource, :url => password_path(resource_name)) do |f| %>
         <%= f.error_messages %>
 
         <div class="field">
           <%= f.label :email %>
-          <%= f.text_field :email, :class => "text ui-corner-all ui-widget-content" %>
+          <%= f.text_field :email %>
         </div>
 
         <div class="field">
-          <%= f.submit "Send me reset password instructions", :class => "ui-corner-all ui-state-default button" %>
+          <%= f.submit "Send me reset password instructions", :class => "btn" %>
         </div>
       <% end %>
     </div>

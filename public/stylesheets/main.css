@@ -1,4 +1,5 @@
 html, body { height: 100%; }
+a { cursor: pointer; }
 
 .text-center { text-align:center; }
 .background-white { background:#fff; }
@@ -96,6 +97,7 @@ html, body { height: 100%; }
 .comment {
   margin: 10px;
   border: 1px solid #ccc;
+  background: #f8f8f8;
 }
 .topbar {
   padding: 0.5em 0.5em 0.6em;
@@ -105,6 +107,23 @@ html, body { height: 100%; }
 .comment-text {
   padding: 10px;
   background: #fff;
+}
+
+.topbar .label-success:before,
+.topbar .label-important:before,
+.topbar .label-info:before {
+  content: "";
+  padding: 0;
+}
+
+.accepted-comment > .comment[data-comment-type="ChangesetUserStatus"] .label-success:before {
+  content: "Accepted";
+}
+.rejected-comment > .comment[data-comment-type="ChangesetUserStatus"] .label-important:before {
+  content: "Rejected";
+}
+.abstained-comment > .comment[data-comment-type="ChangesetUserStatus"] .label-info:before {
+  content: "Requested Removal";
 }
 
 /* .profile { */
@@ -419,6 +438,7 @@ html, body { height: 100%; }
 
 .box {
   border: 1px solid #ddd;
+  background: #fff;
 }
 .box h4 {
   padding: 10px;
@@ -456,7 +476,7 @@ html, body { height: 100%; }
   /* font-family: 'Inconsolata','Bitstream Vera Sans Mono','Courier New',monospace; */
   white-space: pre-wrap;  /* wrap really long lines */
 }
-.diff pre { 
+.diff td > pre { 
   font-size: 0.8em; 
   padding: 0;
   margin: 0;

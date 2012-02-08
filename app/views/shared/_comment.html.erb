@@ -9,13 +9,16 @@
 %>
 <a name="<%= comment.id %>"></a>
 <% margin = (level * 10) + 10 %>
-<div class="comment" id="comment_<%= comment.id %>" style="margin-left:<%= margin %>px;">
+<div class="comment" id="comment_<%= comment.id %>" style="margin-left:<%= margin %>px;" data-comment-type="<%= comment.commentable.class %>">
   <div class="topbar">
     <% if comment.is_deleted? %>
       [Deleted]
     <% else %>
       <%= user_profile_popup(comment.user) %>
     <% end %>
+    <span class="label label-success"></span>
+    <span class="label label-important"></span>
+    <span class="label label-info"></span>
     <div class="pull-right">
       <div class="comment-actions">
         <% if allow_reply and comment.user != current_user %>
@@ -23,7 +26,7 @@
             <i class="icon-share-alt"></i>Reply<% end %>
         <% elsif allow_delete and comment.user == current_user %>
           <div>
-            <a href="#" onclick="delete_comment('<%= comment.id %>'); return false;">
+            <a onclick="delete_comment(this, '<%= comment.id %>'); return false;">
               <i class="icon-remove"></i>Delete
             </a> 
           </div>

@@ -36,9 +36,16 @@ module ApplicationHelper
     link_to_function(inner, func, html_options)
   end
 
+  def capture_block(&block)
+    return capture(&block).html_safe
+  end
+
   class ModalResponder
+    include ActionView::Helpers::CaptureHelper
+
     attr_accessor :title, :body, :footer
-    def initialize
+    def initialize(inst)
+      @inst = inst
       @title = "Modal Dialog"
       @body = "Nothing to see here!"
       @footer = "<a href=\"#\" class=\"btn btn-primary\" data-dismiss=\"modal\">OK</a>"
@@ -47,25 +54,25 @@ module ApplicationHelper
     def for_title(&block)
       # @title = capture(&block).html_safe
       if block_given?
-        @title = yield 
+        @title = @inst.capture(&block).html_safe
       end
     end
     def for_body(&block)
       # @body = capture(&block).html_safe
       if block_given?
-        @body = yield
+        @body = @inst.capture(&block).html_safe
       end
     end
     def for_footer(&block)
       # @footer = capture(&block).html_safe
       if block_given?
-        @footer = yield
+        @footer = @inst.capture(&block).html_safe
       end
     end
   end
 
   def modal_dialog(id, &block)
-    responder = ModalResponder.new
+    responder = ModalResponder.new(self)
     if block_given?
       # inner = capture(&block).html_safe
       yield responder
@@ -74,13 +81,13 @@ module ApplicationHelper
     <div id="#{id}" class="modal hidden">
       <div class="modal-header">
         <a class="close" data-dismiss="modal">&times;</a>
-        <h3>#{responder.title.html_safe}</h3>
+        <h3>#{responder.title}</h3>
       </div>
       <div class="modal-body">
-        <p>#{responder.body.html_safe}</p>
+        <p>#{responder.body}</p>
       </div>
       <div class="modal-footer">
-        #{responder.footer.html_safe}
+        #{responder.footer}
       </div>
     </div>
 END_CONTENT

@@ -26,6 +26,8 @@ Review::Application.routes.draw do
   resources :groups
 
   # Comments
+  #TODO resources :comments
+
   match "comments/create" => "comments#create", 
         :as => :create_comment, :via => :post
   match "comments/destroy" => "comments#destroy", 
@@ -43,9 +45,11 @@ Review::Application.routes.draw do
   post "diffs/destroy/:id" => "diffs#destroy"
 
   # Changeset Statuses
+  # post "changeset/:changeset_id/user/:user_id/status" => "changeset_user_status#update"
   post "changeset/status" => "changeset_user_status#update"
   match "changeset/status/:id" => "changeset_user_status#destroy", 
         :via => :delete
+
   get "changeset/download/:id" => "changeset#download", 
       :as => :changeset_download
 

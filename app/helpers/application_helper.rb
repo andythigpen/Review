@@ -13,9 +13,9 @@ module ApplicationHelper
     rightline = nil if not defined? rightline 
 
     html_options = args.extract_options!.symbolize_keys
-    href = "#"
     onclick = "add_comment_form('#{location}', '#{commentable.id}', '#{commentable.class.name}', '#{leftline}', '#{rightline}');return false;"
-    content_tag(:a, html_options.merge(:href => href, :onclick => onclick)) do 
+    href = "javascript:#{onclick}"
+    content_tag(:a, html_options.merge(:href => href)) do 
       inner
     end
   end

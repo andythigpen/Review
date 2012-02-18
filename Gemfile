@@ -37,3 +37,7 @@ gem 'unicorn'
 group :production do
   gem 'mysql'
 end
+
+group :development do
+  gem 'letter_opener'
+end

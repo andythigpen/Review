@@ -4,18 +4,17 @@
 <% end %>
 
 <h1>User Profile</h1>
-<div class="ui-widget box">
+<div class="form-box">
   <div>
     <%= render :partial => 'form', :locals => { :submit_value => "Update" } %>
   </div>
 </div>
 
 <h1>Account Details</h1>
-<div class="ui-widget box">
+<div class="form-box">
   <div>
     <p><%= link_to "Change username/password", 
                 edit_user_registration_path %></p>
-    <br />
     <p><%= link_to "Delete user account", 
                 edit_user_registration_path %></p>
   </div>

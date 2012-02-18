@@ -1,10 +1,5 @@
 
 $(document).ready(function() {
-  // if ($(".datepicker").length > 0) {
-  //   $(".datepicker").datepicker();
-  //   $("#ui-datepicker-div").hide();
-  // }
-
   $("#reviewer-table input[type=checkbox]").live("change", function() {
     if (this.checked) {
       $(this).closest("tr").addClass("selected");

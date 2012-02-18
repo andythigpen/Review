@@ -52,19 +52,16 @@ module ApplicationHelper
     end
 
     def for_title(&block)
-      # @title = capture(&block).html_safe
       if block_given?
         @title = @inst.capture(&block).html_safe
       end
     end
     def for_body(&block)
-      # @body = capture(&block).html_safe
       if block_given?
         @body = @inst.capture(&block).html_safe
       end
     end
     def for_footer(&block)
-      # @footer = capture(&block).html_safe
       if block_given?
         @footer = @inst.capture(&block).html_safe
       end
@@ -74,7 +71,6 @@ module ApplicationHelper
   def modal_dialog(id, &block)
     responder = ModalResponder.new(self)
     if block_given?
-      # inner = capture(&block).html_safe
       yield responder
     end
     return <<END_CONTENT.html_safe
@@ -84,23 +80,16 @@ module ApplicationHelper
         <h3>#{responder.title}</h3>
       </div>
       <div class="modal-body">
-        <p>#{responder.body}</p>
+        <img src="/images/ajax-loader.gif" alt="loading" class="ajax-loader hidden" />
+        <div class="dialog-content">
+          <p>#{responder.body}</p>
+        </div>
       </div>
       <div class="modal-footer">
         #{responder.footer}
       </div>
     </div>
 END_CONTENT
-    if false
-    <<END_CONTENT.html_safe
-    <div id="#{id}" class="hidden">
-      <img src="/images/ajax-loader.gif" alt="loading" class="ajax-loader hidden" />
-      <div class="dialog-content">
-        #{inner}
-      </div>
-    </div>
-END_CONTENT
-    end
   end
 
   def user_profile_popup(user, params={})
@@ -129,7 +118,6 @@ END_CONTENT
     
     popup = "<div class=\"pull-left\" style=\"margin-right:10px\">#{avatar_large}</div>"
     popup += "<div class=\"clearfix\">"
-    #popup += "<div><strong>Username:</strong> #{user.username}</div>"
     popup += "<div><strong>Full Name:</strong> #{user.full_name}</div>" if not user.full_name.blank?
     if not p.nil?
       popup += "<div><strong>Profession:</strong> #{p.profession}</div>" if not p.profession.blank?
@@ -142,39 +130,5 @@ END_CONTENT
                        :class => "username", 
                        :title => "#{name}", 
                        "data-content" => "#{popup.html_safe}") 
-
-    if false
-    <<END_POPUP.html_safe
-    <span class="username" data-original-title="#{user.username}"
-      data-content="<strong>#{user.username}</strong>">
-      #{avatar_small} #{name}
-      <div class="profile #{params[:profile_class]} hidden">
-        <table>
-          <tr>
-            <td rowspan="5" style="padding-right:1em;">#{avatar_large}</td>
-            <td><strong>Username:</strong></td>
-            <td>#{user.username}</td>
-          </tr>
-          <tr>
-            <td><strong>Full Name:</strong></td>
-            <td>#{user.full_name}</td>
-          </tr>
-          <tr>
-            <td><strong>Profession:</strong></td>
-            <td>#{p.try(:profession)}</td>
-          </tr>
-          <tr>
-            <td><strong>Location:</strong></td>
-            <td>#{p.try(:location)}</td>
-          </tr>
-          <tr>
-            <td><strong>Quote:</strong></td>
-            <td>#{p.try(:quote)}</td>
-          </tr>
-        </table>
-      </div>
-    </span>
-END_POPUP
-    end
   end
 end

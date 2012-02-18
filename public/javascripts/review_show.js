@@ -64,13 +64,13 @@ $(document).ready(function() {
 
 function submit_comment(loc) {
   var comment = $(loc).parents(".comment-box").find("form").serialize();
-  $(loc).unbind().removeAttr('onclick').addClass("btn-disabled");
+  $(loc).unbind().removeAttr('onclick').addClass("disabled");
   $(loc).bind('click', function() { return false; });
   $(loc).siblings(".button").each(function() {
     if ($(this).text().toLowerCase() == "close") {
       return 0;
     }
-    $(this).unbind().removeAttr('onclick').addClass("btn-disabled");
+    $(this).unbind().removeAttr('onclick').addClass("disabled");
     $(this).bind('click', function() { return false; });
   });
   $.post("/comments/create", comment,
@@ -91,6 +91,7 @@ function submit_comment(loc) {
 
 //TODO refactor
 function delete_comment_modal() {
+  show_ajax_loader("#delete-confirm");
   var comment_id = $("#delete-confirm a[data-action='submit']").
     data("comment-id");
   $.post("/comments/destroy", { id : comment_id },
@@ -106,38 +107,12 @@ function delete_comment_modal() {
 }
 
 function delete_comment(loc, comment_id) {
+  hide_ajax_loader("#delete-confirm");
   var comment_text = $(loc).parents(".comment").find(".comment-text").html();
   $("#delete-confirm").find(".comment").html(comment_text);
   $("#delete-confirm").modal('show');
   $("#delete-confirm a[data-action='submit']").
     data("comment-id", comment_id);
-    // attr("href", "/comments/"+comment_id);
-  // $("#delete-confirm").dialog({
-  //   resizable: false,
-  //   modal: true,
-  //   title: "Delete Comment",
-  //   buttons: {
-  //     "Delete": function() {
-  //       show_ajax_loader(this);
-  //       $.post("/comments/destroy", { id : comment_id },
-  //         function(data, textStatus, jqXHR) {
-  //           $("#delete-confirm").dialog("close");
-  //           if (data.status == "ok") {
-  //             $("#comment_"+comment_id).fadeOut();
-  //           }
-  //           else {
-  //             display_error(data.errors);
-  //           }
-  //       }, "json");
-  //     },
-  //     "Cancel": function() {
-  //       $(this).dialog("close");
-  //     }
-  //   },
-  //   open: function() {
-  //     hide_ajax_loader(this);
-  //   }
-  // });
 }
 
 function add_comment_form(loc, commentable_id, commentable_type, leftline, rightline) {
@@ -160,7 +135,6 @@ function add_comment_form(loc, commentable_id, commentable_type, leftline, right
     $(this).find("input[name='comment[leftline]']").val(leftline);
     $(this).find("input[name='comment[rightline]']").val(rightline);
   });
-  setup_buttons();
 }
 
 function close_comment_form(loc) {
@@ -187,7 +161,6 @@ function preview_comment(loc) {
     return result;
   });
   $(loc).parents('.comment-box').next('.comment-preview').fadeIn();
-  setup_buttons();
 }
 
 function close_preview_comment(loc) {
@@ -222,7 +195,7 @@ function add_comment_bold(loc) {
 }
 
 function create_changeset_modal() {
-  //       show_ajax_loader(this);
+  show_ajax_loader("#create-changeset-dialog");
   $.post("/changeset/create", 
       $("#create-changeset-dialog").find("form").serialize(),
     function(data, textStatus, jqXHR) {
@@ -239,47 +212,12 @@ function create_changeset_modal() {
 }
 
 function create_changeset() {
+  hide_ajax_loader("#create-changeset-dialog");
   $("#create-changeset-dialog").modal('show');
-  // $("#create-changeset-dialog").dialog({
-  //   modal: true,
-  //   minWidth: 350,
-  //   title: "Create Changeset",
-  //   buttons: {
-  //     "Create Changeset": function() {
-  //       show_ajax_loader(this);
-  //       $.post("/changeset/create", $(this).find("form").serialize(),
-  //              function(data, textStatus, jqXHR) {
-  //                $(this).dialog('close');
-  //                if (data.status == "ok") {
-  //                  var url = location.href;
-  //                  url = url.replace(/\?changeset=\d+/, "");
-  //                  location.href = url+"?changeset="+data.id;
-  //                }
-  //                else {
-  //                  display_error(data.errors);
-  //                }
-  //       }, "json");
-  //     },
-  //     "Cancel": function() {
-  //       $(this).dialog('close');
-  //     }
-  //   },
-  //   open: function() {
-  //     hide_ajax_loader(this);
-  //     $(this).find("input[type=text]").focus();
-  //     $(this).keydown(function(e) {
-  //       if (e.keyCode == 13) {
-  //         $(".ui-dialog").find("button:first").trigger("click");
-  //         e.stopPropagation();
-  //         return false;
-  //       }
-  //     });
-  //   }
-  // });
 }
 
 function submit_changeset_modal() {
-  // show_ajax_loader(this);
+  show_ajax_loader("#submit-changeset-modal");
   var changeset_id = $("#submit-changeset-dialog a[data-action='submit']").
     data("changeset-id");
   $.post("/changeset/update/"+changeset_id, 
@@ -295,39 +233,14 @@ function submit_changeset_modal() {
     }, "json");
 }
 function submit_changeset(changeset_id) {
+  hide_ajax_loader("#submit-changeset-modal");
   $("#submit-changeset-dialog").modal('show');
   $("#submit-changeset-dialog a[data-action='submit']").
     data("changeset-id", changeset_id);
-  // $("#submit-changeset-dialog").dialog({
-  //   modal: true,
-  //   title: "Submit for Review?",
-  //   buttons: {
-  //     "Submit": function() {
-  //       show_ajax_loader(this);
-  //       $.post("/changeset/update/"+changeset_id, 
-  //              $(this).find("form").serialize(),
-  //         function(data, textStatus, jqXHR) {
-  //           $(this).dialog('close');
-  //           if (data.status == "ok") {
-  //             location.reload();
-  //           }
-  //           else {
-  //             display_error(data.errors);
-  //           }
-  //         }, "json");
-  //     },
-  //     "Cancel": function() {
-  //       $(this).dialog('close');
-  //     }
-  //   },
-  //   open: function() {
-  //     hide_ajax_loader(this);
-  //   }
-  // });
 }
 
 function remove_changeset_modal() {
-  //       show_ajax_loader(this);
+  show_ajax_loader("#remove-changeset-dialog");
   var changeset_id = $("#remove-changeset-dialog").data("changeset-id");
   var review_id = $("#remove-changeset-dialog").data("review-id");
   $.post("/changeset/destroy/"+changeset_id, 
@@ -344,42 +257,18 @@ function remove_changeset_modal() {
 }
 
 function remove_changeset(changeset_id, review_id) {
+  hide_ajax_loader("#remove-changeset-dialog");
   $("#remove-changeset-dialog").
     data("changeset-id", changeset_id).
     data("review-id", review_id);
   $("#remove-changeset-dialog").modal('show');
-  // $("#remove-changeset-dialog").dialog({
-  //   modal: true,
-  //   title: "Delete Changeset",
-  //   buttons: {
-  //     "Delete Changeset": function() {
-  //       show_ajax_loader(this);
-  //       $.post("/changeset/destroy/"+changeset_id, 
-  //         $(this).find("form").serialize(),
-  //         function(data, textStatus, jqXHR) {
-  //           $(this).dialog('close');
-  //           if (data.status == "ok") {
-  //             location.href = "/review_events/"+review_id;
-  //           }
-  //           else {
-  //             display_error(data.errors);
-  //           }
-  //         }, "json");
-  //     },
-  //     "Cancel": function() {
-  //       $(this).dialog('close');
-  //     }
-  //   },
-  //   open: function() {
-  //     hide_ajax_loader(this);
-  //   }
-  // });
 }
 
 function submit_changeset_status(user_id, changeset_id, statusText, statusType, defaultComment, dialogText) {
   var dialogText = dialogText || statusText;
   $("#status-changeset-dialog .status").html(dialogText.toLowerCase());
   $("#status-changeset-dialog textarea").html(defaultComment);
+  hide_ajax_loader("#status-changeset-dialog");
   $("#status-changeset-dialog").modal('show');
   $("#status-changeset-dialog a[data-action='submit']").click(function (e) {
     e.preventDefault();
@@ -388,6 +277,7 @@ function submit_changeset_status(user_id, changeset_id, statusText, statusType, 
       return false;
     }
 
+    show_ajax_loader("#status-changeset-dialog");
     $.post("/changeset/status", { 
         changeset_user_status: {
           "changeset_id": changeset_id,
@@ -412,54 +302,10 @@ function submit_changeset_status(user_id, changeset_id, statusText, statusType, 
 
     return false;
   });
-
-  // var dialogText = dialogText || statusText;
-  // $("#status-changeset-dialog .status").html(dialogText.toLowerCase());
-  // $("#status-changeset-dialog textarea").html(defaultComment);
-  // var buttons = {};
-  // buttons[statusText] = function() {
-  //   if ($("#status-changeset-dialog textarea").val().length == 0) {
-  //     $("#status-changeset-dialog .errorExplanation").fadeIn();
-  //     return false;
-  //   }
-  //   show_ajax_loader(this);
-  //   $.post("/changeset/status", { 
-  //       changeset_user_status: {
-  //         "changeset_id": changeset_id,
-  //         "status": statusType,
-  //         "comments_attributes": [
-  //           { 
-  //             "content": $("#status-changeset-dialog textarea").val(),
-  //             "user_id": user_id 
-  //           }
-  //         ]
-  //       }
-  //     },
-  //     function(data, textStatus, jqXHR) {
-  //       $(this).dialog('close');
-  //       if (data.status == "ok") {
-  //         location.reload();
-  //       }
-  //       else {
-  //         display_error(data.errors);
-  //       }
-  //   }, "json");
-  // };
-  // buttons["Cancel"] = function() {
-  //   $(this).dialog('close');
-  // };
-  // $("#status-changeset-dialog").dialog({
-  //   modal: true,
-  //   title: "Update Status",
-  //   buttons: buttons,
-  //   open: function() {
-  //     hide_ajax_loader(this);
-  //   }
-  // });
 }
 
 function delete_changeset_status_modal() {
-  // show_ajax_loader(this);
+  show_ajax_loader("#delete-status");
   var status_id = $("#delete-status").data("status-id");
   $.ajax({
     url: "/changeset/status/"+status_id,
@@ -471,62 +317,24 @@ function delete_changeset_status_modal() {
   });
 }
 function delete_changeset_status(status_id) {
+  hide_ajax_loader("#delete-status");
   var changeset_html = $("#changeset_status").html();
   $("#delete-status").find(".comment").html(changeset_html);
   $("#delete-status").data("status-id", status_id).modal('show');
-  // $("#delete-status").dialog({
-  //   modal: true,
-  //   title: "Remove Status",
-  //   buttons: {
-  //     "Remove": function() {
-  //       show_ajax_loader(this);
-  //       $.ajax({
-  //         url: "/changeset/status/"+status_id,
-  //         type: "DELETE",
-  //         dataType: "json",
-  //         success: function (msg) {
-  //           location.reload();
-  //         }
-  //       });
-  //     },
-  //     "Cancel": function() {
-  //       $(this).dialog('close');
-  //     }
-  //   },
-  //   open: function() {
-  //     hide_ajax_loader(this);
-  //   }
-  // });
 }
 
 function add_new_diff_modal() {
-  //       show_ajax_loader(this);
+  show_ajax_loader("#add-diff-dialog");
   $("#add-diff-dialog").find("form").submit();
 }
 
 function add_new_diff() {
+  hide_ajax_loader("#add-diff-dialog");
   $("#add-diff-dialog").modal('show');
-  // $("#add-diff-dialog").dialog({
-  //   modal: true,
-  //   minWidth: 450,
-  //   title: "Add Diff",
-  //   buttons: {
-  //     "Add Diff": function() {
-  //       show_ajax_loader(this);
-  //       $(this).find("form").submit();
-  //     },
-  //     "Cancel": function() {
-  //       $(this).dialog('close');
-  //     }
-  //   },
-  //   open: function() {
-  //     hide_ajax_loader(this);
-  //   }
-  // });
 }
 
 function remove_diff_modal() {
-  //       show_ajax_loader(this);
+  show_ajax_loader("#remove-diff-dialog");
   var diff_id = $("#remove-diff-dialog").data("diff-id");
   $.post("/diffs/destroy/"+diff_id, 
     $("#remove-diff-dialog").find("form").serialize(),
@@ -542,33 +350,8 @@ function remove_diff_modal() {
 }
 
 function remove_diff(diff_id) {
+  hide_ajax_loader("#remove-diff-dialog");
   $("#remove-diff-dialog").data("diff-id", diff_id).modal('show');
-  // $("#remove-diff-dialog").dialog({
-  //   modal: true,
-  //   title: "Delete Diff",
-  //   buttons: {
-  //     "Delete Diff": function() {
-  //       show_ajax_loader(this);
-  //       $.post("/diffs/destroy/"+diff_id, 
-  //         $(this).find("form").serialize(),
-  //         function(data, textStatus, jqXHR) {
-  //           $(this).dialog('close');
-  //           if (data.status == "ok") {
-  //             location.reload();
-  //           }
-  //           else {
-  //             display_error(data.errors);
-  //           }
-  //         }, "json");
-  //     },
-  //     "Cancel": function() {
-  //       $(this).dialog('close');
-  //     }
-  //   },
-  //   open: function() {
-  //     hide_ajax_loader(this);
-  //   }
-  // });
 }
 
 function next_comment(loc) {

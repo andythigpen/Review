@@ -47,7 +47,6 @@ class CommentsController < ApplicationController
     end
 
     respond_to do |format|
-      # format.html { redirect_to(:back) }
       format.json { render :partial => "shared/comment", 
         :locals => { :comment => @comment, :level => level } }
     end

@@ -19,8 +19,6 @@
     <div class="comment comment-text"></div>
   <% end %>
   <% format.for_footer do %>
-    <!--<a href="#" data-action="submit" class="btn btn-primary">Delete</a>
-    <a href="#" data-dismiss="modal" class="btn">Cancel</a>-->
     <%= link_to "Delete", "#", 
       :onclick => "delete_comment_modal(); return false;", 
       :"data-action" => "submit", 
@@ -80,9 +78,10 @@
   <% format.for_title { "Submit for Review" } %>
   <% format.for_body do %>
     Are you sure you wish to submit this revision for review?
-    <br /><br />
-    Users will be notified about the review, and no further changes will be
-    allowed.
+    <div class="alert alert-info">
+      Users will be notified about the review, and no further changes 
+      will be allowed.
+    </div>
     <%= form_for :changeset do |f| %>
       <%= f.hidden_field :submitted, :value => true %>
     <% end %>
@@ -112,16 +111,14 @@
   <% format.for_title { "Submit Status" } %>
   <% format.for_body do %>
     Are you sure you wish to <span class="status"></span> this changeset?
-    <br /><br />
     <div class="alert alert-error hidden">A comment is required.</div>
-    <br />
     Comment (required):
     <%= form_for :comment do |f| %>
-      <%= f.text_area :content, :rows => 3, :class => "span3" %>
+      <%= f.text_area :content, :rows => 3, :style => "width:98%;" %>
     <% end %>
   <% end %>
   <% format.for_footer do %>
-    <%= link_to "Submit", "#", :method => "post",
+    <%= link_to "Submit", "javascript:;", :method => "post",
       :"data-action" => "submit", :class => "btn btn-primary" %>
     <%= link_to "Cancel", "#", :"data-dismiss" => "modal", :class => "btn" %>
   <% end %>
@@ -138,7 +135,7 @@
                    :html => {:multipart => true} do |f| %>
         <%= f.hidden_field :changeset_id, :value => @changeset.id %>
         <%= f.label :contents, :value => "Diff" %>
-        <%= f.text_area :contents, :rows => 5, :class => "span3" %>
+        <%= f.text_area :contents, :rows => 5, :style => "width:98%;" %>
         <div class="info">OR upload a patch file here:</div>
         <%= f.file_field :patch %>
       <% end %>
@@ -166,7 +163,6 @@
     <% end %>
   <% end %>
 <% end %>
-
 
 <% if not @changeset.nil? and 
       current_user == @review_event.owner %>
@@ -374,7 +370,10 @@
     </ul>
   </div>
 
-  <hr />
+  <% if @changeset.statuses.size > 0 %>
+    <hr />
+  <% end %>
+
   <a name="files"></a>
   <div class="row-fluid">
     <div class="span12">

@@ -78,9 +78,10 @@
   <% format.for_title { "Submit for Review" } %>
   <% format.for_body do %>
     Are you sure you wish to submit this revision for review?
-    <br /><br />
-    Users will be notified about the review, and no further changes will be
-    allowed.
+    <div class="alert alert-info">
+      Users will be notified about the review, and no further changes 
+      will be allowed.
+    </div>
     <%= form_for :changeset do |f| %>
       <%= f.hidden_field :submitted, :value => true %>
     <% end %>

@@ -88,6 +88,7 @@
                 <% end %>
                 <ul class="dropdown-menu">
                   <li><%= link_to "FAQ", static_path(:action => "help") %></li>
+                  <li><%= link_to "Changelog", static_path(:action => "changelog") %></li>
                   <li><%= link_to "Report Bug", 
                     "http://github.com/andythigpen/Review/issues", 
                     :target => "_blank" %></li>
@@ -101,6 +102,7 @@
                     <%= current_user.username %>'s Account <b class="caret"></b>
                   <% end %>
                   <ul class="dropdown-menu">
+                    <li><%= link_to "My Profile", profile_path %></li>
                     <li><%= link_to "My Groups", groups_path %></li>
                     <li><%= link_to "Account Settings", 
                       edit_user_registration_path %></li>

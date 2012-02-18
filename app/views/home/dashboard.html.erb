@@ -18,9 +18,9 @@
 <%# Notices/Info on login %>
 <% if current_user.sign_in_count == 1 %>
   <div class="alert alert-info">
-    <a class="close">&times;</a>
-    <strong>Thanks for registering!</strong>  Why not 
-    <%= link_to "update your profile", profile_path %> 
+    <a class="close" data-dismiss="alert">&times;</a>
+    <h4 class="alert-heading">Thanks for registering!</h4>  
+    Why not <%= link_to "update your profile", profile_path %> 
     with your relevant information?
   </div>
 <% end %>

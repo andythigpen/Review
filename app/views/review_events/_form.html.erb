@@ -27,7 +27,7 @@
 
   <div class="field">
     <%= f.label "Due Date" %>
-    <%= f.text_field :duedate, :class => "datepicker",
+    <%= f.text_field :duedate, :"data-datepicker" => "datepicker",
       :value => (@review_event.duedate.nil? ? "" : @review_event.duedate.to_s(:review)) %>
     <span class="help-inline">(optional)</span>
   </div>

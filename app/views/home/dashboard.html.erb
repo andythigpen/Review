@@ -3,11 +3,17 @@
   <%= javascript_include_tag "dashboard.js" %>
 <% end %>
 
-<%= modal_dialog "remove-review-dialog" do |format| 
-  format.for_title { "Remove Review" }
-  format.for_body { "Remove this review event?" }
-  #format.for_footer { "" }
-end %>
+<%= modal_dialog "remove-review-dialog" do |format| %>
+  <% format.for_title { "Remove Review" } %>
+  <% format.for_body { "Remove this review event?" } %>
+  <% format.for_footer do %>
+    <%= link_to "Remove", "#", 
+      :onclick => "remove_review_event_modal(); return false;", 
+      :"data-action" => "submit", 
+      :class => "btn btn-primary" %>
+    <%= link_to "Cancel", "#", :"data-dismiss" => "modal", :class => "btn" %>
+  <% end %>
+<% end %>
 
 <%# Notices/Info on login %>
 <% if current_user.sign_in_count == 1 %>

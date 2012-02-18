@@ -1,4 +1,5 @@
 function remove_group(group_id) {
+  hide_ajax_loader("#remove-group-dialog");
   $("#remove-group-dialog").data("group-id", group_id).modal('show');
   // $("#remove-group-dialog").dialog({
   //   modal: true,
@@ -29,8 +30,8 @@ function remove_group(group_id) {
 }
 
 function remove_group_modal() {
+  show_ajax_loader("#remove-group-dialog");
   var group_id = $("#remove-group-dialog").data("group-id");
-  //       show_ajax_loader(this);
   $.ajax({
     url: "/groups/"+group_id,
     type: "DELETE",

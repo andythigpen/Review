@@ -135,7 +135,7 @@
                    :html => {:multipart => true} do |f| %>
         <%= f.hidden_field :changeset_id, :value => @changeset.id %>
         <%= f.label :contents, :value => "Diff" %>
-        <%= f.text_area :contents, :rows => 5, :class => "span3" %>
+        <%= f.text_area :contents, :rows => 5, :style => "width:98%;" %>
         <div class="info">OR upload a patch file here:</div>
         <%= f.file_field :patch %>
       <% end %>

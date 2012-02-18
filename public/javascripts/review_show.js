@@ -91,6 +91,7 @@ function submit_comment(loc) {
 
 //TODO refactor
 function delete_comment_modal() {
+  show_ajax_loader("#delete-confirm");
   var comment_id = $("#delete-confirm a[data-action='submit']").
     data("comment-id");
   $.post("/comments/destroy", { id : comment_id },
@@ -106,6 +107,7 @@ function delete_comment_modal() {
 }
 
 function delete_comment(loc, comment_id) {
+  hide_ajax_loader("#delete-confirm");
   var comment_text = $(loc).parents(".comment").find(".comment-text").html();
   $("#delete-confirm").find(".comment").html(comment_text);
   $("#delete-confirm").modal('show');
@@ -222,7 +224,7 @@ function add_comment_bold(loc) {
 }
 
 function create_changeset_modal() {
-  //       show_ajax_loader(this);
+  show_ajax_loader("#create-changeset-dialog");
   $.post("/changeset/create", 
       $("#create-changeset-dialog").find("form").serialize(),
     function(data, textStatus, jqXHR) {
@@ -239,6 +241,7 @@ function create_changeset_modal() {
 }
 
 function create_changeset() {
+  hide_ajax_loader("#create-changeset-dialog");
   $("#create-changeset-dialog").modal('show');
   // $("#create-changeset-dialog").dialog({
   //   modal: true,
@@ -279,7 +282,7 @@ function create_changeset() {
 }
 
 function submit_changeset_modal() {
-  // show_ajax_loader(this);
+  show_ajax_loader("#submit-changeset-modal");
   var changeset_id = $("#submit-changeset-dialog a[data-action='submit']").
     data("changeset-id");
   $.post("/changeset/update/"+changeset_id, 
@@ -295,6 +298,7 @@ function submit_changeset_modal() {
     }, "json");
 }
 function submit_changeset(changeset_id) {
+  hide_ajax_loader("#submit-changeset-modal");
   $("#submit-changeset-dialog").modal('show');
   $("#submit-changeset-dialog a[data-action='submit']").
     data("changeset-id", changeset_id);
@@ -327,7 +331,7 @@ function submit_changeset(changeset_id) {
 }
 
 function remove_changeset_modal() {
-  //       show_ajax_loader(this);
+  show_ajax_loader("#remove-changeset-dialog");
   var changeset_id = $("#remove-changeset-dialog").data("changeset-id");
   var review_id = $("#remove-changeset-dialog").data("review-id");
   $.post("/changeset/destroy/"+changeset_id, 
@@ -344,6 +348,7 @@ function remove_changeset_modal() {
 }
 
 function remove_changeset(changeset_id, review_id) {
+  hide_ajax_loader("#remove-changeset-dialog");
   $("#remove-changeset-dialog").
     data("changeset-id", changeset_id).
     data("review-id", review_id);
@@ -380,6 +385,7 @@ function submit_changeset_status(user_id, changeset_id, statusText, statusType, 
   var dialogText = dialogText || statusText;
   $("#status-changeset-dialog .status").html(dialogText.toLowerCase());
   $("#status-changeset-dialog textarea").html(defaultComment);
+  hide_ajax_loader("#status-changeset-dialog");
   $("#status-changeset-dialog").modal('show');
   $("#status-changeset-dialog a[data-action='submit']").click(function (e) {
     e.preventDefault();
@@ -388,6 +394,7 @@ function submit_changeset_status(user_id, changeset_id, statusText, statusType, 
       return false;
     }
 
+    show_ajax_loader("#status-changeset-dialog");
     $.post("/changeset/status", { 
         changeset_user_status: {
           "changeset_id": changeset_id,
@@ -459,7 +466,7 @@ function submit_changeset_status(user_id, changeset_id, statusText, statusType, 
 }
 
 function delete_changeset_status_modal() {
-  // show_ajax_loader(this);
+  show_ajax_loader("#delete-status");
   var status_id = $("#delete-status").data("status-id");
   $.ajax({
     url: "/changeset/status/"+status_id,
@@ -471,6 +478,7 @@ function delete_changeset_status_modal() {
   });
 }
 function delete_changeset_status(status_id) {
+  hide_ajax_loader("#delete-status");
   var changeset_html = $("#changeset_status").html();
   $("#delete-status").find(".comment").html(changeset_html);
   $("#delete-status").data("status-id", status_id).modal('show');
@@ -500,11 +508,12 @@ function delete_changeset_status(status_id) {
 }
 
 function add_new_diff_modal() {
-  //       show_ajax_loader(this);
+  show_ajax_loader("#add-diff-dialog");
   $("#add-diff-dialog").find("form").submit();
 }
 
 function add_new_diff() {
+  hide_ajax_loader("#add-diff-dialog");
   $("#add-diff-dialog").modal('show');
   // $("#add-diff-dialog").dialog({
   //   modal: true,
@@ -526,7 +535,7 @@ function add_new_diff() {
 }
 
 function remove_diff_modal() {
-  //       show_ajax_loader(this);
+  show_ajax_loader("#remove-diff-dialog");
   var diff_id = $("#remove-diff-dialog").data("diff-id");
   $.post("/diffs/destroy/"+diff_id, 
     $("#remove-diff-dialog").find("form").serialize(),
@@ -542,6 +551,7 @@ function remove_diff_modal() {
 }
 
 function remove_diff(diff_id) {
+  hide_ajax_loader("#remove-diff-dialog");
   $("#remove-diff-dialog").data("diff-id", diff_id).modal('show');
   // $("#remove-diff-dialog").dialog({
   //   modal: true,

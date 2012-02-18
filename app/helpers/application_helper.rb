@@ -84,7 +84,10 @@ module ApplicationHelper
         <h3>#{responder.title}</h3>
       </div>
       <div class="modal-body">
-        <p>#{responder.body}</p>
+        <img src="/images/ajax-loader.gif" alt="loading" class="ajax-loader hidden" />
+        <div class="dialog-content">
+          <p>#{responder.body}</p>
+        </div>
       </div>
       <div class="modal-footer">
         #{responder.footer}

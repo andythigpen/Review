@@ -521,6 +521,15 @@ tr > th {
 .line-unified { width: 100%; }
 .line-split { width: 50%; }
 
+.ajax-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -16px;
+  margin-top: -16px;
+}
+
+
 /* .deleted-message { */
 /*   padding: 0.6em; */
 /*   text-align: center; */
@@ -772,13 +781,6 @@ tr > th {
 /* } */
 /*  */
 /*  */
-/* .ajax-loader { */
-/*   position: absolute; */
-/*   top: 50%; */
-/*   left: 50%; */
-/*   margin-left: -16px; */
-/*   margin-top: -16px; */
-/* } */
 /*  */
 /* .pagination { */
 /*   background: transparent; */

@@ -4,26 +4,27 @@
   <%= javascript_include_tag "groups.js" %>
 <% end %>
 
-<%= modal_dialog "remove-group-dialog" do %>
-  Remove this group?
+<%= modal_dialog "remove-group-dialog" do |format| %>
+  <% format.for_title { "Remove Group" } %>
+  <% format.for_body { "Remove this group?" } %>
 <% end %>
 
 <h1>My Groups 
-  <%= link_to new_group_path, :class => "ui-state-default ui-corner-all button" do %>
-      <span class="ui-icon ui-icon-circle-plus left"></span>New Group
+  <%= link_to new_group_path, :class => "btn pull-right" do %>
+      <i class="icon-plus"></i>New Group
   <% end %>
 </h1>
 
 <div class="ui-widget box">
   <div>
     <% if @groups.size == 0 %>
-      <div class="notice">
+      <div class="alert">
         <%= image_tag "info.png", :style => "vertical-align:middle; margin-right:0.3em" %>
         Groups are an easy way to add
         a list of users to a review.  Click "New Group" above to get started.
       </div>
     <% end %>
-    <table id="reviewer-table">
+    <table id="reviewer-table" style="width:100%;">
       <tr>
         <th>Name</th>
         <th>Members</th>

@@ -62,11 +62,14 @@ function setup_tooltips() {
 }
 
 function display_error(error) {
-  $("#error-dialog").html(error).dialog({
-    resizable: false,
-    modal: true,
-    buttons: { "OK": function() { $(this).dialog("close"); } }
-  });
+  $(".modal").modal('hide');
+  $("#error-dialog .dialog-content > p").html(error);
+  $("#error-dialog").modal('show');
+  // $("#error-dialog").html(error).dialog({
+  //   resizable: false,
+  //   modal: true,
+  //   buttons: { "OK": function() { $(this).dialog("close"); } }
+  // });
 }
 
 /* Modified from http://stackoverflow.com/questions/577548/how-can-i-disable-a-button-in-a-jquery-dialog-from-a-function */

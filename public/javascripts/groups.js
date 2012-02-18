@@ -44,3 +44,4 @@ function remove_group_modal() {
     }
   });
 }
+

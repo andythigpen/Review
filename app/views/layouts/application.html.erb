@@ -141,82 +141,16 @@
       </div>
     </div>
 
+    <%= modal_dialog "error-dialog" do |format| %>
+      <% format.for_title { "Error" } %>
+      <% format.for_body { "" } %>
+    <% end %>
+
     <div id="section" class="container-fluid">
       <% flash.each do |name, msg| %>
         <%= content_tag :div, msg, :id => "flash_#{name}", :class => "alert" %>
       <% end %>
       <%= yield %>
-
-      <%# <div class="alert">
-        <a href="#" class="close">&times;</a>
-        <strong>Welcome</strong> athigpen!
-      </div>
-
-      <div class="row-fluid">
-        <h2>My Dashboard <a href="#" class="btn pull-right"><i class="icon-plus"></i>New Review</a></h2>
-        <br />
-      </div>
-      <div id="dashboard" class="row-fluid rounded-border">
-        <div id="dashboard-left">
-          <ul class="nav nav-list">
-            <li class="nav-header">Inbox</li>
-            <li class=""><a href="#">Recent</a></li>
-            <li class="active"><a href="#">All</a></li>
-            <li class=""><a href="#">Due soon</a></li>
-            <li class=""><a href="#">Late</a></li>
-
-            <li class="nav-header">Outbox</li>
-            <li class=""><a href="#">Recent</a></li>
-            <li class=""><a href="#">All</a></li>
-            <li class=""><a href="#">Drafts</a></li>
-            <li class=""><a href="#">Accepted</a></li>
-            <li class=""><a href="#">Rejected</a></li>
-          </ul>
-        </div>
-        <div id="dashboard-right" class="clearfix">
-          <table class="table table-striped">
-            <tr class="table-header">
-              <th>Date</th><th>Name</th><th>Due Date</th><th>Status</th><th>Status</th>
-            </tr>
-            <tr>
-              <td>2012-01-21</td><td>Bug 1234</td><td>2011-11-29</td><td><span class="label label-success">Accepted</span></td><td><span class="label label-important">Due 65 days ago</span></td>
-            </tr>
-            <tr>
-              <td>2012-01-20</td><td>Bug 4321</td><td>2011-11-29</td><td><span class="label label-success">Accepted</span></td><td><span class="label">Due Tomorrow</span></td>
-            </tr>
-
-          </table>
-        </div>
-      </div>
-
-      <br />
-      <div class="row-fluid">
-        <h2>Recent Activity</h2>
-        <br />
-      </div>
-      <div class="tabbable tabs-left">
-        <ul class="nav nav-tabs" style="">
-          <li class="active"><a href="#">Reviews</a></li>
-          <li><a href="#">Changesets</a></li>
-          <li><a href="#">Comments</a></li>
-        </ul>
-        <div class="span10 tab-content">
-          <ul>
-            <li>This is an event.</li>
-            <li>This is an event.</li>
-            <li>This is an event.</li>
-            <li>This is an event.</li>
-            <li>This is an event.</li>
-            <li>This is an event.</li>
-            <li>This is an event.</li>
-            <li>This is an event.</li>
-            <li>This is an event.</li>
-            <li>This is an event.</li>
-          </ul>
-        </div>
-      </div>
-
-      </div> %>
     </div>
   </div>
 
@@ -280,7 +214,10 @@
     </ul>
   </nav>
 
-  <%= modal_dialog "error-dialog" %>
+  <%= modal_dialog "error-dialog" do |format| %>
+    <% format.for_title { "Error" } %>
+    <% format.for_body { "" } %>
+  <% end %>
 
   <section>
     <% flash.each do |name, msg| %>

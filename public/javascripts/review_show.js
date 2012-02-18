@@ -135,7 +135,6 @@ function add_comment_form(loc, commentable_id, commentable_type, leftline, right
     $(this).find("input[name='comment[leftline]']").val(leftline);
     $(this).find("input[name='comment[rightline]']").val(rightline);
   });
-  setup_buttons();
 }
 
 function close_comment_form(loc) {
@@ -162,7 +161,6 @@ function preview_comment(loc) {
     return result;
   });
   $(loc).parents('.comment-box').next('.comment-preview').fadeIn();
-  setup_buttons();
 }
 
 function close_preview_comment(loc) {

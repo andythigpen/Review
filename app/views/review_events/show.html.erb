@@ -112,12 +112,10 @@
   <% format.for_title { "Submit Status" } %>
   <% format.for_body do %>
     Are you sure you wish to <span class="status"></span> this changeset?
-    <br /><br />
     <div class="alert alert-error hidden">A comment is required.</div>
-    <br />
     Comment (required):
     <%= form_for :comment do |f| %>
-      <%= f.text_area :content, :rows => 3, :class => "span3" %>
+      <%= f.text_area :content, :rows => 3, :style => "width:98%;" %>
     <% end %>
   <% end %>
   <% format.for_footer do %>
@@ -374,7 +372,10 @@
     </ul>
   </div>
 
-  <hr />
+  <% if @changeset.statuses.size > 0 %>
+    <hr />
+  <% end %>
+
   <a name="files"></a>
   <div class="row-fluid">
     <div class="span12">

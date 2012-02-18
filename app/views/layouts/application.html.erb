@@ -224,14 +224,18 @@
   <div id="footer" class="container-fluid">
     <div class="row-fluid text-center">
       <ul class="unstyled">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Changelog</a></li>
+        <li><%= link_to "Home", root_path %></li>
+        <li><%= link_to "Changelog", static_path(:action => "changelog") %></li>
       </ul>
       <ul class="unstyled">
-        <li><a href="#">Help</a></li>
-        <li><a href="#">Report Bug</a></li>
+        <li><%= link_to "My Profile", profile_path %></li>
+        <li><%= link_to "My Account", edit_user_registration_path %></li>
+      </ul>
+      <ul class="unstyled">
+        <li><%= link_to "Help", static_path(:action => "help") %></li>
+        <li><%= link_to "Report Bug", "http://github.com/andythigpen/Review/issues", :target => "_blank" %></li>
         <% if user_signed_in? %>
-          <li><a href="#">Logout</a></li>
+          <li><%= link_to "Logout", destroy_user_session_path %></li>
         <% end %>
       </ul>
     </div>

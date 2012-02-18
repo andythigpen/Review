@@ -4,9 +4,11 @@
 <%= form_for(@review_event) do |f| %>
   <input type="hidden" id="review_event_id" value="<%= @review_event.id %>" />
   <% if @review_event.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@review_event.errors.count, "error") %> 
-      prohibited this review_event from being saved:</h2>
+    <div id="error_explanation" class="alert alert-error">
+      <h4 class="alert-heading">
+        <%= pluralize(@review_event.errors.count, "error") %> 
+        prohibited this review_event from being saved:
+      </h4>
 
       <ul>
       <% @review_event.errors.full_messages.each do |msg| %>
@@ -20,27 +22,25 @@
 
   <div class="field">
     <%= f.label "Review Name" %>
-    <%= f.text_field :name, :style => "width:20em;", 
-        :class => "text ui-corner-all ui-widget-content" %>
+    <%= f.text_field :name  %>
   </div>
 
   <div class="field">
-    <%= f.label "Due Date (optional)" %>
-    <%= f.text_field :duedate, :style => "width:20em;",
-      :class => "text ui-corner-all ui-widget-content datepicker",
+    <%= f.label "Due Date" %>
+    <%= f.text_field :duedate, :class => "datepicker",
       :value => (@review_event.duedate.nil? ? "" : @review_event.duedate.to_s(:review)) %>
+    <span class="help-inline">(optional)</span>
   </div>
 
   <div class="field">
-    <%= f.label "Bug Number (optional)" %>
-    <%= f.text_field :buglink, :style => "width:20em;", 
-        :class => "text ui-corner-all ui-widget-content" %>
+    <%= f.label "Bug Number" %>
+    <%= f.text_field :buglink %>
+    <span class="help-inline">(optional)</span>
   </div>
 
   <div class="field">
     <%= f.label "Notes (optional)" %>
-    <%= f.text_area :notes, :rows => 5, 
-        :class => "text ui-corner-all ui-widget-content" %>
+    <%= f.text_area :notes, :rows => 5, :style => "width:100%" %>
   </div>
 
   <div class="field">
@@ -52,7 +52,6 @@
   </div>
 
   <div class="actions field">
-    <%= f.submit :value => submit_value, 
-        :class => "ui-corner-all ui-state-default button" %>
+    <%= f.submit :value => submit_value, :class => "btn" %>
   </div>
 <% end %>

@@ -81,7 +81,12 @@ function remove_reviewer(reviewer) {
 }
 
 function select_reviewers(checked) {
-  $("#reviewer-table input[type=checkbox]").attr('checked', checked).change();
+  if (checked) {
+    $("#reviewer-table input[type=checkbox]").attr('checked', checked).change();
+  }
+  else {
+    $("#reviewer-table input[type=checkbox]").removeAttr('checked').change();
+  }
 }
 
 function remove_selected_reviewers() {

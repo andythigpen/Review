@@ -9,6 +9,13 @@ a { cursor: pointer; }
 .navbar .brand { padding:8px 20px 12px 0; font-weight: 800; }
 .progress { margin-bottom: 0; }
 
+.form-box {
+  padding: 20px 35px;
+  background: #fff;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+
 #wrap { min-height: 100%; background: #fbfbfb; }
 #nav { 
   background: #222 url('/images/header_back.png'); 

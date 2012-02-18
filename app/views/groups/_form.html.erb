@@ -4,7 +4,10 @@
 <%= form_for(@group) do |f| %>
   <% if @group.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@group.errors.count, "error") %> prohibited this group from being saved:</h2>
+      <h4 class="alert-heading">
+        <%= pluralize(@group.errors.count, "error") %> 
+        prohibited this group from being saved:
+      </h4>
 
       <ul>
       <% @group.errors.full_messages.each do |msg| %>
@@ -16,8 +19,7 @@
 
   <div class="field">
     <%= f.label "Name" %>
-    <%= f.text_field :name, :style => "width:20em;", 
-        :class => "text ui-corner-all ui-widget-content" %>
+    <%= f.text_field :name %>
   </div>
 
   <div class="field">
@@ -26,6 +28,6 @@
   </div>
 
   <div class="actions field">
-    <%= f.submit :class => "ui-corner-all ui-state-default button" %>
+    <%= f.submit :class => "btn" %>
   </div>
 <% end %>

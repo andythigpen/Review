@@ -42,6 +42,9 @@ a { cursor: pointer; }
 #section { padding-bottom:120px; }
 
 .table-striped tbody tr:nth-child(odd) th { background:#eee; }
+tr > th {
+  text-align: left;
+}
 
 .clearfix::after {
   content: ".";

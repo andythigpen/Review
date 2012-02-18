@@ -64,13 +64,13 @@ $(document).ready(function() {
 
 function submit_comment(loc) {
   var comment = $(loc).parents(".comment-box").find("form").serialize();
-  $(loc).unbind().removeAttr('onclick').addClass("btn-disabled");
+  $(loc).unbind().removeAttr('onclick').addClass("disabled");
   $(loc).bind('click', function() { return false; });
   $(loc).siblings(".button").each(function() {
     if ($(this).text().toLowerCase() == "close") {
       return 0;
     }
-    $(this).unbind().removeAttr('onclick').addClass("btn-disabled");
+    $(this).unbind().removeAttr('onclick').addClass("disabled");
     $(this).bind('click', function() { return false; });
   });
   $.post("/comments/create", comment,

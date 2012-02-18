@@ -19,8 +19,6 @@
     <div class="comment comment-text"></div>
   <% end %>
   <% format.for_footer do %>
-    <!--<a href="#" data-action="submit" class="btn btn-primary">Delete</a>
-    <a href="#" data-dismiss="modal" class="btn">Cancel</a>-->
     <%= link_to "Delete", "#", 
       :onclick => "delete_comment_modal(); return false;", 
       :"data-action" => "submit", 
@@ -164,7 +162,6 @@
     <% end %>
   <% end %>
 <% end %>
-
 
 <% if not @changeset.nil? and 
       current_user == @review_event.owner %>

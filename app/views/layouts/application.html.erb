@@ -8,43 +8,14 @@
       - <%= yield :title %>
     <% end %>
   </title>
-  <%#= stylesheet_link_tag "reset.css" %>
 
-  <%#= stylesheet_link_tag "absolution/jquery.ui.base.css", 
-    "absolution/jquery.ui.core.css",
-    "absolution/jquery.ui.resizable.css",
-    "absolution/jquery.ui.selectable.css",
-    "absolution/jquery.ui.accordion.css",
-    "absolution/jquery.ui.autocomplete.css",
-    "absolution/jquery.ui.button.css",
-    "absolution/jquery.ui.dialog.css",
-    "absolution/jquery.ui.slider.css",
-    "absolution/jquery.ui.tabs.css",
-    "absolution/jquery.ui.datepicker.css",
-    "absolution/jquery.ui.progressbar.css",
-    "absolution/jquery.ui.uniform.css",
-    "absolution/jquery.ui.wijmo.css",
-    "absolution/jquery.ui.html.css", 
-    :cache => "absolution/all" %>
-  <%#= stylesheet_link_tag "absolution/colors/jquery.ui.colors.blue.css" %>
   <%= stylesheet_link_tag "bootstrap.min.css",
     "bootstrap-responsive.min.css",
     "bootstrap-datepicker.css" %>
   <%= stylesheet_link_tag "chosen.css", 
-    "main.css",
-    "tipTip.css", :cache => "cache/all" %>
+    "main.css", :cache => "cache/all" %>
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
   <%= csrf_meta_tag %>
-  <%#= javascript_include_tag "jquery-1.4.4.min.js", 
-    "jquery-ui-1.8.9.custom.min.js", 
-    "jquery.ui.autocomplete.selectFirst.js", 
-    "jquery.scrollTo-min.js", 
-    "rails.js", 
-    "application.js", 
-    "html5.js", 
-    "chosen.jquery.js", 
-    "jquery.tipTip.js", 
-    "jquery.history.js", :cache => "cache/all" %>
   <%= javascript_include_tag "jquery-1.7.1.min.js",
     "rails.js", 
     "application.js", 
@@ -77,7 +48,8 @@
             <% if user_signed_in? %>
               <ul class="nav">
                 <li class="dropdown">
-                  <%= link_to root_path + "#inbox", :"data-toggle" => "dropdown", 
+                  <%= link_to root_path + "#inbox", 
+                    :"data-toggle" => "dropdown", 
                     :class => "dropdown-toggle" do %>
                     Inbox <b class="caret"></b>
                   <% end %>
@@ -95,6 +67,8 @@
                     Outbox <b class="caret"></b>
                   <% end %>
                   <ul class="dropdown-menu">
+                    <li><%= link_to "New Review", new_review_event_path %></li>
+                    <li class="divider"></li>
                     <li><%= link_to "Recent", root_path + "#outbox" %></li>
                     <li><%= link_to "All", root_path + "#all_outbox" %></li>
                     <li><%= link_to "Drafts", root_path + "#drafts" %></li>
@@ -154,7 +128,6 @@
     </div>
   </div>
 
-
   <div id="footer" class="container-fluid">
     <div class="row-fluid text-center">
       <ul class="unstyled">
@@ -179,77 +152,5 @@
       Copyright &copy; 2012 Andrew Thigpen
     </div>
   </div>
-
-<% if false %>
-<div id="wrap">
-  <header>
-    <div>
-      <%= link_to root_path do %>
-        <img src="/images/logo.png" alt="review" />
-      <% end %>
-      <div id="user-links">
-        <% if user_signed_in? %>
-          Welcome <%= "#{current_user.full_name}" %> - <%= link_to "My Account", profile_path %> |
-          <%= link_to "Report Bug", "http://github.com/andythigpen/Review/issues", :target => "_blank" %> | 
-          <%= link_to "Help", static_path(:action => "help") %> |
-          <%= link_to "Logout", destroy_user_session_path %>
-        <% else %>
-          <%= link_to "Register", new_user_registration_path %> |
-          <%= link_to "Login", new_user_session_path %>
-        <% end %>
-      </div>
-    </div>
-  </header>
-
-  <nav id="main-nav">
-    <ul>
-      <% active_page = yield :active_page %>
-      <li><%= link_to "Inbox", root_path + "#inbox", :"data-filter" => "inbox" %></li>
-      <li><%= link_to "Outbox", root_path + "#outbox", :"data-filter" => "outbox" %></li>
-      <% cls = "active" if active_page == "my_groups" %>
-      <li><%= link_to "My Groups", groups_path, :class => cls %></li>
-      <% if content_for? :page_name %>
-        <li class="active"><%= yield :page_name %></li>
-      <% end %>
-    </ul>
-  </nav>
-
-  <%= modal_dialog "error-dialog" do |format| %>
-    <% format.for_title { "Error" } %>
-    <% format.for_body { "" } %>
-  <% end %>
-
-  <section>
-    <% flash.each do |name, msg| %>
-      <%= content_tag :div, msg, :id => "flash_#{name}", :class => "alert" %>
-    <% end %>
-    <%= yield %>
-  </section>
-</div>
-
-<footer>
-  <% if user_signed_in? %>
-    <div class="text-center" style="margin-top:1.5em;">
-      <ul>
-        <li><%= link_to "Home", root_path %></li>
-        <li><%= link_to "Changelog", static_path(:action => "changelog") %></li>
-      </ul>
-      <ul>
-        <li><%= link_to "My Profile", profile_path %></li>
-        <li><%= link_to "My Account", edit_user_registration_path %></li>
-      </ul>
-      <ul>
-        <li><%= link_to "Help", static_path(:action => "help") %></li>
-        <li><%= link_to "Report Bug", "http://github.com/andythigpen/Review/issues", :target => "_blank" %></li>
-        <li><%= link_to "Logout", destroy_user_session_path %></li>
-      </ul>
-    </div>
-  <% end %>
-  <div class="text-center" style="font-size:0.7em;<% if not user_signed_in? %>margin-top:1.5em;<% end %>">
-    Copyright &copy; 2011 Andrew Thigpen
-  </div>
-</footer>
-<% end %>
-
 </body>
 </html>

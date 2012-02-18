@@ -3,8 +3,6 @@ class Profile < ActiveRecord::Base
   belongs_to :user
   has_attached_file :avatar, :styles => { :medium => "128x128>", 
                                           :thumb => "24x24>" }
-  #attr_accessible :avatar, :first_name, :last_name, :display_type, 
-                  #:delete_avatar, :user
 
   def valid_name?
     return false if self.first_name.nil? and self.last_name.nil?

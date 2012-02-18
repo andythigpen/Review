@@ -50,61 +50,12 @@ function remove_review_event_modal() {
       if (msg.status == "ok") {
         location.reload();
       }
-      // $('#remove-review-dialog').modal('hide');
-      // if (msg.status == "ok") {
-      //   var prevBg = $(loc).parents(".review-event").css('backgroundColor');
-      //   $(loc).parents(".review-event").animate({
-      //     'opacity': 0,
-      //   }, function() {
-      //     var msg = "Review removed.";
-      //     $(this).html('<td colspan="5"><span class="ui-icon ui-icon-close inline-icon" style="margin-right:0.3em"></span>'+msg+'</td>');
-      //     $(this).animate({
-      //         'opacity': 1.0,
-      //         'color': '#777',
-      //     });
-      //   });
-      // }
     }
   });
 }
+
 function remove_review_event(loc, event_id) {
   hide_ajax_loader("#remove-review-dialog");
   $("#remove-review-dialog").data("event-id", event_id).
     data("loc", loc).modal('show');
-  // $("#remove-review-dialog").dialog({
-  //   modal: true,
-  //   title: "Remove Review Event",
-  //   buttons: {
-  //     "Remove": function() {
-  //       show_ajax_loader(this);
-  //       $.ajax({
-  //         url: "/review_events/"+event_id,
-  //         type: "DELETE",
-  //         dataType: "json",
-  //         success: function(msg) {
-  //           $('#remove-review-dialog').dialog('close');
-  //           if (msg.status == "ok") {
-  //             var prevBg = $(loc).parents(".review-event").css('backgroundColor');
-  //             $(loc).parents(".review-event").animate({
-  //               'opacity': 0,
-  //             }, function() {
-  //               var msg = "Review removed.";
-  //               $(this).html('<td colspan="5"><span class="ui-icon ui-icon-close inline-icon" style="margin-right:0.3em"></span>'+msg+'</td>');
-  //               $(this).animate({
-  //                   'opacity': 1.0,
-  //                   'color': '#777',
-  //               });
-  //             });
-  //           }
-  //         }
-  //       });
-  //     },
-  //     "Cancel": function() {
-  //       $(this).dialog('close');
-  //     }
-  //   },
-  //   open: function() {
-  //     hide_ajax_loader(this);
-  //   }
-  // });
 }

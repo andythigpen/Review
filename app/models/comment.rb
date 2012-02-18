@@ -5,14 +5,12 @@ class Comment < ActiveRecord::Base
 
   def get_review_event
     c = self.commentable
-    # right now only commentables are Diff and Comment
     c = c.commentable until c.class != Comment
     c.changeset.review_event
   end
 
   def get_changeset
     c = self.commentable
-    # right now only commentables are Diff and Comment
     c = c.commentable until c.class != Comment
     c.changeset
   end
@@ -25,7 +23,6 @@ class Comment < ActiveRecord::Base
   end
 
   def html_format
-    #result = self.content.gsub(/\{\{\{/, "<div class=\"comment-code\">")
     result = self.content.gsub(/\{\{\{/, "<pre>")
     result.gsub!(/\}\}\}/, "</pre>")
     result.gsub!(/'''(.*?)'''/, "<strong>\\1</strong>")

@@ -45,10 +45,7 @@
 
   <div class="field">
     <%= f.label "Reviewers" %>
-    <!--<%= add_reviewer_select "Add Reviewer", f %>-->
     <%= render :partial => "reviewers", :locals => { :f => f } %>
-    <!--<div id="new_reviewers"></div>
-    <script type="text/javascript">add_reviewer();</script>-->
   </div>
 
   <div class="actions field">

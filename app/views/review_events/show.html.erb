@@ -31,7 +31,7 @@
   <% format.for_title { "Remove Review Status" } %>  
   <% format.for_body do %> 
     Are you sure you want to remove your review status?
-    <div class="comment comment-text"></div>
+    <div class="comment comment-text" style="white-space:normal;"></div>
   <% end %>
   <% format.for_footer do %>
     <%= link_to "Remove", "#", 
@@ -168,23 +168,23 @@
       current_user == @review_event.owner %>
   <div class="row-fluid">
     <div class="span12">
-      <% if @changeset.accepted? 
-           status = "alert alert-success"
-         elsif @changeset.rejected?
+      <% if @changeset.rejected?
            status = "alert alert-error"
+         elsif @changeset.accepted? 
+           status = "alert alert-success"
          else
            status = "alert alert-info"
          end %>
        <div class="<%= status %>"> 
         <% if @changeset.submitted %>
-          <% if @changeset.accepted? %>
-            <%= image_tag "accept.png", 
-                :style => "vertical-align:middle; margin-right:0.3em" %>
-            Ship it!
-          <% elsif @changeset.rejected? %>
+          <% if @changeset.rejected? %>
             <%= image_tag "reject.png", 
                 :style => "vertical-align:middle; margin-right:0.3em" %>
             Don't ship it!  It's not ready yet.
+          <% elsif @changeset.accepted? %>
+            <%= image_tag "accept.png", 
+                :style => "vertical-align:middle; margin-right:0.3em" %>
+            Ship it!
           <% else %>
             This revision has been submitted and is awaiting review.
           <% end %>
@@ -264,13 +264,20 @@
         </div>
       <% end %>
 
-      <% accepted = rejected = abstained = [] %>
-      <% accepted = @changeset.users_accepted if @changeset %>
-      <% rejected = @changeset.users_rejected if @changeset %>
-      <% abstained = @changeset.users_abstained if @changeset %>
+      <%# accepted = rejected = abstained = [] %>
+      <%# accepted = @changeset.users_accepted if @changeset %>
+      <%# rejected = @changeset.users_rejected if @changeset %>
+      <%# abstained = @changeset.users_abstained if @changeset %>
       <div>
-        <strong>Reviewers:</strong>&nbsp;&nbsp;
-        <%= @review_event.reviewers.map do |u| 
+        <strong>Required Reviewers:</strong>&nbsp;&nbsp;
+        <%= @review_event.required_reviewers.map do |u| 
+              user_profile_popup(u, :short_format => true)
+            end.join(",").html_safe %>
+      </div>
+
+      <div>
+        <strong>Optional Reviewers:</strong>&nbsp;&nbsp;
+        <%= @review_event.optional_reviewers.map do |u| 
               user_profile_popup(u, :short_format => true)
             end.join(",").html_safe %>
       </div>
@@ -406,7 +413,7 @@
           <% end %>
 
           <%# TODO add tooltip here %>
-          <span class="pull-right" title="<%= d.additions.count %> additions <%= d.deletions.count %> deletions" style="white-space:pre; font-size:0.9em; font-family: Menlo, Monaco, 'Courier New', monospace;"><%= d.additions.count.to_s.rjust(4) %> <span class="label">+</span> <%= d.deletions.count.to_s.rjust(4) %> <span class="label">-</span></span>
+          <span class="pull-right" title="<%= d.additions.count %> additions <%= d.deletions.count %> deletions" style="white-space:pre; font-size:0.9em; font-family: Menlo, Monaco, 'Courier New', monospace;"><%= d.additions.count.to_s.rjust(4) %> <span class="label">+</span> <%= d.deletions.count.to_s.rjust(4) %> <span class="label">-</span>  </span>
         </li>
       <% end %>
     </ul>

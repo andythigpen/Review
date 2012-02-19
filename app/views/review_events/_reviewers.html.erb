@@ -13,6 +13,7 @@
   <table id="reviewer-table" style="width:100%; margin-bottom:20px;">
     <tr>
       <th></th><th>User</th><th>Member of</th>
+      <% if @user_type == :review_event_users %><th>Optional?</th><% end %>
       <th>
         <div class="pull-right">
           Select:

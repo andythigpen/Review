@@ -3,6 +3,10 @@ class ReviewEvent < ActiveRecord::Base
              :validate => true
   has_many :review_event_users
   has_many :reviewers, :through => :review_event_users, :source => :user
+  has_many :required_reviewers, :through => :review_event_users, 
+    :source => :user, :conditions => ["optional = ?", false]
+  has_many :optional_reviewers, :through => :review_event_users, 
+    :source => :user, :conditions => ["optional = ?", true]
   accepts_nested_attributes_for :review_event_users, :allow_destroy => true,
         :reject_if => proc { |attributes| !attributes['_destroy'] and attributes['user_id'].blank? }
   has_many :changesets, :dependent => :destroy

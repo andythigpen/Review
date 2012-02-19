@@ -1,9 +1,10 @@
+<% ts = (Time.now.to_i * 1000000) + Time.now.usec %>
+
 <tr id="reviewer_<%= r.user.id %>">
   <td style="width:32px;">
     <%= check_box_tag "checkuser_#{r.id}" %>
     <% if defined?(adding) and adding %>
       <%= fields_for @parent do |builder| %>
-        <% ts = (Time.now.to_i * 1000000) + Time.now.usec %>
         <%= builder.fields_for(@user_type, r, :child_index => ts) do |f2| %>
           <%= f2.hidden_field :_destroy %> 
           <%= f2.hidden_field "#{@parent.class.name.underscore}_id", 
@@ -12,23 +13,41 @@
         <% end %>
       <% end %>
     <% else %>
-        <%= f.fields_for @user_type, r do |f2| %>
-          <%= f2.hidden_field :_destroy %> 
-          <%= f2.hidden_field "#{@parent.class.name.underscore}_id", 
-            :value => @parent.id %>
-          <%= f2.hidden_field :user_id %>
-        <% end %>
+      <%= f.fields_for @user_type, r do |f2| %>
+        <%= f2.hidden_field :_destroy %> 
+        <%= f2.hidden_field "#{@parent.class.name.underscore}_id", 
+          :value => @parent.id %>
+        <%= f2.hidden_field :user_id %>
+        <%#= f2.check_box :optional %>
+      <% end %>
     <% end %>
 
   </td>
   <td>
     <%= user_profile_popup(r.user) %>
   </td>
-  <td colspan="2">
+  <td>
     <% groups = r.user.groups_for(current_user) %>
     <%= groups.map do |g| %>
       <% g.name %>
     <% end.join(", ") %>
   </td>
+  <% if @user_type == :review_event_users %>
+    <td>
+      <% if defined?(adding) and adding %>
+        <%= fields_for @parent do |builder| %>
+          <%= builder.fields_for(@user_type, r, :child_index => ts) do |f2| %>
+            <%= f2.check_box :optional %>
+          <% end %>
+        <% end %>
+      <% else %>
+        <%= f.fields_for @user_type, r do |f2| %>
+          <%= f2.check_box :optional %>
+        <% end %>
+      <% end %>
+      <%#= check_box_tag "optional_#{r.id}" %>
+    </td>
+  <% end %>
+  <td></td>
 </tr>
 

@@ -36,4 +36,12 @@ class Diff < ActiveRecord::Base
   def overall_comments
     self.comments.where("leftline IS NULL AND rightline IS NULL")
   end
+
+  def additions
+    self.contents.lines.reject {|line| line =~ /^[^+]/ }
+  end
+
+  def deletions
+    self.contents.lines.reject {|line| line =~ /^[^-]/ }
+  end
 end

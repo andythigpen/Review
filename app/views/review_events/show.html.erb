@@ -392,9 +392,9 @@
       </h4>
     </div>
 
-    <ul class="unstyled">
+    <ul class="unstyled" style="clear:both;">
       <% @changeset.diffs.each do |d| %>
-        <li>
+        <li class="file">
           <i class="icon-file"></i>
           <a href="#file_<%= d.id %>"><%= d.origin_file %></a>
           <% if not @changeset.submitted %>
@@ -403,6 +403,9 @@
               <i class="icon-remove"></i> Delete
             <% end %>
           <% end %>
+
+          <%# TODO add tooltip here %>
+          <span class="pull-right" title="<%= d.additions.count %> additions <%= d.deletions.count %> deletions" style="white-space:pre; font-size:0.9em; font-family: Menlo, Monaco, 'Courier New', monospace;"><%= d.additions.count.to_s.rjust(4) %> <span class="label">+</span> <%= d.deletions.count.to_s.rjust(4) %> <span class="label">-</span></span>
         </li>
       <% end %>
     </ul>

@@ -40,6 +40,30 @@ pre {
   white-space: pre-wrap;
   word-break: break-all;
 }
+.topbar .label {
+  padding: 0; /* fix for firefox */
+}
+.topbar .label-success:before,
+.topbar .label-important:before,
+.topbar .label-info:before {
+  content: "";
+  padding: 0;
+}
+
+.accepted-comment > .comment[data-comment-type="ChangesetUserStatus"] .label-success:before {
+  content: "Accepted";
+  padding: 1px 3px 2px;
+}
+.rejected-comment > .comment[data-comment-type="ChangesetUserStatus"] .label-important:before {
+  content: "Rejected";
+  padding: 1px 3px 2px;
+}
+.abstained-comment > .comment[data-comment-type="ChangesetUserStatus"] .label-info:before {
+  content: "Requested Removal";
+  padding: 1px 3px 2px;
+}
+
+
 .label {
   padding: 1px 3px 2px;
   font-size: 10.75px;

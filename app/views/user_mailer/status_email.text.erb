@@ -5,6 +5,8 @@ Review Status Change: <% if @status.accepted? %>ACCEPTED<% elsif @status.rejecte
 
 Review URL: <%= @url %><%= review_event_path(@changeset.review_event) %>
 
+Comment:
+<%= @status.comments.first.content %>
 
 Signed,
 The Review Swami

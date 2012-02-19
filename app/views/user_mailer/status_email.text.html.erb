@@ -27,6 +27,13 @@
   <% end %>
 </div>
 
+<div>
+  <strong>Comment:</strong>
+  <%= render :partial => "shared/comment", 
+    :locals => { :comment => @status.comments.first, 
+      :allow_delete => false, :allow_reply => false } %>
+</div>
+
 <hr />
 
 <div>

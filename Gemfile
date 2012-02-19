@@ -14,6 +14,9 @@ gem "paperclip"
 # Use unicorn as the web server
 gem 'unicorn'
 
+gem 'mailman'
+gem 'daemons'
+
 # Deploy with Capistrano
 # gem 'capistrano'
 
@@ -39,5 +42,6 @@ group :production do
 end
 
 group :development do
-  gem 'letter_opener'
+  # gem 'letter_opener'
+  gem 'mailcatcher'
 end

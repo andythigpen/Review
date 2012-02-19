@@ -1,0 +1,89 @@
+#!/usr/bin/env ruby
+
+require "rubygems"
+require "bundler/setup"
+require 'mailman'
+
+ENV['RAILS_ENV'] ||= "development"
+# load the rails env
+require File.dirname(__FILE__) + "/../config/environment"
+
+Mailman.config.rails_root = '..'
+Mailman.config.ignore_stdin = true
+#Mailman.config.logger = Logger.new('logs/mailman.log')
+Mailman.config.logger = Logger.new File.expand_path("../../log/mailman_#{ENV['RAILS_ENV']}.log", __FILE__)
+Mailman.config.maildir = File.expand_path("../../tmp/#{ENV['RAILS_ENV']}_maildir", __FILE__)
+
+
+# modified from http://stackoverflow.com/questions/824205/while-processing-an-email-reply-how-can-i-ignore-any-email-client-specifics-th
+def find_reply(email)
+  message_id = email.message_id('')
+  x_mailer = email['x-mailer']
+  from_address = APP_CONFIG['email_from']
+  from_name = ""
+
+  # For optimization, this list could be sorted from most popular to least popular email client/service
+  rules = [
+    [ 'Outlook', lambda { x_mailer =~ /Microsoft Office Outlook/ }, /^\s*_+\s*\nFrom: #{from_name}.*$/ ],
+    [ 'Gmail', lambda { message_id =~ /.+gmail\.com>\z/}, /^.*#{from_name}\s+<#{from_address}>\s*wrote:.*$/ ],
+    [ 'Yahoo! Mail', lambda { message_id =~ /.+yahoo\.com>\z/}, /^_+\nFrom: #{from_name} <#{from_address}>$/ ],
+    [ 'Microsoft Live Mail/Hotmail', lambda { email['return-path'] =~ /<.+@(hotmail|live).com>/}, /^Date:.+\nSubject:.+\nFrom: #{from_address}$/ ],
+    [ 'Outlook Express', lambda { x_mailer =~ /Microsoft Outlook Express/ }, /^----- Original Message -----$/ ],
+
+    # TODO: other email clients/services
+
+    # Generic fallback
+    [ nil, lambda { true }, /^.*#{from_address}.*$/ ]
+  ]
+
+  # Default to using the whole body as the reply (maybe the user deleted the original message when they replied?)
+  # notes = email.body
+
+  notes = message.multipart? ? (message.text_part ? message.text_part.body.decoded : nil) : message.body.decoded
+  source = nil
+
+  # Try to detect which email service/client sent this message
+  rules.find do |r|
+    if r[1].call
+      # Try to extract the reply.  If we find it, save it and cancel the search.
+      # reply_match = email.body.match(r[2])
+      reply_match = notes.match(r[2])
+      if reply_match
+        # notes = email.body.to_s[0, reply_match.begin(0)]
+        notes = notes[0, reply_match.begin(0)]
+        source = r[0]
+        next true
+      end
+    end
+  end
+
+  [notes.strip, source]
+end
+
+Mailman::Application.run do
+  subject /\[Comment:(\d+)\]/ do |comment_id|
+    user = User.find_by_email(message.from.first)
+    if user.nil?
+      puts "Unknown user email: #{message.from.first}"
+      break
+    end
+    
+    reply = find_reply(message)
+
+    comment = Comment.new(:user_id => user.id, 
+                          :commentable_id => comment_id, 
+                          :commentable_type => "Comment", 
+                          :content => reply[0])
+    comment.save
+
+    commentee = comment.commentable.user
+    if commentee != user
+      UserMailer.comment_email(comment, user, commentee).deliver
+    end
+  end
+
+  default do
+    puts "Received unknown message."
+  end
+end
+

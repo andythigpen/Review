@@ -1,5 +1,6 @@
 class UserMailer < ActionMailer::Base
   default :from => APP_CONFIG['email_from']
+  helper :application
 
   def welcome_email(user)
     @user = user

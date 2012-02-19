@@ -1,0 +1,39 @@
+<div>
+  <strong>Review Request</strong>
+</div>
+
+<div>
+  You've been asked to review <%= @reviewee.full_name %>'s code.
+</div>
+
+<hr />
+
+<div>
+  <%= link_to("View on site", changeset_path(@changeset)) %>
+  <% if not @review_event.duedate.nil? %>
+    <div>
+      <strong>Due Date:</strong> <%= @review_event.duedate.to_date %>
+    </div>
+  <% end %>
+  <div>
+    <strong>Review Name:</strong> 
+    <%= link_to "#{@review_event.name}", review_event_url(@review_event) %>
+  </div>
+  <div>
+    <strong>Changeset:</strong> 
+    <%= link_to "#{@changeset.name}", changeset_url(@changeset) %>
+  </div>
+  <% if not @review_event.notes.blank? %>
+    <div>
+      <strong>Notes:</strong> 
+      <pre><%= @review_event.notes %></pre>
+    </div>
+  <% end %>
+</div>
+
+<hr />
+
+<div>
+  Signed, <br />
+  The Review Swami
+</div>

@@ -17,8 +17,12 @@ Review::Application.configure do
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false
   # Use letter opener instead of actually sending the emails
-  config.action_mailer.delivery_method = :letter_opener
+  # config.action_mailer.delivery_method = :letter_opener
 
+  # run 'mailcatcher' and open a browser to localhost:1080 to view 
+  # emails when they are delivered
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = { :address => "localhost", :port => 1025 }
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
 
@@ -26,6 +30,7 @@ Review::Application.configure do
   config.action_dispatch.best_standards_support = :builtin
 
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  config.action_mailer.asset_host = "http://localhost:3000"
 
   Paperclip.options[:command_path] = "/usr/bin/"
 end

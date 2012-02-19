@@ -6,6 +6,7 @@ task :reminder_mail => :environment do
                               :conditions => ["DATE(duedate) <= ?", 
                                   1.day.from_now])
     events.each do |e|
+        next if e.changesets.last.nil?
         next if e.changesets.last.accepted?
         next if e.changesets.last.rejected?
         e.reviewers.each do |r|

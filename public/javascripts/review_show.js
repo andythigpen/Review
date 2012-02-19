@@ -217,7 +217,7 @@ function create_changeset() {
 }
 
 function submit_changeset_modal() {
-  show_ajax_loader("#submit-changeset-modal");
+  show_ajax_loader("#submit-changeset-dialog");
   var changeset_id = $("#submit-changeset-dialog a[data-action='submit']").
     data("changeset-id");
   $.post("/changeset/update/"+changeset_id, 

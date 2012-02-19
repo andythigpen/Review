@@ -1,0 +1,36 @@
+<div>
+  <strong>Review Status Change:</strong> 
+  <% if @status.accepted? %>
+    <span class="label label-success">ACCEPTED</span>
+  <% elsif @status.rejected? %>
+    <span class="label label-important">REJECTED</span>
+  <% else %>
+    <span class="label label-info">ABSTAINED</span>
+  <% end %>
+</div>
+
+<hr />
+
+<div>
+  <% if @status.accepted? or @status.rejected? %>
+    The user <%= @reviewer.full_name %> (<%= @reviewer.email %>) has 
+    <% if @status.accepted? %>accepted<% else %>rejected<% end %> your 
+    <%= link_to "#{@changeset.name}", changeset_url(@changeset) %> 
+    changeset for the review 
+    <%= link_to "#{@changeset.review_event.name}", 
+      review_event_url(@changeset.review_event) %>.
+  <% else %>
+    The user <%= @reviewer.full_name %> (<%= @reviewer.email %>) has 
+    requested to be removed from your review 
+    <%= link_to "#{@changeset.review_event.name}", 
+      review_event_url(@changeset.review_event) %>.
+  <% end %>
+</div>
+
+<hr />
+
+<div>
+  Signed, <br />
+  The Review Swami
+</div>
+

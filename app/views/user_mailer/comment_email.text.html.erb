@@ -1,0 +1,26 @@
+<div>
+  <%= @commenter.full_name %> (<%= @commenter.email %>) has 
+  <% if @comment.commentable.class == Comment %>
+    replied to
+  <% else %>
+    commented on
+  <% end %> 
+  your <%= @comment.commentable.class.to_s.downcase %>.
+</div>
+
+<hr />
+
+<div>
+  <%= link_to "View on Site", comment_url(@comment) %>
+</div>
+
+<%= render :partial => "shared/comment", 
+  :locals => { :comment => @comment, :allow_delete => false, 
+    :allow_reply => false } %>
+
+<hr />
+
+<div>
+  Signed, <br />
+  The Review Swami
+</div>

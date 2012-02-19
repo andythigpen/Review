@@ -2,7 +2,7 @@ Review Request
 
 You've been asked to review <%= @reviewee.full_name %>'s code.
 
-<% if not @review_event.duedate.nil? %>Due Date: <%= @review_event.duedate %><% end %>
+<% if not @review_event.duedate.nil? %>Due Date: <%= @review_event.duedate.to_date %><% end %>
 Review Name: <%= @review_event.name %>
 Changeset: <%= @changeset.name %>
 URL: <%= @url %><%= changeset_path(@changeset) %>

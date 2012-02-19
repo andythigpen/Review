@@ -1,0 +1,29 @@
+<div>
+<strong>Review Reminder: </strong>
+</div>
+
+<% d = @review_event.duedate.to_date - DateTime.now.to_date %>
+<div>
+  The Review "<%= @review_event.name %>" 
+  <%= d < 0 ? "was" : "is" %> due 
+  <%= d == 0 ? "today" : d.abs.days.inspect %>
+  <% if d < 0 %>ago<% elsif d > 0 %>from today<% end %>.
+</div>
+
+<hr />
+
+<div>
+  <%= link_to("View on Site", review_event_url(@review_event)) %>
+</div>
+
+<div>
+  <strong>Due date:</strong> <%= @review_event.duedate.to_date.inspect %>
+</div>
+
+<hr />
+
+<div>
+  Signed, <br />
+  The Review Swami
+</div>
+

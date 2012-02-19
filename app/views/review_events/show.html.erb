@@ -284,7 +284,8 @@
   <% if not @review_event.notes.empty? %>
     <div class="row-fluid">
        <div class="span12">
-        <strong>Notes:</strong>&nbsp;&nbsp;<pre><%= @review_event.notes %></pre>
+        <strong>Notes:</strong>&nbsp;&nbsp;
+        <pre><%= auto_link(@review_event.notes, :all, :target => "_blank") %></pre>
       </div>
     </div>
   <% end %>

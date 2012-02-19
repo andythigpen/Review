@@ -116,6 +116,7 @@ tr > th {
 .comment-text {
   padding: 10px;
   background: #fff;
+  white-space: pre-line;
 }
 
 .topbar .label {

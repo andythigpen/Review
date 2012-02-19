@@ -76,6 +76,55 @@ pre {
 .label-warning { background-color: #f89406; }
 .label-success { background-color: #468847; }
 .label-info { background-color: #3a87ad; }
+.alert {
+  padding: 8px 35px 8px 14px;
+  margin-bottom: 18px;
+  background-color: #fcf8e3;
+  border: 1px solid #fbeed5;
+}
+.alert, .alert-heading {
+  color: #c09853;
+}
+.alert .close {
+  position: relative;
+  top: -2px;
+  right: -21px;
+  line-height: 18px;
+}
+.alert-success {
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+}
+.alert-success, .alert-success .alert-heading {
+  color: #468847;
+}
+.alert-danger, .alert-error {
+  background-color: #f2dede;
+  border-color: #eed3d7;
+}
+.alert-danger,
+.alert-error,
+.alert-danger .alert-heading,
+.alert-error .alert-heading {
+  color: #b94a48;
+}
+.alert-info {
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+}
+.alert-info, .alert-info .alert-heading {
+  color: #3a87ad;
+}
+.alert-block {
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+.alert-block > p, .alert-block > ul {
+  margin-bottom: 0;
+}
+.alert-block p + p {
+  margin-top: 5px;
+}
 #wrap { position:relative; }
 #nav { 
   background: #222 url('<%= root_url %>/images/header_back.png'); 
@@ -123,6 +172,7 @@ pre {
 .comment-text {
   padding: 10px;
   background: #fff;
+  white-space: pre-line;
 }
 .comment-code {
   margin: 0.2em;

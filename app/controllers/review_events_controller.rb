@@ -31,6 +31,8 @@ class ReviewEventsController < ApplicationController
   # GET /review_events/new.xml
   def new
     @review_event = ReviewEvent.new
+    @parent = @review_event
+    @user_type = :review_event_users
 
     respond_to do |format|
       format.html # new.html.erb

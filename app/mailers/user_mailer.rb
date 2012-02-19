@@ -24,7 +24,7 @@ class UserMailer < ActionMailer::Base
     @changeset = status.changeset
     @reviewee = reviewee
     @reviewer = reviewer
-    @comment = @changeset.comments.first
+    @comment = @status.comments.first
     @url = APP_CONFIG['url']
     subject = "Review Status Change: #{@changeset.review_event.name} [Comment:#{@comment.id}]"
     mail(:to => reviewee.email, :subject => subject)

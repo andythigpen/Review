@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120108211212) do
+ActiveRecord::Schema.define(:version => 20120219223459) do
 
   create_table "changeset_user_statuses", :force => true do |t|
     t.integer  "user_id"
@@ -90,6 +90,7 @@ ActiveRecord::Schema.define(:version => 20120108211212) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "optional",        :default => false
   end
 
   add_index "review_event_users", ["id"], :name => "index_review_event_users_on_id"

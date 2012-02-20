@@ -32,6 +32,10 @@
   <%= render :partial => "shared/comment", 
     :locals => { :comment => @status.comments.first, 
       :allow_delete => false, :allow_reply => false } %>
+
+  <div class="alert alert-info">
+    <strong>Note:</strong> Reply to this email to comment on the site. 
+  </div>
 </div>
 
 <hr />

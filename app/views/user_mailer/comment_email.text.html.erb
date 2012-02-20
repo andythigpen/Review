@@ -10,10 +10,6 @@
 
 <hr />
 
-<div class="alert alert-info">
-  <strong>Note:</strong> Reply to this email to comment on the site. 
-</div>
-
 <div>
   <%= link_to "View on Site", comment_url(@comment) %>
 </div>
@@ -21,6 +17,10 @@
 <%= render :partial => "shared/comment", 
   :locals => { :comment => @comment, :allow_delete => false, 
     :allow_reply => false } %>
+
+<div class="alert alert-info">
+  <strong>Note:</strong> Reply to this email to comment on the site. 
+</div>
 
 <hr />
 

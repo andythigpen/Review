@@ -3,6 +3,7 @@
   Edit <%= @review_event.name %>
 <% end %>
 <% content_for :page_js do %>
+  <%= javascript_include_tag "bootstrap-datepicker.js" %>
   <%= javascript_include_tag "review_edit.js" %>
 <% end %>
 

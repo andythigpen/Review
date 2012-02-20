@@ -1,6 +1,6 @@
 
 $(document).ready(function() {
-  $("#reviewer-table input[type=checkbox]").live("change", function() {
+  $("#reviewer-table .checkuser").live("change", function() {
     if (this.checked) {
       $(this).closest("tr").addClass("selected");
     }
@@ -77,15 +77,15 @@ function remove_reviewer(reviewer) {
 
 function select_reviewers(checked) {
   if (checked) {
-    $("#reviewer-table input[type=checkbox]").attr('checked', checked).change();
+    $("#reviewer-table .checkuser").attr('checked', checked).change();
   }
   else {
-    $("#reviewer-table input[type=checkbox]").removeAttr('checked').change();
+    $("#reviewer-table .checkuser").removeAttr('checked').change();
   }
 }
 
 function remove_selected_reviewers() {
-  $("#reviewer-table input[type=checkbox]:checked").each(function() {
+  $("#reviewer-table .checkuser:checked").each(function() {
     remove_reviewer(this);
   });
 }

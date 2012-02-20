@@ -289,6 +289,6 @@ tr > th {
   padding: 3px 0;
   position: relative;
 }
-.file:hover {
+.file:hover, .selected {
   background: #DFEBF5;
 }

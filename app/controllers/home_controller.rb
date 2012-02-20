@@ -84,10 +84,10 @@ class HomeController < ApplicationController
         if not changeset or not changeset.submitted
           @drafts.push(r)
           @outbox.push(r) unless already_in_outbox
-        elsif changeset.accepted?
-          @accepted.push(r)
         elsif changeset.rejected?
           @rejected.push(r)
+        elsif changeset.accepted?
+          @accepted.push(r)
         else
           @outbox.push(r) unless already_in_outbox
         end

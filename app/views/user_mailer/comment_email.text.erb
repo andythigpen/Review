@@ -5,9 +5,9 @@ Comment URL: <%= @url %><%= comment_path(@comment) %>
 <%= @commenter.full_name %>'s Comment:
 <%= @comment.text_format %>
 
-======================================================
+<% if APP_CONFIG['allow_reply_email'] %> ======================================================
  NOTE:  Reply to this message to comment on the site.
-======================================================
+======================================================<% end %>
 
 Signed,
 The Review Swami

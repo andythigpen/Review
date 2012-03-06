@@ -8,9 +8,9 @@ Review URL: <%= @url %><%= review_event_path(@changeset.review_event) %>
 Comment:
 <%= @status.comments.first.content %>
 
-======================================================
+<% if APP_CONFIG['allow_reply_email'] %> ======================================================
  NOTE:  Reply to this message to comment on the site.
-======================================================
+======================================================<% end %>
 
 Signed,
 The Review Swami

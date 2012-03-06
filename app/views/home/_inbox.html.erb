@@ -1,7 +1,7 @@
 <table class="table table-striped">
   <% requests = 0 %>
   <tr>
-    <th>Date</th><th>Name</th><th>Due Date</th><th>Posted By</th><th>Status</th>
+    <th>Date</th><th>Name</th><th>Due Date</th><th>Posted By</th><th>My Status</th><th>Review Status</th>
   </tr>
   <% reviews.each do |r| %>
     <tr>
@@ -37,13 +37,22 @@
         </span>
       <% end %>
     </td>
+    <td>
+      <% if r.changesets.last.rejected? %>
+        <span class="label label-important">Rejected</span>
+      <% elsif r.changesets.last.accepted? %>
+        <span class="label label-success">Accepted</span>
+      <% else %>
+        <span class="label">In Progress</span>
+      <% end %>
+    </td>
     </tr>
   <% end %>
   <% reset_cycle %>
   <% if current_user.review_requests.size == 0 %>
-    <tr><td colspan="4"><em>No one has requested you review their code yet.</em></td></tr>
+    <tr><td colspan="6"><em>No one has requested you review their code yet.</em></td></tr>
   <% elsif reviews.size == 0 %>
-    <tr><td colspan="4"><em>No results found.</em></td>
+    <tr><td colspan="6"><em>No results found.</em></td>
   <% end %>
 </table>
 <%= paginate reviews, :remote => true %>

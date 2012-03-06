@@ -9,6 +9,7 @@ task :reminder_mail => :environment do
         next if e.changesets.last.nil?
         next if e.changesets.last.accepted?
         next if e.changesets.last.rejected?
+        next if not e.changesets.last.submitted
         e.reviewers.each do |r|
             status = e.status_for(r)
             if not status.nil?

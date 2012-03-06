@@ -1,3 +1,7 @@
+<% content_for :summary do %>
+  You've got a new comment from <%= @commenter.full_name %>!
+<% end %>
+
 <div>
   <%= @commenter.full_name %> (<%= @commenter.email %>) has 
   <% if @comment.commentable.class == Comment %>
@@ -14,13 +18,18 @@
   <%= link_to "View on Site", comment_url(@comment) %>
 </div>
 
-<%= render :partial => "shared/comment", 
-  :locals => { :comment => @comment, :allow_delete => false, 
-    :allow_reply => false } %>
-
-<div class="alert alert-info">
-  <strong>Note:</strong> Reply to this email to comment on the site. 
+<div>
+  <strong><%= @commenter.full_name %> says:</strong>
+  <br />
+  <br />
+  <%= @comment.html_format %>
 </div>
+
+<% if APP_CONFIG['allow_email_reply'] %>
+  <div class="alert alert-info">
+    <strong>Note:</strong> Reply to this email to comment on the site. 
+  </div>
+<% end %>
 
 <hr />
 

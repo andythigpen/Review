@@ -1,3 +1,7 @@
+<% content_for :summary do %>
+  A reviewer has submitted a status!
+<% end %>
+
 <div>
   <strong>Review Status Change:</strong> 
   <% if @status.accepted? %>
@@ -27,15 +31,25 @@
   <% end %>
 </div>
 
-<div>
-  <strong>Comment:</strong>
-  <%= render :partial => "shared/comment", 
-    :locals => { :comment => @status.comments.first, 
-      :allow_delete => false, :allow_reply => false } %>
+<br />
 
-  <div class="alert alert-info">
-    <strong>Note:</strong> Reply to this email to comment on the site. 
+<div>
+  <%= link_to "View on Site", comment_url(@status.comments.first) %>
+</div>
+
+<div>
+  <div>
+    <strong><%= @reviewer.full_name %> says:</strong>
+    <br />
+    <br />
+    <%= @comment.html_format %>
   </div>
+
+  <% if APP_CONFIG['allow_email_reply'] %>
+    <div class="alert alert-info">
+      <strong>Note:</strong> Reply to this email to comment on the site. 
+    </div>
+  <% end %>
 </div>
 
 <hr />

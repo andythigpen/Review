@@ -9,7 +9,7 @@
 <hr />
 
 <div>
-  <%= link_to("View on site", changeset_path(@changeset)) %>
+  <%= link_to("View on site", changeset_url(@changeset)) %>
   <% if not @review_event.duedate.nil? %>
     <div>
       <strong>Due Date:</strong> <%= @review_event.duedate.to_date %>

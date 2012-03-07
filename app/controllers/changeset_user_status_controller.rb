@@ -15,8 +15,11 @@ class ChangesetUserStatusController < ApplicationController
 
     respond_to do |format|
       if success
-        UserMailer.status_email(@status, current_user,
-                                @status.changeset.review_event.owner).deliver
+        owner = @status.changeset.review_event.owner
+        if owner.email_settings.status_change == EmailSetting::INSTANT
+          UserMailer.status_email(@status, current_user, owner).deliver
+          #TODO delayed job, also emails for everyone in the review
+        end
         format.json { render :json => { :status => "ok" } }
       else
         format.json { render :json => { :status => "error",

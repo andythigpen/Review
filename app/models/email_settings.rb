@@ -1,10 +1,10 @@
 require 'ostruct'
 
 class EmailSetting
-  NONE = 1
-  INSTANT = 2
-  DAILY = 3
-  WEEKLY = 4
+  NONE = -1
+  INSTANT = 0
+  DAILY = 1
+  WEEKLY = 7
   attr_accessor :participant, :owner, :NONE, :INSTANT, :DAILY, :WEEKLY
 
   def initialize

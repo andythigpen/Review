@@ -1,3 +1,11 @@
+- Save time interval in email settings
+    for each user in an email event (all reviewers, owner, etc.):
+        if instant:
+            send email now
+        else if delayed summary job doesn't already exist:
+            add delayed summary job w/ user's interval 
+
+
 Dashboard:
 - Customize welcome message.
 

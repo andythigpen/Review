@@ -18,7 +18,10 @@ class CommentsController < ApplicationController
           commentee = @comment.commentable.changeset.review_event.owner
         end
         if not commentee.nil? and commentee != current_user
-          UserMailer.comment_email(@comment, current_user, commentee).deliver
+          if commentee.email_settings.new_comment_to_me == EmailSetting::INSTANT
+            UserMailer.comment_email(@comment, current_user, commentee).deliver
+            #TODO delayed job for everyone else & owner
+          end
         end
         format.json { render :partial => "shared/comment", 
             :locals => { :comment => @comment, :level => level } }

@@ -30,8 +30,13 @@ class ChangesetController < ApplicationController
       if @changeset.update_attributes(params[:changeset])
         if @changeset.submitted
           @changeset.review_event.reviewers.each do |r|
-            UserMailer.review_request_email(r, current_user, 
-                                            @changeset).deliver
+            next if r.email_settings.new_changeset == EmailSetting::NONE
+            if r.email_settings.new_changeset == EmailSetting::INSTANT
+              UserMailer.review_request_email(r, current_user, 
+                                              @changeset).deliver
+            else
+              #TODO delayed_job here...
+            end
           end
         end
 

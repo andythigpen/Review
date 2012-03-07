@@ -1,3 +1,5 @@
+require 'email_settings'
+
 class User < ActiveRecord::Base
   has_many :reviews_owned, :class_name => "ReviewEvent", 
     :dependent => :destroy, :order => "updated_at DESC"
@@ -8,6 +10,7 @@ class User < ActiveRecord::Base
   has_many :changeset_user_statuses, :dependent => :destroy
   has_one :profile, :dependent => :destroy
   has_many :groups, :dependent => :destroy
+  serialize :email_settings, EmailSetting
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :lockable, :timeoutable and :activatable
@@ -53,5 +56,18 @@ class User < ActiveRecord::Base
       groups.push g if g.members.include?(self)
     end
     return groups
+  end
+
+  def email_settings
+    if read_attribute(:email_settings).nil?
+      write_attribute :email_settings, EmailSetting.new
+      read_attribute :email_settings
+    else
+      read_attribute :email_settings
+    end
+  end
+
+  def email_settings=(val)
+    write_attribute :email_settings, val
   end
 end

@@ -59,6 +59,8 @@ Review::Application.routes.draw do
 
   # reviewer autocomplete
   # get "reviewers/show"
+  
+  match "/delayed_job" => DelayedJobWeb, :anchor => false
 
   match ':action' => 'static#:action', :as => :static
 end

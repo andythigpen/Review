@@ -18,6 +18,8 @@ gem 'unicorn'
 gem 'mailman'
 gem 'daemons'
 
+gem 'delayed_job_active_record'
+
 # Deploy with Capistrano
 # gem 'capistrano'
 

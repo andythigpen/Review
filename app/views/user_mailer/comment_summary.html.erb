@@ -1,0 +1,28 @@
+<% content_for :summary do %>
+  You've got a new replies!
+<% end %>
+
+Here are all <%= @comment_type %> for the past <%= @time_period.days.inspect %>:
+
+<hr />
+
+<% @comments.each do |c| %>
+<div>
+  <%= link_to "View on Site", comment_url(c) %>
+</div>
+
+<div>
+  <strong><%= c.user.full_name %> says:</strong>
+  <br />
+  <%= c.html_format %>
+</div>
+<br />
+<br />
+<% end %>
+
+<hr />
+
+<div>
+  Signed, <br />
+  The Review Swami
+</div>

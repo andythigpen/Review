@@ -13,16 +13,35 @@ class CommentsController < ApplicationController
         if @comment.commentable.class == Comment
           commentee = @comment.commentable.user
         elsif @comment.commentable.class == Diff
-          commentee = @comment.commentable.changeset.review_event.owner
+          commentee = @comment.get_review_event().owner
         elsif @comment.commentable.class == ChangesetUserStatus
-          commentee = @comment.commentable.changeset.review_event.owner
+          commentee = @comment.get_review_event().owner
         end
-        if not commentee.nil? and commentee != current_user
-          if commentee.email_settings.new_comment_to_me == EmailSetting::INSTANT
-            UserMailer.comment_email(@comment, current_user, commentee).deliver
-            #TODO delayed job for everyone else & owner
+
+        review = @comment.get_review_event
+        delay = EmailSetting::NONE
+        if commentee == review.owner
+          delay = review.owner.email_settings.owner[:reply_to_me]
+        else
+          delay = commentee.email_settings.participant[:reply_to_me]
+        end
+
+        case delay
+        when EmailSetting::NONE
+          # do nothing
+        when EmailSetting::INSTANT
+          UserMailer.delay.comment_email(@comment, commentee)
+        else
+          if not MailSummaryJob.exists?(commentee.id, 
+                                        :reply_to_me_summary_email, delay)
+            Delayed::Job.enqueue(
+              MailSummaryJob.new(review.owner.id, 
+                                 :reply_to_me_summary_email,
+                                 delay), 
+              :run_at => delay.days.from_now.to_date)
           end
         end
+
         format.json { render :partial => "shared/comment", 
             :locals => { :comment => @comment, :level => level } }
       else 

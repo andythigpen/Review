@@ -30,9 +30,9 @@ class UserMailer < ActionMailer::Base
     mail(:to => reviewee.email, :subject => subject)
   end
 
-  def comment_email(comment, commenter, commentee)
+  def comment_email(comment, commentee)
     @comment = comment
-    @commenter = commenter
+    @commenter = comment.user
     @commentee = commentee
     @url = APP_CONFIG['url']
     if comment.commentable.class == Comment
@@ -60,4 +60,41 @@ class UserMailer < ActionMailer::Base
     subject = "Review Changed: #{@review_event.name}"
     mail(:to => reviewer.email, :subject => subject)
   end
+
+  #
+  # Summary Emails
+  #
+  def reply_to_me_summary_email(user_id, time_period)
+    @url = APP_CONFIG['url']
+    #TODO there is probably a better way to do this...
+    @comments = Comment.where(["created_at >= ?", time_period.days.ago])
+    @comments = @comments.select do |c|
+      c.commentable.class == Comment and c.commentable.user.id == user_id
+    end
+    @time_period = time_period
+    @comment_type = "replies"
+    if @comments.size > 0
+      mail(:to => User.find(user_id).email, :subject => "Replies Summary", 
+           :template_name => "comment_summary")
+    end
+  end
+
+  def comment_to_anyone_summary_email(user_id, time_period)
+    @url = APP_CONFIG['url']
+    @comments = Comment.where(["created_at >= ?", time_period.days.ago])
+    user = User.find(user_id)
+    @comments = @comments.select do |c|
+      r = c.get_review_event()
+      # notify of new comments if the user participates in that review and is
+      # not the one who made the comment
+      r.reviewers.include?(user) or r.owner == user and c.user != user
+    end
+    @time_period = time_period
+    @comment_type = "new comments"
+    if @comments.size > 0
+      mail(:to => user.email, :subject => "New comments Summary", 
+           :template_name => "comment_summary")
+    end
+  end
+
 end

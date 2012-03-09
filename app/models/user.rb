@@ -70,4 +70,17 @@ class User < ActiveRecord::Base
   def email_settings=(val)
     write_attribute :email_settings, val
   end
+
+  def enqueue_mail(email_type, params={})
+    if params[:is_owner]
+      days = self.email_settings.owner[email_type]
+    elsif params[:is_participant]
+      days = self.email_settings.participant[email_type]
+    else
+      return
+    end
+    return if days == EmailSetting::NONE
+
+    #TODO delayed job here...
+  end
 end

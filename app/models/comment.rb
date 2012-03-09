@@ -32,4 +32,8 @@ class Comment < ActiveRecord::Base
   def is_deleted?
     return self.user_id.nil?
   end
+
+  def is_reply_to?(user)
+    self.commentable.class == Comment and self.commentable.user == user
+  end
 end

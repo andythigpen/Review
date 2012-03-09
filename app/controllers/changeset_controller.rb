@@ -30,7 +30,7 @@ class ChangesetController < ApplicationController
       if @changeset.update_attributes(params[:changeset])
         if @changeset.submitted
           @changeset.review_event.reviewers.each do |r|
-            next if r.email_settings.new_changeset == EmailSetting::NONE
+            next if r.email_settings.participant[:new_changeset] == EmailSetting::NONE
             if r.email_settings.new_changeset == EmailSetting::INSTANT
               UserMailer.review_request_email(r, current_user, 
                                               @changeset).deliver

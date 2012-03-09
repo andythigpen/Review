@@ -1,0 +1,13 @@
+
+Here are all <%= @comment_type %> for the past <%= @time_period.days.inspect %>:
+
+<% @comments.each do |c| %>
+Comment URL: <%= @url %><%= comment_path(c) %>
+<%= c.user.full_name %> says:
+<%= c.text_format %>
+
+<% end %>
+
+Signed,
+The Review Swami
+

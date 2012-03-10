@@ -35,16 +35,4 @@ class ReviewEvent < ActiveRecord::Base
     return self.review_event_users.count
   end
 
-  # def enqueue_owner_mail(email_type, params={})
-  #   self.owner
-  # end
-
-  def enqueue_participant_mail(email_type, params={})
-    self.reviewers.each do |r|
-      days = r.email_settings.participant[:email_type]
-      next if days == EmailSetting::NONE
-
-      #TODO delayed job here...
-    end
-  end
 end

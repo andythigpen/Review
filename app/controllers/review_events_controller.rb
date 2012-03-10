@@ -7,8 +7,10 @@ class ReviewEventsController < ApplicationController
     @review_event = ReviewEvent.find(params[:id])
     if not params[:changeset].nil?
       @changeset = Changeset.find(params[:changeset])
-    else
+    elsif current_user == @review_event.owner
       @changeset = @review_event.changesets.last
+    else
+      @changeset = @review_event.changesets.last_submitted
     end
     if not @changeset.nil?
       @status = @changeset.statuses.find_by_user_id(current_user.id)

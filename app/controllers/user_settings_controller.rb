@@ -12,6 +12,7 @@ class UserSettingsController < ApplicationController
     if @user.save
       sign_in @user
     end
-    redirect_to edit_user_registration_path
+    redirect_to edit_user_registration_path, 
+      :notice => "Saved email settings successfully."
   end
 end

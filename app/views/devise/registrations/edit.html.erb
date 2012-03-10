@@ -42,6 +42,75 @@
       <% end %>
     </div>
   </div>
+  <br />
+
+  <h1>Email Settings</h1>
+  <div class="form-box">
+    <div>
+      <%= form_for(resource_name, resource, :url => user_settings_path(resource_name), :html => { :method => :put }) do |f| %>
+        <%= f.error_messages %>
+        <% settings = resource.email_settings %>
+        <div class="field">
+          <h3>Review Participant</h3>
+          <p>When I'm a participant in a review, send me email notification 
+          of:</p>
+          <%= f.label :participant_reply_to_me, "Replies to me" %>
+          <%= f.select(:participant_reply_to_me, EmailSetting.select_options) %>
+
+          <%= f.label :participant_comment_to_anyone, "Comments to anyone" %>
+          <%= f.select(:participant_comment_to_anyone, 
+                       EmailSetting.select_options) %>
+
+          <%= f.label :participant_status_change, "Status changes" %>
+          <%= f.select(:participant_status_change, EmailSetting.select_options) %>
+
+          <br /><br />
+          <h3>Review Owner</h3>
+          <p>When I'm the owner of a review, send me email notifications of:</p>
+          <%= f.label :owner_reply_to_me, "Replies to me" %>
+          <%= f.select(:owner_reply_to_me, EmailSetting.select_options) %>
+
+          <%= f.label :owner_comment_to_anyone, "Comments to anyone" %>
+          <%= f.select(:owner_comment_to_anyone, EmailSetting.select_options) %>
+
+          <%= f.label :owner_status_change, "Status changes" %>
+          <%= f.select(:owner_status_change, EmailSetting.select_options) %>
+
+
+          <% if false %>
+          <%= f.fields_for :email_settings, settings do |e| %>
+            <%= e.label :participant_reply_to_me %>
+            <%= e.select(:participant_reply_to_me, EmailSetting.select_options) %>
+            <%= e.fields_for :participant, settings.participant do |e1| %>
+
+              <%= e1.label :comment_to_anyone %>
+              <%= e1.select(:comment_to_anyone, EmailSetting.select_options,
+                            :selected => settings.participant[:comment_to_anyone]) %>
+
+              <% if false %>
+              <%= e1.label :status_change %>
+              <%= e1.select(:status_change, EmailSetting.select_options,
+                            :selected => settings.participant[:status_change]) %>
+
+              <%= e1.label :new_changeset %>
+              <%= e1.select(:new_changeset, EmailSetting.select_options,
+                            :selected => settings.participant[:new_changeset]) %>
+
+              <%= e1.label :edit_review %>
+              <%= e1.select(:edit_review, EmailSetting.select_options,
+                            :selected => settings.participant[:edit_review]) %>
+              <% end %>
+
+            <% end %>
+          <% end %>
+          <% end %>
+        </div>
+        <div class="field">
+          <%= f.submit "Update", :class => "btn" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
 
   <br />
   <h1>Delete my account</h1>

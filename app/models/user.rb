@@ -71,16 +71,23 @@ class User < ActiveRecord::Base
     write_attribute :email_settings, val
   end
 
-  def enqueue_mail(email_type, params={})
-    if params[:is_owner]
-      days = self.email_settings.owner[email_type]
-    elsif params[:is_participant]
-      days = self.email_settings.participant[email_type]
-    else
-      return
+  def self.serialized_attr_accessor(member, *args)
+    args.each do |k|
+      eval "
+        def #{member}_#{k}
+          self.email_settings.#{member}[:#{k}]
+        end
+        def #{member}_#{k}=(value)
+          self.email_settings.#{member}[:#{k}] = value
+        end
+      "
     end
-    return if days == EmailSetting::NONE
-
-    #TODO delayed job here...
   end
+
+  serialized_attr_accessor "participant", :reply_to_me, :comment_to_anyone, 
+    :status_change, :new_changeset, :edit_review, :review_reminder, 
+    :late_reminder
+  serialized_attr_accessor "owner", :reply_to_me, :comment_to_anyone, 
+    :status_change
+
 end

@@ -1,0 +1,10 @@
+
+The user <%= @commenter.full_name %> (<%= @commenter.email %>) has commented on the review event "<%= @review.name %>" (<%= @url %><%= review_event_path(@review) %>).
+
+Comment URL: <%= @url %><%= comment_path(@comment) %>
+<%= @commenter.full_name %>'s Comment:
+<%= @comment.text_format %>
+
+Signed,
+The Review Swami
+

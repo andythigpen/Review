@@ -18,16 +18,19 @@ class CommentsController < ApplicationController
           commentee = @comment.get_review_event().owner
         end
 
+        ### send email to commentee
         review = @comment.get_review_event
         delay = EmailSetting::NONE
-        if commentee == review.owner
-          delay = review.owner.email_settings.owner[:reply_to_me]
+        if commentee == current_user
+          # don't email my comment to myself
+        elsif commentee == review.owner
+          delay = commentee.email_settings.owner[:reply_to_me]
         else
           delay = commentee.email_settings.participant[:reply_to_me]
         end
 
         case delay
-        when EmailSetting::NONE
+        when EmailSetting::NONE, nil
           # do nothing
         when EmailSetting::INSTANT
           UserMailer.delay.comment_email(@comment, commentee)
@@ -35,10 +38,31 @@ class CommentsController < ApplicationController
           if not MailSummaryJob.exists?(commentee.id, 
                                         :reply_to_me_summary_email, delay)
             Delayed::Job.enqueue(
-              MailSummaryJob.new(review.owner.id, 
+              MailSummaryJob.new(commentee.id, 
                                  :reply_to_me_summary_email,
                                  delay), 
-              :run_at => delay.days.from_now.to_date)
+              :run_at => EmailSetting.run_date(delay))
+          end
+        end
+
+        ### send email to participants in review
+        review.reviewers.each do |r|
+          next if r == commentee  # we already scheduled commentee above
+          delay = r.email_settings.participant[:comment_to_anyone]
+          case delay
+          when EmailSetting::NONE
+            # do nothing
+          when EmailSetting::INSTANT
+            UserMailer.delay.comment_participant_email(@comment, r)
+          else
+            if not MailSummaryJob.exists?(r.id, 
+                                          :comment_to_anyone_summary_email,
+                                          delay)
+              Delayed::Job.enqueue(
+                MailSummaryJob.new(r.id, :comment_to_anyone_summary_email, 
+                                   delay),
+                 :run_at => EmailSetting.run_date(delay))
+            end
           end
         end
 

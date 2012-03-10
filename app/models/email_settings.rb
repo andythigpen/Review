@@ -1,5 +1,3 @@
-require 'ostruct'
-
 class EmailSetting
   NONE = -1
   INSTANT = 0
@@ -25,19 +23,21 @@ class EmailSetting
     }
   end
 
-  # def initialize
-  #   @participant = OpenStruct.new 
-  #   @participant.new_comment_to_me = INSTANT
-  #   @participant.new_comment_to_anyone = DAILY
-  #   @participant.status_change = NONE
-  #   @participant.new_changeset = INSTANT
-  #   @participant.edit_review = INSTANT
-  #   @participant.review_reminder = DAILY
-  #   @participant.late_reminder = DAILY
+  def self.run_date(setting)
+    case setting
+    when NONE
+    when INSTANT
+      Time.now
+    when DAILY
+      Time.now.end_of_day
+    when WEEKLY
+      Time.now.end_of_week
+    end
+  end
 
-  #   @owner = OpenStruct.new
-  #   @owner.new_comment_to_me = INSTANT
-  #   @owner.new_comment_to_anyone = INSTANT
-  #   @owner.status_change = INSTANT
-  # end
+  def self.select_options
+    [["Never", NONE], ["Instantly", INSTANT], ["Daily Summary", DAILY], 
+     ["Weekly Summary", WEEKLY]]
+  end
+
 end

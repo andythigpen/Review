@@ -1,6 +1,8 @@
 class ChangesetController < ApplicationController
   before_filter :authenticate_user!
 
+  include MailHelper
+
   def show
     @changeset = Changeset.find params[:id]
     redirect_to review_event_path(@changeset.review_event) + "?changeset=#{@changeset.id}"
@@ -30,13 +32,12 @@ class ChangesetController < ApplicationController
       if @changeset.update_attributes(params[:changeset])
         if @changeset.submitted
           @changeset.review_event.reviewers.each do |r|
-            next if r.email_settings.participant[:new_changeset] == EmailSetting::NONE
-            if r.email_settings.new_changeset == EmailSetting::INSTANT
-              UserMailer.review_request_email(r, current_user, 
-                                              @changeset).deliver
-            else
-              #TODO delayed_job here...
-            end
+            delay = r.email_settings.participant[:new_changeset]
+            schedule_email(:time_period => delay,
+                           :user => r,
+                           :email_method => :review_request_email,
+                           :email_method_args => [r, current_user, @changeset],
+                           :summary_method => :new_changeset_summary_email)
           end
         end
 

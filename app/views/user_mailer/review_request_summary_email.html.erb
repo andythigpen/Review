@@ -1,0 +1,38 @@
+<% content_for :summary do %>
+  Review requests for the past <%= @time_period.days.inspect %>
+<% end %>
+
+Here are all your review requests for the past <%= @time_period.days.inspect %>:
+
+<hr />
+
+<% @changesets.each do |c| %>
+  <% r = c.review_event %>
+  <div>
+    <%= link_to "View on Site", changeset_url(c) %>
+  </div>
+  <% if not r.duedate.nil? %>
+    <div>
+      <strong>Due Date:</strong> <%= r.duedate.to_date %>
+    </div>
+  <% end %>
+  <div>
+    <strong>Review:</strong> <%= link_to r.name, review_event_url(r) %>
+  </div>
+  <div>
+    <strong>Changeset:</strong> <%= link_to c.name, changeset_url(c) %>
+  </div>
+  <div>
+    <strong>Notes:</strong>  <br />
+    <pre><%= r.notes %></pre>
+  </div>
+  <br />
+  <br />
+<% end %>
+
+<hr />
+
+<div>
+  Signed, <br />
+  The Review Swami
+</div>

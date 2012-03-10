@@ -132,4 +132,17 @@ class UserMailer < ActionMailer::Base
            :subject => "Status change summary")
     end
   end
+
+  def new_changeset_summary_email(user_id, time_period)
+    @url = APP_CONFIG['url']
+    @changesets = Changeset.where(["updated_at >= ? and submitted = ?", 
+                                  time_period.days.ago, true])
+    @time_period = time_period
+    user = User.find(user_id)
+    if @changesets.size > 0
+      mail(:to => user.email,
+           :subject => "Review request summary",
+           :template_name => "review_request_summary_email")
+    end
+  end
 end

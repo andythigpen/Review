@@ -64,6 +64,9 @@
           <%= f.label :participant_status_change, "Status changes" %>
           <%= f.select(:participant_status_change, EmailSetting.select_options) %>
 
+          <%= f.label :participant_new_changeset, "New review requests" %>
+          <%= f.select(:participant_new_changeset, EmailSetting.select_options) %>
+
           <br /><br />
           <h3>Review Owner</h3>
           <p>When I'm the owner of a review, send me email notifications of:</p>

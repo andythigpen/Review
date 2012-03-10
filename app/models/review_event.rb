@@ -31,8 +31,8 @@ class ReviewEvent < ActiveRecord::Base
     return self.changesets.last.users_abstained.count
   end
 
-  def reviewers_total
-    return self.review_event_users.count
+  def required_total
+    return self.required_reviewers.count
   end
 
   def waiting_for

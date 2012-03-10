@@ -30,6 +30,16 @@ class UserMailer < ActionMailer::Base
     mail(:to => reviewee.email, :subject => subject)
   end
 
+  def status_participant_email(status, reviewer, user)
+    @status = status
+    @changeset = status.changeset
+    @reviewer = reviewer
+    @comment = @status.comments.first
+    @url = APP_CONFIG['url']
+    subject = "Review Status Change: #{@changeset.review_event.name} [Comment:#{@comment.id}]"
+    mail(:to => user.email, :subject => subject)
+  end
+
   def comment_email(comment, commentee)
     @comment = comment
     @commenter = comment.user
@@ -82,7 +92,8 @@ class UserMailer < ActionMailer::Base
     @time_period = time_period
     @comment_type = "replies"
     if @comments.size > 0
-      mail(:to => User.find(user_id).email, :subject => "Replies Summary", 
+      mail(:to => User.find(user_id).email, 
+           :subject => "Replies to me summary", 
            :template_name => "comment_summary")
     end
   end
@@ -95,14 +106,30 @@ class UserMailer < ActionMailer::Base
       r = c.get_review_event()
       # notify of new comments if the user participates in that review and is
       # not the one who made the comment
-      r.reviewers.include?(user) or r.owner == user and c.user != user
+      #
+      # also, filter out comments for changeset statuses, because those are
+      # sent by the status_change email setting
+      r.reviewers.include?(user) or r.owner == user and c.user != user and 
+      c.commentable.class != ChangesetUserStatus
     end
     @time_period = time_period
     @comment_type = "new comments"
     if @comments.size > 0
-      mail(:to => user.email, :subject => "New comments Summary", 
+      mail(:to => user.email, 
+           :subject => "New comments summary", 
            :template_name => "comment_summary")
     end
   end
 
+  def status_change_summary_email(user_id, time_period)
+    @url = APP_CONFIG['url']
+    @statuses = ChangesetUserStatus.where(["created_at >= ? and user_id != ?", 
+                                          time_period.days.ago, user_id])
+    @time_period = time_period
+    user = User.find(user_id)
+    if @statuses.size > 0
+      mail(:to => user.email,
+           :subject => "Status change summary")
+    end
+  end
 end

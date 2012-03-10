@@ -1,0 +1,15 @@
+
+Here are all the status changes for the past <%= @time_period.days.inspect %>:
+
+<% @statuses.each do |status| %>
+Review: <%= status.changeset.review_event.name %>
+Review URL: <%= @url %><%= review_event_path(status.changeset.review_event) %>
+Review Status Change: <%= status.user.full_name %> has <% if status.accepted? %>ACCEPTED<% elsif status.rejected? %>REJECTED<% else %>ABSTAINED from<% end %> this review.
+<%= status.user.full_name %> says:
+<%= status.comments.first.text_format %>
+
+<% end %>
+
+Signed,
+The Review Swami
+

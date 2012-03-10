@@ -11,9 +11,9 @@ class EmailSetting
       :comment_to_anyone => DAILY,
       :status_change => NONE,
       :new_changeset => INSTANT,
-      :edit_review => INSTANT,
       :review_reminder => DAILY,
       :late_reminder => DAILY,
+      #:edit_review => INSTANT,
     }
 
     @owner = {

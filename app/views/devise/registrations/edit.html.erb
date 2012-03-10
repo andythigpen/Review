@@ -67,6 +67,16 @@
           <%= f.label :participant_new_changeset, "New review requests" %>
           <%= f.select(:participant_new_changeset, EmailSetting.select_options) %>
 
+          <%= f.label :participant_review_reminder, "Review reminders" %>
+          <%= f.select(:participant_review_reminder, 
+                       [["Never", EmailSetting::NONE], 
+                        ["Always", EmailSetting::DAILY]]) %>
+
+          <%= f.label :participant_late_reminder, "Late reminders" %>
+          <%= f.select(:participant_late_reminder, 
+                       [["Never", EmailSetting::NONE], 
+                        ["Always", EmailSetting::DAILY]]) %>
+
           <br /><br />
           <h3>Review Owner</h3>
           <p>When I'm the owner of a review, send me email notifications of:</p>

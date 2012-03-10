@@ -9,19 +9,19 @@
     <% extra = "label-warning" if not r.duedate.nil? and (r.duedate.to_date - 2).past? %>
     <% extra = "label-important" if not r.duedate.nil? and r.duedate.to_date.past? %>
     <% status = r.status_for(current_user) %>
-    <td>
+    <td> <%# Date %>
       <em><%= r.updated_at.to_date %></em>
     </td>
-    <td>
+    <td> <%# Name %>
       <%= link_to "#{r.name}", review_event_path(r.id) %>
     </td>
-    <td>
+    <td> <%# Due Date %>
       <%= r.duedate.to_date if not r.duedate.nil? %>
     </td>
-    <td>
+    <td> <%# Posted By %>
       <%= user_profile_popup(r.owner, :short_format => true) %>
     </td>
-    <td>
+    <td> <%# My Status %>
       <% if not status.nil? and status.rejected? %>
         <span class="label label-important">Rejected</span>
       <% elsif not status.nil? and status.accepted? %>
@@ -37,10 +37,10 @@
         </span>
       <% end %>
     </td>
-    <td>
-      <% if r.changesets.last.rejected? %>
+    <td> <%# Review Status %>
+      <% if r.changesets.last_submitted.rejected? %>
         <span class="label label-important">Rejected</span>
-      <% elsif r.changesets.last.accepted? %>
+      <% elsif r.changesets.last_submitted.accepted? %>
         <span class="label label-success">Accepted</span>
       <% else %>
         <span class="label">In Progress</span>

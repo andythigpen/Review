@@ -10,8 +10,8 @@
 <div>
   The Review "<%= @review_event.name %>" 
   <%= d < 0 ? "was" : "is" %> due 
-  <%= d == 0 ? "today" : d.abs.days.inspect %>
-  <% if d < 0 %>ago<% elsif d > 0 %>from today<% end %>.
+  <%= d == 0 ? "today." : d.abs.days.inspect %>
+  <% if d < 0 %>ago.<% elsif d > 0 %>from today.<% end %>
 </div>
 
 <hr />

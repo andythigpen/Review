@@ -131,4 +131,5 @@ END_CONTENT
                        :title => "#{name}", 
                        "data-content" => "#{popup.html_safe}") 
   end
+
 end

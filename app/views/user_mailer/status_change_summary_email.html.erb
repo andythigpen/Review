@@ -1,0 +1,41 @@
+<% content_for :summary do %>
+  Status changes for the past <%= @time_period.days.inspect %>
+<% end %>
+
+Here are all the status changes for the past <%= @time_period.days.inspect %>:
+
+<hr />
+
+<% @statuses.each do |status| %>
+  <% review = status.changeset.review_event %>
+<div>
+  <%= link_to "View on Site", changeset_url(status.changeset) %>
+</div>
+<div>
+  <strong>Review Status Change:</strong>
+  <%= status.user.full_name %> has 
+  <% if status.accepted? %>
+    ACCEPTED
+  <% elsif status.rejected? %>
+    REJECTED
+  <% else %>
+    ABSTAINED from
+  <% end %> 
+  <%= link_to review.name, review_event_url(review) %>.
+</div>
+
+<div>
+  <strong><%= status.user.full_name %> says:</strong>
+  <br />
+  <%= status.comments.first.html_format %>
+</div>
+<br />
+<br />
+<% end %>
+
+<hr />
+
+<div>
+  Signed, <br />
+  The Review Swami
+</div>

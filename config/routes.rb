@@ -4,6 +4,7 @@ Review::Application.routes.draw do
   devise_for :users, :path_names => { :sign_in => "login", 
                                       :sign_up => "register", 
                                       :sign_out => "logout" }
+  put "/users/settings" => "user_settings#update", :as => :user_settings
 
   # Dashboard
   root :to => "home#dashboard"
@@ -59,6 +60,8 @@ Review::Application.routes.draw do
 
   # reviewer autocomplete
   # get "reviewers/show"
+  
+  match "/delayed_job" => DelayedJobWeb, :anchor => false
 
   match ':action' => 'static#:action', :as => :static
 end

@@ -1,0 +1,15 @@
+
+Here are all your review requests for the past <%= @time_period.days.inspect %>:
+
+<% @changesets.each do |c| %><% r = c.review_event %>
+You've been asked to review <%= r.owner.full_name %>'s code.
+<% if not r.duedate.nil? %>Due Date: <%= r.duedate.to_date %><% end %>
+Review Name: <%= r.name %>
+Changeset: <%= c.name %>
+URL: <%= changeset_url(c) %>
+Notes: 
+<%= r.notes %>
+
+<% end %>
+Signed, 
+The Review Swami

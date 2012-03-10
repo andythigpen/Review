@@ -34,4 +34,5 @@ class ReviewEvent < ActiveRecord::Base
   def reviewers_total
     return self.review_event_users.count
   end
+
 end

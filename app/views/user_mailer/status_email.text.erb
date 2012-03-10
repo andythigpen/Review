@@ -6,7 +6,7 @@ Review Status Change: <% if @status.accepted? %>ACCEPTED<% elsif @status.rejecte
 Review URL: <%= @url %><%= review_event_path(@changeset.review_event) %>
 
 Comment:
-<%= @status.comments.first.content %>
+<%= @status.comments.first.text_format %>
 
 <% if APP_CONFIG['allow_reply_email'] %> ======================================================
  NOTE:  Reply to this message to comment on the site.

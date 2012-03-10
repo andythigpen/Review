@@ -71,4 +71,8 @@ class Changeset < ActiveRecord::Base
     return true if self.accepted?
     return false
   end
+
+  def self.last_submitted
+    where(:submitted => true).order("created_at DESC").limit(1)[0]
+  end
 end

@@ -1,0 +1,28 @@
+<% content_for :summary do %>
+  You've got a new comment from <%= @commenter.full_name %>!
+<% end %>
+
+<div>
+  <%= @commenter.full_name %> (<%= @commenter.email %>) has commented on
+  the review event <%= link_to @review.name, review_event_url(@review) %>.
+</div>
+
+<hr />
+
+<div>
+  <%= link_to "View on Site", comment_url(@comment) %>
+</div>
+
+<div>
+  <strong><%= @commenter.full_name %> says:</strong>
+  <br />
+  <br />
+  <%= @comment.html_format %>
+</div>
+
+<hr />
+
+<div>
+  Signed, <br />
+  The Review Swami
+</div>

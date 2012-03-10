@@ -1,0 +1,55 @@
+<% content_for :summary do %>
+  A reviewer has submitted a status!
+<% end %>
+
+<div>
+  <strong>Review Status Change:</strong> 
+  <% if @status.accepted? %>
+    <span class="label label-success">ACCEPTED</span>
+  <% elsif @status.rejected? %>
+    <span class="label label-important">REJECTED</span>
+  <% else %>
+    <span class="label label-info">ABSTAINED</span>
+  <% end %>
+</div>
+
+<hr />
+
+<div>
+  <% if @status.accepted? or @status.rejected? %>
+    The user <%= @reviewer.full_name %> (<%= @reviewer.email %>) has 
+    <% if @status.accepted? %>accepted<% else %>rejected<% end %> the 
+    <%= link_to "#{@changeset.name}", changeset_url(@changeset) %> 
+    changeset for the review 
+    <%= link_to "#{@changeset.review_event.name}", 
+      review_event_url(@changeset.review_event) %>.
+  <% else %>
+    The user <%= @reviewer.full_name %> (<%= @reviewer.email %>) has 
+    requested to be removed from the review 
+    <%= link_to "#{@changeset.review_event.name}", 
+      review_event_url(@changeset.review_event) %>.
+  <% end %>
+</div>
+
+<br />
+
+<div>
+  <%= link_to "View on Site", comment_url(@status.comments.first) %>
+</div>
+
+<div>
+  <div>
+    <strong><%= @reviewer.full_name %> says:</strong>
+    <br />
+    <br />
+    <%= @comment.html_format %>
+  </div>
+</div>
+
+<hr />
+
+<div>
+  Signed, <br />
+  The Review Swami
+</div>
+

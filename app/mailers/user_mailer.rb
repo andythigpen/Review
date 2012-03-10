@@ -30,9 +30,19 @@ class UserMailer < ActionMailer::Base
     mail(:to => reviewee.email, :subject => subject)
   end
 
-  def comment_email(comment, commenter, commentee)
+  def status_participant_email(status, reviewer, user)
+    @status = status
+    @changeset = status.changeset
+    @reviewer = reviewer
+    @comment = @status.comments.first
+    @url = APP_CONFIG['url']
+    subject = "Review Status Change: #{@changeset.review_event.name} [Comment:#{@comment.id}]"
+    mail(:to => user.email, :subject => subject)
+  end
+
+  def comment_email(comment, commentee)
     @comment = comment
-    @commenter = commenter
+    @commenter = comment.user
     @commentee = commentee
     @url = APP_CONFIG['url']
     if comment.commentable.class == Comment
@@ -41,6 +51,14 @@ class UserMailer < ActionMailer::Base
       @subject = "New comment [Comment:#{@comment.id}]"
     end
     mail(:to => commentee.email, :subject => @subject)
+  end
+
+  def comment_participant_email(comment, user)
+    @comment = comment
+    @commenter = comment.user
+    @review = comment.get_review_event
+    @url = APP_CONFIG['url']
+    mail(:to => user.email, :subject => "New comment [Comment:#{@comment.id}]")
   end
 
   def reminder_email(review_event, reviewer)
@@ -59,5 +77,72 @@ class UserMailer < ActionMailer::Base
     @url = APP_CONFIG['url']
     subject = "Review Changed: #{@review_event.name}"
     mail(:to => reviewer.email, :subject => subject)
+  end
+
+  #
+  # Summary Emails
+  #
+  def reply_to_me_summary_email(user_id, time_period)
+    @url = APP_CONFIG['url']
+    #TODO there is probably a better way to do this...
+    @comments = Comment.where(["created_at >= ?", time_period.days.ago])
+    @comments = @comments.select do |c|
+      c.commentable.class == Comment and c.commentable.user.id == user_id
+    end
+    @time_period = time_period
+    @comment_type = "replies"
+    if @comments.size > 0
+      mail(:to => User.find(user_id).email, 
+           :subject => "Replies to me summary", 
+           :template_name => "comment_summary")
+    end
+  end
+
+  def comment_to_anyone_summary_email(user_id, time_period)
+    @url = APP_CONFIG['url']
+    @comments = Comment.where(["created_at >= ?", time_period.days.ago])
+    user = User.find(user_id)
+    @comments = @comments.select do |c|
+      r = c.get_review_event()
+      # notify of new comments if the user participates in that review and is
+      # not the one who made the comment
+      #
+      # also, filter out comments for changeset statuses, because those are
+      # sent by the status_change email setting
+      r.reviewers.include?(user) or r.owner == user and c.user != user and 
+      c.commentable.class != ChangesetUserStatus
+    end
+    @time_period = time_period
+    @comment_type = "new comments"
+    if @comments.size > 0
+      mail(:to => user.email, 
+           :subject => "New comments summary", 
+           :template_name => "comment_summary")
+    end
+  end
+
+  def status_change_summary_email(user_id, time_period)
+    @url = APP_CONFIG['url']
+    @statuses = ChangesetUserStatus.where(["created_at >= ? and user_id != ?", 
+                                          time_period.days.ago, user_id])
+    @time_period = time_period
+    user = User.find(user_id)
+    if @statuses.size > 0
+      mail(:to => user.email,
+           :subject => "Status change summary")
+    end
+  end
+
+  def new_changeset_summary_email(user_id, time_period)
+    @url = APP_CONFIG['url']
+    @changesets = Changeset.where(["updated_at >= ? and submitted = ?", 
+                                  time_period.days.ago, true])
+    @time_period = time_period
+    user = User.find(user_id)
+    if @changesets.size > 0
+      mail(:to => user.email,
+           :subject => "Review request summary",
+           :template_name => "review_request_summary_email")
+    end
   end
 end

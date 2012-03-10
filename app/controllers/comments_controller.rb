@@ -1,6 +1,8 @@
 class CommentsController < ApplicationController
   before_filter :authenticate_user!
 
+  include MailHelper
+
   def create
     @comment = Comment.new params[:comment]
 
@@ -29,41 +31,22 @@ class CommentsController < ApplicationController
           delay = commentee.email_settings.participant[:reply_to_me]
         end
 
-        case delay
-        when EmailSetting::NONE, nil
-          # do nothing
-        when EmailSetting::INSTANT
-          UserMailer.delay.comment_email(@comment, commentee)
-        else
-          if not MailSummaryJob.exists?(commentee.id, 
-                                        :reply_to_me_summary_email, delay)
-            Delayed::Job.enqueue(
-              MailSummaryJob.new(commentee.id, 
-                                 :reply_to_me_summary_email,
-                                 delay), 
-              :run_at => EmailSetting.run_date(delay))
-          end
-        end
+        schedule_email(:time_period => delay, 
+                       :user => commentee, 
+                       :email_method => :comment_email, 
+                       :email_method_args => [@comment, commentee], 
+                       :summary_method => :reply_to_me_summary_email)
 
         ### send email to participants in review
         review.reviewers.each do |r|
-          next if r == commentee  # we already scheduled commentee above
+          next if r == commentee    # we already scheduled commentee above
+          next if r == current_user # no need to send email to ourself
           delay = r.email_settings.participant[:comment_to_anyone]
-          case delay
-          when EmailSetting::NONE
-            # do nothing
-          when EmailSetting::INSTANT
-            UserMailer.delay.comment_participant_email(@comment, r)
-          else
-            if not MailSummaryJob.exists?(r.id, 
-                                          :comment_to_anyone_summary_email,
-                                          delay)
-              Delayed::Job.enqueue(
-                MailSummaryJob.new(r.id, :comment_to_anyone_summary_email, 
-                                   delay),
-                 :run_at => EmailSetting.run_date(delay))
-            end
-          end
+          schedule_email(:time_period => delay, 
+                         :user => r, 
+                         :email_method => :comment_participant_email, 
+                         :email_method_args => [@comment, r], 
+                         :summary_method => :comment_to_anyone_summary_email)
         end
 
         format.json { render :partial => "shared/comment", 

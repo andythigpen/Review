@@ -383,8 +383,11 @@ function prev_comment(loc) {
     var itop = $(this).offset().top;
     var diff = wtop - itop;
     diff = parseInt(diff, 10);
+    if (wtop == itop) {
+      return true;      // continue
+    }
     if (diff <= 1) {    // 1px for FF
-      return false;
+      return false;     // break
     }
     minitem = this;
   });

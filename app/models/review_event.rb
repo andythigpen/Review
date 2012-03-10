@@ -35,4 +35,8 @@ class ReviewEvent < ActiveRecord::Base
     return self.review_event_users.count
   end
 
+  def waiting_for
+    self.required_reviewers.select {|r| r if !status_for(r) }
+  end
+
 end

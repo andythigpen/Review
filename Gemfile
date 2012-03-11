@@ -21,6 +21,9 @@ gem 'daemons'
 gem 'delayed_job_active_record'
 gem 'delayed_job_web'
 
+# provides the auto_link functionality that was removed in rails 3.1
+gem 'rails_autolink'
+
 # Deploy with Capistrano
 # gem 'capistrano'
 

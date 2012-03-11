@@ -6,8 +6,8 @@ gem 'rails', '3.0.4'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
-gem 'warden', '1.0.3'
-gem 'devise', '1.2.0'
+gem 'warden', '1.1'
+gem 'devise', '1.5.3'
 
 gem 'kaminari'
 gem "paperclip"

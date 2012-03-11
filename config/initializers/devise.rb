@@ -12,6 +12,10 @@ Devise.setup do |config|
   # session. If you need permissions, you should implement that in a before filter.
   config.authentication_keys = [ :username ]
 
+  config.case_insensitive_keys = [:email]
+  config.use_salt_as_remember_token = true
+  config.reset_password_within = 6.hours
+
   # Tell if authentication through request.params is enabled. True by default.
   # config.params_authenticatable = true
 
@@ -39,7 +43,7 @@ Devise.setup do |config|
   # ==> Configuration for :confirmable
   # The time you want give to your user to confirm his account. During this time
   # he will be able to access your application without confirming. Default is nil.
-  # config.confirm_within = 2.days
+  # config.allow_unconfirmed_access_for = 2.days
 
   # ==> Configuration for :rememberable
   # The time the user will be remembered without asking for credentials again.

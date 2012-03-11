@@ -7,7 +7,7 @@ gem 'rails', '3.0.4'
 
 gem 'sqlite3'
 gem 'warden', '1.0.3'
-gem 'devise', '1.1.7'
+gem 'devise', '1.2.0'
 
 gem 'kaminari'
 gem "paperclip"

@@ -57,6 +57,7 @@ Review::Application.routes.draw do
   # Profiles
   get "profile/edit" => "profile#edit", :as => :profile
   post "profile/update" => "profile#update"
+  put "profile/update" => "profile#update"
 
   # reviewer autocomplete
   # get "reviewers/show"

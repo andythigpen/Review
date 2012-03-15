@@ -1,7 +1,8 @@
 class ReminderMailJob
   include Delayed::ScheduledJob
 
-  run_every 1.day
+  # run every day at 5 AM local time
+  run_every 1.day, :at => {:hour => 5}
 
   def display_name
     "Reminder Mailer"

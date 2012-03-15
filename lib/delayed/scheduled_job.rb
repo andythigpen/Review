@@ -1,5 +1,5 @@
 #
-# From https://gist.github.com/1024726
+# Modified From https://gist.github.com/1024726
 # Recurring Job using Delayed::Job
 # 
 # Setup Your job the "plain-old" DJ (perform) way, include this module 
@@ -61,18 +61,20 @@ module Delayed
       end
 
       def run_at
-        run_interval.from_now
+        run_interval.from_now.localtime.change(@time_at)
       end
 
       def run_interval
+        @time_at ||= {}
         @run_interval ||= 1.hour
       end
 
-      def run_every(time)
+      # run_every 1.day, :at => {:hour => 0, :min => 1, :sec => 2}
+      def run_every(time, opts={})
+        opts[:at] ||= {}
+        @time_at = opts[:at]
         @run_interval = time
       end
-
-      #
 
       def schedule(run_at = nil)
         schedule!(run_at) unless scheduled?

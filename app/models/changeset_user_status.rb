@@ -3,7 +3,7 @@ class ChangesetUserStatus < ActiveRecord::Base
   belongs_to :changeset
   has_many :comments, :as => :commentable, :dependent => :destroy
   accepts_nested_attributes_for :comments,
-        :reject_if => proc { |attributes| attributes['content'].blank? }
+        :reject_if => proc { |attributes| attributes['content'].nil? }
 
   def accepted?
     return self.status == CHANGESET_STATUSES[:accept]

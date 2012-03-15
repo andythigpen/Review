@@ -64,7 +64,7 @@ class ReviewersController < ApplicationController
     members = group.members.map do |m|
       r = ReviewEventUser.new :user_id => m.id, 
         :review_event_id => @parent.id 
-      self.formats = 'html'
+      self.formats = ['html']
       content = render_to_string(:partial => "review_events/reviewers_row", 
                                  :locals => { :r => r, :adding => true })
       { :user_id => m.id, :content => content }

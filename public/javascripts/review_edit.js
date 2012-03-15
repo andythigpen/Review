@@ -39,8 +39,11 @@ function setup_reviewer_autocomplete() {
           $("#reviewer-table > tbody > tr:last").after(data.content);
         }
         else {
-          $("#reviewer_"+data.user_id).fadeIn().find('input[type=checkbox]').
-            attr('checked', '').change().next('input[type=hidden]').val('0');
+          $("#reviewer_"+data.user_id).fadeIn().
+            find('#checkuser_'+data.user_id).
+            removeAttr('checked').
+            change().
+            next('input[type=hidden]').val('0');
         }
     });
   });
@@ -62,7 +65,9 @@ function setup_reviewer_autocomplete() {
           }
           else {
             $("#reviewer_"+data[idx].user_id).fadeIn().
-              find('input[type=checkbox]').attr('checked', '').change().
+              find('#checkuser_'+data[idx].user_id).
+              removeAttr('checked').
+              change().
               next('input[type=hidden]').val('0');
           }
         }

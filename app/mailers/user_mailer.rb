@@ -5,7 +5,8 @@ class UserMailer < ActionMailer::Base
   def welcome_email(user)
     @user = user
     @url = t :app_url
-    mail(:to => user.email,
+    mail(:to => user.email, 
+         :from => APP_CONFIG['email_from'],
          :subject => "Thanks for Registering for Review")
   end
 
@@ -16,7 +17,9 @@ class UserMailer < ActionMailer::Base
     @changeset = changeset
     @url = APP_CONFIG['url']
     subject = "Review Request: #{@review_event.name}"
-    mail(:to => reviewer.email, :subject => subject)
+    mail(:to => reviewer.email, 
+         :from => APP_CONFIG['email_from'],
+         :subject => subject)
   end
 
   def status_email(status, reviewer, reviewee)
@@ -27,7 +30,9 @@ class UserMailer < ActionMailer::Base
     @comment = @status.comments.first
     @url = APP_CONFIG['url']
     subject = "Review Status Change: #{@changeset.review_event.name} [Comment:#{@comment.id}]"
-    mail(:to => reviewee.email, :subject => subject)
+    mail(:to => reviewee.email, 
+         :from => APP_CONFIG['email_from'],
+         :subject => subject)
   end
 
   def status_participant_email(status, reviewer, user)
@@ -37,7 +42,9 @@ class UserMailer < ActionMailer::Base
     @comment = @status.comments.first
     @url = APP_CONFIG['url']
     subject = "Review Status Change: #{@changeset.review_event.name} [Comment:#{@comment.id}]"
-    mail(:to => user.email, :subject => subject)
+    mail(:to => user.email, 
+         :from => APP_CONFIG['email_from'],
+         :subject => subject)
   end
 
   def comment_email(comment, commentee)
@@ -50,7 +57,9 @@ class UserMailer < ActionMailer::Base
     else
       @subject = "New comment [Comment:#{@comment.id}]"
     end
-    mail(:to => commentee.email, :subject => @subject)
+    mail(:to => commentee.email, 
+         :from => APP_CONFIG['email_from'],
+         :subject => @subject)
   end
 
   def comment_participant_email(comment, user)
@@ -58,7 +67,9 @@ class UserMailer < ActionMailer::Base
     @commenter = comment.user
     @review = comment.get_review_event
     @url = APP_CONFIG['url']
-    mail(:to => user.email, :subject => "New comment [Comment:#{@comment.id}]")
+    mail(:to => user.email, 
+         :from => APP_CONFIG['email_from'],
+         :subject => "New comment [Comment:#{@comment.id}]")
   end
 
   def reminder_email(review_event, reviewer)
@@ -66,7 +77,9 @@ class UserMailer < ActionMailer::Base
     @reviewer = reviewer
     @review_event = review_event
     subject = "Review Reminder: #{@review_event.name}"
-    mail(:to => reviewer.email, :subject => subject)
+    mail(:to => reviewer.email, 
+         :from => APP_CONFIG['email_from'],
+         :subject => subject)
   end
 
   def review_change_email(reviewer, reviewee, changeset)
@@ -76,7 +89,9 @@ class UserMailer < ActionMailer::Base
     @changeset = changeset
     @url = APP_CONFIG['url']
     subject = "Review Changed: #{@review_event.name}"
-    mail(:to => reviewer.email, :subject => subject)
+    mail(:to => reviewer.email, 
+         :from => APP_CONFIG['email_from'],
+         :subject => subject)
   end
 
   #
@@ -93,6 +108,7 @@ class UserMailer < ActionMailer::Base
     @comment_type = "replies"
     if @comments.size > 0
       mail(:to => User.find(user_id).email, 
+           :from => APP_CONFIG['email_from'],
            :subject => "Replies to me summary", 
            :template_name => "comment_summary")
     end
@@ -116,6 +132,7 @@ class UserMailer < ActionMailer::Base
     @comment_type = "new comments"
     if @comments.size > 0
       mail(:to => user.email, 
+           :from => APP_CONFIG['email_from'],
            :subject => "New comments summary", 
            :template_name => "comment_summary")
     end
@@ -129,6 +146,7 @@ class UserMailer < ActionMailer::Base
     user = User.find(user_id)
     if @statuses.size > 0
       mail(:to => user.email,
+           :from => APP_CONFIG['email_from'],
            :subject => "Status change summary")
     end
   end
@@ -141,6 +159,7 @@ class UserMailer < ActionMailer::Base
     user = User.find(user_id)
     if @changesets.size > 0
       mail(:to => user.email,
+           :from => APP_CONFIG['email_from'],
            :subject => "Review request summary",
            :template_name => "review_request_summary_email")
     end

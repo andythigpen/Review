@@ -6,7 +6,6 @@ class UserMailer < ActionMailer::Base
     @user = user
     @url = t :app_url
     mail(:to => user.email, 
-         :from => APP_CONFIG['email_from'],
          :subject => "Thanks for Registering for Review")
   end
 
@@ -18,7 +17,6 @@ class UserMailer < ActionMailer::Base
     @url = APP_CONFIG['url']
     subject = "Review Request: #{@review_event.name}"
     mail(:to => reviewer.email, 
-         :from => APP_CONFIG['email_from'],
          :subject => subject)
   end
 
@@ -31,7 +29,6 @@ class UserMailer < ActionMailer::Base
     @url = APP_CONFIG['url']
     subject = "Review Status Change: #{@changeset.review_event.name} [Comment:#{@comment.id}]"
     mail(:to => reviewee.email, 
-         :from => APP_CONFIG['email_from'],
          :subject => subject)
   end
 
@@ -43,7 +40,6 @@ class UserMailer < ActionMailer::Base
     @url = APP_CONFIG['url']
     subject = "Review Status Change: #{@changeset.review_event.name} [Comment:#{@comment.id}]"
     mail(:to => user.email, 
-         :from => APP_CONFIG['email_from'],
          :subject => subject)
   end
 
@@ -58,7 +54,6 @@ class UserMailer < ActionMailer::Base
       @subject = "New comment [Comment:#{@comment.id}]"
     end
     mail(:to => commentee.email, 
-         :from => APP_CONFIG['email_from'],
          :subject => @subject)
   end
 
@@ -68,7 +63,6 @@ class UserMailer < ActionMailer::Base
     @review = comment.get_review_event
     @url = APP_CONFIG['url']
     mail(:to => user.email, 
-         :from => APP_CONFIG['email_from'],
          :subject => "New comment [Comment:#{@comment.id}]")
   end
 
@@ -78,7 +72,6 @@ class UserMailer < ActionMailer::Base
     @review_event = review_event
     subject = "Review Reminder: #{@review_event.name}"
     mail(:to => reviewer.email, 
-         :from => APP_CONFIG['email_from'],
          :subject => subject)
   end
 
@@ -90,7 +83,6 @@ class UserMailer < ActionMailer::Base
     @url = APP_CONFIG['url']
     subject = "Review Changed: #{@review_event.name}"
     mail(:to => reviewer.email, 
-         :from => APP_CONFIG['email_from'],
          :subject => subject)
   end
 
@@ -106,12 +98,12 @@ class UserMailer < ActionMailer::Base
     end
     @time_period = time_period
     @comment_type = "replies"
-    if @comments.size > 0
-      mail(:to => User.find(user_id).email, 
-           :from => APP_CONFIG['email_from'],
-           :subject => "Replies to me summary", 
-           :template_name => "comment_summary")
+    if @comments.size == 0
+      raise AbortMailerException.new
     end
+    mail(:to => User.find(user_id).email, 
+         :subject => "Replies to me summary", 
+         :template_name => "comment_summary")
   end
 
   def comment_to_anyone_summary_email(user_id, time_period)
@@ -130,12 +122,12 @@ class UserMailer < ActionMailer::Base
     end
     @time_period = time_period
     @comment_type = "new comments"
-    if @comments.size > 0
-      mail(:to => user.email, 
-           :from => APP_CONFIG['email_from'],
-           :subject => "New comments summary", 
-           :template_name => "comment_summary")
+    if @comments.size == 0
+      raise AbortMailerException.new
     end
+    mail(:to => user.email, 
+         :subject => "New comments summary", 
+         :template_name => "comment_summary")
   end
 
   def status_change_summary_email(user_id, time_period)
@@ -144,11 +136,11 @@ class UserMailer < ActionMailer::Base
                                           time_period.days.ago, user_id])
     @time_period = time_period
     user = User.find(user_id)
-    if @statuses.size > 0
-      mail(:to => user.email,
-           :from => APP_CONFIG['email_from'],
-           :subject => "Status change summary")
+    if @statuses.size == 0
+      raise AbortMailerException.new
     end
+    mail(:to => user.email,
+         :subject => "Status change summary")
   end
 
   def new_changeset_summary_email(user_id, time_period)
@@ -157,11 +149,11 @@ class UserMailer < ActionMailer::Base
                                   time_period.days.ago, true])
     @time_period = time_period
     user = User.find(user_id)
-    if @changesets.size > 0
-      mail(:to => user.email,
-           :from => APP_CONFIG['email_from'],
-           :subject => "Review request summary",
-           :template_name => "review_request_summary_email")
+    if @changesets.size == 0
+      raise AbortMailerException.new
     end
+    mail(:to => user.email,
+         :subject => "Review request summary",
+         :template_name => "review_request_summary_email")
   end
 end

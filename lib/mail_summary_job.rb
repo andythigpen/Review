@@ -9,6 +9,12 @@ class MailSummaryJob < Struct.new(:user_id, :mail_method, :time_period)
   end
 
   def perform
-    UserMailer.send(self.mail_method, self.user_id, self.time_period).deliver
+    begin
+      UserMailer.send(self.mail_method, 
+                      self.user_id, 
+                      self.time_period).deliver
+    rescue AbortMailerException => e
+      # don't send the mail
+    end
   end
 end

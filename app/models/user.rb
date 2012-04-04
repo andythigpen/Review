@@ -23,16 +23,7 @@ class User < ActiveRecord::Base
                   :first_name, :last_name
 
   def current_requests
-    res = []
-    self.review_requests.each do |r|
-      latest = r.changesets.last_submitted
-      # filter out those without changesets or submitted changesets
-      next if latest.nil? 
-
-      yield r if block_given?
-      res.push(r)
-    end
-    res
+    self.review_requests.joins(:changesets).where("submitted = ?", true)
   end
 
   def profile_name

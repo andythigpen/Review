@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
   before_filter :is_user_signed_in
-  before_filter :setup_filters
+  before_filter :setup_filters, :only => :dashboard
 
   # filter name, template
   @@filters = { 
@@ -22,6 +22,7 @@ class HomeController < ApplicationController
   end
 
   def run_filter(filter)
+    self.send("update_#{@@filters[filter]}")
     reviews = self.instance_variable_get("@#{filter}")
     pages = Kaminari.paginate_array(reviews).page(params[:page]).per(20)
 
@@ -43,54 +44,32 @@ class HomeController < ApplicationController
       end
     end
 
-    def setup_filters
+    def update_inbox
       @all_inbox = current_user.current_requests
-      @all_outbox = current_user.reviews_owned
-      @inbox = []
-      @due_soon = []
-      @late = []
-      @outbox = []
-      @drafts = []
-      @accepted = []
-      @rejected = []
-
-      @all_inbox.each do |r|
+      @inbox = @all_inbox.select do |r| 
         status = r.status_for(current_user)
-        if status.nil?
-          @inbox.push(r)
-          next if r.duedate.nil?
-          if r.duedate.to_date.past? 
-            @late.push(r)
-          elsif (r.duedate.to_date - 2).past? 
-            @due_soon.push(r)
-          end
-        else
-          @inbox.push(r) if not (status.updated_at.to_date + 7).past?
-        end
+        status.nil? or (status.updated_at.to_date + 7).past?
       end
-
-      @all_outbox.each do |r|
-        changeset = r.changesets.last
-        already_in_outbox = false
-
-        # show everything in outbox from the past week
-        # TODO instead of changeset.updated_at, should it be the latest
-        # changeset status updated_at??
-        if not changeset.nil? and not (changeset.updated_at.to_date + 7).past?
-          @outbox.push(r)
-          already_in_outbox = true
-        end
-
-        if not changeset or not changeset.submitted
-          @drafts.push(r)
-          @outbox.push(r) unless already_in_outbox
-        elsif changeset.rejected?
-          @rejected.push(r)
-        elsif changeset.accepted?
-          @accepted.push(r)
-        else
-          @outbox.push(r) unless already_in_outbox
-        end
+      @due_soon = @inbox.select do |r| 
+        r.duedate && (r.duedate.to_date - 2).past? && !(r.duedate.to_date).past?
       end
+      @late = @inbox.select {|r| r.duedate && r.duedate.to_date.past? }
+    end
+
+    def update_outbox
+      @all_outbox = current_user.reviews_owned
+      @outbox = @all_outbox.select do |r| 
+        r.changesets.last.nil? || 
+        !(r.changesets.last.updated_at.to_date + 7).past? || 
+        !r.changesets.last.is_completed?
+      end
+      @drafts = @outbox.select {|r| r.changesets.last.nil? || !r.changesets.last.submitted }
+      @accepted = @all_outbox.select {|r| !r.changesets.last.nil? && r.changesets.last.accepted? }
+      @rejected = @all_outbox.select {|r| !r.changesets.last.nil? && r.changesets.last.rejected? }
+    end
+
+    def setup_filters
+      update_inbox
+      update_outbox
     end
 end

@@ -22,8 +22,38 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :username,
                   :first_name, :last_name
 
-  def current_requests
+  def submitted_requests
     self.review_requests.joins(:changesets).where("submitted = ?", true)
+  end
+
+  def recent_requests(time_period)
+    self.submitted_requests.where("changesets.updated_at >= ?", time_period)
+  end
+
+  def pending_requests
+    self.submitted_requests.where("NOT review_events.id IN 
+      (SELECT review_events.id FROM review_events 
+        INNER JOIN changesets ON changesets.review_event_id = review_events.id 
+        INNER JOIN changeset_user_statuses ON 
+            changeset_user_statuses.changeset_id = changesets.id 
+      WHERE changeset_user_statuses.user_id = ?)", self.id)
+  end
+
+  def requests_due(time_period)
+    self.pending_requests.where(
+      "review_events.duedate <= ? AND NOT review_events.duedate < ?", 
+      time_period, Time.now.to_date)
+  end
+
+  def late_requests
+    self.pending_requests.where("review_events.duedate < ?", Time.now.to_date)
+  end
+
+  def drafts
+    no_changesets = self.reviews_owned.where("NOT review_events.id IN (SELECT changesets.review_event_id FROM changesets)")
+    unsubmitted_changesets = self.reviews_owned.joins(:changesets).
+      where("changesets.submitted IS NULL")
+    no_changesets + unsubmitted_changesets
   end
 
   def profile_name

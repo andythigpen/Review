@@ -300,7 +300,7 @@
     </div>
   </div>
 
-  <% if not @review_event.notes.empty? %>
+  <% if !@review_event.notes.nil? && !@review_event.notes.empty? %>
     <div class="row-fluid">
        <div class="span12">
         <strong>Notes:</strong>&nbsp;&nbsp;

@@ -45,25 +45,16 @@ class HomeController < ApplicationController
     end
 
     def update_inbox
-      @all_inbox = current_user.current_requests
-      @inbox = @all_inbox.select do |r| 
-        status = r.status_for(current_user)
-        status.nil? or (status.updated_at.to_date + 7).past?
-      end
-      @due_soon = @inbox.select do |r| 
-        r.duedate && (r.duedate.to_date - 2).past? && !(r.duedate.to_date).past?
-      end
-      @late = @inbox.select {|r| r.duedate && r.duedate.to_date.past? }
+      @all_inbox = current_user.submitted_requests
+      @inbox = current_user.recent_requests(7.days.ago)
+      @due_soon = current_user.requests_due(2.days.from_now)
+      @late = current_user.late_requests
     end
 
     def update_outbox
       @all_outbox = current_user.reviews_owned
-      @outbox = @all_outbox.select do |r| 
-        r.changesets.last.nil? || 
-        !(r.changesets.last.updated_at.to_date + 7).past? || 
-        !r.changesets.last.is_completed?
-      end
-      @drafts = @outbox.select {|r| r.changesets.last.nil? || !r.changesets.last.submitted }
+      @outbox = current_user.reviews_owned.where("review_events.updated_at >= ?", 7.days.ago)
+      @drafts = current_user.drafts
       @accepted = @all_outbox.select {|r| !r.changesets.last.nil? && r.changesets.last.accepted? }
       @rejected = @all_outbox.select {|r| !r.changesets.last.nil? && r.changesets.last.rejected? }
     end

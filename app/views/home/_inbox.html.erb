@@ -19,7 +19,7 @@
       <%= r.duedate.to_date if not r.duedate.nil? %>
     </td>
     <td> <%# Posted By %>
-      <%= user_profile_popup(r.owner, :short_format => true) %>
+      <%= r.owner.username %>
     </td>
     <td> <%# My Status %>
       <% if not status.nil? and status.rejected? %>

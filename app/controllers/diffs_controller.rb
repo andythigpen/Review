@@ -1,5 +1,6 @@
 class DiffsController < ApplicationController
   before_filter :authenticate_user!
+  cache_sweeper :diff_sweeper
   
   def create
     contents = params[:diff][:contents]

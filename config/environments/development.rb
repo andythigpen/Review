@@ -33,5 +33,19 @@ Review::Application.configure do
   config.action_mailer.asset_host = "http://localhost:3000"
 
   Paperclip.options[:command_path] = "/usr/bin/"
+
+  config.after_initialize do
+    Bullet.enable = false
+    Bullet.alert = true
+    Bullet.bullet_logger = true
+    Bullet.console = false
+    Bullet.growl = false
+    # Bullet.xmpp = { :account => 'bullets_account@jabber.org',
+    #                 :password => 'bullets_password_for_jabber',
+    #                 :receiver => 'your_account@jabber.org',
+    #                 :show_online_status => true }
+    Bullet.rails_logger = true
+    # Bullet.disable_browser_cache = true
+  end
 end
 

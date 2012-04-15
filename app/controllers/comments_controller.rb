@@ -1,5 +1,6 @@
 class CommentsController < ApplicationController
   before_filter :authenticate_user!
+  cache_sweeper :recent_activity_sweeper
 
   include MailHelper
 

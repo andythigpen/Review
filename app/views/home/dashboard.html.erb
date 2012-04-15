@@ -25,7 +25,7 @@
   </div>
 <% end %>
 
-<% if current_user.profile.nil? and current_user.sign_in_count > 1 %>
+<% if current_user.profile.nil? && current_user.sign_in_count > 1 %>
   <div class="alert alert-info">
     <h4><%= link_to "Create a Profile", profile_path %></h4>
     Profiles are now active! Click <%= link_to "here", profile_path %>
@@ -121,6 +121,7 @@
   </div>
 </div>
 
+<% cache('recent_activity') do %>
 <br />
 <% recent_activity = all_recent(1.week.ago, 10) %>
 <div class="row-fluid">
@@ -160,6 +161,7 @@
   <% end %>
 </ul>
 <br />
+<% end # cache %>
 
 <script type="text/javascript">
   setup_dashboard();

@@ -49,28 +49,28 @@
       <li>
         <%= link_to dashboard_inbox_path, :remote => true, :class => "filter", 
           :"data-type" => "html", :"data-filter" => "inbox" do %>
-            Recent <span class="size pull-right"><%= "#{@inbox.size}" if @inbox.size > 0 %></span>
+            Recent <span class="size pull-right"><%= "#{@inbox_count}" if @inbox_count > 0 %></span>
         <% end %>
       </li>
       <li>
         <%= link_to dashboard_all_inbox_path, :remote => true, 
           :class => "filter", :"data-type" => "html", 
           :"data-filter" => "all_inbox" do %>
-            All <span class="size pull-right"><%= "#{@all_inbox.size}" if @all_inbox.size > 0 %></span>
+            All <span class="size pull-right"><%= "#{@all_inbox_count}" if @all_inbox_count > 0 %></span>
         <% end %>
       </li>
       <li>
       <%= link_to dashboard_due_soon_path, :remote => true, 
         :class => "filter", :"data-type" => "html", 
         :"data-filter" => "due_soon" do %>
-          Due Soon <span class="size pull-right"><%= "#{@due_soon.size}" if @due_soon.size > 0 %></span>
+          Due Soon <span class="size pull-right"><%= "#{@due_soon_count}" if @due_soon_count > 0 %></span>
       <% end %>
       </li>
       <li>
       <%= link_to dashboard_late_path, :remote => true, 
         :class => "filter", :"data-type" => "html", 
         :"data-filter" => "late" do %>
-          Late <span class="size pull-right"><%= "#{@late.size}" if @late.size > 0 %></span>
+          Late <span class="size pull-right"><%= "#{@late_count}" if @late_count > 0 %></span>
       <% end %>
       </li>
 
@@ -78,35 +78,35 @@
       <li>
         <%= link_to dashboard_outbox_path, :remote => true, :class => "filter", 
           :"data-type" => "html", :"data-filter" => "outbox" do %>
-            Recent <span class="size pull-right"><%= "#{@outbox.size}" if @outbox.size > 0 %></span>
+            Recent <span class="size pull-right"><%= "#{@outbox_count}" if @outbox_count > 0 %></span>
         <% end %>
       </li>
       <li>
         <%= link_to dashboard_all_outbox_path, :remote => true, 
           :class => "filter", :"data-type" => "html", 
           :"data-filter" => "all_outbox" do %>
-            All <span class="size pull-right"><%= "#{@all_outbox.size}" if @all_outbox.size > 0 %></span>
+            All <span class="size pull-right"><%= "#{@all_outbox_count}" if @all_outbox_count > 0 %></span>
         <% end %>
       </li>
       <li>
         <%= link_to dashboard_drafts_path, :remote => true, 
           :class => "filter", :"data-type" => "html", 
           :"data-filter" => "drafts" do %>
-            Drafts <span class="size pull-right"><%= "#{@drafts.size}" if @drafts.size > 0 %></span>
+            Drafts <span class="size pull-right"><%= "#{@drafts_count}" if @drafts_count > 0 %></span>
         <% end %>
       </li>
       <li>
         <%= link_to dashboard_accepted_path, :remote => true, 
           :class => "filter", :"data-type" => "html", 
           :"data-filter" => "accepted" do %>
-            Accepted <span class="size pull-right"><%= "#{@accepted.size}" if @accepted.size > 0 %></span>
+            Accepted <span class="size pull-right"><%= "#{@accepted_count}" if @accepted_count > 0 %></span>
           <% end %>
       </li>
       <li>
         <%= link_to dashboard_rejected_path, :remote => true, 
           :class => "filter", :"data-type" => "html", 
           :"data-filter" => "rejected" do %>
-            Rejected <span class="size pull-right"><%= "#{@rejected.size}" if @rejected.size > 0 %></span>
+            Rejected <span class="size pull-right"><%= "#{@rejected_count}" if @rejected_count > 0 %></span>
           <% end %>
       </li>
 
@@ -137,20 +137,20 @@
         <span class="ui-icon ui-icon-carat-1-e inline-icon" 
               style="margin-right:0.3em"></span>
         <em style="margin-right:1em;"><%= a.updated_at.to_s :short %></em>
-        <% if a.class == Comment %>
+        <% if a.is_a?(Comment) %>
           <% changeset = a.get_changeset %>
           <% event = changeset.review_event %>
           <% owner = event.owner %>
           <% type = "Comment" %>
           <% type = "Reply" if a.commentable.class == Comment %>
           <%= link_to type, comment_path(a) %> from 
-          <%= user_profile_popup(a.user, :short_format => true) %>
-            for <%= link_to "#{event.name}", review_event_path(event) %>
-            changeset 
-            <%= link_to "#{changeset.name}", changeset_path(changeset) %>
-        <% elsif a.class == Changeset %>
+          <%= a.user.username %>
+          for <%= link_to "#{event.name}", review_event_path(event) %>
+          changeset 
+          <%= link_to "#{changeset.name}", changeset_path(changeset) %>
+        <% elsif a.is_a?(Changeset) %>
           <%= link_to "Changeset", changeset_path(a) %> from 
-          <%= user_profile_popup(a.review_event.owner, :short_format => true) %>
+          <%= a.review_event.owner.username %>
           for <%= link_to "#{a.review_event.name}", review_event_path(a.review_event) %>
         <% else %>
           Unknown activity for <%= a.class %>

@@ -1,10 +1,13 @@
 module HomeHelper
   def recent_comments(days, limit)
-    Comment.where(:updated_at => days..Time.now).order("updated_at DESC").limit(limit)
+    Comment.where(:updated_at => days..Time.now).includes(:commentable).
+      order("updated_at DESC").limit(limit)
   end
 
   def recent_submitted_changesets(days, limit)
-    changesets = Changeset.where(:updated_at => days..Time.now, :submitted => true).order("updated_at DESC").limit(limit)
+    Changeset.where(:updated_at => days..Time.now, 
+                    :submitted => true).includes(:review_event => :owner).
+                    order("updated_at DESC").limit(limit)
   end
 
   def all_recent(days, limit)

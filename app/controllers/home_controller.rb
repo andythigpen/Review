@@ -1,6 +1,5 @@
 class HomeController < ApplicationController
   before_filter :is_user_signed_in
-  before_filter :setup_filters, :only => :dashboard
 
   # filter name, template
   @@filters = { 
@@ -22,8 +21,8 @@ class HomeController < ApplicationController
   end
 
   def run_filter(filter)
-    self.send("update_#{@@filters[filter]}")
-    reviews = self.instance_variable_get("@#{filter}")
+    self.send("update_#{@@filters[filter]}_counts")
+    reviews = self.send("update_#{filter}")
     pages = Kaminari.paginate_array(reviews).page(params[:page]).per(20)
 
     respond_to do |format|
@@ -35,6 +34,8 @@ class HomeController < ApplicationController
   end
 
   def dashboard
+    update_inbox_counts
+    update_outbox_counts
   end
 
  protected
@@ -44,23 +45,61 @@ class HomeController < ApplicationController
       end
     end
 
+    def update_inbox_counts
+      @all_inbox_count = 0 # disable count for now
+      @inbox_count = current_user.recent_requests(7.days.ago).count
+      @due_soon_count = current_user.requests_due(2.days.from_now).count
+      @late_count = current_user.late_requests.count
+    end
+
+    def update_outbox_counts
+      @all_outbox_count = 0 # disable count for now
+      @outbox_count = current_user.reviews_owned.where(
+        "review_events.updated_at >= ?", 7.days.ago).count
+      @drafts_count= current_user.drafts.count
+      @accepted_count = 0
+      @rejected_count = 0
+    end
+
+    def update_all_inbox
+      current_user.submitted_requests.includes(:owner)
+    end
+
     def update_inbox
-      @all_inbox = current_user.submitted_requests
-      @inbox = current_user.recent_requests(7.days.ago)
-      @due_soon = current_user.requests_due(2.days.from_now)
-      @late = current_user.late_requests
+      current_user.recent_requests(7.days.ago).includes(:owner)
+    end
+
+    def update_due_soon
+      current_user.requests_due(2.days.from_now).includes(:owner)
+    end
+
+    def update_late
+      current_user.late_requests.includes(:owner)
+    end
+
+    def update_all_outbox
+      current_user.reviews_owned
     end
 
     def update_outbox
-      @all_outbox = current_user.reviews_owned
-      @outbox = current_user.reviews_owned.where("review_events.updated_at >= ?", 7.days.ago)
-      @drafts = current_user.drafts
-      @accepted = @all_outbox.select {|r| !r.changesets.last.nil? && r.changesets.last.accepted? }
-      @rejected = @all_outbox.select {|r| !r.changesets.last.nil? && r.changesets.last.rejected? }
+      current_user.reviews_owned.where("review_events.updated_at >= ?", 
+                                       7.days.ago)
     end
 
-    def setup_filters
-      update_inbox
-      update_outbox
+    def update_drafts
+      current_user.drafts
     end
+
+    def update_accepted
+      current_user.reviews_owned.select do |r| 
+        !r.changesets.last.nil? && r.changesets.last.accepted?
+      end
+    end
+
+    def update_rejected
+      current_user.reviews_owned.select do |r| 
+        !r.changesets.last.nil? && r.changesets.last.rejected?
+      end
+    end
+
 end

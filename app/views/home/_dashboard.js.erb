@@ -3,10 +3,10 @@ $("#dashboard-right-contents").html('<%= escape_javascript(render(:partial => "#
 
 <%# update all the mailbox counts %>
 <% filters.keys.each do |f| %>
-  <% r = self.instance_variable_get("@#{f}") %>
+  <% r = self.instance_variable_get("@#{f}_count") %>
   <% if !r.nil? %>
-    <% if r.size > 0 %>
-      $("[data-filter=<%= f %>] .size").html("<%= r.size %>");
+    <% if r > 0 %>
+      $("[data-filter=<%= f %>] .size").html("<%= r %>");
     <% else %>
       $("[data-filter=<%= f %>] .size").html("");
     <% end %>

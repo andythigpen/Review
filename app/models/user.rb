@@ -2,10 +2,10 @@ require 'email_settings'
 
 class User < ActiveRecord::Base
   has_many :reviews_owned, :class_name => "ReviewEvent", 
-    :dependent => :destroy, :order => "updated_at DESC"
+    :dependent => :destroy, :order => "review_events.updated_at DESC"
   has_many :review_event_users, :dependent => :destroy
   has_many :review_requests, :through => :review_event_users, 
-           :source => :review_event, :order => "updated_at DESC"
+           :source => :review_event, :order => "review_events.updated_at DESC"
   has_many :comments, :dependent => :destroy
   has_many :changeset_user_statuses, :dependent => :destroy
   has_one :profile, :dependent => :destroy

@@ -52,4 +52,5 @@ group :development do
   # gem 'letter_opener'
   gem 'mailcatcher'
   gem 'bullet'
+  gem 'ruby-prof'
 end

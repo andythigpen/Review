@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
                   :first_name, :last_name
 
   def submitted_requests
-    self.review_requests.joins(:changesets).where("submitted = ?", true)
+    self.review_requests.joins(:changesets).where("submitted = ?", true).uniq
   end
 
   def recent_requests(time_period)

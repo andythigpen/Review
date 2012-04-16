@@ -47,7 +47,8 @@ class HomeController < ApplicationController
 
     def update_inbox_counts
       @all_inbox_count = 0 # disable count for now
-      @inbox_count = current_user.recent_requests(7.days.ago).count
+      @inbox_count = current_user.recent_requests(7.days.ago).
+        count("DISTINCT review_events.id")
       @due_soon_count = current_user.requests_due(2.days.from_now).count
       @late_count = current_user.late_requests.count
     end

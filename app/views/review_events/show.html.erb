@@ -289,7 +289,7 @@
 
       <div>
         <strong>Waiting on:</strong>&nbsp;&nbsp;
-        <%= @review_event.waiting_for.map do |u|
+        <%= @review_event.waiting_for(@changeset).map do |u|
               user_profile_popup(u, :short_format => true)
             end.join(",").html_safe %>
       </div>

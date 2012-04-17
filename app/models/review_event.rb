@@ -14,11 +14,9 @@ class ReviewEvent < ActiveRecord::Base
   validates_presence_of :name
 
   # returns a changeset user status object for given user
-  def status_for(user)
-    return nil if self.changesets.nil? or self.changesets.last.nil?
-    status = ChangesetUserStatus.find_by_user_id_and_changeset_id(user.id, 
-                self.changesets.last.id)
-    return status
+  def status_for(user, changeset = nil)
+    changeset = self.changesets.last_submitted if changeset.nil?
+    ChangesetUserStatus.find_by_user_id_and_changeset_id(user.id, changeset.id)
   end
 
   def accepted_total
@@ -35,8 +33,8 @@ class ReviewEvent < ActiveRecord::Base
     return self.required_reviewers.count
   end
 
-  def waiting_for
-    self.required_reviewers.select {|r| r if !status_for(r) }
+  def waiting_for(changeset = nil)
+    self.required_reviewers.select {|r| r if !status_for(r, changeset) }
   end
 
 end

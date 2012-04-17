@@ -25,7 +25,8 @@ class User < ActiveRecord::Base
                   :first_name, :last_name
 
   def submitted_requests
-    self.review_requests.joins(:changesets).where("submitted = ?", true).uniq
+    self.review_requests.joins(:changesets).where("changesets.submitted = ?", 
+                                                  true).uniq
   end
 
   def recent_requests(time_period)
@@ -33,12 +34,16 @@ class User < ActiveRecord::Base
   end
 
   def pending_requests
-    self.submitted_requests.where("NOT review_events.id IN 
-      (SELECT review_events.id FROM review_events 
-        INNER JOIN changesets ON changesets.review_event_id = review_events.id 
-        INNER JOIN changeset_user_statuses ON 
-            changeset_user_statuses.changeset_id = changesets.id 
-      WHERE changeset_user_statuses.user_id = ?)", self.id)
+    # idea from http://stackoverflow.com/questions/2111384/sql-join-selecting-the-last-records-in-a-one-to-many-relationship
+    # this selects the last changeset and then eliminates any changesets that
+    # have submitted statuses by this user
+    self.submitted_requests.joins("LEFT OUTER JOIN changesets c2 ON 
+      review_events.id = c2.review_event_id AND changesets.id < c2.id").
+      where("c2.id IS NULL AND NOT changesets.id IN 
+            (SELECT changesets.id FROM changesets 
+            INNER JOIN changeset_user_statuses 
+            ON changeset_user_statuses.changeset_id = changesets.id 
+            WHERE changeset_user_statuses.user_id = ?)", self.id)
   end
 
   def requests_due(time_period)

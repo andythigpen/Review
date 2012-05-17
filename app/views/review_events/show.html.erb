@@ -416,7 +416,13 @@
       <% @changeset.diffs.each do |d| %>
         <li class="file">
           <i class="icon-file"></i>
-          <a href="#file_<%= d.id %>"><%= d.origin_file %></a>
+          <a href="#file_<%= d.id %>">
+            <% if d.was_file_deleted %>
+              <%= d.origin_file %>
+            <% else %>
+              <%= d.updated_file %>
+            <% end %>
+          </a>
           <% if not @changeset.submitted %>
             <%= link_to_js "remove_diff('#{d.id}');", 
               :class => "pull-right" do %>

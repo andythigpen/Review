@@ -4,7 +4,13 @@
     <h4>
       <a name="file_<%= d.id %>" class="filemark"></a>
       <i class="icon-file" style="margin-right:0.3em"></i>
-      <span class="filename"><%= d.origin_file %></span>
+      <span class="filename">
+        <% if d.was_file_deleted %>
+          <%= d.origin_file %>
+        <% else %>
+          <%= d.updated_file %>
+        <% end %>
+      </span>
       <%= add_comment_button d, "#diff_comment_#{d.id}", 
           :class => "pull-right btn btn-small" do %>
         <i class="icon-plus-sign"></i>Add Comment

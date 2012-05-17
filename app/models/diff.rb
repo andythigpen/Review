@@ -44,4 +44,30 @@ class Diff < ActiveRecord::Base
   def deletions
     self.contents.lines.reject {|line| line =~ /^[^-]/ }
   end
+
+  def was_file_added
+    added = false
+    context = self.contents.lines.reject {|line| line =~ /^[^@]{2}/ }
+    context.each do |line|
+      if line =~ /^@@\s+-(\d+)(,(\d+))*\s+\+(\d+)(,(\d+))*\s+@@/
+        lineno_left = $1.to_i 
+        context_left = $3.to_i
+        added = (context_left == 0 and lineno_left == 0)
+      end
+    end
+    return added
+  end
+
+  def was_file_deleted
+    deleted = false
+    context = self.contents.lines.reject {|line| line =~ /^[^@]{2}/ }
+    context.each do |line|
+      if line =~ /^@@\s+-(\d+)(,(\d+))*\s+\+(\d+)(,(\d+))*\s+@@/
+        lineno_right = $4.to_i 
+        context_right = $6.to_i
+        deleted = (context_right == 0 and lineno_right == 0)
+      end
+    end
+    return deleted
+  end
 end

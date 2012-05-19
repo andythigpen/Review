@@ -34,6 +34,7 @@ class ReviewEvent < ActiveRecord::Base
   end
 
   def waiting_for(changeset = nil)
+    return [] if changeset.nil? && self.changesets.last_submitted.nil?
     self.required_reviewers.select {|r| r if !status_for(r, changeset) }
   end
 

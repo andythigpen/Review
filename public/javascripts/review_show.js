@@ -267,12 +267,15 @@ function remove_changeset(changeset_id, review_id) {
 function submit_changeset_status(user_id, changeset_id, statusText, statusType, defaultComment, dialogText) {
   var dialogText = dialogText || statusText;
   $("#status-changeset-dialog .status").html(dialogText.toLowerCase());
-  $("#status-changeset-dialog textarea").html(defaultComment);
+  $("#status-changeset-dialog textarea").val(defaultComment);
   hide_ajax_loader("#status-changeset-dialog");
-  $("#status-changeset-dialog").modal('show');
+  $("#status-changeset-dialog").modal('show').on('hidden', function() {
+    $("#status-changeset-dialog a[data-action='submit']").unbind("click");
+  });
   $("#status-changeset-dialog a[data-action='submit']").click(function (e) {
     e.preventDefault();
-    if ($("#status-changeset-dialog textarea").val().length == 0) {
+    var comment = $("#status-changeset-dialog textarea").val();
+    if (comment.length == 0 || comment.replace(/\s/g,"") == "") {
       $("#status-changeset-dialog .alert").fadeIn();
       return false;
     }
@@ -284,7 +287,7 @@ function submit_changeset_status(user_id, changeset_id, statusText, statusType, 
           "status": statusType,
           "comments_attributes": [
             { 
-              "content": $("#status-changeset-dialog textarea").val(),
+              "content": comment,
               "user_id": user_id 
             }
           ]

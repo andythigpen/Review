@@ -133,7 +133,6 @@
     <li><em>No recent activity.</em></li>
   <% else %>
     <% recent_activity.each do |a| %>
-      <% next if a.class == Comment and a.is_deleted? %>
       <li class="ui-corner-all review-event">
         <span class="ui-icon ui-icon-carat-1-e inline-icon" 
               style="margin-right:0.3em"></span>

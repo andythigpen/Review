@@ -1,4 +1,10 @@
 class GroupsController < ApplicationController
+  rescue_from User::NotAuthorized, :with => :user_not_authorized
+
+  def check_authorization
+    raise User::NotAuthorized if current_user != @group.owner
+  end
+
   # GET /groups
   # GET /groups.xml
   def index
@@ -14,6 +20,7 @@ class GroupsController < ApplicationController
   # GET /groups/1.xml
   def show
     @group = Group.find(params[:id])
+    check_authorization
 
     respond_to do |format|
       format.html # show.html.erb
@@ -35,6 +42,7 @@ class GroupsController < ApplicationController
   # GET /groups/1/edit
   def edit
     @group = Group.find(params[:id])
+    check_authorization
 
     # for the reviewers html partial
     @parent = @group
@@ -69,6 +77,7 @@ class GroupsController < ApplicationController
   # PUT /groups/1.xml
   def update
     @group = Group.find(params[:id])
+    check_authorization
 
     respond_to do |format|
       if @group.update_attributes(params[:group])
@@ -85,6 +94,7 @@ class GroupsController < ApplicationController
   # DELETE /groups/1.xml
   def destroy
     @group = Group.find(params[:id])
+    check_authorization
     @group.destroy
 
     respond_to do |format|

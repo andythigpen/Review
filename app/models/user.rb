@@ -24,6 +24,8 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :username,
                   :first_name, :last_name
 
+  class NotAuthorized < StandardError; end
+
   def submitted_requests
     self.review_requests.joins(:changesets).where("changesets.submitted = ?", 
                                                   true).uniq

@@ -1,8 +1,13 @@
 class ChangesetController < ApplicationController
+  include MailHelper
+
   before_filter :authenticate_user!
   cache_sweeper :recent_activity_sweeper
+  rescue_from User::NotAuthorized, :with => :user_not_authorized
 
-  include MailHelper
+  def check_authorization
+    raise User::NotAuthorized if current_user != @changeset.review_event.owner
+  end
 
   def show
     @changeset = Changeset.find params[:id]
@@ -11,6 +16,7 @@ class ChangesetController < ApplicationController
 
   def create
     @changeset = Changeset.new params[:changeset]
+    check_authorization
     if @changeset.name.size == 0
       @changeset.name = "Revision #{@changeset.review_event.changesets.size + 1}"
     end
@@ -28,6 +34,7 @@ class ChangesetController < ApplicationController
 
   def update
     @changeset = Changeset.find(params[:id])
+    check_authorization
 
     respond_to do |format|
       if @changeset.update_attributes(params[:changeset])
@@ -52,6 +59,7 @@ class ChangesetController < ApplicationController
 
   def destroy
     @changeset = Changeset.find(params[:id])
+    check_authorization
     @changeset.destroy
 
     respond_to do |format|

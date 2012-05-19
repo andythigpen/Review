@@ -199,13 +199,13 @@ function create_changeset_modal() {
   $.post("/changeset/create", 
       $("#create-changeset-dialog").find("form").serialize(),
     function(data, textStatus, jqXHR) {
-      $("#create-changeset-dialog").modal('hide');
       if (data.status == "ok") {
         var url = location.href;
         url = url.replace(/\?changeset=\d+/, "");
         location.href = url+"?changeset="+data.id;
       }
       else {
+        $("#create-changeset-dialog").modal('hide');
         display_error(data.errors);
       }
   }, "json");
@@ -223,11 +223,11 @@ function submit_changeset_modal() {
   $.post("/changeset/update/"+changeset_id, 
          $("#submit-changeset-dialog").find("form").serialize(),
     function(data, textStatus, jqXHR) {
-      $("#submit-changeset-dialog").modal('hide');
       if (data.status == "ok") {
         location.reload();
       }
       else {
+        $("#submit-changeset-dialog").modal('hide');
         display_error(data.errors);
       }
     }, "json");
@@ -246,11 +246,11 @@ function remove_changeset_modal() {
   $.post("/changeset/destroy/"+changeset_id, 
     $("#remove-changeset-dialog").find("form").serialize(),
     function(data, textStatus, jqXHR) {
-      $("#remove-changeset-dialog").modal('hide');
       if (data.status == "ok") {
         location.href = "/review_events/"+review_id;
       }
       else {
+        $("#remove-changeset-dialog").modal('hide');
         display_error(data.errors);
       }
     }, "json");
@@ -314,8 +314,14 @@ function delete_changeset_status_modal() {
     url: "/changeset/status/"+status_id,
     type: "DELETE",
     dataType: "json",
-    success: function (msg) {
-      location.reload();
+    success: function (data) {
+      if (data.status == "ok") {
+        location.reload();
+      }
+      else {
+        $("#delete-status").modal('hide');
+        display_error(data.errors);
+      }
     }
   });
 }
@@ -342,11 +348,11 @@ function remove_diff_modal() {
   $.post("/diffs/destroy/"+diff_id, 
     $("#remove-diff-dialog").find("form").serialize(),
     function(data, textStatus, jqXHR) {
-      $("#remove-diff-dialog").modal('hide');
       if (data.status == "ok") {
         location.reload();
       }
       else {
+        $("#remove-diff-dialog").modal('hide');
         display_error(data.errors);
       }
     }, "json");

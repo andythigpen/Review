@@ -46,9 +46,12 @@ function remove_review_event_modal() {
     url: "/review_events/"+event_id,
     type: "DELETE",
     dataType: "json",
-    success: function(msg) {
-      if (msg.status == "ok") {
+    success: function(data) {
+      if (data.status == "ok") {
         location.reload();
+      }
+      else {
+        display_error(data.errors);
       }
     }
   });

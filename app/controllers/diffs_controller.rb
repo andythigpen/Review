@@ -1,7 +1,12 @@
 class DiffsController < ApplicationController
   before_filter :authenticate_user!
   cache_sweeper :diff_sweeper
-  
+  rescue_from User::NotAuthorized, :with => :user_not_authorized
+
+  def check_authorization
+    raise User::NotAuthorized if current_user != @diff.changeset.review_event.owner
+  end
+ 
   def create
     contents = params[:diff][:contents]
     diff_params = params[:diff].clone
@@ -31,6 +36,7 @@ class DiffsController < ApplicationController
       end
     end
     @diff = Diff.new diff_params
+    check_authorization
     @diff.save
 
     respond_to do |format|
@@ -48,6 +54,7 @@ class DiffsController < ApplicationController
 
   def destroy
     @diff = Diff.find(params[:id])
+    check_authorization
     @diff.destroy
     
     respond_to do |format|

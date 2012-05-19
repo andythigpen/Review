@@ -1,8 +1,13 @@
 class CommentsController < ApplicationController
   before_filter :authenticate_user!
   cache_sweeper :recent_activity_sweeper, :diff_sweeper
+  rescue_from User::NotAuthorized, :with => :user_not_authorized
 
   include MailHelper
+
+  def check_authorization
+    raise User::NotAuthorized if current_user != @comment.user
+  end
 
   def create
     @comment = Comment.new params[:comment]
@@ -67,6 +72,8 @@ class CommentsController < ApplicationController
 
   def destroy
     @comment = Comment.find(params[:id])
+    check_authorization
+
     level = 0
     level = 1 if @comment.commentable.class == Comment
     if @comment.comments.size > 0

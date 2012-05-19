@@ -1,7 +1,11 @@
 class ChangesetUserStatusController < ApplicationController
-  before_filter :authenticate_user!
-
   include MailHelper
+  before_filter :authenticate_user!
+  rescue_from User::NotAuthorized, :with => :user_not_authorized
+
+  def check_authorization
+    raise User::NotAuthorized if current_user != @status.user
+  end
 
   def update
     @status = ChangesetUserStatus.find_by_user_id_and_changeset_id(
@@ -47,6 +51,7 @@ class ChangesetUserStatusController < ApplicationController
 
   def destroy
     @status = ChangesetUserStatus.find(params[:id])
+    check_authorization
     @status.destroy
 
     respond_to do |format|

@@ -1,5 +1,10 @@
 class ReviewEventsController < ApplicationController
   before_filter :authenticate_user!
+  rescue_from User::NotAuthorized, :with => :user_not_authorized
+
+  def check_authorization
+    raise User::NotAuthorized if current_user != @review_event.owner
+  end
 
   # GET /review_events/1
   # GET /review_events/1.xml
@@ -45,6 +50,7 @@ class ReviewEventsController < ApplicationController
   # GET /review_events/1/edit
   def edit
     @review_event = ReviewEvent.find(params[:id])
+    check_authorization
 
     # for the reviewer_row html partial
     @user_type = :review_event_users
@@ -77,6 +83,7 @@ class ReviewEventsController < ApplicationController
   # PUT /review_events/1.xml
   def update
     @review_event = ReviewEvent.find(params[:id])
+    check_authorization
 
     respond_to do |format|
       begin
@@ -104,6 +111,7 @@ class ReviewEventsController < ApplicationController
   # DELETE /review_events/1.xml
   def destroy
     @review_event = ReviewEvent.find(params[:id])
+    check_authorization
     @review_event.destroy
 
     respond_to do |format|

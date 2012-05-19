@@ -119,4 +119,20 @@ class User < ActiveRecord::Base
   serialized_attr_accessor "owner", :reply_to_me, :comment_to_anyone, 
     :status_change
 
+
+  def soft_delete
+    update_attribute(:deleted_at, Time.current)
+  end
+
+  def self.active
+    where("deleted_at IS NULL")
+  end
+
+  def self.inactive
+    where("deleted_at IS NOT NULL")
+  end
+
+  def active_for_authentication?
+    super && !deleted_at
+  end
 end

@@ -38,7 +38,7 @@ class GroupsController < ApplicationController
 
     # for the reviewers html partial
     @parent = @group
-    @users = @group.group_members
+    @users = @group.group_members.active
     @user_type = :group_members
   end
 
@@ -51,7 +51,7 @@ class GroupsController < ApplicationController
 
     # for the reviewers html partial
     @parent = @group
-    @users = @group.group_members
+    @users = @group.group_members.active
     @user_type = :group_members
 
     respond_to do |format|

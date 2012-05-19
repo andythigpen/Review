@@ -49,7 +49,7 @@ class ReviewEventsController < ApplicationController
     # for the reviewer_row html partial
     @user_type = :review_event_users
     @parent = @review_event
-    @users = @review_event.review_event_users
+    @users = @review_event.review_event_users.active
   end
 
   # POST /review_events
@@ -60,7 +60,7 @@ class ReviewEventsController < ApplicationController
     # for the reviewer row html partial
     @user_type = :review_event_users
     @parent = @review_event
-    @users = @review_event.review_event_users
+    @users = @review_event.review_event_users.active
 
     respond_to do |format|
       if @review_event.save

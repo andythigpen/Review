@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120311044625) do
+ActiveRecord::Schema.define(:version => 20120519163324) do
 
   create_table "changeset_user_statuses", :force => true do |t|
     t.integer  "user_id"
@@ -138,6 +138,7 @@ ActiveRecord::Schema.define(:version => 20120311044625) do
     t.string   "username"
     t.text     "email_settings"
     t.datetime "reset_password_sent_at"
+    t.datetime "deleted_at"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

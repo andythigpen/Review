@@ -1,6 +1,6 @@
 module ReviewEventsHelper
   def add_reviewer_select(name, f)
-    reviewers = User.all.map { |r| [r.profile_name, r.id] }
+    reviewers = User.active.map { |r| [r.profile_name, r.id] }
     reviewers.insert(0, [name, nil])
     select = select_tag("reviewer-select", options_for_select(reviewers),
                         { :class => "chosen reviewers-list",

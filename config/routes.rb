@@ -1,9 +1,10 @@
 Review::Application.routes.draw do
 
   # User authentication
-  devise_for :users, :path_names => { :sign_in => "login", 
-                                      :sign_up => "register", 
-                                      :sign_out => "logout" }
+  devise_for :users, :controllers => { :registrations => 'registrations' },
+    :path_names => { :sign_in => "login", 
+                     :sign_up => "register", 
+                     :sign_out => "logout" }
   put "/users/settings" => "user_settings#update", :as => :user_settings
 
   # Dashboard

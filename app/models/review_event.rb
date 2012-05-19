@@ -1,12 +1,19 @@
 class ReviewEvent < ActiveRecord::Base
   belongs_to :owner, :class_name => "User", :foreign_key => "user_id", 
              :validate => true
-  has_many :review_event_users
-  has_many :reviewers, :through => :review_event_users, :source => :user
+  has_many :review_event_users do
+    def active
+      joins(:user).where("deleted_at IS NULL")
+    end
+  end
+  has_many :reviewers, :through => :review_event_users, :source => :user,
+    :conditions => ["deleted_at IS NULL"]
   has_many :required_reviewers, :through => :review_event_users, 
-    :source => :user, :conditions => ["optional = ?", false]
+    :source => :user, 
+    :conditions => ["optional = ? AND deleted_at IS NULL", false]
   has_many :optional_reviewers, :through => :review_event_users, 
-    :source => :user, :conditions => ["optional = ?", true]
+    :source => :user, 
+    :conditions => ["optional = ? AND deleted_at IS NULL", true]
   accepts_nested_attributes_for :review_event_users, :allow_destroy => true,
         :reject_if => proc { |attributes| !attributes['_destroy'] and attributes['user_id'].blank? }
   has_many :changesets, :dependent => :destroy

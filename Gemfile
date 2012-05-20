@@ -10,7 +10,7 @@ gem 'warden' #, '1.1'
 gem 'devise', '2.0.4'
 
 gem 'kaminari'
-gem "paperclip"
+gem "paperclip", '2.7.0'
 
 # Use unicorn as the web server
 gem 'unicorn'

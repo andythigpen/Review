@@ -17,14 +17,12 @@ class DiffSweeper < ActionController::Caching::Sweeper
 
   def expire_for(record)
     if record.is_a?(Diff)
-      expire_fragment("diff/#{record.id}/split")
-      expire_fragment("diff/#{record.id}/unified")
+      expire_fragment(%r{diff/#{record.id}/.*})
     elsif record.is_a?(Comment)
       c = record
       c = c.commentable while c.respond_to?(:commentable)
       if c.is_a?(Diff)
-        expire_fragment("diff/#{c.id}/split")
-        expire_fragment("diff/#{c.id}/unified")
+        expire_fragment(%r{diff/#{c.id}/.*})
       end
     end
   end

@@ -206,6 +206,36 @@
 <%# don't allow anyone to see if not yet submitted %>
 <% if not (current_user != @review_event.owner and 
          not @changeset.try(:submitted)) %>
+  <% unless @status.nil? %>
+    <% alert = "" %>
+    <% alert = "alert-success" if @status.accepted? %>
+    <% alert = "alert-error" if @status.rejected? %>
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="alert <%= alert %>">
+          <span id="changeset_status">
+            <% if @status.accepted? %>
+              <%= image_tag "accept.png", 
+                  :style => "vertical-align:middle; margin-right:0.3em" %>
+              You accepted this changeset.
+            <% elsif @status.rejected? %>
+              <%= image_tag "reject.png", 
+                  :style => "vertical-align:middle; margin-right:0.3em" %>
+              You rejected this changeset.
+            <% elsif @status.abstained? %>
+              <%= image_tag "info.png", 
+                  :style => "vertical-align:middle; margin-right:0.3em" %>
+              You requested to be removed from this review.
+            <% else %>
+              <strong>Unknown status:</strong> Contact the administrator, quick!
+            <% end %>
+          </span>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+
 <div>
   <div class="pull-right">
     <% if current_user == @review_event.owner %>
@@ -236,6 +266,11 @@
       <%= link_to_js "submit_changeset_status('#{current_user.id}', '#{@changeset.id}', 'Request Removal', '#{CHANGESET_STATUSES[:abstain]}', '', 'request removal from');",
         :class => "pull-right", :style => "margin:0.4em;" do %>
         Request Removal
+      <% end %>
+    <% elsif not @status.nil? %>
+      <%= link_to_js "delete_changeset_status('#{@status.id}');", 
+        :class => "btn" do %>
+        <i class="icon-remove"></i> Remove Status
       <% end %>
     <% end %>
   </div>
@@ -323,86 +358,72 @@
     No changesets yet.  Click &quot;Add&quot; above to create one.
   </div>
 <% else %>
-
   <hr />
   <div>
-    <ul class="unstyled">
-      <% if not @status.nil? %>
-        <li>
-          <div>
-            <span id="changeset_status">
-              <% if @status.accepted? %>
-                <%= image_tag "accept.png", 
-                    :style => "vertical-align:middle; margin-right:0.3em" %>
-                You accepted this changeset.
-              <% elsif @status.rejected? %>
-                <%= image_tag "reject.png", 
-                    :style => "vertical-align:middle; margin-right:0.3em" %>
-                You rejected this changeset.
-              <% elsif @status.abstained? %>
-                <%= image_tag "info.png", 
-                    :style => "vertical-align:middle; margin-right:0.3em" %>
-                You requested to be removed from this review.
-              <% else %>
-                <strong>Unknown status:</strong> Contact the administrator, quick!
-              <% end %>
-            </span>
-            <%= link_to_function "Remove Status", 
-                "delete_changeset_status('#{@status.id}');", 
-                :class => "btn pull-right" %>
-          </div>
-        </li>
-      <% end %>
-
-      <% @changeset.statuses.each do |s| %>
-        <% comment_style = "" %>
-        <% if s.status == CHANGESET_STATUSES[:accept] %>
-          <% comment_style = "accepted-comment" %>
-        <% elsif s.status == CHANGESET_STATUSES[:reject] %>
-          <% comment_style = "rejected-comment" %>
-        <% elsif s.status == CHANGESET_STATUSES[:abstain] %>
-          <% comment_style = "abstained-comment" %>
+    <h3 style="margin-bottom:12px;">
+      Comments
+      <div class="btn-group pull-right">
+        <%= add_comment_button @changeset, 
+            "#changeset_comment_#{@changeset.id}", 
+            :class => "btn btn-small" do %>
+          <i class="icon-plus-sign"></i>Add Comment
         <% end %>
+      </div>
+    </h3>
 
-        <li class="<%= comment_style %>">
-          <% if s.comments.find_by_user_id(s.user).nil? %>
-            <%# legacy mode...no comments available, so just show status %>
-            <div>
-              <%= user_profile_popup(s.user) %>:
+    <% @changeset.statuses.each do |s| %>
+      <% comment_style = "" %>
+      <% if s.status == CHANGESET_STATUSES[:accept] %>
+        <% comment_style = "accepted-comment" %>
+      <% elsif s.status == CHANGESET_STATUSES[:reject] %>
+        <% comment_style = "rejected-comment" %>
+      <% elsif s.status == CHANGESET_STATUSES[:abstain] %>
+        <% comment_style = "abstained-comment" %>
+      <% end %>
 
-              <% comment_style = "" %>
-              <% if s.status == CHANGESET_STATUSES[:accept] %>
-                Accepted
-              <% elsif s.status == CHANGESET_STATUSES[:reject] %>
-                Rejected
-              <% elsif s.status == CHANGESET_STATUSES[:abstain] %>
-                Abstained
-              <% end %>
-            </div>
-          <% else %>
-            <% s.comments.each do |c| %>
-              <%= render :partial => "shared/comment",
-                :locals => { :comment => c, :allow_delete => false } %>
+      <div class="<%= comment_style %>">
+        <% if s.comments.find_by_user_id(s.user).nil? %>
+          <%# legacy mode...no comments available, so just show status %>
+          <div>
+            <%= user_profile_popup(s.user) %>:
+
+            <% comment_style = "" %>
+            <% if s.status == CHANGESET_STATUSES[:accept] %>
+              Accepted
+            <% elsif s.status == CHANGESET_STATUSES[:reject] %>
+              Rejected
+            <% elsif s.status == CHANGESET_STATUSES[:abstain] %>
+              Abstained
             <% end %>
+          </div>
+        <% else %>
+          <% s.comments.each do |c| %>
+            <%= render :partial => "shared/comment",
+              :locals => { :comment => c, :allow_delete => false } %>
           <% end %>
-        </li>
-      <% end %>
+        <% end %>
+      </div>
+    <% end %>
 
-      <% @changeset.comments.not_deleted.each do |c| %>
-        <%= render :partial => "shared/comment",
-          :locals => { :comment => c, :allow_delete => false } %>
+    <% @changeset.comments.each do |c| %>
+      <%= render :partial => "shared/comment",
+        :locals => { :comment => c } %>
+    <% end %>
+
+    <div id="changeset_comment_<%= @changeset.id %>">
+      <% if @changeset.statuses.size == 0 && @changeset.comments.not_deleted.size == 0 %>
+        <em>Nothing to see here...</em>
       <% end %>
-    </ul>
+    </div>
+
   </div>
 
-  <% if @changeset.statuses.size > 0 || @changeset.comments.not_deleted.size > 0 %>
-    <hr />
-  <% end %>
+  <hr />
 
   <a name="files"></a>
   <div class="row-fluid">
-    <div class="span12">
-      <h4 style="line-height:29px; height:29px; margin-bottom:12px;">Files
+    <div class="span12" style="margin-bottom:12px;">
+      <h3>Files
         <% if not @changeset.submitted %>
           <%= link_to_js "add_new_diff();", 
             :class => "btn btn-small pull-right", 
@@ -495,6 +516,16 @@
     </div>
     <div class="shadow"></div>
   </div>
+
+  <% if @changeset.submitted %>
+    <div class="alert alert-info" style="margin-top:10px;">
+      <a class="close" data-dismiss="alert" href="#">×</a>
+      <strong>Tip:</strong> 
+      To comment on a specific line of code below, click on the corresponding 
+      line number or double click on the line itself.
+    </div>
+  <% end %>
+
   <%= render :partial => "diff", :collection => @changeset.diffs.includes(:comments), :as => :d %>
 <% end %>
 

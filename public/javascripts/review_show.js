@@ -124,7 +124,7 @@ function add_comment_form(loc, commentable_id, commentable_type, leftline, right
   var margin = $(loc).prev(".comment").css('margin-left');
   margin = parseInt(margin, 10) + 10;
   $(loc).
-    append(content).
+    html(content).
     children(".comment-box").
     css('margin-left', margin+'px').
     fadeIn(function() {

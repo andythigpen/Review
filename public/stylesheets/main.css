@@ -100,16 +100,20 @@ tr > th {
 .username .thumbnail {
   display: inline;
   vertical-align: middle;
-  padding: 2px;
+  padding: 0px;
+  border: none;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
 }
 
 .comment {
-  margin: 10px;
+  margin: 5px 10px;
   border: 1px solid #ccc;
   background: #f8f8f8;
 }
 .topbar {
-  padding: 0.5em 0.5em 0.6em;
+  padding: 5px 10px;
   border-bottom: 1px solid #ccc;
   background: #eee;
 }
@@ -119,6 +123,7 @@ tr > th {
   white-space: pre-line;
 }
 
+.topbar .username { color: #777; }
 .topbar .label {
   padding: 0; /* fix for firefox */
 }

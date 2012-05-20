@@ -23,18 +23,14 @@
       <span class="label label-info"></span>
       <div class="pull-right">
         <div class="comment-actions">
-          <% if allow_reply and comment.user != current_user %>
+          <% if allow_reply %>
             <%= add_comment_button comment, "#reply_#{comment.id}" do %>
               <i class="icon-share-alt"></i>Reply<% end %>
-          <% elsif allow_delete and comment.user == current_user %>
-            <div>
-              <a onclick="delete_comment(this, '<%= comment.id %>'); return false;">
+          <% end %>
+          <% if allow_delete and comment.user == current_user %>
+              <a onclick="delete_comment(this, '<%= comment.id %>'); return false;" style="margin-left:10px;">
                 <i class="icon-remove"></i>Delete
               </a> 
-            </div>
-          <% elsif allow_delete and allow_reply %>
-            <%# unreachable? %>
-            <span class="ui-icon ui-icon-locked inline-icon"></span>Locked
           <% end %>
         </div>
       </div>

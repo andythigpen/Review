@@ -6,13 +6,15 @@ class Comment < ActiveRecord::Base
   def get_review_event
     c = self.commentable
     c = c.commentable until c.class != Comment
-    c.changeset.review_event
+    return c.changeset.review_event if c.is_a?(Diff)
+    return c.review_event if c.is_a?(Changeset)
   end
 
   def get_changeset
     c = self.commentable
     c = c.commentable until c.class != Comment
-    c.changeset
+    return c.changeset if c.is_a?(Diff)
+    return c if c.is_a?(Changeset)
   end
 
   def text_format

@@ -20,9 +20,9 @@ class CommentsController < ApplicationController
         commentee = nil
         if @comment.commentable.class == Comment
           commentee = @comment.commentable.user
-        elsif @comment.commentable.class == Diff
-          commentee = @comment.get_review_event().owner
-        elsif @comment.commentable.class == ChangesetUserStatus
+        elsif @comment.commentable.class == Diff || 
+              @comment.commentable.class == ChangesetUserStatus ||
+              @comment.commentable.class == Changeset
           commentee = @comment.get_review_event().owner
         end
 

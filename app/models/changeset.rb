@@ -4,6 +4,7 @@ class Changeset < ActiveRecord::Base
   has_many :statuses, :class_name => "ChangesetUserStatus", 
            :dependent => :destroy
   has_many :reviewers, :through => :statuses, :source => :user
+  has_many :comments, :as => :commentable
 
   def accepted?
     return false if self.review_event.required_reviewers.size == 0

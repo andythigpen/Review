@@ -387,10 +387,15 @@
           <% end %>
         </li>
       <% end %>
+
+      <% @changeset.comments.not_deleted.each do |c| %>
+        <%= render :partial => "shared/comment",
+          :locals => { :comment => c, :allow_delete => false } %>
+      <% end %>
     </ul>
   </div>
 
-  <% if @changeset.statuses.size > 0 %>
+  <% if @changeset.statuses.size > 0 || @changeset.comments.not_deleted.size > 0 %>
     <hr />
   <% end %>
 

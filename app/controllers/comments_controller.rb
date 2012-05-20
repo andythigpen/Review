@@ -76,27 +76,12 @@ class CommentsController < ApplicationController
 
     level = 0
     level = 1 if @comment.commentable.class == Comment
-    if @comment.comments.size > 0
-      @comment.update_attribute :user_id, nil
-      @comment.update_attribute :content, "[Deleted]"
-    else
-      destroy_comment(@comment)
-    end
+    @comment.soft_delete
 
     respond_to do |format|
       format.json { render :partial => "shared/comment", 
         :locals => { :comment => @comment, :level => level } }
     end
   end
-
-  protected
-    def destroy_comment(comment)
-      parent = comment.commentable
-      comment.destroy
-      if parent and parent.class == Comment and \
-        parent.is_deleted? and parent.comments.size == 0
-          destroy_comment(parent)
-      end
-    end
 
 end

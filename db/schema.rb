@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120519163324) do
+ActiveRecord::Schema.define(:version => 20120519223254) do
 
   create_table "changeset_user_statuses", :force => true do |t|
     t.integer  "user_id"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(:version => 20120519163324) do
     t.integer  "user_id"
     t.integer  "leftline"
     t.integer  "rightline"
+    t.datetime "deleted_at"
   end
 
   add_index "comments", ["commentable_id", "commentable_type"], :name => "comment_index"

@@ -1,7 +1,7 @@
 class ChangesetUserStatus < ActiveRecord::Base
   belongs_to :user
   belongs_to :changeset
-  has_many :comments, :as => :commentable, :dependent => :destroy
+  has_many :comments, :as => :commentable
   accepts_nested_attributes_for :comments,
         :reject_if => proc { |attributes| attributes['content'].nil? }
 

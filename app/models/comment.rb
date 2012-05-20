@@ -30,10 +30,28 @@ class Comment < ActiveRecord::Base
   end
 
   def is_deleted?
-    return self.user_id.nil?
+    return ! self.deleted_at.nil?
   end
 
   def is_reply_to?(user)
     self.commentable.class == Comment and self.commentable.user == user
+  end
+
+  def has_replies?
+    return ! Comment.where(
+      "commentable_id = ? AND commentable_type = ? AND deleted_at IS NULL", 
+      self.id, "Comment").limit(1).empty?
+  end
+
+  def soft_delete
+    update_attribute(:deleted_at, Time.current)
+  end
+
+  def self.deleted
+    where("deleted_at IS NOT NULL")
+  end
+
+  def self.not_deleted
+    where("deleted_at IS NULL")
   end
 end

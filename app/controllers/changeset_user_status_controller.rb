@@ -52,6 +52,12 @@ class ChangesetUserStatusController < ApplicationController
   def destroy
     @status = ChangesetUserStatus.find(params[:id])
     check_authorization
+    # move the comments to the changeset so that we don't lose them
+    @status.comments.each do |c|
+      c.commentable = @status.changeset
+      c.save
+      c.soft_delete
+    end
     @status.destroy
 
     respond_to do |format|

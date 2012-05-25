@@ -45,4 +45,7 @@ class ReviewEvent < ActiveRecord::Base
     self.required_reviewers.select {|r| r if !status_for(r, changeset) }
   end
 
+  def self.search(key)
+    where("review_events.name LIKE ? OR review_events.notes LIKE ? OR review_events.buglink LIKE ?", "%#{key}%", "%#{key}%", "%#{key}%")
+  end
 end

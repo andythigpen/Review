@@ -38,6 +38,25 @@ class HomeController < ApplicationController
     update_outbox_counts
   end
 
+  def search
+    review = []
+    template = @@filters[params[:filter]]
+    if template == "inbox"
+      reviews = current_user.submitted_requests.search(params[:q])
+    elsif template == "outbox"
+      reviews = current_user.reviews_owned.search(params[:q])
+    end
+
+    pages = Kaminari.paginate_array(reviews).page(params[:page]).per(20)
+
+    respond_to do |format|
+      format.js { render :partial => "dashboard", 
+        :locals => { :template => template,
+                     :filters => @@filters,
+                     :reviews => pages } }
+    end
+  end
+
  protected
     def is_user_signed_in
       if not user_signed_in?
@@ -104,5 +123,4 @@ class HomeController < ApplicationController
         !r.changesets.last.nil? && r.changesets.last.rejected?
       end
     end
-
 end

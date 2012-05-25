@@ -1,6 +1,8 @@
 <%# render the current mailbox %>
 $("#dashboard-right-contents").html('<%= escape_javascript(render(:partial => "#{template}", :locals => { :reviews => reviews })) %>');
 
+template_type = "<%= template %>";
+
 <%# update all the mailbox counts %>
 <% filters.keys.each do |f| %>
   <% r = self.instance_variable_get("@#{f}_count") %>

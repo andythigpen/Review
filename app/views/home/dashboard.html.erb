@@ -36,10 +36,7 @@
 <% end %>
 
 <div class="row-fluid">
-  <h2>My Dashboard
-    <%= link_to new_review_event_path, :class => "btn pull-right" do %>
-      <i class="icon-plus"></i>New Review 
-    <% end %></h2>
+  <h2>My Dashboard</h2>
   <br />
 </div>
 <div id="dashboard" class="row-fluid rounded-border">
@@ -113,11 +110,25 @@
       <!--<li>Closed</li>-->
     </ul>
   </div>
-  <div id="dashboard-right" class="clearfix">
-    <div id="dashboard-right-loading">
-      <%= image_tag("ajax-loader.gif") %>
+  <div id="dashboard-right">
+    <div id="dashboard-search">
+      <div>
+        <form class="form-search">
+          <input type="text" id="search-txt" class="search-query" />
+          <button id="search-btn" class="btn">Search</button>
+          <button id="clear-search-btn" class="btn">Clear</button>
+          <%= link_to new_review_event_path, :class => "btn pull-right" do %>
+            <i class="icon-plus"></i>New Review 
+          <% end %>
+        </form>
+      </div>
     </div>
-    <div id="dashboard-right-contents"></div>
+    <div class="clearfix" style="position:relative;">
+      <div id="dashboard-right-loading">
+        <%= image_tag("ajax-loader.gif") %>
+      </div>
+      <div id="dashboard-right-contents"></div>
+    </div>
   </div>
 </div>
 

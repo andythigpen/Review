@@ -92,6 +92,11 @@ tr > th {
 #dashboard-right-contents > table {
   margin-bottom: 52px;
 }
+#dashboard-search { background: #eee; }
+#dashboard-search .form-search {
+  margin: 0;
+  padding: 5px;
+}
 
 .username {
   cursor: default;

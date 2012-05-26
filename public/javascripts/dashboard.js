@@ -80,7 +80,9 @@ function remove_review_event_modal() {
     dataType: "json",
     success: function(data) {
       if (data.status == "ok") {
-        location.reload();
+        // refresh the dashboard
+        $("#refresh-btn").click();
+        $("#remove-review-dialog").modal('hide');
       }
       else {
         display_error(data.errors);

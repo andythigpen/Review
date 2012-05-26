@@ -12,6 +12,7 @@ class HomeController < ApplicationController
     "drafts"      => "outbox",
     "accepted"    => "outbox",
     "rejected"    => "outbox",
+    "archived"    => "outbox",
   }
 
   @@filters.keys.each do |method|
@@ -29,11 +30,17 @@ class HomeController < ApplicationController
     end
     pages = reviews.page(params[:page]).per(20)
 
+    allow_archive = true
+    if filter == "archived"
+      allow_archive = false
+    end
+
     respond_to do |format|
       format.js { render :partial => "dashboard", 
         :locals => { :template => @@filters[filter], 
                      :filters => @@filters,
-                     :reviews => pages } }
+                     :reviews => pages,
+                     :allow_archive => allow_archive } }
     end
   end
 
@@ -73,61 +80,66 @@ class HomeController < ApplicationController
 
     def update_inbox_counts
       @all_inbox_count = 0 # disable count for now
-      @inbox_count = current_user.recent_requests(7.days.ago).
+      @inbox_count = current_user.recent_requests(7.days.ago).not_archived.
         count("DISTINCT review_events.id")
-      @due_soon_count = current_user.requests_due(2.days.from_now).
+      @due_soon_count = current_user.requests_due(2.days.from_now).not_archived.
         count("DISTINCT review_events.id")
-      @late_count = current_user.late_requests.
+      @late_count = current_user.late_requests.not_archived.
         count("DISTINCT review_events.id")
     end
 
     def update_outbox_counts
       @all_outbox_count = 0 # disable count for now
-      @outbox_count = current_user.reviews_owned.where(
+      @outbox_count = current_user.reviews_owned.not_archived.where(
         "review_events.updated_at >= ?", 7.days.ago).count
-      @drafts_count= current_user.drafts.count
+      @drafts_count= current_user.drafts.not_archived.count
       @accepted_count = 0
       @rejected_count = 0
+      @archived_count = 0
     end
 
     def update_all_inbox
-      current_user.submitted_requests.includes(:owner)
+      current_user.submitted_requests.not_archived.includes(:owner)
     end
 
     def update_inbox
-      current_user.recent_requests(7.days.ago).includes(:owner)
+      current_user.recent_requests(7.days.ago).not_archived.includes(:owner)
     end
 
     def update_due_soon
-      current_user.requests_due(2.days.from_now).includes(:owner)
+      current_user.requests_due(2.days.from_now).not_archived.includes(:owner)
     end
 
     def update_late
-      current_user.late_requests.includes(:owner)
+      current_user.late_requests.not_archived.includes(:owner)
     end
 
     def update_all_outbox
-      current_user.reviews_owned.includes(:changesets)
+      current_user.reviews_owned.not_archived.includes(:changesets)
     end
 
     def update_outbox
       current_user.reviews_owned.where("review_events.updated_at >= ?", 
-                                       7.days.ago)
+                                       7.days.ago).not_archived
     end
 
     def update_drafts
-      current_user.drafts
+      current_user.drafts.not_archived
     end
 
     def update_accepted
-      current_user.reviews_owned.select do |r| 
+      current_user.reviews_owned.not_archived.select do |r| 
         !r.changesets.last.nil? && r.changesets.last.accepted?
       end
     end
 
     def update_rejected
-      current_user.reviews_owned.select do |r| 
+      current_user.reviews_owned.not_archived.select do |r| 
         !r.changesets.last.nil? && r.changesets.last.rejected?
       end
+    end
+
+    def update_archived
+      current_user.reviews_owned.archived.includes(:changesets)
     end
 end

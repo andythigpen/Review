@@ -4,10 +4,10 @@
 <% end %>
 
 <%= modal_dialog "remove-review-dialog" do |format| %>
-  <% format.for_title { "Remove Review" } %>
-  <% format.for_body { "Remove this review event?" } %>
+  <% format.for_title { "Archive Review" } %>
+  <% format.for_body { "Archive this review event?" } %>
   <% format.for_footer do %>
-    <%= link_to "Remove", "#", 
+    <%= link_to "Archive", "#", 
       :onclick => "remove_review_event_modal(); return false;", 
       :"data-action" => "submit", 
       :class => "btn btn-primary" %>
@@ -56,6 +56,7 @@
             All <span class="size pull-right"><%= "#{@all_inbox_count}" if @all_inbox_count > 0 %></span>
         <% end %>
       </li>
+
       <li>
       <%= link_to dashboard_due_soon_path, :remote => true, 
         :class => "filter", :"data-type" => "html", 
@@ -85,6 +86,7 @@
             All <span class="size pull-right"><%= "#{@all_outbox_count}" if @all_outbox_count > 0 %></span>
         <% end %>
       </li>
+
       <li>
         <%= link_to dashboard_drafts_path, :remote => true, 
           :class => "filter", :"data-type" => "html", 
@@ -107,7 +109,14 @@
           <% end %>
       </li>
 
-      <!--<li>Closed</li>-->
+      <li class="divider"></li>
+      <li>
+        <%= link_to dashboard_rejected_path, :remote => true, 
+          :class => "filter", :"data-type" => "html", 
+          :"data-filter" => "archived" do %>
+            Archived <span class="size pull-right"><%= "#{@archived_count}" if @archived_count > 0 %></span>
+          <% end %>
+      </li>
     </ul>
   </div>
   <div id="dashboard-right">
@@ -147,6 +156,13 @@
     <li><em>No recent activity.</em></li>
   <% else %>
     <% recent_activity.each do |a| %>
+      <% if false %>
+        <% if a.is_a?(Comment) %>
+          <% next if a.get_review_event().nil? %>
+        <% elsif a.is_a?(Changeset) %>
+          <% next if a.review_event.nil? %>
+        <% end %>
+      <% end %>
       <li class="ui-corner-all review-event">
         <span class="ui-icon ui-icon-carat-1-e inline-icon" 
               style="margin-right:0.3em"></span>

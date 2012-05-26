@@ -20,6 +20,8 @@ class ReviewEvent < ActiveRecord::Base
 
   validates_presence_of :name
 
+  # default_scope where(:deleted_at => nil)
+
   # returns a changeset user status object for given user
   def status_for(user, changeset = nil)
     changeset = self.changesets.last_submitted if changeset.nil?
@@ -47,5 +49,17 @@ class ReviewEvent < ActiveRecord::Base
 
   def self.search(key)
     where("review_events.name LIKE ? OR review_events.notes LIKE ? OR review_events.buglink LIKE ?", "%#{key}%", "%#{key}%", "%#{key}%")
+  end
+
+  def self.archived
+    where("review_events.deleted_at IS NOT NULL")
+  end
+
+  def self.not_archived
+    where("review_events.deleted_at IS NULL")
+  end
+
+  def soft_delete
+    update_attribute(:deleted_at, Time.current)
   end
 end

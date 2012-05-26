@@ -9,7 +9,11 @@ class ReviewEventsController < ApplicationController
   # GET /review_events/1
   # GET /review_events/1.xml
   def show
-    @review_event = ReviewEvent.find(params[:id])
+    begin
+      @review_event = ReviewEvent.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      @review_event = ReviewEvent.archived.find(params[:id])
+    end
     if not params[:changeset].nil?
       @changeset = Changeset.find(params[:changeset])
     elsif current_user == @review_event.owner
@@ -112,7 +116,7 @@ class ReviewEventsController < ApplicationController
   def destroy
     @review_event = ReviewEvent.find(params[:id])
     check_authorization
-    @review_event.destroy
+    @review_event.soft_delete
 
     respond_to do |format|
       format.json { render :json => { :status => "ok" } }

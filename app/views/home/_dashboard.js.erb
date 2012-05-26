@@ -1,5 +1,5 @@
 <%# render the current mailbox %>
-$("#dashboard-right-contents").html('<%= escape_javascript(render(:partial => "#{template}", :locals => { :reviews => reviews })) %>');
+$("#dashboard-right-contents").html('<%= escape_javascript(render(:partial => "#{template}", :locals => { :reviews => reviews, :allow_archive => allow_archive })) %>');
 
 template_type = "<%= template %>";
 

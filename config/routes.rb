@@ -19,6 +19,7 @@ Review::Application.routes.draw do
   match "/dashboard/accepted" => "home#accepted"
   match "/dashboard/rejected" => "home#rejected"
   match "/dashboard/search" => "home#search"
+  match "/dashboard/archived" => "home#archived"
 
   # Review events
   resources :review_events, :except => :index

@@ -10,7 +10,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120519223254) do
+ActiveRecord::Schema.define(:version => 20120526191612) do
+
+  create_table "archived_review_events", :id => false, :force => true do |t|
+    t.integer  "id"
+    t.string   "name"
+    t.text     "notes"
+    t.datetime "duedate"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "buglink"
+    t.datetime "deleted_at"
+  end
 
   create_table "changeset_user_statuses", :force => true do |t|
     t.integer  "user_id"
@@ -121,6 +133,7 @@ ActiveRecord::Schema.define(:version => 20120519223254) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "buglink"
+    t.datetime "deleted_at"
   end
 
   create_table "users", :force => true do |t|

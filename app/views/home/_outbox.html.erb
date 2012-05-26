@@ -44,8 +44,10 @@
       </div>
     </td>
     <td>
-      <%= link_to_js "remove_review_event(this, '#{r.id}');" do %>
-        <i class="icon-remove"></i>Remove
+      <% if allow_archive %>
+        <%= link_to_js "remove_review_event(this, '#{r.id}');" do %>
+          <i class="icon-check"></i>Archive
+        <% end %>
       <% end %>
     </td>
   </tr>

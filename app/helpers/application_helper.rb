@@ -74,7 +74,7 @@ module ApplicationHelper
       yield responder
     end
     return <<END_CONTENT.html_safe
-    <div id="#{id}" class="modal hidden">
+    <div id="#{id}" class="modal hide">
       <div class="modal-header">
         <a class="close" data-dismiss="modal">&times;</a>
         <h3>#{responder.title}</h3>

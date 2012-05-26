@@ -32,7 +32,7 @@
         <% if not lastchset.nil? and lastchset.submitted %>
           <% if not lastchset.is_completed? %>
             <div class="progress">
-              <% users = r.accepted_total + r.abstained_total %>
+              <% users = r.required_total - r.waiting_for.size %>
               <div class="bar" style="width:<%= (users.to_f / r.required_total.to_f * 100.0).to_i if r.required_total > 0 %>%">
                 <% if users > 0 %>
                   <span><%= users %>/<%= r.required_total %></span>

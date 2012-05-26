@@ -59,10 +59,7 @@ class User < ActiveRecord::Base
   end
 
   def drafts
-    no_changesets = self.reviews_owned.where("NOT review_events.id IN (SELECT changesets.review_event_id FROM changesets)")
-    unsubmitted_changesets = self.reviews_owned.joins(:changesets).
-      where("changesets.submitted IS NULL")
-    no_changesets + unsubmitted_changesets
+    self.reviews_owned.joins("LEFT OUTER JOIN changesets ON changesets.review_event_id = review_events.id").where("changesets.submitted IS NULL")
   end
 
   def profile_name

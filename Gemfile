@@ -53,4 +53,5 @@ group :development do
   gem 'mailcatcher'
   gem 'bullet'
   gem 'ruby-prof'
+  gem 'active_record_query_trace'
 end

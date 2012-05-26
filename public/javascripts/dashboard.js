@@ -19,32 +19,55 @@ function setup_dashboard() {
   });
 
   $.history.init(function(hash) {
-    $("#dashboard-right-loading").fadeIn();
-    if (hash == "") {
-      // initialize...
+    if (hash == "") { // initialize...
       $.history.load("inbox");
     } else {
-      var page_array = hash.split(',');
-      var url = "/dashboard/"+page_array[0];
-      if (page_array.length > 1) {
-        url += "?";
-        for (var ii = 1; ii < page_array.length; ii++) {
-          url += "&" + page_array[ii];
-        }
-      }
-      $.getScript(url, function(data, status) {
-        $("#dashboard-right-loading").fadeOut();
-        $('[data-filter]').closest("li").removeClass("active");
-        $('[data-filter="'+page_array[0]+'"]').closest("li").addClass("active");
-      });
+      load_hash(hash);
     }
   },
   { 
     unescape: ",/" 
   });
 
+  $("#search-txt").keypress(function(ev) {
+    if (ev.which == 13) {
+      $("#search-form").submit();
+      ev.preventDefault();
+      return false;
+    }
+  });
   $("#search-btn").click(search);
+  $("#search-form").submit(search);
   $("#clear-search-btn").click(clear_search);
+  $("#refresh-btn").click(function () {
+    var hash = location.hash.replace('#','');
+    hash = decodeURIComponent(hash);
+    load_hash(hash);
+    return false;
+  });
+}
+
+function load_hash(hash) {
+  $("#dashboard-right-loading").fadeIn();
+  var page_array = hash.split(',');
+  var url = "/dashboard/"+page_array[0];
+  if (page_array.length > 1) {
+    url += "?";
+    for (var ii = 1; ii < page_array.length; ii++) {
+      url += "&" + page_array[ii];
+
+      // this sets the text in the search field for page reloads
+      var keyvalue = page_array[ii].split('=');
+      if (keyvalue[0] == "q") {
+        $("#search-txt").val(keyvalue[1]);
+      }
+    }
+  }
+  $.getScript(url, function(data, status) {
+    $("#dashboard-right-loading").fadeOut();
+    $('[data-filter]').closest("li").removeClass("active");
+    $('[data-filter="'+page_array[0]+'"]').closest("li").addClass("active");
+  });
 }
 
 function remove_review_event_modal() {

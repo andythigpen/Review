@@ -39,7 +39,7 @@ class HomeController < ApplicationController
   end
 
   def search
-    review = []
+    reviews = []
     template = @@filters[params[:filter]]
     if template == "inbox"
       reviews = current_user.submitted_requests.search(params[:q])

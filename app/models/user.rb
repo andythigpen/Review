@@ -18,8 +18,6 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :encryptable, 
          :encryptor => :sha1
 
-  default_scope includes(:profile)
-
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :username,
                   :first_name, :last_name

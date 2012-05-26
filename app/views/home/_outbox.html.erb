@@ -47,11 +47,6 @@
       <%= link_to_js "remove_review_event(this, '#{r.id}');" do %>
         <i class="icon-remove"></i>Remove
       <% end %>
-      <% if not lastchset.nil? and lastchset.users_abstained.length > 0 %> 
-        <span class="ui-corner-all badge notice tooltip showonload right" title="A reviewer has requested to be removed from this review.">
-          <span class="ui-icon ui-icon-notice inline-icon"></span>
-        </span>
-      <% end %>
     </td>
   </tr>
 

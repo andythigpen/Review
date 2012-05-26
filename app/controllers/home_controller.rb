@@ -23,7 +23,11 @@ class HomeController < ApplicationController
   def run_filter(filter)
     self.send("update_#{@@filters[filter]}_counts")
     reviews = self.send("update_#{filter}")
-    pages = Kaminari.paginate_array(reviews).page(params[:page]).per(20)
+
+    if reviews.is_a?(Array)
+      reviews = Kaminari.paginate_array(reviews)
+    end
+    pages = reviews.page(params[:page]).per(20)
 
     respond_to do |format|
       format.js { render :partial => "dashboard", 
@@ -47,7 +51,10 @@ class HomeController < ApplicationController
       reviews = current_user.reviews_owned.search(params[:q])
     end
 
-    pages = Kaminari.paginate_array(reviews).page(params[:page]).per(20)
+    if reviews.is_a?(Array)
+      reviews = Kaminari.paginate_array(reviews)
+    end
+    pages = reviews.page(params[:page]).per(20)
 
     respond_to do |format|
       format.js { render :partial => "dashboard", 
@@ -100,7 +107,7 @@ class HomeController < ApplicationController
     end
 
     def update_all_outbox
-      current_user.reviews_owned
+      current_user.reviews_owned.includes(:changesets)
     end
 
     def update_outbox

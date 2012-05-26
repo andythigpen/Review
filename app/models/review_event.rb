@@ -62,4 +62,8 @@ class ReviewEvent < ActiveRecord::Base
   def soft_delete
     update_attribute(:deleted_at, Time.current)
   end
+
+  def restore
+    update_attribute(:deleted_at, nil)
+  end
 end

@@ -70,19 +70,27 @@ function load_hash(hash) {
   });
 }
 
-function remove_review_event_modal() {
-  show_ajax_loader("#remove-review-dialog");
-  var event_id = $("#remove-review-dialog").data("event-id");
-  var loc = $("#remove-review-dialog").data("loc");
+function review_event_modal(action) {
+  show_ajax_loader("#"+action+"-review-dialog");
+  var event_id = $("#"+action+"-review-dialog").data("event-id");
+  var loc = $("#"+action+"-review-dialog").data("loc");
+  var data = null;
+  if (action == "remove") {
+    data = {"force": 1};
+  } else if (action == "restore") {
+    data = {"restore": 1};
+  }
+
   $.ajax({
     url: "/review_events/"+event_id,
     type: "DELETE",
     dataType: "json",
+    data: data,
     success: function(data) {
       if (data.status == "ok") {
         // refresh the dashboard
         $("#refresh-btn").click();
-        $("#remove-review-dialog").modal('hide');
+        $("#"+action+"-review-dialog").modal('hide');
       }
       else {
         display_error(data.errors);
@@ -91,9 +99,9 @@ function remove_review_event_modal() {
   });
 }
 
-function remove_review_event(loc, event_id) {
-  hide_ajax_loader("#remove-review-dialog");
-  $("#remove-review-dialog").data("event-id", event_id).
+function review_event(action, loc, event_id) {
+  hide_ajax_loader("#"+action+"-review-dialog");
+  $("#"+action+"-review-dialog").data("event-id", event_id).
     data("loc", loc).modal('show');
 }
 

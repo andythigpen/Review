@@ -3,15 +3,17 @@
   <%= javascript_include_tag "dashboard.js" %>
 <% end %>
 
-<%= modal_dialog "remove-review-dialog" do |format| %>
-  <% format.for_title { "Archive Review" } %>
-  <% format.for_body { "Archive this review event?" } %>
-  <% format.for_footer do %>
-    <%= link_to "Archive", "#", 
-      :onclick => "remove_review_event_modal(); return false;", 
-      :"data-action" => "submit", 
-      :class => "btn btn-primary" %>
-    <%= link_to "Cancel", "#", :"data-dismiss" => "modal", :class => "btn" %>
+<% %w{remove archive restore}.each do |action| %>
+  <%= modal_dialog "#{action}-review-dialog" do |format| %>
+    <% format.for_title { "#{action.capitalize} Review" } %>
+    <% format.for_body { "#{action.capitalize} this review event?" } %>
+    <% format.for_footer do %>
+      <%= link_to "#{action.capitalize}", "#", 
+        :onclick => "review_event_modal('#{action}'); return false;", 
+        :"data-action" => "submit", 
+        :class => "btn btn-primary" %>
+      <%= link_to "Cancel", "#", :"data-dismiss" => "modal", :class => "btn" %>
+    <% end %>
   <% end %>
 <% end %>
 

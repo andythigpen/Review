@@ -116,7 +116,13 @@ class ReviewEventsController < ApplicationController
   def destroy
     @review_event = ReviewEvent.find(params[:id])
     check_authorization
-    @review_event.soft_delete
+    if params[:force]
+      @review_event.destroy
+    elsif params[:restore]
+      @review_event.restore
+    else
+      @review_event.soft_delete
+    end
 
     respond_to do |format|
       format.json { render :json => { :status => "ok" } }

@@ -21,13 +21,12 @@ class HomeController < ApplicationController
     end
   end
 
-  def run_filter(filter)
+  def run_filter(filter, reviews=nil)
     self.send("update_#{@@filters[filter]}_counts")
-    reviews = self.send("update_#{filter}")
 
-    if reviews.is_a?(Array)
-      reviews = Kaminari.paginate_array(reviews)
-    end
+    reviews = self.send("update_#{filter}") if reviews.nil?
+    reviews = Kaminari.paginate_array(reviews) if reviews.is_a?(Array)
+
     pages = reviews.page(params[:page]).per(20)
 
     allow_archive = true
@@ -57,18 +56,7 @@ class HomeController < ApplicationController
     elsif template == "outbox"
       reviews = current_user.reviews_owned.search(params[:q])
     end
-
-    if reviews.is_a?(Array)
-      reviews = Kaminari.paginate_array(reviews)
-    end
-    pages = reviews.page(params[:page]).per(20)
-
-    respond_to do |format|
-      format.js { render :partial => "dashboard", 
-        :locals => { :template => template,
-                     :filters => @@filters,
-                     :reviews => pages } }
-    end
+    run_filter(template, reviews)
   end
 
  protected

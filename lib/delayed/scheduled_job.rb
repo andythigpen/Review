@@ -43,7 +43,7 @@ module Delayed
     # schedule this "repeating" job
     def schedule!(run_at = nil)
       run_at ||= self.class.run_at
-      Delayed::Job.enqueue self, 0, run_at.utc
+      Delayed::Job.enqueue self, :priority => 0, :run_at => run_at.utc
     end
 
     # re-schedule this job instance

@@ -12,7 +12,7 @@ class HomeController < ApplicationController
     "drafts"      => "outbox",
     "accepted"    => "outbox",
     "rejected"    => "outbox",
-    "archived"    => "outbox",
+    "archived"    => "archived",
   }
 
   @@filters.keys.each do |method|
@@ -22,24 +22,20 @@ class HomeController < ApplicationController
   end
 
   def run_filter(filter, reviews=nil)
-    self.send("update_#{@@filters[filter]}_counts")
+    if self.respond_to? "update_#{@@filters[filter]}_counts"
+      self.send("update_#{@@filters[filter]}_counts")
+    end
 
     reviews = self.send("update_#{filter}") if reviews.nil?
     reviews = Kaminari.paginate_array(reviews) if reviews.is_a?(Array)
 
     pages = reviews.page(params[:page]).per(20)
 
-    allow_archive = true
-    if filter == "archived"
-      allow_archive = false
-    end
-
     respond_to do |format|
       format.js { render :partial => "dashboard", 
         :locals => { :template => @@filters[filter], 
                      :filters => @@filters,
-                     :reviews => pages,
-                     :allow_archive => allow_archive } }
+                     :reviews => pages } }
     end
   end
 
@@ -52,9 +48,11 @@ class HomeController < ApplicationController
     reviews = []
     template = @@filters[params[:filter]]
     if template == "inbox"
-      reviews = current_user.submitted_requests.search(params[:q])
+      reviews = current_user.submitted_requests.not_archived.search(params[:q])
     elsif template == "outbox"
-      reviews = current_user.reviews_owned.search(params[:q])
+      reviews = current_user.reviews_owned.not_archived.search(params[:q])
+    elsif template == "archived"
+      reviews = current_user.reviews_owned.archived.search(params[:q])
     end
     run_filter(template, reviews)
   end

@@ -48,7 +48,7 @@ class ReviewEvent < ActiveRecord::Base
   end
 
   def self.search(key)
-    where("review_events.name LIKE ? OR review_events.notes LIKE ? OR review_events.buglink LIKE ?", "%#{key}%", "%#{key}%", "%#{key}%")
+    joins(:owner).where("review_events.name LIKE ? OR review_events.notes LIKE ? OR review_events.buglink LIKE ? OR username LIKE ?", "%#{key}%", "%#{key}%", "%#{key}%", "%#{key}%")
   end
 
   def self.archived

@@ -85,7 +85,7 @@ class HomeController < ApplicationController
     end
 
     def update_all_inbox
-      current_user.submitted_requests.not_archived.includes(:owner)
+      current_user.submitted_requests.includes(:owner)
     end
 
     def update_inbox

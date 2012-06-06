@@ -11,7 +11,7 @@
     <tr>
     <% lastchset = r.changesets.last %>
     <td>
-      <em><%= r.updated_at.to_date %></em>
+      <em><%= r.created_at.to_date %></em>
     </td>
     <td>
         <%= link_to "#{r.name}", review_event_path(r.id) %>

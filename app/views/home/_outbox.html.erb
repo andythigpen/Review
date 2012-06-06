@@ -57,9 +57,10 @@
         <%= link_to_js "review_event('restore', this, '#{r.id}');" do %>
           <i class="icon-repeat"></i>Restore
         <% end %>
-        <%= link_to_js "review_event('remove', this, '#{r.id}');" do %>
-          <i class="icon-remove"></i>Remove
-        <% end %>
+      <% end %>
+
+      <%= link_to_js "review_event('remove', this, '#{r.id}');" do %>
+        <i class="icon-remove"></i>Remove
       <% end %>
     </td>
   </tr>

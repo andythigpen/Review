@@ -67,4 +67,8 @@ class ReviewEvent < ActiveRecord::Base
   def restore
     update_attribute(:deleted_at, nil)
   end
+
+  def archived?
+    return ! self.deleted_at.nil?
+  end
 end

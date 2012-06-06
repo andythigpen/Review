@@ -38,7 +38,9 @@
       <% end %>
     </td>
     <td> <%# Review Status %>
-      <% if r.changesets.last_submitted.rejected? %>
+      <% if r.archived? %>
+        <span class="label">Archived</span>
+      <% elsif r.changesets.last_submitted.rejected? %>
         <span class="label label-important">Rejected</span>
       <% elsif r.changesets.last_submitted.accepted? %>
         <span class="label label-success">Accepted</span>

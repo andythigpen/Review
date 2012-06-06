@@ -6,7 +6,15 @@
 <% %w{remove archive restore}.each do |action| %>
   <%= modal_dialog "#{action}-review-dialog" do |format| %>
     <% format.for_title { "#{action.capitalize} Review" } %>
-    <% format.for_body { "#{action.capitalize} this review event?" } %>
+    <% format.for_body do %>
+      <%= action.capitalize %> this review event?
+      <% if action == "remove" %>
+        <div class="alert alert-error">
+          <strong>Warning:</strong> This action cannot be undone.  
+          Why not archive this review instead?
+        </div>
+      <% end %>
+    <% end %>
     <% format.for_footer do %>
       <%= link_to "#{action.capitalize}", "#", 
         :onclick => "review_event_modal('#{action}'); return false;", 

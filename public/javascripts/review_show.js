@@ -152,7 +152,7 @@ function preview_comment(loc) {
     var comment = val.replace(/\{\{\{/g, '<pre>');
     comment = comment.replace(/\}\}\}/g, '</pre>');
     comment = comment.replace(/'''(.*?)'''/g, '<strong>$1</strong>');
-    var result = '<div class="comment comment-preview hidden" style="margin-left:'+
+    var result = '<div class="comment comment-preview hide" style="margin-left:'+
       margin+';">';
     result += '<div class="topbar">Comment Preview</div>';
     result += '<div class="comment-text">' + comment + '</div>'; 

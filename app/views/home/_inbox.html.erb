@@ -23,9 +23,9 @@
     </td>
     <td> <%# My Status %>
       <% if not status.nil? and status.rejected? %>
-        <span class="label label-important">Rejected</span>
+        <span class="label label-important">Needs Work</span>
       <% elsif not status.nil? and status.accepted? %>
-        <span class="label label-success">Accepted</span>
+        <span class="label label-success">Ship It</span>
       <% elsif not status.nil? and status.abstained? %>
         <span class="label label-info">Requested Removal</span>
       <% elsif not r.duedate.nil? %>
@@ -41,9 +41,9 @@
       <% if r.archived? %>
         <span class="label">Archived</span>
       <% elsif r.changesets.last_submitted.rejected? %>
-        <span class="label label-important">Rejected</span>
+        <span class="label label-important">Needs Work</span>
       <% elsif r.changesets.last_submitted.accepted? %>
-        <span class="label label-success">Accepted</span>
+        <span class="label label-success">Ship It</span>
       <% else %>
         <span class="label">In Progress</span>
       <% end %>

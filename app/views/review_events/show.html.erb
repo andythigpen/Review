@@ -256,11 +256,11 @@
        <div class="btn-group">
          <%= link_to_js "submit_changeset_status('#{current_user.id}', '#{@changeset.id}', 'Accept', '#{CHANGESET_STATUSES[:accept]}', 'Ship It!');",
             :class => "btn" do %>
-          <i class="icon-ok"></i> Accept
+          <i class="icon-ok"></i> Ship It
         <% end %>
         <%= link_to_js "submit_changeset_status('#{current_user.id}', '#{@changeset.id}', 'Reject', '#{CHANGESET_STATUSES[:reject]}', '');",
             :class => "btn" do %>
-          <i class="icon-remove"></i> Reject
+          <i class="icon-remove"></i> Needs Work
         <% end %>
       </div>
       <%= link_to_js "submit_changeset_status('#{current_user.id}', '#{@changeset.id}', 'Request Removal', '#{CHANGESET_STATUSES[:abstain]}', '', 'request removal from');",
@@ -389,9 +389,9 @@
 
             <% comment_style = "" %>
             <% if s.status == CHANGESET_STATUSES[:accept] %>
-              Accepted
+              Ship It
             <% elsif s.status == CHANGESET_STATUSES[:reject] %>
-              Rejected
+              Needs Work
             <% elsif s.status == CHANGESET_STATUSES[:abstain] %>
               Abstained
             <% end %>

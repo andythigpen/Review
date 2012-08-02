@@ -29,9 +29,9 @@
         <% if lastchset.nil? or not lastchset.submitted %>
           <span class="label label-info">Not Submitted</span>
         <% elsif lastchset.rejected? %>
-          <span class="label label-important">Rejected</span>
+          <span class="label label-important">Needs Work</span>
         <% elsif lastchset.accepted? %>
-          <span class="label label-success">Accepted</span>
+          <span class="label label-success">Ship It</span>
         <% end %>
 
         <% if not lastchset.nil? and lastchset.submitted %>

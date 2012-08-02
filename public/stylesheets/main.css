@@ -140,11 +140,11 @@ tr > th {
 }
 
 .accepted-comment > .comment[data-comment-type="ChangesetUserStatus"] .label-success:before {
-  content: "Accepted";
+  content: "Ship It";
   padding: 1px 3px 2px;
 }
 .rejected-comment > .comment[data-comment-type="ChangesetUserStatus"] .label-important:before {
-  content: "Rejected";
+  content: "Needs Work";
   padding: 1px 3px 2px;
 }
 .abstained-comment > .comment[data-comment-type="ChangesetUserStatus"] .label-info:before {

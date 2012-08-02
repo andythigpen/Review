@@ -92,7 +92,8 @@ class UserMailer < ActionMailer::Base
   def reply_to_me_summary_email(user_id, time_period)
     @url = APP_CONFIG['url']
     #TODO there is probably a better way to do this...
-    @comments = Comment.where(["created_at >= ?", time_period.days.ago])
+    @comments = Comment.not_deleted.where(["created_at >= ?",
+                                          time_period.days.ago])
     @comments = @comments.select do |c|
       c.commentable.class == Comment and c.commentable.user.id == user_id
     end
@@ -108,7 +109,8 @@ class UserMailer < ActionMailer::Base
 
   def comment_to_anyone_summary_email(user_id, time_period)
     @url = APP_CONFIG['url']
-    @comments = Comment.where(["created_at >= ?", time_period.days.ago])
+    @comments = Comment.not_deleted.where(["created_at >= ?",
+                                          time_period.days.ago])
     user = User.find(user_id)
     @comments = @comments.select do |c|
       r = c.get_review_event()

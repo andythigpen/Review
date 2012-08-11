@@ -9,7 +9,7 @@ function setup_dashboard() {
 
   $(".pagination a").live('ajax:beforeSend', function(e, xhr, settings) {
     var url = settings.url;
-    var params = url.match(/(([^_?&]\w+)=\w+)/g);
+    var params = url.match(/(([^_?&]+)=\w+)/g);
     if (params == null) {
       params = [];
     }

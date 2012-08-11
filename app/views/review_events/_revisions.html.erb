@@ -6,9 +6,9 @@
     <% end %>
     <li>
       <% if @changeset == c %>
-        <%= c.name %>
+        <%=h c.name %>
       <% else %>
-        <%= link_to "#{c.name}", review_event_path(:changeset => c.id) %>
+        <%= link_to "#{h(c.name)}", review_event_path(:changeset => c.id) %>
       <% end %>
       <% if not c.submitted %>
         <span class="label label-info">Not Submitted</span>

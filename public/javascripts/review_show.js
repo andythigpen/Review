@@ -149,7 +149,10 @@ function preview_comment(loc) {
   var margin = $(loc).parents(".comment-box").css('margin-left');
   $(loc).parents('.comment-box').hide().after(function() {
     // this must match the format comment application helper
-    var comment = val.replace(/\{\{\{/g, '<pre>');
+    var comment = val;
+    // this weird line is just so that html special characters are escaped
+    comment = $("<div/>").text(comment).html();
+    comment = comment.replace(/\{\{\{/g, '<pre>');
     comment = comment.replace(/\}\}\}/g, '</pre>');
     comment = comment.replace(/'''(.*?)'''/g, '<strong>$1</strong>');
     var result = '<div class="comment comment-preview hide" style="margin-left:'+

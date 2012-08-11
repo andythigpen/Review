@@ -276,7 +276,7 @@
   </div>
 
   <div class="row-fluid">
-    <h1><%= @review_event.name %></h1>
+    <h1><%=h @review_event.name %></h1>
     <br />
   </div>
 
@@ -290,15 +290,15 @@
       <% if not @review_event.duedate.nil? %>
         <div>
           <strong>Due Date:</strong>&nbsp;&nbsp;
-          <%= @review_event.duedate.to_date %>
+          <%=h @review_event.duedate.to_date %>
         </div>
       <% end %>
 
       <% if not @review_event.buglink.nil? and not @review_event.buglink.empty? %>
         <div>
           <strong>Bugs:</strong>&nbsp;&nbsp;
-          <%= @review_event.buglink.gsub(/(#{APP_CONFIG["bug_num_regex"]})/) do |m|
-              link_to $1, APP_CONFIG['bug_tracker'].gsub(/\{\{bugid\}\}/, $1),
+          <%= h(@review_event.buglink).gsub(/(#{APP_CONFIG["bug_num_regex"]})/) do |m|
+              link_to m, APP_CONFIG['bug_tracker'].gsub(/\{\{bugid\}\}/, m),
                 :target => "_blank"
              end.html_safe %>
         </div>
@@ -339,7 +339,7 @@
     <div class="row-fluid">
        <div class="span12">
         <strong>Notes:</strong>&nbsp;&nbsp;
-        <pre style="word-break:normal;"><%= auto_link(@review_event.notes, :all, :target => "_blank") %></pre>
+        <pre style="word-break:normal;"><%= auto_link(h(@review_event.notes), :all, :target => "_blank") %></pre>
       </div>
     </div>
   <% end %>

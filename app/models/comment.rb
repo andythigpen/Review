@@ -25,10 +25,11 @@ class Comment < ActiveRecord::Base
   end
 
   def html_format
-    result = self.content.gsub(/\{\{\{/, "<pre>")
+    result = CGI::escapeHTML(self.content)
+    result.gsub!(/\{\{\{/, "<pre>")
     result.gsub!(/\}\}\}/, "</pre>")
     result.gsub!(/'''(.*?)'''/, "<strong>\\1</strong>")
-    result.html_safe
+    result
   end
 
   def is_deleted?

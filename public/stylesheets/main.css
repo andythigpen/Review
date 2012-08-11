@@ -127,6 +127,11 @@ tr > th {
   background: #fff;
   white-space: pre-line;
 }
+.comment-date {
+  margin-left: 10px;
+  font-size: 0.8em;
+  color: #aaa;
+}
 
 .topbar .username { color: #777; }
 .topbar .label {

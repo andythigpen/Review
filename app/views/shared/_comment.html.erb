@@ -21,6 +21,9 @@
       <span class="label label-success"></span>
       <span class="label label-important"></span>
       <span class="label label-info"></span>
+      <span class="comment-date">
+        <%= comment.updated_at.to_formatted_s(:short) %>
+      </span>
       <div class="pull-right">
         <div class="comment-actions">
           <% if allow_reply %>

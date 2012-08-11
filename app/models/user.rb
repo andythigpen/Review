@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
             (SELECT changesets.id FROM changesets 
             INNER JOIN changeset_user_statuses 
             ON changeset_user_statuses.changeset_id = changesets.id 
-            WHERE changeset_user_statuses.user_id = ?)", self.id)
+            WHERE changeset_user_statuses.user_id = ? OR changeset_user_statuses.status = ?)", self.id, CHANGESET_STATUSES[:reject])
   end
 
   def requests_due(time_period)

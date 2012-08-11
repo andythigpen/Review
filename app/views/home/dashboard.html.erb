@@ -54,11 +54,20 @@
     <ul class="nav nav-list">
       <li class="nav-header">Inbox</li>
       <li>
+        <%= link_to dashboard_open_path, :remote => true, 
+          :class => "filter", :"data-type" => "html", 
+          :"data-filter" => "open" do %>
+            Open <span class="size pull-right"><%= "#{@open_count}" if @open_count > 0 %></span>
+        <% end %>
+      </li>
+
+      <li>
         <%= link_to dashboard_inbox_path, :remote => true, :class => "filter", 
           :"data-type" => "html", :"data-filter" => "inbox" do %>
             Recent <span class="size pull-right"><%= "#{@inbox_count}" if @inbox_count > 0 %></span>
         <% end %>
       </li>
+
       <li>
         <%= link_to dashboard_all_inbox_path, :remote => true, 
           :class => "filter", :"data-type" => "html", 

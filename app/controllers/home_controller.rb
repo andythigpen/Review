@@ -4,6 +4,7 @@ class HomeController < ApplicationController
   # filter name, template
   @@filters = { 
     "inbox"       => "inbox",
+    "open"        => "inbox",
     "all_inbox"   => "inbox",
     "due_soon"    => "inbox",
     "late"        => "inbox",
@@ -66,6 +67,8 @@ class HomeController < ApplicationController
 
     def update_inbox_counts
       @all_inbox_count = 0 # disable count for now
+      @open_count = current_user.pending_requests.not_archived.
+        count("DISTINCT review_events.id")
       @inbox_count = current_user.recent_requests(7.days.ago).not_archived.
         count("DISTINCT review_events.id")
       @due_soon_count = current_user.requests_due(2.days.from_now).not_archived.
@@ -86,6 +89,10 @@ class HomeController < ApplicationController
 
     def update_all_inbox
       current_user.submitted_requests.not_archived.includes(:owner)
+    end
+
+    def update_open
+      current_user.pending_requests.not_archived.includes(:owner)
     end
 
     def update_inbox

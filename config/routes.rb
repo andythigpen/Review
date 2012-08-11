@@ -11,6 +11,7 @@ Review::Application.routes.draw do
   root :to => "home#dashboard"
   match "/dashboard/inbox"  => "home#inbox"
   match "/dashboard/all_inbox"  => "home#all_inbox"
+  match "/dashboard/open"  => "home#open"
   match "/dashboard/due_soon"  => "home#due_soon"
   match "/dashboard/late"  => "home#late"
   match "/dashboard/outbox" => "home#outbox"

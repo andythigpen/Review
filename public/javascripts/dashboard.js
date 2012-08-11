@@ -20,7 +20,7 @@ function setup_dashboard() {
 
   $.history.init(function(hash) {
     if (hash == "") { // initialize...
-      $.history.load("inbox");
+      $.history.load("open");
     } else {
       load_hash(hash);
     }
